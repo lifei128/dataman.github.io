@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="hive,">
 
 
 
@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="LiFei&#39;s Notes">
-<meta property="og:url" content="http://yoursite.com/categories/mapreduce/index.html">
+<meta name="description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
+<meta name="keywords" content="hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="join倾斜">
+<meta property="og:url" content="http://yoursite.com/2019/01/25/hive-join倾斜/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
+<meta property="og:updated_time" content="2019-01-25T12:04:15.905Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiFei&#39;s Notes">
+<meta name="twitter:title" content="join倾斜">
+<meta name="twitter:description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-2.png">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/mapreduce/">
+  <link rel="canonical" href="http://yoursite.com/2019/01/25/hive-join倾斜/">
 
 
 
 
 
-  <title>分类: mapreduce | LiFei's Notes</title>
+  <title>join倾斜 | LiFei's Notes</title>
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -234,53 +241,176 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>mapreduce<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-join倾斜/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/25/mr-GroupComparator/" itemprop="url">
-              
-                <span itemprop="name">GroupComparator原理</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">join倾斜</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-25T17:05:00+08:00" content="2019-01-25">
-          01-25
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T19:51:00+08:00">
+                2019-01-25
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
+<p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753" target="_blank" rel="noopener">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag"># hive</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/25/mr-GroupComparator/" rel="next" title="GroupComparator原理">
+                <i class="fa fa-chevron-left"></i> GroupComparator原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/25/hive-LeftSemiJoin/" rel="prev" title="left semi join">
+                left semi join <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -288,6 +418,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -308,8 +442,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -399,6 +542,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">1.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -539,6 +698,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
