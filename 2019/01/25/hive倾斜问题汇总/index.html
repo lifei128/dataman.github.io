@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="可将问题分解123456select split(uid, &amp;apos;_&amp;apos;)[0] uid, count(distinct names) from(  select distinct concat_ws(&amp;apos;-&amp;apos;, uid, substr(rand()*10, 1, 1)) uid, names  from  user a)bgroup by split(uid, &amp;">
+<meta name="description" content="group by数据倾斜倾斜原因：select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。 优化：（1）主要是">
 <meta name="keywords" content="hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hive倾斜问题汇总">
+<meta property="og:title" content="group by数据倾斜">
 <meta property="og:url" content="http://yoursite.com/2019/01/25/hive倾斜问题汇总/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="可将问题分解123456select split(uid, &amp;apos;_&amp;apos;)[0] uid, count(distinct names) from(  select distinct concat_ws(&amp;apos;-&amp;apos;, uid, substr(rand()*10, 1, 1)) uid, names  from  user a)bgroup by split(uid, &amp;">
+<meta property="og:description" content="group by数据倾斜倾斜原因：select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。 优化：（1）主要是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-25T04:21:02.728Z">
+<meta property="og:updated_time" content="2019-01-25T06:49:21.003Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hive倾斜问题汇总">
-<meta name="twitter:description" content="可将问题分解123456select split(uid, &amp;apos;_&amp;apos;)[0] uid, count(distinct names) from(  select distinct concat_ws(&amp;apos;-&amp;apos;, uid, substr(rand()*10, 1, 1)) uid, names  from  user a)bgroup by split(uid, &amp;">
+<meta name="twitter:title" content="group by数据倾斜">
+<meta name="twitter:description" content="group by数据倾斜倾斜原因：select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。 优化：（1）主要是">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>hive倾斜问题汇总 | LiFei's Notes</title>
+  <title>group by数据倾斜 | LiFei's Notes</title>
   
 
 
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hive倾斜问题汇总</h1>
+          <h1 class="post-title" itemprop="name headline">group by数据倾斜</h1>
         
 
         <div class="post-meta">
@@ -342,7 +342,11 @@
       
 
       
-        <p>可将问题分解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select split(uid, &apos;_&apos;)[0] uid, count(distinct names) from</span><br><span class="line">(</span><br><span class="line">  select distinct concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, names</span><br><span class="line">  from  user a</span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br></pre></td></tr></table></figure></p>
+        <h1 id="group-by数据倾斜"><a href="#group-by数据倾斜" class="headerlink" title="group by数据倾斜"></a>group by数据倾斜</h1><p>倾斜原因：<br>select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。<br>特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。</p>
+<h2 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h2><p>（1）主要是把count distinct改变成group by。<br>改变上面的sql为select uid, count(name) from (select uid, name from user group by uid, name)t group by uid.<br>（2）给group by 字段加随机数打散，聚合，之后把随机数去掉，再次聚合（有点类似下面的参数SET hive.groupby.skewindata=true;）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, count(name) names</span><br><span class="line">  from </span><br><span class="line">  (</span><br><span class="line">    select uid, name</span><br><span class="line">    from user</span><br><span class="line">    group by uid, name</span><br><span class="line">  )a</span><br><span class="line">  group by concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1))</span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br><span class="line"></span><br><span class="line">等同于下面</span><br><span class="line"></span><br><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select uid,count(name) names from (</span><br><span class="line">	  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, name</span><br><span class="line">	  from </span><br><span class="line">	  (</span><br><span class="line">	    select uid, name</span><br><span class="line">	    from user</span><br><span class="line">	    group by uid, name</span><br><span class="line">	  )a</span><br><span class="line">  ) c </span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br></pre></td></tr></table></figure>
+<p>  (3)SET hive.groupby.skewindata=true; 当选项设定为 true，生成的查询计划会有两个 MR Job。第一个 MR Job 中，Map 的输出结果集合会随机分布到 Reduce 中，每个 Reduce 做部分聚合操作，并输出结果，这样处理的结果是相同的 Group By Key 有可能被分发到不同的 Reduce 中，从而达到负载均衡的目的；第二个 MR Job 再根据预处理的数据结果按照 Group By Key 分布到 Reduce 中（这个过程可以保证相同的 Group By Key 被分布到同一个 Reduce 中），最后完成最终的聚合操作.<br>从上面group by语句可以看出，这个变量是用于控制负载均衡的。当数据出现倾斜时，如果该变量设置为true，那么Hive会自动进行负载均衡<br>比如A日志表与B码表join，但是A中的关联字段id仅是B中id的一小部分，这时候很容易出现reduce阶段倾斜，大量的reduce空跑，因为这些空跑的reduce分到的B的id在A中不存在。<br>set hive.map.aggr=true; 在mapper端部分聚合，相当于Combiner 。Map-Side聚合（一般在聚合函数sum,count时使用）。<br>set hive.groupby.mapaggr.checkinterval=100000；–这个是group的键对应的记录条数超过这个值则会进行分拆,值根据具体数据量设置。<br>hive.map.aggr.hash.min.reduction=0.5(默认)预先取100000条数据聚合,如果聚合后的条数/100000&gt;0.5，则不再聚合</p>
+<p>参考：<br><a href="https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/" target="_blank" rel="noopener">https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/</a> </p>
 
       
     </div>
@@ -433,8 +437,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -524,6 +537,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#group-by数据倾斜"><span class="nav-number">1.</span> <span class="nav-text">group by数据倾斜</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优化："><span class="nav-number">1.1.</span> <span class="nav-text">优化：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
