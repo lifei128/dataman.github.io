@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/转置文件/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/状态计算/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/转置文件/" itemprop="url">转置文件</a></h1>
+                <a class="post-title-link" href="/2019/01/28/状态计算/" itemprop="url">状态计算</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:16:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T14:37:00+08:00">
+                2019-01-28
               </time>
             
 
@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -342,13 +342,9 @@
       
         
           
-            <p>给定一个文件 file.txt，转置它的内容。</p>
-<p>你可以假设每行列数相同，并且每个字段由 ‘ ‘ 分隔.</p>
-<p>示例:</p>
-<p>假设 file.txt 文件内容如下：</p>
-<p>name age<br>alice 21<br>ryan 30<br>应当输出：</p>
-<p>name alice ryan<br>age 21 30  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file.txt | awk &apos;&#123;for(i=1;i&lt;=NF;i++)&#123;if(NR==1)&#123;res[i]=$i&#125;else&#123;res[i]=res[i]&quot; &quot;$i&#125;&#125;&#125;END&#123;for(i=1;i&lt;=NF;i++)&#123;print res[i]&#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
+            <p> spark流计算的数据是以窗口的形式，源源不断的流过来的。如果每个窗口之间的数据都有联系的话，那么就需要对前一个窗口的数据做状态管理。spark有提供了两种模型来达到这样的功能，一个是updateStateByKey，另一个是mapWithState ，后者属于Spark1.6之后的版本特性，性能是前者的数十倍。<br>基本的wordcount<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.test</span><br><span class="line"></span><br><span class="line">import org.apache.spark.streaming.dstream.&#123;DStream, ReceiverInputDStream&#125;</span><br><span class="line">import org.apache.spark.streaming.&#123;Seconds, StreamingContext&#125;</span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object WC &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf()</span><br><span class="line">    //程序在运行时receiver会独占一个线程,所以streaming程序至少要两个线程,防止starvation scenario</span><br><span class="line">    conf.setAppName(&quot;WordCount&quot;).setMaster(&quot;local[2]&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    //所有流功能的主要入口</span><br><span class="line">    val smc : StreamingContext   = new StreamingContext(sc, Seconds(5))</span><br><span class="line"></span><br><span class="line">    //指定从TCP源数据流的离散流,接收到的每一行数据都是一行文本</span><br><span class="line">    val lines : ReceiverInputDStream[String] = smc.socketTextStream(&quot;localhost&quot;,6666)</span><br><span class="line"></span><br><span class="line">    //将接收到的文本压平,转换,聚合</span><br><span class="line">    val dStream : DStream[(String, Int)] = lines.flatMap(_.split(&quot; &quot;)).map((_,1)).reduceByKey(_+_)</span><br><span class="line">    dStream.print()</span><br><span class="line"></span><br><span class="line">    // Spark Streaming 只有建立在启动时才会执行计算，在它已经开始之后，并没有真正地处理</span><br><span class="line"></span><br><span class="line">//    --------------------------</span><br><span class="line"></span><br><span class="line">    //启动计算</span><br><span class="line">    smc.start();</span><br><span class="line">    //等待计算终止</span><br><span class="line">    smc.awaitTermination();</span><br><span class="line">    //true    会把内部的sparkcontext同时停止</span><br><span class="line">    //false  只会停止streamingcontext  不会停sparkcontext</span><br><span class="line">    smc.stop(true);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>updateStateByKey<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.test</span><br><span class="line"></span><br><span class="line">import org.apache.spark.streaming.dstream.&#123;DStream, ReceiverInputDStream&#125;</span><br><span class="line">import org.apache.spark.streaming.&#123;Seconds, StreamingContext&#125;</span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">import scala.util.parsing.json.JSON</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  *</span><br><span class="line">  * https://blog.csdn.net/cyony/article/details/79653357</span><br><span class="line">  * nc -lk 6666</span><br><span class="line">  * 样例数据</span><br><span class="line">  * &#123;&quot;name&quot;:&quot;cyony1&quot;,&quot;score&quot;:&quot;90&quot;,&quot;sex&quot;:&quot;1&quot;&#125;</span><br><span class="line">  *</span><br><span class="line">  * &#123;&quot;name&quot;:&quot;cyony2&quot;,&quot;score&quot;:&quot;76&quot;,&quot;sex&quot;:&quot;0&quot;&#125;</span><br><span class="line">  *</span><br><span class="line">  * updateStateByKey这种模型，每次窗口触发，都会将两个RDD执行cogroup操作，，非常的耗时。而且checkpoint dir也会很大</span><br><span class="line">  *</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">object WC_stateful &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf()</span><br><span class="line">    //程序在运行时receiver会独占一个线程,所以streaming程序至少要两个线程,防止starvation scenario</span><br><span class="line">    conf.setAppName(&quot;WordCount&quot;).setMaster(&quot;local[2]&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    //所有流功能的主要入口</span><br><span class="line">    val smc : StreamingContext   = new StreamingContext(sc, Seconds(5))</span><br><span class="line"></span><br><span class="line">    //定义checkpoint目录</span><br><span class="line">    smc.checkpoint(&quot;./wc_stateful&quot;)</span><br><span class="line">    //指定从TCP源数据流的离散流,接收到的每一行数据都是一行文本</span><br><span class="line">    val lines : ReceiverInputDStream[String] = smc.socketTextStream(&quot;localhost&quot;,6666)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //定义updateStateByKey更新函数</span><br><span class="line">    val updateFunc = (currentValue:Seq[Int],preValue:Option[Int]) =&gt; &#123;</span><br><span class="line">      Some(currentValue.sum + preValue.getOrElse(0))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //将接收到的文本压平,转换,聚合</span><br><span class="line">    lines.map(JSON.parseFull(_).get.asInstanceOf[Map[String,String]])</span><br><span class="line">        .map(map =&gt; (map.get(&quot;sex&quot;).get.toInt,map.get(&quot;score&quot;).get.toInt))</span><br><span class="line">        .reduceByKey(_+_)</span><br><span class="line">        .updateStateByKey(updateFunc)</span><br><span class="line">        .print()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//    dStream.print()</span><br><span class="line"></span><br><span class="line">    // Spark Streaming 只有建立在启动时才会执行计算，在它已经开始之后，并没有真正地处理</span><br><span class="line"></span><br><span class="line">//    --------------------------</span><br><span class="line"></span><br><span class="line">    //启动计算</span><br><span class="line">    smc.start();</span><br><span class="line">    //等待计算终止</span><br><span class="line">    smc.awaitTermination();</span><br><span class="line">    //true    会把内部的sparkcontext同时停止</span><br><span class="line">    //false  只会停止streamingcontext  不会停sparkcontext</span><br><span class="line">    smc.stop(true);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>mapWithState<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.test</span><br><span class="line"></span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line">import org.apache.spark.streaming.&#123;Seconds, State, StateSpec, StreamingContext&#125;</span><br><span class="line">import org.apache.spark.streaming.dstream.ReceiverInputDStream</span><br><span class="line"></span><br><span class="line">import scala.util.parsing.json.JSON</span><br><span class="line">/**</span><br><span class="line">  *</span><br><span class="line">  * https://blog.csdn.net/cyony/article/details/79653357</span><br><span class="line">  * nc -lk 6666</span><br><span class="line">  * 样例数据</span><br><span class="line">  * &#123;&quot;name&quot;:&quot;cyony1&quot;,&quot;score&quot;:&quot;90&quot;,&quot;sex&quot;:&quot;1&quot;&#125;</span><br><span class="line">  *</span><br><span class="line">  * &#123;&quot;name&quot;:&quot;cyony2&quot;,&quot;score&quot;:&quot;76&quot;,&quot;sex&quot;:&quot;0&quot;&#125;</span><br><span class="line">  *</span><br><span class="line">  * 如果当前窗口期没有新的数据过来，mapstate方式是根本不会触发状态更新操作的，但是updateState方式就会触发更新操作。</span><br><span class="line">  * 这个和他的模型原理有关，进一步佐证了updateState方式会每次都执行cogroup操作RDD，生成新的RDD。</span><br><span class="line">  *</span><br><span class="line">  * https://www.jianshu.com/p/1463bc1d81b5</span><br><span class="line">  * https://blog.csdn.net/zangdaiyang1991/article/details/84099722</span><br><span class="line">  * http://www.cnblogs.com/DT-Spark/articles/5616560.html</span><br><span class="line">  *</span><br><span class="line">  */</span><br><span class="line">object WC_mapWithState &#123;</span><br><span class="line"></span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val conf = new SparkConf()</span><br><span class="line">    //程序在运行时receiver会独占一个线程,所以streaming程序至少要两个线程,防止starvation scenario</span><br><span class="line">    conf.setAppName(&quot;WordCount&quot;).setMaster(&quot;local[2]&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    //所有流功能的主要入口</span><br><span class="line">    val smc : StreamingContext   = new StreamingContext(sc, Seconds(5))</span><br><span class="line"></span><br><span class="line">    //定义checkpoint目录</span><br><span class="line">    smc.checkpoint(&quot;./wc_mapWithState&quot;)</span><br><span class="line">    //指定从TCP源数据流的离散流,接收到的每一行数据都是一行文本</span><br><span class="line">    val lines : ReceiverInputDStream[String] = smc.socketTextStream(&quot;localhost&quot;,6666)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //定义MapWithState更新函数</span><br><span class="line">    val mappingFun = (sex: Int, score: Option[Int], state: State[Int]) =&gt; &#123;</span><br><span class="line">      val sum = score.getOrElse(0) + state.getOption().getOrElse(0)</span><br><span class="line">      state.update(sum)</span><br><span class="line">      (sex, sum)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //将接收到的文本压平,转换,聚合</span><br><span class="line">    lines.map(JSON.parseFull(_).get.asInstanceOf[Map[String, String]])</span><br><span class="line">      .map(map =&gt; (map.get(&quot;sex&quot;).get.toInt, map.get(&quot;score&quot;).get.toInt)).reduceByKey(_ + _)</span><br><span class="line">      .mapWithState(StateSpec.function(mappingFun))</span><br><span class="line">      .print()</span><br><span class="line"></span><br><span class="line">    //    dStream.print()</span><br><span class="line"></span><br><span class="line">    // Spark Streaming 只有建立在启动时才会执行计算，在它已经开始之后，并没有真正地处理</span><br><span class="line"></span><br><span class="line">    //    --------------------------</span><br><span class="line"></span><br><span class="line">    //启动计算</span><br><span class="line">    smc.start();</span><br><span class="line">    //等待计算终止</span><br><span class="line">    smc.awaitTermination();</span><br><span class="line">    //true    会把内部的sparkcontext同时停止</span><br><span class="line">    //false  只会停止streamingcontext  不会停sparkcontext</span><br><span class="line">    smc.stop(true);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -397,7 +393,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/第十行/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/实时uv方案/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -416,7 +412,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/第十行/" itemprop="url">第十行</a></h1>
+                <a class="post-title-link" href="/2019/01/28/实时uv方案/" itemprop="url">实时uv方案</a></h1>
         
 
         <div class="post-meta">
@@ -428,7 +424,601 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:14:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T14:08:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>将spark streaming按window将uv明细数据入到hbase中，然后开启小时，天，周的定时任务，利用hive读取hbase计算每小时，每周，每天的数据，同时hbase开启ttl，减少存储量。<br>分钟级的可以利用状态计算来解决。   </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/幂等操作/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/幂等操作/" itemprop="url">幂等操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T14:02:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近很多人都在谈论幂等性，好吧，这回我也来聊聊这个话题，光看着俩字，一开始的确有点一头雾水，语文不好嘛，词太专业嘛，对吧   </p>
+<p>现如今我们的系统大多拆分为分布式SOA，或者微服务，一套系统中包含了多个子系统服务，而一个子系统服务往往会去调用另一个服务，而服务调用服务无非就是使用RPC通信或者restful，既然是通信，那么就有可能再服务器处理完毕后返回结果的时候挂掉，这个时候用户端发现很久没有反应，那么就会多次点击按钮，这样请求有多次，那么处理数据的结果是否要统一呢？那是肯定的！尤其再支付场景。<br>幂等性：<strong>就是用户对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因为多次点击而产生了副作用</strong>。举个最简单的例子，那就是支付，用户购买商品使用约支付，支付扣款成功，但是返回结果的时候网络异常，此时钱已经扣了，用户再次点击按钮，此时会进行第二次扣款，返回结果成功，用户查询余额返发现多扣钱了，流水记录也变成了两条．．．<br>在以前的单应用系统中，我们只需要把数据操作放入事务中即可，发生错误立即回滚，但是再响应客户端的时候也有可能出现网络中断或者异常等等。<br>在增删改查4个操作中，尤为注意就是增加或者修改，<br>查询对于结果是不会有改变的，<br>删除只会进行一次，用户多次点击产生的结果一样<br>修改在大多场景下结果一样<br>增加在重复提交的场景下会出现<br>那么如何设计接口才能做到幂等呢？   </p>
+<p>方法一、单次支付请求，也就是直接支付了，不需要额外的数据库操作了，这个时候发起异步请求创建一个唯一的ticketId，就是门票，这张门票只能使用一次就作废，具体步骤如下：<br>异步请求获取门票<br>调用支付，传入门票<br>根据门票ID查询此次操作是否存在，如果存在则表示该操作已经执行过，直接返回结果；如果不存在，支付扣款，保存结果<br>返回结果到客户端<br>如果步骤4通信失败，用户再次发起请求，那么最终结果还是一样的</p>
+<p>方法二、分布式环境下各个服务相互调用<br>这边就要举例我们的系统了，我们支付的时候先要扣款，然后更新订单，这个地方就涉及到了订单服务以及支付服务了。<br>用户调用支付，扣款成功后，更新对应订单状态，然后再保存流水。<br>而在这个地方就没必要使用门票ticketId了，因为会比较闲的麻烦<br>（支付状态：未支付，已支付）<br>步骤：<br>1、查询订单支付状态<br>2、如果已经支付，直接返回结果<br>3、如果未支付，则支付扣款并且保存流水<br>4、返回支付结果<br>如果步骤4通信失败，用户再次发起请求，那么最终结果还是一样的<br>对于做过支付的朋友，幂等，也可以称之为冲正，保证客户端与服务端的交易一致性，避免多次扣款。   </p>
+<p>最后来看一下我们的订单流程，虽然不是很复杂，但是最后在支付环境是一定要实现幂等性的<br><img src="/images/pasted-10.png" alt="upload successful"></p>
+<p>可以简单理解成upsert操作，有则更新，无则插入<br>参考<br><a href="https://www.cnblogs.com/leechenxiang/p/6626629.html">https://www.cnblogs.com/leechenxiang/p/6626629.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Spark-Streaming如何应对-Exactly-once-语义/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/Spark-Streaming如何应对-Exactly-once-语义/" itemprop="url">Spark Streaming如何应对 Exactly once 语义（kafka）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T12:53:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Spark Streaming（以下简写SS）<br>Exactly once语义（以下简写EO）  </p>
+<p>首先EO表示可以精准控制到某一条记录，但由于SS是基于rdd和batch的，所以SS的EO可以认为是针对一个批次的的精准控制(控制各个批次间是否重复和漏读)。<br>涉及到三部分都保证 exactly once 的语义。<br>1、(数据源)上游是否EO到SS<br>2、(数据处理)SS作为整体是否保证了EO<br>3、(数据存储)SS是否将数据EO地写出到了下游  涉及到 </p>
+<h1 id="上游是否EO到SS"><a href="#上游是否EO到SS" class="headerlink" title="上游是否EO到SS"></a>上游是否EO到SS</h1><p>对于 接收数据，主要取决于上游数据源的特性。例如，<br>从 HDFS 这类支持容错的文件系统中读取文件，能够直接支持 Exactly-once 语义。<br>如果上游消息系统支持 ACK（如RabbitMQ），我们就可以结合 Spark 的 Write Ahead Log 特性来实现 At-least-once 语义。<br>对于非可靠的数据接收器（如 socketTextStream），当 Worker 或 Driver 节点发生故障时就会产生数据丢失，提供的语义也是未知的。<br>而 Kafka 消息系统是基于偏移量（Offset）的，它的 Direct API 可以提供 Exactly-once 语义。   </p>
+<p>官方在创建 DirectKafkaInputStream(Kafka direct api)时只需要输入消费 Kafka 的 From Offset，然后其自行获取本次消费的 End Offset，也就是当前最新的 Offset。保存的 Offset 是本批次的 End Offset，下次消费从上次的 End Offset 开始消费。  </p>
+<p>当程序宕机或重启任务后，这其中存在一些问题。如果在数据处理完成前存储 Offset，则可能存在作业处理数据失败与作业宕机等情况，重启后会无法追溯上次处理的数据导致数据出现丢失。如果在数据处理完成后存储 Offset，<strong>但是存储 Offset 过程中发生失败或作业宕机等情况，则在重启后会重复消费上次已经消费过的数据。</strong>    </p>
+<p>而且此时又无法保证重启后消费的数据与宕机前的数据量相同数据相当，这又会引入另外一个问题，如果是基于聚合统计指标作更新操作，这会带来无法判断上次数据是否已经更新成功。</p>
+<p>参考文章中给出的解决方案是，<strong>保证在创建 DirectKafkaInputStream 可以同时输入 From Offset 与 End Offset</strong>，并且我们在存储 Kafka Offset 的时候保存了每个批次的起始Offset 与结束 Offset。这样的设计使得后面用户在后面对于第一个批次的数据处理非常灵活可变：<br>1、如果用户直接忽略第一个批次的数据，那此时保证的是 at most once 的语义，因为我们无法获知重启前的最后一个批次数据操作是否有成功完成。<br>2、如果用户依照原有逻辑处理第一个批次的数据，不对其做去重操作，那此时保证的是 at least once 的语义，最终结果中可能存在重复数据；<br>3、最后如果用户想要实现 exactly once，muise spark core 提供了根据topic、partition 与 offset 生成 UID 的功能。只要确保两个批次消费的 Offset 相同，则最终生成的 UID 也相同，用户可以根据此 UID 作为判断上个批次数据是否有存储成功的依据。下面简单的给出了重启后第一个批次操作的行为。    </p>
+<p><img src="/images/pasted-9.png" alt="upload successful"><br>参考:<br><a href="http://www.10tiao.com/html/522/201809/2651425155/1.html">http://www.10tiao.com/html/522/201809/2651425155/1.html</a><br>实际上如果是聚合操作，完全可以引入<strong>状态计算</strong>，而不需要修改源码。<br>或者将Offset，存储到redis中，每次存redis中读取,见其他文章<a href="https://blog.csdn.net/qq_32252917/article/details/78827126">https://blog.csdn.net/qq_32252917/article/details/78827126</a> 。本文只对EO做讨论，状态计算在其他文章做介绍。EO只要明确保证能拿到上次成功结束的offset就可以了(保证数据零丢失)，至于后面是否会被重复计算部分，可以根据业务做不同的处理(根据输出做幂等设计)。</p>
+<p>控制offset实际上是解决数据丢失如下的主要场景：<br>SS在使用Receiver收到数据时(非Kafka direct api)，通过Driver的调度，Executor开始计算数据的时候如果Driver突然奔溃（导致Executor会被Kill掉），此时Executor会被Kill掉，那么Executor中的数据就会丢失，此时就必须通过例如WAL机制让所有的数据通过类似HDFS的方式进行安全性容错处理，从而解决Executor被Kill掉后导致数据丢失可以通过WAL机制恢复回来。此时数据可以零丢失，但并不能保证Exactly Once，如果Receiver接收且保存起来后没来得及更新updateOffsets时，就会导致数据被重复处理。所以本文讨论的<strong>EO是用户自己能精准控制offset而非交给框架去处理</strong>。</p>
+<h1 id="SS处理数据是否保证了EO"><a href="#SS处理数据是否保证了EO" class="headerlink" title="SS处理数据是否保证了EO"></a>SS处理数据是否保证了EO</h1><p>在使用 Spark RDD 对数据进行 转换或汇总 时，我们可以天然获得 Exactly-once 语义，因为 RDD 本身就是一种具备容错性、不变性、以及计算确定性的数据结构。只要数据来源是可用的，且处理过程中没有副作用（Side effect），我们就能一直得到相同的计算结果。   </p>
+<p>SS内部的实现机制是spark core基于RDD模型的，RDD为保证计算过程中数据不丢失使用了checkpoint机制，也就是说其计算逻辑是RDD的变换过程，也就是DAG，可以在计算过程中的任何一个阶段（也就是这个阶段的RDD）上使用checkpoint方法，就可以保证当后续计算失败，可以从这个checkpoint重新算起，使得计算延续下去。当Spark Streaming场景下，其天然会进行batch操作，也就是说kafka过来的数据，每秒（一个固定batch的时间周期）会对当前kafka中的数据产生一个RDD，那么后续计算就是在这个RDD上进行的。只需要在kafkaRDD这个位置合理使用了checkpoint（这一点在前面已经讲过，可以保证）就能保证SS内部的Exactly once。    </p>
+<h1 id="SS是否将数据EO地写出到了下游"><a href="#SS是否将数据EO地写出到了下游" class="headerlink" title="SS是否将数据EO地写出到了下游"></a>SS是否将数据EO地写出到了下游</h1><p>结果输出 默认符合 At-least-once 语义，<strong>因为 foreachRDD 方法可能会因为 Worker 节点失效而执行多次，从而重复写入外部存储。我们有两种方式解决这一问题，幂等更新和事务更新</strong>。下面我们将深入探讨这两种方式。<br>参考：<a href="https://blog.csdn.net/qq_32252917/article/details/78827126">https://blog.csdn.net/qq_32252917/article/details/78827126</a><br>首先输出操作是具有At-least Once语义的，也就是说SS可以保证需要输出的数据一定会输出出去，只不过由于失败等原因可能会输出多次。那么如何保证Exactly once？<br>第一种“鸵鸟做法”，就是期望下游（数据）具有幂等特性。<br>比如相同数据写 hdfs 同一个文件，这本身就是幂等操作，保证了多次操作最终获取的值还是相同；HBase、ElasticSearch 与 redis 等都能够实现幂等操作。对于关系型数据库的操作一般都是能够支持事务性操作。<br>第二种使用事务更新，简要代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dstream.foreachRDD &#123; (rdd, time) =&gt;</span><br><span class="line">  rdd.foreachPartition &#123; partitionIterator =&gt;</span><br><span class="line">    val partitionId = TaskContext.get.partitionId()</span><br><span class="line">    val uniqueId = generateUniqueId(time.milliseconds, partitionId)</span><br><span class="line">    // use this uniqueId to transactionally commit the data in partitionIterator</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样保证同一个partition要么一起更新成功，要么一起失败，通过uniqueId来标识这一次的更新，这就要求下游支持事务机制。<br>如果不采用幂等或者事务。可以采用如下方案，除了数据主动(重启服务)出错外，还会遇到如下问题。<br>关于Spark Streaming数据输出多次重写及解决方案：<br>　　为什么会有这个问题，因为SparkStreaming在计算的时候基于SparkCore，SparkCore天生会做以下事情导致SparkStreaming的结果（部分）重复输出:<br>　　1.Task重试；<br>　　2.慢任务推测；<br>　　3.Stage重复；<br>　　4.Job重试；<br>会导致数据的丢失。<br>对应的解决方案：<br>　　1.一个任务失败就是job 失败，设置spark.task.maxFailures次数为1；<br>　　2.设置spark.speculation为关闭状态（因为慢任务推测其实非常消耗性能，所以关闭后可以显著的提高Spark Streaming处理性能）<br>　　3.Spark streaming on kafka的话，假如job失败后可以设置kafka的auto.offset.reset为largest的方式会自动恢复job的执行。<br>参考：<br><a href="https://zybuluo.com/marlin/note/486917">https://zybuluo.com/marlin/note/486917</a><br><a href="http://spark.apache.org/docs/latest/streaming-programming-guide.html#semantics-of-output-operations">http://spark.apache.org/docs/latest/streaming-programming-guide.html#semantics-of-output-operations</a><br><a href="https://blog.cloudera.com/blog/2015/03/exactly-once-spark-streaming-from-apache-kafka/">https://blog.cloudera.com/blog/2015/03/exactly-once-spark-streaming-from-apache-kafka/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/Hive小文件合并/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/Hive小文件合并/" itemprop="url">Hive小文件合并</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T18:19:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>HDFS中的文件、目录和块都映射为一个对象，存储在NameNode服务器内存中，通常占用150个字节。 如果有1千万个文件，就需要消耗大约3G的内存空间。如果是10亿个文件呢，简直不可想象。所以我们要了解一下,hadoop 处理小文件的各种方案，然后选择一种适合的方案来解决本的小文件问题。   </p>
+<p>此外，HDFS读写小文件时也会更加耗时，因为每次都需要从NameNode获取元信息，并与对应的DataNode建立连接。对于MapReduce程序来说，小文件还会增加Mapper的个数，job作为一个独立的jvm实例，每个job只处理很少的数据，其开启和停止的开销可能会大大超过实际的任务处理时间，浪费了大量的调度时间。当然，这个问题可以通过使用CombinedInputFile和JVM重用来解决.   </p>
+<p>参考:<br><a href="https://blog.csdn.net/WYpersist/article/details/80043816">https://blog.csdn.net/WYpersist/article/details/80043816</a>  </p>
+<h1 id="输入文件合并"><a href="#输入文件合并" class="headerlink" title="输入文件合并"></a>输入文件合并</h1><p>输入合并。即在Map前合并小文件。这个方法即可以解决之前小文件数太多，导致mapper数太多的问题；还可以防止输出小文件合数太多的问题（因为mr只有map时，mapper数就是输出的文件个数）。<br>文件合并失效，且job只有map时，map的个数就是文件个数；通过控制map大小控制map个数，以控制输出文件个数。   </p>
+<p><font color="#FF6666">set hive.hadoop.supports.splittable.combineinputformat=true; 开关<br>set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat; 执行Map前进行小文件合并</font><br>set mapred.max.split.size=2048000000; 2G 每个Map最大输入大小<br>set mapred.min.split.size.per.node=2048000000; 一个节点上split的至少的大小 ，决定了多个data node上的文件是否需要合并<br>set mapred.min.split.size.per.rack=2048000000; 一个交换机下split的至少的大小，决定了多个交换机上的文件是否需要合并<br>MR-Job 默认的输入格式 FileInputFormat 为每一个小文件生成一个切片。<br>CombineFileInputFormat 通过将多个“小文件”合并为一个”切片”（在形成切片的过程中也考虑同一节点、同一机架的数据本地性），让每一个 Mapper 任务可以处理更多的数据，从而提高 MR 任务的执行速度。   </p>
+<p>解读：CombineFileInputFormat类：<a href="https://www.cnblogs.com/skyl/p/4754999.html">https://www.cnblogs.com/skyl/p/4754999.html</a></p>
+<h1 id="输出文件合并"><a href="#输出文件合并" class="headerlink" title="输出文件合并"></a>输出文件合并</h1><p>输出合并。即在输出结果的时候合并小文件<br>动态分区好用，但是会产生很多小文件。原因就在于，假设初始有N个mapper,最后生成了m个分区，最终会有多少个文件生成呢？答案是N*m,是的，每一个mapper会生成m个文件，就是每个分区都会对应一个文件，这样的话你算一下。所以小文件就会成倍的产生。<br>怎么解决这个问题，通常处理方式也是像上面那样，让数据尽量聚到少量reducer里面。但是有时候虽然动态分区不会产生reducer,但是也就意味着最后没有进行文件合并,我们也可以用distribute by rand()这句来保证数据聚类到相同的reducer。<br>参考：<a href="https://www.iteblog.com/archives/1533.html">https://www.iteblog.com/archives/1533.html</a>  </p>
+<p>但是如果是多层分区呢，且二层分区数据量差异很大，虽然也可以使用上面的方式但仍然有可能不均匀，此时需要扩展，采用如下方式<code>distribute by if(productType in (&#39;h&#39;,&#39;f&#39;,&#39;t&#39;),floor(rand() * 10),1)</code></p>
+<p>其他合并方式，配置参数set hive.merg.xxxx在文件合并 和 压缩 并存时会失效，即只对text或者seq文件生效，对压缩格式如orc等会不适用，就有些鸡肋<br>参考：<a href="https://meihuakaile.github.io/2018/10/19/hive%E5%B0%8F%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6/">https://meihuakaile.github.io/2018/10/19/hive%E5%B0%8F%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6/</a>  </p>
+<p>上面的方式只是解决使用和规避问题，如果是已经有很多小文件，那么只有压缩一条路可走了，问题就转变为如何更快更优的解决各种格式的压缩问题了。   </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/awk/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/awk/" itemprop="url">awk</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:54:00+08:00">
                 2019-01-26
               </time>
             
@@ -490,16 +1080,196 @@
       
         
           
-            <p>给定一个文本文件 file.txt，请只打印这个文件中的第十行。</p>
-<p>示例:</p>
-<p>假设 file.txt 有如下内容：</p>
-<p>Line 1<br>Line 2<br>Line 3<br>Line 4<br>Line 5<br>Line 6<br>Line 7<br>Line 8<br>Line 9<br>Line 10<br>你的脚本应当显示第十行：</p>
-<p>Line 10<br>说明:</p>
-<ol>
-<li>如果文件少于十行，你应当输出什么？</li>
-<li>至少有三种不同的解法，请尝试尽可能多的方法来解题。</li>
+            <p>awk是行处理器: 相比较屏幕处理的优点，在处理庞大文件时不会出现内存溢出或是处理缓慢的问题，通常用来格式化文本信息<br>awk处理过程: 依次对每一行进行处理，然后输出  </p>
+<p>awk命令形式:<br>awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}       END{}’ file<br> [-F|-f|-v]   大参数，-F指定分隔符，-f调用脚本，-v定义变量 var=value<br>‘  ‘          引用代码块<br>BEGIN   初始化代码块，在对每一行进行处理之前，初始化代码，主要是引用全局变量，设置FS分隔符<br>//           匹配代码块，可以是字符串或正则表达式<br>{}           命令代码块，包含一条或多条命令<br>；          多条命令使用分号分隔<br>END      结尾代码块，在对每一行进行处理之后再执行的代码块，主要是进行最终计算或输出结尾摘要信息<br>特殊要点:   </p>
+<p>$0           表示整个当前行<br>$1           每行第一个字段   </p>
+<p>NF          字段数量变量；即每行的字段个数，Number Field<br>NR          每行的记录号，多文件记录递增；即行号  Number Record   </p>
+<p>FNR        与NR类似，不过多文件记录不递增，每个文件都从1开始   </p>
+<p>\t            制表符<br>\n           换行符  </p>
+<p>FS          BEGIN时定义分隔符<br>RS输入的记录分隔符， 默认为换行符(即文本是按一行一行输入)   </p>
+<p>~            匹配，与==相比不是精确比较<br>!~           不匹配，不精确比较  </p>
+<p>==         等于，必须全部相等，精确比较<br>!=           不等于，精确比较  </p>
+<p>&amp;&amp;　     逻辑与<br>||      逻辑或   </p>
+<p>+    匹配时表示1个或1个以上</p>
+<p>/[0-9][0-9]+/   两个或两个以上数字<br>/[0-9][0-9]*/    一个或一个以上数字  </p>
+<p>FILENAME 文件名  </p>
+<p>OFS输出字段分隔符， 默认也是空格，可以改为制表符等<br>ORS        输出的记录分隔符，默认为换行符,即处理结果也是一行一行输出到屏幕</p>
+<p>-F’[:#/]’   定义三个分隔符  </p>
+<p>IF语句</p>
+<p>必须用在{}中，且比较内容用()扩起来</p>
+<p>awk -F: ‘{if($1~/mail/) print $1}’ /etc/passwd                                       //简写</p>
+<p>awk -F: ‘{if($1~/mail/) {print $1}}’  /etc/passwd                                   //全写</p>
+<p>awk -F: ‘{if($1~/mail/) {print $1} else {print $2}}’ /etc/passwd            //if…else…   </p>
+<p>原文链接 : <a href="http://blog.chinaunix.net/uid-23302288-id-3785105.html">http://blog.chinaunix.net/uid-23302288-id-3785105.html</a>  </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/shell统计/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/shell统计/" itemprop="url">shell统计</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:39:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h1><ol>
+<li>列出当天访问次数最多的IP前20个<br>命令：cut -d- -f 1 /usr/local/apache2/logs/access_log |uniq -c | sort -rn | head -20  </li>
+<li>查看当天有多少个IP访问：<br>awk ‘{print $1}’ log_file|sort|uniq|wc -l   </li>
+<li>查看某一个页面被访问的次数;<br>grep “/index.php” log_file | wc -l  </li>
+<li>查看每一个IP访问了多少个页面：<br>awk ‘{++S[$1]} END {for (a in S) print a,S[a]}’ log_file  </li>
+<li>将每个IP访问的页面数进行从小到大排序：<br>awk ‘{++S[$1]} END {for (a in S) print S[a],a}’ log_file | sort -n  </li>
+<li>查看某一个IP访问了哪些页面：<br>grep ^111.111.111.111 log_file| awk ‘{print $1,$7}’  </li>
+<li>去掉搜索引擎统计当天的页面：<br>awk ‘{print $12,$1}’ log_file | grep ^\”Mozilla | awk ‘{print $2}’ |sort | uniq | wc -l  </li>
+<li>查看2009年6月21日14时这一个小时内有多少IP访问：<br>awk ‘{print $4,$1}’ log_file | grep 21/Jun/2009:14 | awk ‘{print $2}’| sort | uniq | wc -l  </li>
+<li>统计访问日志里每个ip访问次数<br>[root@qunar logs]# cat a.sh<br>#!/bin/bash#将28/Jan/2015全天的访问日志放到a.txt文本<br>cat access.log |sed -rn ‘/28\/Jan\/2015/p’ &gt; a.txt #统计a.txt里面有多少个ip访问<br>cat a.txt |awk ‘{print $1}’|sort |uniq &gt; ipnum.txt#通过shell统计每个ip访问次数<br>for i in `cat ipnum.txt`<br>do<br>iptj=`cat  access.log |grep $i | grep -v 400 |wc -l`<br>echo “ip地址”$i”在2015-01-28日全天(24小时)累计成功请求”$iptj”次，平均每分钟请求次数为：”$(($iptj/1440)) &gt;&gt; result.txt<br>done  </li>
+<li>把100天前的文件打包并且删除<br>find [path] -type f -mtime +100 -exec tar rvf tmp.tar –remove-files {} \;  </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tail -n +10 file.txt | head -n 1</span><br><span class="line">awk &apos;NR==10&#123;print $0&#125;&apos; file.txt</span><br></pre></td></tr></table></figure>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><p>find . -name ‘<em>.sh’ | xargs grep -in ‘48 </em>‘   </p>
+<ol>
+<li>查找所有”.h”文件<br>find /PATH -name “*.h”  </li>
+<li>查找所有”.h”文件中的含有”helloworld”字符串的文件<br>find /PATH -name “<em>.h” -exec grep -in “helloworld” {} \;<br>find /PATH -name “</em>.h” | xargs grep -in “helloworld”  </li>
+<li>查找所有”.h”和”.c”文件中的含有”helloworld”字符串的文件<br>find /PATH /( -name “<em>.h” -or -name “</em>.c” /) -exec grep -in “helloworld” {} \;  </li>
+<li>查找非备份文件中的含有”helloworld”字符串的文件<br>find /PATH /( -not -name “*~” /) -exec grep -in “helloworld” {} \;<br>注：/PATH为查找路径，默认为当前路径。带-exec参数时必须以\;结尾，否则会提示“find: 遗漏“-exec”的参数”。  </li>
+</ol>
+<h1 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h1><ol>
+<li>lsof |grep deleted<br>注：这个deleted表示该已经删除了的文件，但是文件句柄未释放,这个命令会把所有的未释放文件句柄的进程列出来  </li>
+<li><p>swap使用排序  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in $( cd /proc;ls |grep &quot;^[0-9]&quot;|awk &apos; $0 &gt;100&apos;) ;do sudo awk &apos;/^Swap:/&#123;a=a+$2&#125;END&#123;print &apos;&quot;$i&quot;&apos;,a/1024&quot;M&quot;&#125;&apos; /proc/$i/smaps 2&gt;/dev/null ; done | sort -k2nr | head -10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>curl -O下载 </p>
+</li>
+<li>正则<br>bizType=([^&amp;]+)<br>bizType=(.*?)[&amp;|$]</li>
+</ol>
 
           
         
@@ -548,7 +1318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/统计词频/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/Top/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -567,7 +1337,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/统计词频/" itemprop="url">统计词频</a></h1>
+                <a class="post-title-link" href="/2019/01/26/Top/" itemprop="url">Top*</a></h1>
         
 
         <div class="post-meta">
@@ -579,7 +1349,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:02:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:38:00+08:00">
                 2019-01-26
               </time>
             
@@ -641,8 +1411,7 @@
       
         
           
-            <p><code>cat words.txt | tr  -s &quot; &quot; &quot;\n&quot; |sort |uniq -c | sort -r -n | awk &#39;{print $2,$1}&#39;</code><br>tr -s 将重复出现字符串压缩为一个字符串<br>“ “ “\n”   将空格替换为换行<br>uniq 命令删除文件中的重复行。uniq 命令读取由 InFile 参数指定的标准输入或文件。该命令首先比较相邻的行，然后除去第二行和该行的后续副本。重复的行一定相邻。（<strong>所以一定要在发出 uniq 命令之前，请使用 sort 命令使所有重复行相邻。</strong>）<br>sort -n按照数值排序<br>sort -r降序排序<br>sort file.txt | uniq -c    -c或–count在每列旁边显示该行重复出现的次数  </p>
-<p>另:<br>删除字符asd<br>tr -d ‘asd’<br>删除空行<br>tr -s ‘\n’<br>sort -u 去重,如果只有sort是不会去重<br>sort file.txt | uniq -u     -u或——unique：仅显示出一次的行列；只显示单一行<br>sort file.txt | uniq -d    -d或–repeated：仅显示重复出现的行列</p>
+            <p><img src="/images/pasted-5.png" alt="upload successful"></p>
 
           
         
@@ -691,7 +1460,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/数据结构/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/sed操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -710,7 +1479,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/数据结构/" itemprop="url">数据结构</a></h1>
+                <a class="post-title-link" href="/2019/01/26/sed操作/" itemprop="url">sed操作</a></h1>
         
 
         <div class="post-meta">
@@ -722,7 +1491,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T01:51:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:25:00+08:00">
                 2019-01-26
               </time>
             
@@ -745,8 +1514,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
                   </a>
                 </span>
 
@@ -784,8 +1553,14 @@
       
         
           
-            <p>天下武功唯快不破，快是基本功，那么算法中的基本功首推递归<br>递归，迭代相互转换<br>动态规划<br>深度优先<br>广度优先<br>贪心算法<br>回溯算法<br>二分查找<br>分治算法<br>双指针<br>排序  </p>
-<p>数组<br>链表<br>栈<br>队列<br>堆<br>树<br>图</p>
+            <ol>
+<li>一次性给文件多行加注释<br>在vim 视图模式下<br>：2,5 s/^/#/<br>或者直接使用sed，命令如下：<br>sed -i ‘2,5s/^/#/‘ filename  </li>
+<li>注释取消<br>反之，将2~5行带#注释取消：<br>：2,5 s/^#//<br>或者<br>sed -i ‘2,5s/^#//‘ filename  </li>
+<li>去掉空行<br>sed -i ‘/^$/d’ df.txt  </li>
+<li>将每一行拖尾的“空白字符”（空格，制表符）删除<br>sed ‘s/ *$//‘  df.txt   &gt;cwm.txt</li>
+<li>将每一行中的前导和拖尾的空白字符删除<br>sed ‘s/^ <em>//;s/ </em>$//‘  df.txt   &gt;cwm.txt </li>
+<li>vi下全文替换<br>:%s/1/2/g 全文替换<br>“1,20” ：表示从第1行到20行；<br>“%” ：表示整个文件，同“1,$”；<br>“. ,$” ：从当前行到文件尾；    </li>
+</ol>
 
           
         
@@ -834,7 +1609,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-LeftSemiJoin/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/有效电话号码/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -853,7 +1628,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/25/hive-LeftSemiJoin/" itemprop="url">left semi join</a></h1>
+                <a class="post-title-link" href="/2019/01/26/有效电话号码/" itemprop="url">有效电话号码</a></h1>
         
 
         <div class="post-meta">
@@ -865,8 +1640,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T20:03:00+08:00">
-                2019-01-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:19:00+08:00">
+                2019-01-26
               </time>
             
 
@@ -888,8 +1663,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
                   </a>
                 </span>
 
@@ -927,753 +1702,15 @@
       
         
           
-            <p><img src="/images/pasted-3.png" alt="upload successful"></p>
-<p><img src="/images/pasted-4.png" alt="upload successful"><br>参考:<br><a href="https://blog.csdn.net/happyrocking/article/details/79885071">https://blog.csdn.net/happyrocking/article/details/79885071</a></p>
+            <p>给定一个包含电话号码列表（一行一个电话号码）的文本文件 file.txt，写一个 bash 脚本输出所有有效的电话号码。  </p>
+<p>你可以假设一个有效的电话号码必须满足以下两种格式： (xxx) xxx-xxxx 或 xxx-xxx-xxxx。（x 表示一个数字） </p>
+<p>你也可以假设每行前后没有多余的空格字符。</p>
+<p>示例:</p>
+<p>假设 file.txt 内容如下：</p>
+<p>987-123-4567<br>123 456 7890<br>(123) 456-7890<br>你的脚本应当输出下列有效的电话号码：</p>
+<p>987-123-4567<br>(123) 456-7890  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">egrep -o &quot;(^[0-9]&#123;3&#125;-[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$)|(^\([0-9][0-9][0-9]\)\s[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$)&quot; file.txt</span><br></pre></td></tr></table></figure>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-join倾斜/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/25/hive-join倾斜/" itemprop="url">join倾斜</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T19:51:00+08:00">
-                2019-01-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
-<p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
-<p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
-<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive_groupby倾斜/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/25/hive_groupby倾斜/" itemprop="url">group by数据倾斜</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T12:19:00+08:00">
-                2019-01-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="group-by数据倾斜"><a href="#group-by数据倾斜" class="headerlink" title="group by数据倾斜"></a>group by数据倾斜</h1><p>倾斜原因：<br>select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。<br>特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。</p>
-<h2 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h2><p>（1）主要是把count distinct改变成group by。<br>改变上面的sql为select uid, count(name) from (select uid, name from user group by uid, name)t group by uid.<br>（2）给group by 字段加随机数打散，聚合，之后把随机数去掉，再次聚合（有点类似下面的参数SET hive.groupby.skewindata=true;）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, count(name) names</span><br><span class="line">  from </span><br><span class="line">  (</span><br><span class="line">    select uid, name</span><br><span class="line">    from user</span><br><span class="line">    group by uid, name</span><br><span class="line">  )a</span><br><span class="line">  group by concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1))</span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br><span class="line"></span><br><span class="line">等同于下面</span><br><span class="line"></span><br><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select uid,count(name) names from (</span><br><span class="line">	  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, name</span><br><span class="line">	  from </span><br><span class="line">	  (</span><br><span class="line">	    select uid, name</span><br><span class="line">	    from user</span><br><span class="line">	    group by uid, name</span><br><span class="line">	  )a</span><br><span class="line">  ) c </span><br><span class="line">  group by uid </span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br></pre></td></tr></table></figure></p>
-<p>  (3)SET hive.groupby.skewindata=true; 当选项设定为 true，生成的查询计划会有两个 MR Job。第一个 MR Job 中，Map 的输出结果集合会随机分布到 Reduce 中，该Reduce 做部分聚合操作，并输出结果，这样处理的结果是相同的 Group By Key 有可能被分发到不同的 Reduce 中，从而达到负载均衡的目的；第二个 MR Job 再根据预处理的数据结果按照 Group By Key 分布到 Reduce 中（这个过程可以保证相同的 Group By Key 被分布到同一个 Reduce 中），最后完成最终的聚合操作.<br>set hive.map.aggr=true; 在mapper端部分聚合，相当于Combiner 。而Map-Side聚合，一般在聚合函数sum,count时使用。  </p>
-<blockquote>
-<p>无论你使用Map端，或者两道作业。其原理都是通过部分聚合来来减少数据量。能不能部分聚合，部分聚合能不能有效减少数据量，通常与UDAF，也就是聚合函数有关。也就是<strong>只对代数聚合函数有效，对整体聚合函数无效</strong>。<br>所谓代数聚合函数，就是由部分结果可以汇总出整体结果的函数，如count，sum。 所谓整体聚合函数，就是无法由部分结果汇总出整体结果的函数，如avg，mean。 比如，sum, count，知道部分结果可以加和得到最终结果。 而对于，mean，avg，知道部分数据的中位数或者平均数，是求不出整体数据的中位数和平均数的。</p>
-</blockquote>
-<p>set hive.groupby.mapaggr.checkinterval=100000；–这个是group的键对应的记录条数超过这个值则会进行分拆,值根据具体数据量设置。<br>hive.map.aggr.hash.min.reduction=0.5(默认)预先取100000条数据聚合,如果聚合后的条数/100000&gt;0.5，则不再聚合   </p>
-<p>使用Hive的过程中，我们习惯性用set hive.groupby.skewindata=true来避免因数据倾斜造成的计算效率问题，但是每个设置都是把双刃剑，最近调研了下相关问题，现总结如下：</p>
-<p>从下表可以看出，skewindata配置真正发生作用，只会在以下三种情况下，能够将1个job转化为2个job：<br>select count distinct … from …<br>select a,count(<em>) from … group by a  <strong>只针对单列有效</strong><br>select count(</em>),count(distinct …) from     <strong>此处没有group by</strong><br>如下sql会报错<br>select count(*),count(distinct …) from … group by a   <strong>此处有group by</strong><br>需要改为<br>select a,sum(1),count(distinct …) from … group by a  </p>
-<p><img src="/images/pasted-0.png" alt="upload successful"></p>
-<p><img src="/images/pasted-1.png" alt="upload successful"></p>
-<p>参考：<br><a href="https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/">https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/</a><br><a href="https://blog.csdn.net/dxl342/article/details/77886577">https://blog.csdn.net/dxl342/article/details/77886577</a><br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/mapreduce模型/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/mapreduce模型/" itemprop="url">mapreduce模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T18:54:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre class="mermaid">graph TD
-A[Map] -->|partition,kvBuffer,sort与combiner,spill,merge| B{Shuffle}
-B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
-
-<p><img src="/images/pasted-6.png" alt="upload successful"></p>
-<p>从JVM的角度看Map和Reduce  </p>
-<h1 id="Map阶段包括："><a href="#Map阶段包括：" class="headerlink" title="Map阶段包括："></a>Map阶段包括：</h1><h2 id="第一读数据：从HDFS读取数据"><a href="#第一读数据：从HDFS读取数据" class="headerlink" title="第一读数据：从HDFS读取数据"></a>第一读数据：从HDFS读取数据</h2><p>1、问题:读取数据产生多少个Mapper？？<br>    Mapper数据过大的话，会产生大量的小文件，由于Mapper是基于虚拟机的，过多的Mapper创建和初始化及关闭虚拟机都会消耗大量的硬件资源；<br>   Mapper数太小，并发度过小，Job执行时间过长，无法充分利用分布式硬件资源；  </p>
-<p>2、Mapper数量由什么决定？？<br>  （1）输入文件数目<br>  （2）输入文件的大小<br>  （3）配置参数 <strong>所以说map数是可以控制的</strong><br>这三个因素决定的。</p>
-<p>涉及参数：<br>mapreduce.input.fileinputformat.split.minsize //启动map最小的split size大小，默认0     mapreduce.input.fileinputformat.split.maxsize //启动map最大的split size大小，默认256M<br>dfs.block.size//block块大小，默认64M<br>计算公式：splitSize =  Math.max(minSize, Math.min(maxSize, blockSize));   </p>
-<p>例如<strong>默认情况</strong>下：例如一个文件800M，Block大小是128M，那么Mapper数目就是7个。6个Mapper处理的数据是128M，1个Mapper处理的数据是32M；<br>再例如一个目录下有三个文件大小分别为：5M10M 150M 这个时候其实会产生四个Mapper处理的数据分别是5M，10M，128M，22M。   </p>
-<p>Mapper是基于文件自动产生的，如果想要自己控制Mapper的个数？？？  </p>
-<p>就如上面，5M，10M的数据很快处理完了，128M要很长时间；这个就需要通过参数的控制来调节Mapper的个数。  </p>
-<p>减少Mapper的个数的话，就要合并小文件，这种小文件有可能是直接来自于数据源的小文件，也可能是Reduce产生的小文件。  </p>
-<p>设置合并器：（set都是在hive脚本，也可以配置Hadoop）   </p>
-<p>设置合并器本身：<br>set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;<br>set hive.merge.mapFiles=true;<br>set hive.merge.mapredFiles=true;<br>set hive.merge.size.per.task=256000000;//每个Mapper要处理的数据，就把上面的5M10M……合并成为一个   </p>
-<p>一般还要配合一个参数：<br>set mapred.max.split.size=256000000 // mapred切分的大小<br>set mapred.min.split.size.per.node=128000000//低于128M就算小文件，数据在一个节点会合并，在多个不同的节点会把数据抓过来进行合并。   </p>
-<p>Hadoop中的参数：可以通过控制文件的数量控制mapper数量<br>mapreduce.input.fileinputformat.split.minsize（default：0），小于这个值会合并<br>mapreduce.input.fileinputformat.split.maxsize 大于这个值会切分     </p>
-<h2 id="第二处理数据："><a href="#第二处理数据：" class="headerlink" title="第二处理数据："></a>第二处理数据：</h2><p>Partition说明<br>对于map输出的每一个键值对，系统都会给定一个partition，partition值默认是通过计算key的hash值后对Reduce task的数量取模获得。如果一个键值对的partition值为1，意味着这个键值对会交给第一个Reducer处理。</p>
-<p>自定义partitioner的情况：<br>1、我们知道每一个Reduce的输出都是有序的，但是将所有Reduce的输出合并到一起却并非是全局有序的，如果要做到全局有序，我们该怎么做呢？最简单的方式，只设置一个Reduce task，但是这样完全发挥不出集群的优势，而且能应对的数据量也很受限。最佳的方式是自己定义一个Partitioner，用输入数据的最大值除以系统Reduce task数量的商作为分割边界，也就是说分割数据的边界为此商的1倍、2倍至numPartitions-1倍，这样就能保证执行partition后的数据是整体有序的。<br>2、解决数据倾斜：另一种需要我们自己定义一个Partitioner的情况是各个Reduce task处理的键值对数量极不平衡。对于某些数据集，由于很多不同的key的hash值都一样，导致这些键值对都被分给同一个Reducer处理，而其他的Reducer处理的键值对很少，从而拖延整个任务的进度。当然，编写自己的Partitioner必须要保证具有相同key值的键值对分发到同一个Reducer。<br>3、自定义的Key包含了好几个字段，比如自定义key是一个对象，包括type1，type2，type3,只需要根据type1去分发数据，其他字段用作二次排序。   </p>
-<p>环形缓冲区<br>    Map的输出结果是由collector处理的，每个Map任务不断地将键值对输出到在内存中构造的一个环形数据结构中。使用环形数据结构是为了更有效地使用内存空间，在内存中放置尽可能多的数据。   </p>
-<p>这个数据结构其实就是个字节数组，叫Kvbuffer，名如其义，但是这里面不光放置了数据，还放置了一些索引数据，给放置索引数据的区域起了一个Kvmeta的别名，在Kvbuffer的一块区域上穿了一个IntBuffer（字节序采用的是平台自身的字节序）的马甲。数据区域和索引数据区域在Kvbuffer中是相邻不重叠的两个区域，用一个分界点来划分两者，分界点不是亘古不变的，而是每次Spill之后都会更新一次。初始的分界点是0，数据的存储方向是向上增长，索引数据的存储方向是向下增长Kvbuffer的存放指针bufindex是一直闷着头地向上增长，比如bufindex初始值为0，一个Int型的key写完之后，bufindex增长为4，一个Int型的value写完之后，bufindex增长为8。     </p>
-<p>索引是对在kvbuffer中的键值对的索引，是个四元组，包括：value的起始位置、key的起始位置、partition值、value的长度，占用四个Int长度，Kvmeta的存放指针Kvindex每次都是向下跳四个“格子”，然后再向上一个格子一个格子地填充四元组的数据。比如Kvindex初始位置是-4，当第一个键值对写完之后，(Kvindex+0)的位置存放value的起始位置、(Kvindex+1)的位置存放key的起始位置、(Kvindex+2)的位置存放partition的值、(Kvindex+3)的位置存放value的长度，然后Kvindex跳到-8位置，等第二个键值对和索引写完之后，Kvindex跳到-12位置。   </p>
-<h2 id="第三写数据到磁盘"><a href="#第三写数据到磁盘" class="headerlink" title="第三写数据到磁盘"></a>第三写数据到磁盘</h2><p>Mapper中的Kvbuffer的大小默认100M，可以通过mapreduce.task.io.sort.mb（default：100）参数来调整。可以根据不同的硬件尤其是内存的大小来调整，调大的话，会减少磁盘spill的次数此时如果内存足够的话，一般都会显著提升性能。spill一般会在Buffer空间大小的80%开始进行spill（因为spill的时候还有可能别的线程在往里写数据，因为还预留空间，有可能有正在写到Buffer中的数据），可以通过mapreduce.map.sort.spill.percent（default：0.80）进行调整，Map Task在计算的时候会不断产生很多spill文件，在Map Task结束前会对这些spill文件进行合并，这个过程就是merge的过程。   mapreduce.task.io.sort.factor（default：10），代表进行merge的时候最多能同时merge多少spill，如果有100个spill个文件，此时就无法一次完成整个merge的过程，这个时候需要调大mapreduce.task.io.sort.factor（default：10）来减少merge的次数，从而减少磁盘的操作；   </p>
-<p>Spill这个重要的过程是由Spill线程承担，Spill线程从Map任务接到“命令”之后就开始正式干活，干的活叫SortAndSpill，原来不仅仅是Spill，在Spill之前还有个颇具争议性的Sort。    </p>
-<p><strong>Combiner存在的时候，此时会根据Combiner定义的函数对map的结果进行合并，什么时候进行Combiner操作呢？？？和Map在一个JVM中，是由min.num.spill.for.combine的参数决定的，默认是3，也就是说spill的文件数在默认情况下由三个的时候就要进行combine操作，最终减少磁盘数据；</strong>  </p>
-<p>减少磁盘IO和网络IO还可以进行：压缩，对spill，merge文件都可以进行压缩。中间结果非常的大，IO成为瓶颈的时候压缩就非常有用，可以通过mapreduce.map.output.compress（default：false）设置为true进行压缩，数据会被压缩写入磁盘，读数据读的是压缩数据需要解压，在实际经验中Hive在Hadoop的运行的瓶颈一般都是IO而不是CPU，压缩一般可以10倍的减少IO操作，压缩的方式Gzip，Lzo,BZip2,Lzma等，其中Lzo是一种比较平衡选择，mapreduce.map.output.compress.codec（default：org.apache.hadoop.io.compress.DefaultCodec）参数设置。但这个过程会消耗CPU，适合IO瓶颈比较大。     </p>
-<h1 id="Shuffle和Reduce阶段包括："><a href="#Shuffle和Reduce阶段包括：" class="headerlink" title="Shuffle和Reduce阶段包括："></a>Shuffle和Reduce阶段包括：</h1><h2 id="一、Copy"><a href="#一、Copy" class="headerlink" title="一、Copy"></a>一、Copy</h2><p>1、由于job的每一个map都会根据reduce(n)数将数据分成map 输出结果分成n个partition，所以map的中间结果中是有可能包含每一个reduce需要处理的部分数据的。所以，为了优化reduce的执行时间，hadoop中是等job的第一个map结束后，所有的reduce就开始尝试从完成的map中下载该reduce对应的partition部分数据，因此map和reduce是交叉进行的，其实就是shuffle。Reduce任务通过HTTP向各个Map任务拖取（下载）它所需要的数据（网络传输），Reducer是如何知道要去哪些机器取数据呢？一旦map任务完成之后，就会通过常规心跳通知应用程序的Application Master。reduce的一个线程会周期性地向master询问，直到提取完所有数据（如何知道提取完？）数据被reduce提走之后，map机器不会立刻删除数据，这是为了预防reduce任务失败需要重做。因此map输出数据是在整个作业完成之后才被删除掉的。<br>2、reduce进程启动数据copy线程(Fetcher)，通过HTTP方式请求maptask所在的TaskTracker获取maptask的输出文件。由于map通常有许多个，所以对一个reduce来说，下载也可以是并行的从多个map下载，那到底同时到多少个Mapper下载数据？？这个并行度是可以通过mapreduce.reduce.shuffle.parallelcopies(default5）调整。默认情况下，每个Reducer只会有5个map端并行的下载线程在从map下数据，如果一个时间段内job完成的map有100个或者更多，那么reduce也最多只能同时下载5个map的数据，所以这个参数比较适合map很多并且完成的比较快的job的情况下调大，有利于reduce更快的获取属于自己部分的数据。 在Reducer内存和网络都比较好的情况下，可以调大该参数；<br>3、reduce的每一个下载线程在下载某个map数据的时候，有可能因为那个map中间结果所在机器发生错误，或者中间结果的文件丢失，或者网络瞬断等等情况，这样reduce的下载就有可能失败，所以reduce的下载线程并不会无休止的等待下去，当一定时间后下载仍然失败，那么下载线程就会放弃这次下载，并在随后尝试从另外的地方下载（因为这段时间map可能重跑）。reduce下载线程的这个最大的下载时间段是可以通过mapreduce.reduce.shuffle.read.timeout（default180000秒）调整的。如果集群环境的网络本身是瓶颈，那么用户可以通过调大这个参数来避免reduce下载线程被误判为失败的情况。一般情况下都会调大这个参数，这是企业级最佳实战。   </p>
-<h2 id="二、MergeSort"><a href="#二、MergeSort" class="headerlink" title="二、MergeSort"></a>二、MergeSort</h2><p>1、这里的merge和map端的merge动作类似，只是数组中存放的是不同map端copy来的数值。Copy过来的数据会先放入内存缓冲区中，然后当使用内存达到一定量的时候才spill磁盘。这里的缓冲区大小要比map端的更为灵活，它基于JVM的heap size设置。这个内存大小的控制就不像map一样可以通过io.sort.mb来设定了，而是通过另外一个参数 mapreduce.reduce.shuffle.input.buffer.percent（default 0.7f 源码里面写死了） 来设置，这个参数其实是一个百分比，意思是说，shuffile在reduce内存中的数据最多使用内存量为：0.7 × maxHeap of reduce task。JVM的heapsize的70%。内存到磁盘merge的启动门限可以通过mapreduce.reduce.shuffle.merge.percent（default0.66）配置。也就是说，如果该reduce task的最大heap使用量（通常通过mapreduce.admin.reduce.child.java.opts来设置，比如设置为-Xmx1024m）的一定比例用来缓存数据。默认情况下，reduce会使用其heapsize的70%来在内存中缓存数据。假设 mapreduce.reduce.shuffle.input.buffer.percent 为0.7，reducetask的max heapsize为1G，那么用来做下载数据缓存的内存就为大概700MB左右。这700M的内存，跟map端一样，也不是要等到全部写满才会往磁盘刷的，而是当这700M中被使用到了一定的限度（通常是一个百分比），就会开始往磁盘刷（刷磁盘前会先做sortMerge）。这个限度阈值也是可以通过参数 mapreduce.reduce.shuffle.merge.percent（default0.66）来设定。与map 端类似，这也是溢写的过程，这个过程中如果你设置有Combiner，也是会启用的，然后在磁盘中生成了众多的溢写文件。这种merge方式一直在运行，直到没有map端的数据时才结束，然后启动磁盘到磁盘的merge方式生成最终的那个文件。    </p>
-<p>这里需要强调的是，merge有三种形式：1)内存到内存（memToMemMerger）2）内存中Merge（inMemoryMerger）3）磁盘上的Merge（onDiskMerger）具体包括两个：（一）Copy过程中磁盘合并（二）磁盘到磁盘。<br>（1）内存到内存Merge（memToMemMerger）    Hadoop定义了一种MemToMem合并，这种合并将内存中的map输出合并，然后再写入内存。这种合并默认关闭，可以通过mapreduce.reduce.merge.memtomem.enabled(default:false)   </p>
-<p>打开，当map输出文件达到mapreduce.reduce.merge.memtomem.threshold时，触发这种合并。<br>（2）内存中Merge（inMemoryMerger）：当缓冲中数据达到配置的阈值时，这些数据在内存中被合并、写入机器磁盘。阈值有2种配置方式：</p>
-<p>配置内存比例：前面提到reduceJVM堆内存的一部分用于存放来自map任务的输入，在这基础之上配置一个开始合并数据的比例。假设用于存放map输出的内存为500M，mapreduce.reduce.shuffle.merge.percent配置为0.66，则当内存中的数据达到330M的时候，会触发合并写入。<br>配置map输出数量： 通过mapreduce.reduce.merge.inmem.threshold配置。在合并的过程中，会对被合并的文件做全局的排序。如果作业配置了Combiner，则会运行combine函数，减少写入磁盘的数据量。<br>（3）磁盘上的Merge（onDiskMerger）：   </p>
-<p>（3.1）Copy过程中磁盘Merge：在copy过来的数据不断写入磁盘的过程中，一个后台线程会把这些文件合并为更大的、有序的文件。如果map的输出结果进行了压缩，则在合并过程中，需要在内存中解压后才能给进行合并。这里的合并只是为了减少最终合并的工作量，也就是在map输出还在拷贝时，就开始进行一部分合并工作。合并的过程一样会进行全局排序。<br>（3.2）最终磁盘中Merge：当所有map输出都拷贝完毕之后，所有数据被最后合并成一个整体有序的文件，作为reduce任务的输入。这个合并过程是一轮一轮进行的，最后一轮的合并结果直接推送给reduce作为输入，节省了磁盘操作的一个来回。最后（所以map输出都拷贝到reduce之后）进行合并的map输出可能来自合并后写入磁盘的文件，也可能来及内存缓冲，在最后写入内存的map输出可能没有达到阈值触发合并，所以还留在内存中。     </p>
-<p> 每一轮合并不一定合并平均数量的文件数，指导原则是使用整个合并过程中写入磁盘的数据量最小，为了达到这个目的，则需要最终的一轮合并中合并尽可能多的数据，因为最后一轮的数据直接作为reduce的输入，无需写入磁盘再读出。因此我们让最终的一轮合并的文件数达到最大，即合并因子的值，通过mapreduce.task.io.sort.factor（default：10）来配置。    </p>
-<p>如上图：Reduce阶段中一个Reduce过程 可能的合并方式为：假设现在有20个map输出文件，合并因子配置为5，则需要4轮的合并。最终的一轮确保合并5个文件，其中包括2个来自前2轮的合并结果，因此原始的20个中，再留出3个给最终一轮。</p>
-<h2 id="三、Reduce函数调用（用户自定义业务逻辑）"><a href="#三、Reduce函数调用（用户自定义业务逻辑）" class="headerlink" title="三、Reduce函数调用（用户自定义业务逻辑）"></a>三、Reduce函数调用（用户自定义业务逻辑）</h2><p>1、当reduce将所有的map上对应自己partition的数据下载完成后，就会开始真正的reduce计算阶段。reducetask真正进入reduce函数的计算阶段，由于reduce计算时肯定也是需要消耗内存的，而在读取reduce需要的数据时，同样是需要内存作为buffer，这个参数是控制，reducer需要多少的内存百分比来作为reduce读已经sort好的数据的buffer大小？？默认用多大内存呢？？默认情况下为0，也就是说，默认情况下，reduce是全部从磁盘开始读处理数据。可以用mapreduce.reduce.input.buffer.percent（default 0.0）(源代码MergeManagerImpl.java：674行)来设置reduce的缓存。如果这个参数大于0，那么就会有一定量的数据被缓存在内存并输送给reduce，当reduce计算逻辑消耗内存很小时，可以分一部分内存用来缓存数据，可以提升计算的速度。所以默认情况下都是从磁盘读取数据，如果内存足够大的话，务必设置该参数让reduce直接从缓存读数据，这样做就有点Spark Cache的感觉；<br>2、Reduce在这个阶段，框架为已分组的输入数据中的每个 &lt;key, (list of values)&gt;对调用一次 reduce(WritableComparable,Iterator, OutputCollector, Reporter)方法。Reduce任务的输出通常是通过调用 OutputCollector.collect(WritableComparable,Writable)写入文件系统的。Reducer的输出是没有排序的。    </p>
-<h1 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h1><p>如果能够根据情况对shuffle过程进行调优，对于提供MapReduce性能很有帮助。相关的参数配置列在后面的表格中。   </p>
-<p>一个通用的原则是给shuffle过程分配尽可能大的内存，当然你需要确保map和reduce有足够的内存来运行业务逻辑。因此在实现Mapper和Reducer时，应该尽量减少内存的使用，例如避免在Map中不断地叠加。   </p>
-<p>运行map和reduce任务的JVM，内存通过mapred.child.java.opts属性来设置，尽可能设大内存。容器的内存大小通过mapreduce.map.memory.mb和mapreduce.reduce.memory.mb来设置，默认都是1024M。   </p>
-<p>map优化   </p>
-<p>在map端，避免写入多个spill文件可能达到最好的性能，一个spill文件是最好的。通过估计map的输出大小，设置合理的mapreduce.task.io.sort.*属性，使得spill文件数量最小。例如尽可能调大mapreduce.task.io.sort.mb。     </p>
-<p>map端相关的属性如下表：</p>
-<p><img src="/images/pasted-7.png" alt="upload successful"><br>reduce优化   </p>
-<p>在reduce端，如果能够让所有数据都保存在内存中，可以达到最佳的性能。通常情况下，内存都保留给reduce函数，但是如果reduce函数对内存需求不是很高，将mapreduce.reduce.merge.inmem.threshold（触发合并的map输出文件数）设为0，mapreduce.reduce.input.buffer.percent（用于保存map输出文件的堆内存比例）设为1.0，可以达到很好的性能提升。在2008年的TB级别数据排序性能测试中，Hadoop就是通过将reduce的中间数据都保存在内存中胜利的。   </p>
-<p>reduce端相关属性：<br><img src="/images/pasted-8.png" alt="upload successful"></p>
-<p>通用优化<br>Hadoop默认使用4KB作为缓冲，这个算是很小的，可以通过io.file.buffer.size来调高缓冲池大小。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L897-IncreasingBST/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L897-IncreasingBST/" itemprop="url">L897_IncreasingBST</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个树，按中序遍历重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子结点，只有一个右子结点。</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 示例 ：</span><br><span class="line"> *</span><br><span class="line"> * 输入：[5,3,6,2,4,null,8,1,null,null,null,7,9]</span><br><span class="line"> *</span><br><span class="line"> *        5</span><br><span class="line"> *       / \</span><br><span class="line"> *     3    6</span><br><span class="line"> *    / \    \</span><br><span class="line"> *   2   4    8</span><br><span class="line"> *  /        / \</span><br><span class="line"> * 1        7   9</span><br><span class="line"> *</span><br><span class="line"> * 输出：[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]</span><br><span class="line"> *</span><br><span class="line"> *  1</span><br><span class="line"> *   \</span><br><span class="line"> *    2</span><br><span class="line"> *     \</span><br><span class="line"> *      3</span><br><span class="line"> *       \</span><br><span class="line"> *        4</span><br><span class="line"> *         \</span><br><span class="line"> *          5</span><br><span class="line"> *           \</span><br><span class="line"> *            6</span><br><span class="line"> *             \</span><br><span class="line"> *              7</span><br><span class="line"> *               \</span><br><span class="line"> *                8</span><br><span class="line"> *                 \</span><br><span class="line"> *                  9</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 提示：</span><br><span class="line"> *</span><br><span class="line"> * 给定树中的结点数介于 1 和 100 之间。</span><br><span class="line"> * 每个结点都有一个从 0 到 1000 范围内的唯一整数值。</span><br><span class="line"> */</span><br><span class="line">public class L897_IncreasingBST &#123;</span><br><span class="line">    TreeNode dummy = new TreeNode(-1);</span><br><span class="line">    TreeNode res = dummy;</span><br><span class="line">    public TreeNode increasingBST(TreeNode root) &#123;</span><br><span class="line">        helper(root);</span><br><span class="line">        return res.right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root) &#123;</span><br><span class="line">//        if (root == null) return;</span><br><span class="line">        if (root.left != null)</span><br><span class="line">        helper(root.left);</span><br><span class="line">        dummy.right = new TreeNode(root.val);</span><br><span class="line">        dummy = dummy.right;</span><br><span class="line">        if (root.right != null)</span><br><span class="line">        helper(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L965-IsUnivalTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L965-IsUnivalTree/" itemprop="url">L965_IsUnivalTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L965_IsUnivalTree &#123;</span><br><span class="line"></span><br><span class="line">    public boolean isUnivalTree(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return helper(root,root.val);</span><br><span class="line">    &#125;</span><br><span class="line">    public boolean helper(TreeNode node,int val)&#123;</span><br><span class="line">        if(node == null)return true;</span><br><span class="line">        if(node.val != val)return false;</span><br><span class="line">        if(node.left != null &amp;&amp; node.left.val != val) return false;</span><br><span class="line">        if(node.right != null &amp;&amp; node.right.val != val) return false;</span><br><span class="line">        return helper(node.left,val) &amp;&amp; helper(node.right,val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1712,7 +1749,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1760,7 +1797,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1771,7 +1808,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1782,7 +1819,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

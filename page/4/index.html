@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L429-TreeLevelOrder/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L700-SearchBST/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L429-TreeLevelOrder/" itemprop="url">L429_TreeLevelOrder</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L700-SearchBST/" itemprop="url">L700_SearchBST</a></h1>
         
 
         <div class="post-meta">
@@ -280,483 +280,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:18:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class L429_TreeLevelOrder &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; levelOrder(Node root) &#123;</span><br><span class="line">        if(root == null)return new ArrayList&lt;&gt;();</span><br><span class="line">        LinkedList&lt;Node&gt; queue = new LinkedList&lt;Node&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        while(!queue.isEmpty())&#123;</span><br><span class="line">            int count = queue.size();</span><br><span class="line">            List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</span><br><span class="line">            while(count &gt; 0)&#123;</span><br><span class="line">                Node cur = queue.pop();</span><br><span class="line">                list.add(cur.val);</span><br><span class="line">                if(cur.children != null)&#123;</span><br><span class="line">                    for(Node n : cur.children)&#123;</span><br><span class="line">                        queue.add(n);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                count--;</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(list);</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class Node &#123;</span><br><span class="line">        public int val;</span><br><span class="line">        public List&lt;Node&gt; children;</span><br><span class="line"></span><br><span class="line">        public Node() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        public Node(int _val,List&lt;Node&gt; _children) &#123;</span><br><span class="line">            val = _val;</span><br><span class="line">            children = _children;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L297-DeserializeSerializeTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L297-DeserializeSerializeTree/" itemprop="url">L297_DeserializeSerializeTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:17:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayDeque;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Queue;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</span><br><span class="line"> *</span><br><span class="line"> * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</span><br><span class="line"> *</span><br><span class="line"> * 示例:</span><br><span class="line"> *</span><br><span class="line"> * 你可以将以下二叉树：</span><br><span class="line"> *</span><br><span class="line"> *     1</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   3</span><br><span class="line"> *      / \</span><br><span class="line"> *     4   5</span><br><span class="line"> *</span><br><span class="line"> * 序列化为 &quot;[1,2,3,null,null,4,5]&quot;</span><br><span class="line"> * 提示: 这与 LeetCode 目前使用的方式一致，详情请参阅 LeetCode 序列化二叉树的格式。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</span><br><span class="line"> *</span><br><span class="line"> * 说明: 不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。</span><br><span class="line"> */</span><br><span class="line">public class L297_DeserializeSerializeTree &#123;</span><br><span class="line">    // Encodes a tree to a single string.</span><br><span class="line">    public String serialize(TreeNode root) &#123;</span><br><span class="line">        if (root == null) &#123;</span><br><span class="line">            return &quot;$,&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return root.val + &quot;,&quot; + serialize(root.left) + serialize(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Decodes your encoded data to tree.</span><br><span class="line">    public TreeNode deserialize(String data) &#123;</span><br><span class="line">        String[] strings = data.split(&quot;,&quot;);</span><br><span class="line">        Queue&lt;String&gt; queue = new ArrayDeque&lt;&gt;(Arrays.asList(strings));</span><br><span class="line">        return func(queue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private TreeNode func(Queue&lt;String&gt; strings) &#123;</span><br><span class="line">        String string = strings.remove();</span><br><span class="line">        if (&quot;$&quot;.equals(string)) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode newNode = new TreeNode(Integer.parseInt(string));</span><br><span class="line">        newNode.left = func(strings);</span><br><span class="line">        newNode.right = func(strings);</span><br><span class="line">        return newNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L404-TreeSumOfLeftLeaves/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L404-TreeSumOfLeftLeaves/" itemprop="url">L404_TreeSumOfLeftLeaves</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:17:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L404_TreeSumOfLeftLeaves &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 本质还是二叉树的遍历</span><br><span class="line">     *</span><br><span class="line">     * 1. 求所有左叶子节点的值的和，那就是求当前节点的左节点和右节点的所有左叶子节点的和</span><br><span class="line">     *</span><br><span class="line">     * 2. 不是左叶子节点返回值为0，是左叶子节点放回叶子的值</span><br><span class="line">     *</span><br><span class="line">     * 3. 递归求和即可</span><br><span class="line">     *</span><br><span class="line">     * @param root</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public int sumOfLeftLeaves(TreeNode root) &#123;</span><br><span class="line">        return dfs(root, false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int dfs(TreeNode node, Boolean isLeft) &#123;</span><br><span class="line">        if (node == null) return 0;</span><br><span class="line">        if (node.left == null &amp;&amp; node.right == null) &#123;</span><br><span class="line">            if (isLeft == true) return node.val;</span><br><span class="line">            else return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int leftVal = dfs(node.left, true);</span><br><span class="line">        int rightVal = dfs(node.right, false);</span><br><span class="line">        return leftVal + rightVal;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line"></span><br><span class="line">        TreeNode(int x) &#123;</span><br><span class="line">            val = x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L257-BinaryTreePaths/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L257-BinaryTreePaths/" itemprop="url">L257_BinaryTreePaths</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:16:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉树，返回所有从根节点到叶子节点的路径。</span><br><span class="line"> *</span><br><span class="line"> * 说明: 叶子节点是指没有子节点的节点。</span><br><span class="line"> *</span><br><span class="line"> * 示例:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *</span><br><span class="line"> *    1</span><br><span class="line"> *  /   \</span><br><span class="line"> * 2     3</span><br><span class="line"> *  \</span><br><span class="line"> *   5</span><br><span class="line"> *</span><br><span class="line"> * 输出: [&quot;1-&gt;2-&gt;5&quot;, &quot;1-&gt;3&quot;]</span><br><span class="line"> *</span><br><span class="line"> * 解释: 所有根节点到叶子节点的路径为: 1-&gt;2-&gt;5, 1-&gt;3</span><br><span class="line"> */</span><br><span class="line">public class L257_BinaryTreePaths &#123;</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">    public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return new ArrayList&lt;&gt;();</span><br><span class="line">        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        helper(root,list);</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123;</span><br><span class="line">        if (root == null) return;</span><br><span class="line">        if (root.left == null &amp;&amp; root.right == null)&#123;</span><br><span class="line">            list.add(root.val);</span><br><span class="line">            String s = &quot;&quot;;</span><br><span class="line">            for (Integer node:list) &#123;</span><br><span class="line">                if (s.equals(&quot;&quot;))&#123;</span><br><span class="line">                    s += node+&quot;&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    s = s + &quot;-&gt;&quot;+ node;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(s);</span><br><span class="line">            list.remove(list.size() - 1);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        list.add(root.val);</span><br><span class="line">        helper(root.right,list);</span><br><span class="line">        helper(root.left,list);</span><br><span class="line">        list.remove(list.size() - 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//    List&lt;String&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">//    public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123;</span><br><span class="line">//        if (root == null)return new ArrayList&lt;&gt;();</span><br><span class="line">//        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">//        list.add(root.val);</span><br><span class="line">//        helper(root,list);</span><br><span class="line">//        return res;</span><br><span class="line">//    &#125;</span><br><span class="line">//</span><br><span class="line">//    private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123;</span><br><span class="line">//        if (root.left == null &amp;&amp; root.right == null)&#123;</span><br><span class="line">//            String s = &quot;&quot;;</span><br><span class="line">//            for (Integer node:list) &#123;</span><br><span class="line">//                if (s.equals(&quot;&quot;))&#123;</span><br><span class="line">//                    s += node+&quot;&quot;;</span><br><span class="line">//                &#125; else &#123;</span><br><span class="line">//                    s = s + &quot;-&gt;&quot;+ node;</span><br><span class="line">//                &#125;</span><br><span class="line">//            &#125;</span><br><span class="line">//            res.add(s);</span><br><span class="line">//        &#125; else if (root.left == null)&#123;</span><br><span class="line">//            list.add(root.right.val);</span><br><span class="line">//            helper(root.right,list);</span><br><span class="line">//        &#125; else if (root.right == null)&#123;</span><br><span class="line">//            list.add(root.left.val);</span><br><span class="line">//            helper(root.left,list);</span><br><span class="line">//        &#125; else &#123;</span><br><span class="line">//            ArrayList&lt;Integer&gt; mycopy=new ArrayList&lt;Integer&gt;();</span><br><span class="line">//            mycopy=(ArrayList&lt;Integer&gt;) list.clone();</span><br><span class="line">//            list.add(root.right.val);</span><br><span class="line">//            helper(root.right,list);</span><br><span class="line">//            mycopy.add(root.left.val);</span><br><span class="line">//            helper(root.left,mycopy);</span><br><span class="line">//        &#125;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L236-TreeLowestCommonAncestor/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L236-TreeLowestCommonAncestor/" itemprop="url">L236_TreeLowestCommonAncestor</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:15:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:27:00+08:00">
                 2016-01-26
               </time>
             
@@ -818,7 +342,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</span><br><span class="line"> *</span><br><span class="line"> * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</span><br><span class="line"> *</span><br><span class="line"> * 例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1</span><br><span class="line"> * 输出: 3</span><br><span class="line"> * 解释: 节点 5 和节点 1 的最近公共祖先是节点 3。</span><br><span class="line"> * 示例 2:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4</span><br><span class="line"> * 输出: 5</span><br><span class="line"> * 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 说明:</span><br><span class="line"> *</span><br><span class="line"> * 所有节点的值都是唯一的。</span><br><span class="line"> * p、q 为不同节点且均存在于给定的二叉树中。</span><br><span class="line"> *</span><br><span class="line"> * LCA 问题，查阅相关资料</span><br><span class="line"> */</span><br><span class="line">public class L236_TreeLowestCommonAncestor &#123;</span><br><span class="line">    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123;</span><br><span class="line">        if (root == null) return null;</span><br><span class="line">        if (root == q || root == p)&#123;</span><br><span class="line">            return root;//找到待查询的值，一层一层向外传递</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode left = lowestCommonAncestor(root.left,p,q);</span><br><span class="line">        TreeNode right = lowestCommonAncestor(root.right,p,q);</span><br><span class="line">        if (left != null &amp;&amp; right != null)&#123;</span><br><span class="line">            return root;</span><br><span class="line">        &#125; else if (left != null)&#123;</span><br><span class="line">            return left;</span><br><span class="line">        &#125; else if (right != null)&#123;</span><br><span class="line">            return right;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L700_SearchBST &#123;</span><br><span class="line">    public TreeNode searchBST(TreeNode root, int val) &#123;</span><br><span class="line">        if(root == null) return null;</span><br><span class="line">        if(root.val == val) return root;</span><br><span class="line">        TreeNode left = searchBST(root.left,val);</span><br><span class="line">        TreeNode right = searchBST(root.right,val);</span><br><span class="line">        if(left != null)&#123;</span><br><span class="line">            return left;</span><br><span class="line">        &#125;</span><br><span class="line">        if(right != null)&#123;</span><br><span class="line">            return right;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -866,7 +390,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L235-BSTLowestCommonAncestor/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L687-LongestUnivaluePath/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -885,7 +409,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L235-BSTLowestCommonAncestor/" itemprop="url">L235_BSTLowestCommonAncestor</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L687-LongestUnivaluePath/" itemprop="url">L687_LongestUnivaluePath</a></h1>
         
 
         <div class="post-meta">
@@ -897,7 +421,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:14:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:26:00+08:00">
                 2016-01-26
               </time>
             
@@ -937,7 +461,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。</span><br><span class="line"> *</span><br><span class="line"> * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</span><br><span class="line"> *</span><br><span class="line"> * 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8</span><br><span class="line"> * 输出: 6</span><br><span class="line"> * 解释: 节点 2 和节点 8 的最近公共祖先是 6。</span><br><span class="line"> * 示例 2:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4</span><br><span class="line"> * 输出: 2</span><br><span class="line"> * 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 说明:</span><br><span class="line"> *</span><br><span class="line"> * 所有节点的值都是唯一的。</span><br><span class="line"> * p、q 为不同节点且均存在于给定的二叉搜索树中。</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * //todo 可以利用二叉搜索树的特性</span><br><span class="line"> */</span><br><span class="line">public class L235_BSTLowestCommonAncestor &#123;</span><br><span class="line">    TreeNode res = null;</span><br><span class="line">    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123;</span><br><span class="line">        if (root == null) return null;</span><br><span class="line">        helper(root,p,q);</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root, TreeNode p, TreeNode q) &#123;</span><br><span class="line">        if(root == null)return;</span><br><span class="line">        if ((p.val - root.val)*(q.val - root.val) &lt;= 0)&#123;//一定在最近公共祖先的两侧</span><br><span class="line">            res = root;</span><br><span class="line">        &#125; else if (p.val &gt; root.val &amp;&amp; q.val &gt; root.val)&#123;</span><br><span class="line">            helper(root.right,q,p);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            helper(root.left,p,q);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * 解题思路类似于124题, 对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况:</span><br><span class="line"> * 1. 其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径</span><br><span class="line"> * 2. 左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径</span><br><span class="line"> * 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据</span><br><span class="line"> */</span><br><span class="line">public class L687_LongestUnivaluePath &#123;</span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private int max = 0;</span><br><span class="line">    public int longestUnivaluePath(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return 0;</span><br><span class="line">        helper(root,root.val);</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int helper(TreeNode node, int val) &#123;</span><br><span class="line">        if (node == null)return 0;</span><br><span class="line">        int left = helper(node.left,node.val);</span><br><span class="line">        int right = helper(node.right,node.val);</span><br><span class="line">        max = Math.max(max,left + right);// 路径长度为节点数减1所以此处不加1</span><br><span class="line">        if (node.val == val)</span><br><span class="line">            return Math.max(left,right) + 1;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">//        下面是自己作物的思路</span><br><span class="line">//        if (node.val == val)&#123;</span><br><span class="line">//            return Math.max(helper(node.left,node.val,count+1),helper(node.right,node.val,count+1));</span><br><span class="line">//        &#125; else &#123;</span><br><span class="line">//            return Math.max(helper(node.left,node.val,count),helper(node.right,node.val,count));</span><br><span class="line">//        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -985,7 +509,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L230-TreeKthSmallest/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L671-BSTFindSecondMinimumValue/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -1004,7 +528,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L230-TreeKthSmallest/" itemprop="url">L230_TreeKthSmallest</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L671-BSTFindSecondMinimumValue/" itemprop="url">L671_BSTFindSecondMinimumValue</a></h1>
         
 
         <div class="post-meta">
@@ -1016,148 +540,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:13:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.Stack;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。</span><br><span class="line"> *</span><br><span class="line"> * 说明：</span><br><span class="line"> * 你可以假设 k 总是有效的，1 ≤ k ≤ 二叉搜索树元素个数。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [3,1,4,null,2], k = 1</span><br><span class="line"> *    3</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   4</span><br><span class="line"> *   \</span><br><span class="line"> *    2</span><br><span class="line"> * 输出: 1</span><br><span class="line"> * 示例 2:</span><br><span class="line"> *</span><br><span class="line"> * 输入: root = [5,3,6,2,4,null,null,1], k = 3</span><br><span class="line"> *        5</span><br><span class="line"> *       / \</span><br><span class="line"> *      3   6</span><br><span class="line"> *     / \</span><br><span class="line"> *    2   4</span><br><span class="line"> *   /</span><br><span class="line"> *  1</span><br><span class="line"> * 输出: 3</span><br><span class="line"> *</span><br><span class="line"> * 中序遍历，是升序的</span><br><span class="line"> */</span><br><span class="line">public class L230_TreeKthSmallest &#123;</span><br><span class="line">    public int kthSmallest(TreeNode root, int k) &#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();</span><br><span class="line">        int i = 0;</span><br><span class="line">        TreeNode cur = root;</span><br><span class="line">        while (true)&#123;//重要</span><br><span class="line">            while (cur != null)&#123;</span><br><span class="line">                stack.push(cur);</span><br><span class="line">                cur = cur.left;</span><br><span class="line">            &#125;</span><br><span class="line">            if (stack.isEmpty())&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            TreeNode node = stack.pop();</span><br><span class="line">            if (i == k - 1)&#123;</span><br><span class="line">                return node.val;</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">            cur = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L226-InvertTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L226-InvertTree/" itemprop="url">L226_InvertTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:12:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:25:00+08:00">
                 2016-01-26
               </time>
             
@@ -1219,7 +602,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 翻转一棵二叉树。</span><br><span class="line"> *</span><br><span class="line"> * 示例：</span><br><span class="line"> *</span><br><span class="line"> * 输入：</span><br><span class="line"> *</span><br><span class="line"> *      4</span><br><span class="line"> *    /   \</span><br><span class="line"> *   2     7</span><br><span class="line"> *  / \   / \</span><br><span class="line"> * 1   3 6   9</span><br><span class="line"> * 输出：</span><br><span class="line"> *</span><br><span class="line"> *      4</span><br><span class="line"> *    /   \</span><br><span class="line"> *   7     2</span><br><span class="line"> *  / \   / \</span><br><span class="line"> * 9   6 3   1</span><br><span class="line"> * 备注:</span><br><span class="line"> * 这个问题是受到 Max Howell 的 原问题 启发的 ：</span><br><span class="line"> *</span><br><span class="line"> * 谷歌：我们90％的工程师使用您编写的软件(Homebrew)，但是您却无法在面试时在白板上写出翻转二叉树这道题，这太糟糕了。</span><br><span class="line"> */</span><br><span class="line">public class L226_InvertTree &#123;</span><br><span class="line"></span><br><span class="line">    public TreeNode invertTree(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return null;</span><br><span class="line">        helper(root);</span><br><span class="line">        return root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return; // todo 必须在首位</span><br><span class="line">        helper(root.left);</span><br><span class="line">        helper(root.right);</span><br><span class="line"></span><br><span class="line">        //下面的代码，可在最前，也可以在最后</span><br><span class="line">        TreeNode tmp = root.left;</span><br><span class="line">        root.left = root.right;</span><br><span class="line">        root.right = tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个非空特殊的二叉树，每个节点都是正数，并且每个节点的子节点数量只能为 2 或 0。如果一个节点有两个子节点的话，那么这个节点的值不大于它的子节点的值。</span><br><span class="line"> *</span><br><span class="line"> * 给出这样的一个二叉树，你需要输出所有节点中的第二小的值。如果第二小的值不存在的话，输出 -1 。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *     2</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   5</span><br><span class="line"> *      / \</span><br><span class="line"> *     5   7</span><br><span class="line"> *</span><br><span class="line"> * 输出: 5</span><br><span class="line"> * 说明: 最小的值是 2 ，第二小的值是 5 。</span><br><span class="line"> * 示例 2:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *     2</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   2</span><br><span class="line"> *</span><br><span class="line"> * 输出: -1</span><br><span class="line"> * 说明: 最小的值是 2, 但是不存在第二小的值。</span><br><span class="line"> */</span><br><span class="line">public class L671_BSTFindSecondMinimumValue &#123;</span><br><span class="line">    int second = -1;</span><br><span class="line">    public int findSecondMinimumValue(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return -1;</span><br><span class="line">        helper(root,root.val);</span><br><span class="line">        return second;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root, int min) &#123;</span><br><span class="line">        if (root == null)return;</span><br><span class="line">        if (root.val == min)&#123;</span><br><span class="line">            helper(root.left,min);</span><br><span class="line">            helper(root.right,min);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (second == -1 || root.val &lt; second)&#123;</span><br><span class="line">            second = root.val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1267,7 +650,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L222-TreeCountNodes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L654-ConstructMaximumBinaryTree/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -1286,7 +669,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L222-TreeCountNodes/" itemprop="url">L222_TreeCountNodes</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L654-ConstructMaximumBinaryTree/" itemprop="url">L654_ConstructMaximumBinaryTree</a></h1>
         
 
         <div class="post-meta">
@@ -1298,7 +681,126 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:11:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:24:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个不含重复元素的整数数组。一个以此数组构建的最大二叉树定义如下：</span><br><span class="line"> *</span><br><span class="line"> * 二叉树的根是数组中的最大元素。</span><br><span class="line"> * 左子树是通过数组中最大值左边部分构造出的最大二叉树。</span><br><span class="line"> * 右子树是通过数组中最大值右边部分构造出的最大二叉树。</span><br><span class="line"> * 通过给定的数组构建最大二叉树，并且输出这个树的根节点。</span><br><span class="line"> *</span><br><span class="line"> * Example 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入: [3,2,1,6,0,5]</span><br><span class="line"> * 输入: 返回下面这棵树的根节点：</span><br><span class="line"> *</span><br><span class="line"> *       6</span><br><span class="line"> *     /   \</span><br><span class="line"> *    3     5</span><br><span class="line"> *     \    /</span><br><span class="line"> *      2  0</span><br><span class="line"> *        \</span><br><span class="line"> *         1</span><br><span class="line"> * 注意:</span><br><span class="line"> *</span><br><span class="line"> * 给定的数组的大小在 [1, 1000] 之间。</span><br><span class="line"> */</span><br><span class="line">public class L654_ConstructMaximumBinaryTree &#123;</span><br><span class="line">    public TreeNode constructMaximumBinaryTree(int[] nums) &#123;</span><br><span class="line">        return buildTree(nums,0,nums.length -1);</span><br><span class="line">    &#125;</span><br><span class="line">    public TreeNode  buildTree(int[] nums, int start, int end)&#123;</span><br><span class="line">        if (start &gt; end)&#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int maxIndex = maxIndex(nums, start, end);</span><br><span class="line">        TreeNode root = new TreeNode(nums[maxIndex]);</span><br><span class="line">        root.left = buildTree(nums,start,maxIndex - 1);</span><br><span class="line">        root.right = buildTree(nums,maxIndex + 1,end);</span><br><span class="line">        return root;</span><br><span class="line">    &#125;</span><br><span class="line">    public int maxIndex(int[] arr,int start,int end)&#123;</span><br><span class="line">        int maxIndex = start;</span><br><span class="line">        for(int i = start ;i &lt;= end; i++)&#123;</span><br><span class="line">            if (arr[i] &gt; arr[maxIndex])&#123;</span><br><span class="line">                maxIndex = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return maxIndex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L572-IsSubtree/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L572-IsSubtree/" itemprop="url">L572_IsSubtree</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:23:00+08:00">
                 2016-01-26
               </time>
             
@@ -1360,7 +862,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给出一个完全二叉树，求出该树的节点个数。</span><br><span class="line"> *</span><br><span class="line"> * 说明：</span><br><span class="line"> *</span><br><span class="line"> * 完全二叉树的定义如下：在完全二叉树中，除了最底层节点可能没填满外，其余每层节点数都达到最大值，并且最下面一层的节点都集中在该层最左边的若干位置。若最底层为第 h 层，则该层包含 1~ 2h 个节点。</span><br><span class="line"> *</span><br><span class="line"> * 示例:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *     1</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   3</span><br><span class="line"> *  / \  /</span><br><span class="line"> * 4  5 6</span><br><span class="line"> *</span><br><span class="line"> * 输出: 6</span><br><span class="line"> */</span><br><span class="line">public class L222_TreeCountNodes &#123;</span><br><span class="line">    public int countNodes(TreeNode root) &#123;</span><br><span class="line">        if(root == null) return 0;</span><br><span class="line">        return countNodes(root.left) + countNodes(root.right) + 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">//    public int countNodes(TreeNode root) &#123;</span><br><span class="line">//        /**</span><br><span class="line">//         完全二叉树的高度可以直接通过不断地访问左子树就可以获取</span><br><span class="line">//         判断左右子树的高度:</span><br><span class="line">//         如果相等说明左子树是满二叉树, 然后进一步判断右子树的节点数(最后一层最后出现的节点必然在右子树中)</span><br><span class="line">//         如果不等说明右子树是深度小于左子树的满二叉树, 然后进一步判断左子树的节点数(最后一层最后出现的节点必然在左子树中)</span><br><span class="line">//         **/</span><br><span class="line">//        if (root==null) return 0;</span><br><span class="line">//        int ld = getDepth(root.left);</span><br><span class="line">//        int rd = getDepth(root.right);</span><br><span class="line">//        if(ld == rd)</span><br><span class="line">//            return (1 &lt;&lt; ld) + countNodes(root.right); // 1(根节点) + (1 &lt;&lt; ld)-1(左完全左子树节点数) + 右子树节点数量</span><br><span class="line">//        else</span><br><span class="line">//            return (1 &lt;&lt; rd) + countNodes(root.left);  // 1(根节点) + (1 &lt;&lt; rd)-1(右完全右子树节点数) + 左子树节点数量</span><br><span class="line">//</span><br><span class="line">//    &#125;</span><br><span class="line">//</span><br><span class="line">//    private int getDepth(TreeNode r) &#123;</span><br><span class="line">//        int depth = 0;</span><br><span class="line">//        while(r != null) &#123;</span><br><span class="line">//            depth++;</span><br><span class="line">//            r = r.left;</span><br><span class="line">//        &#125;</span><br><span class="line">//        return depth;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> * 给定的树 s:</span><br><span class="line"> *</span><br><span class="line"> *      3</span><br><span class="line"> *     / \</span><br><span class="line"> *    4   5</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 给定的树 t：</span><br><span class="line"> *</span><br><span class="line"> *    4</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。</span><br><span class="line"> *</span><br><span class="line"> * 示例 2:</span><br><span class="line"> * 给定的树 s：</span><br><span class="line"> *</span><br><span class="line"> *      3</span><br><span class="line"> *     / \</span><br><span class="line"> *    4   5</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> *     /</span><br><span class="line"> *    0</span><br><span class="line"> * 给定的树 t：</span><br><span class="line"> *</span><br><span class="line"> *    4</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 返回 false。</span><br><span class="line"> */</span><br><span class="line">public class L572_IsSubtree &#123;</span><br><span class="line">    public boolean isSubtree(TreeNode s, TreeNode t) &#123;</span><br><span class="line">        if (s == null &amp;&amp; t != null)return false;</span><br><span class="line">        return isSame(s,t) || isSubtree(s.left,t) || isSubtree(s.right,t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private boolean isSame(TreeNode s, TreeNode t) &#123;</span><br><span class="line">        if (s!= null &amp;&amp; t != null)&#123;</span><br><span class="line">            return s.val == t.val &amp;&amp; isSame(s.left,t.left) &amp;&amp; isSame(s.right,t.right);</span><br><span class="line">        &#125; else if (s == null &amp;&amp; t == null)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1408,7 +910,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L199-TreeRightSideView/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L617-MergeTrees/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -1427,7 +929,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L199-TreeRightSideView/" itemprop="url">L199_TreeRightSideView</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L617-MergeTrees/" itemprop="url">L617_MergeTrees</a></h1>
         
 
         <div class="post-meta">
@@ -1439,7 +941,483 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:10:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:23:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。</span><br><span class="line"> *</span><br><span class="line"> * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> * 	Tree 1                     Tree 2</span><br><span class="line"> *           1                         2</span><br><span class="line"> *          / \                       / \</span><br><span class="line"> *         3   2                     1   3</span><br><span class="line"> *        /                           \   \</span><br><span class="line"> *       5                             4   7</span><br><span class="line"> * 输出:</span><br><span class="line"> * 合并后的树:</span><br><span class="line"> * 	     3</span><br><span class="line"> * 	    / \</span><br><span class="line"> * 	   4   5</span><br><span class="line"> * 	  / \   \</span><br><span class="line"> * 	 5   4   7</span><br><span class="line"> * 注意: 合并必须从两个树的根节点开始。</span><br><span class="line"> */</span><br><span class="line">public class L617_MergeTrees &#123;</span><br><span class="line"></span><br><span class="line">    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123;</span><br><span class="line">        if (t1 == null) return t2;</span><br><span class="line">        if (t2 == null) return t1;</span><br><span class="line">        TreeNode cur = new TreeNode(t1.val + t2.val);</span><br><span class="line">        cur.left = mergeTrees(t1.left,t2.left);</span><br><span class="line">        cur.right = mergeTrees(t1.right,t2.right);</span><br><span class="line">        return cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L543-DiameterOfBinaryTree/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L543-DiameterOfBinaryTree/" itemprop="url">L543_DiameterOfBinaryTree</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:22:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。</span><br><span class="line"> *</span><br><span class="line"> * 示例 :</span><br><span class="line"> * 给定二叉树</span><br><span class="line"> *</span><br><span class="line"> *           1</span><br><span class="line"> *          / \</span><br><span class="line"> *         2   3</span><br><span class="line"> *        / \</span><br><span class="line"> *       4   5</span><br><span class="line"> * 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。</span><br><span class="line"> *</span><br><span class="line"> * 注意：两结点之间的路径长度是以它们之间边的数目表示。</span><br><span class="line"> */</span><br><span class="line">public class L543_DiameterOfBinaryTree &#123;</span><br><span class="line">    private int rst = 0;</span><br><span class="line">    public int diameterOfBinaryTree(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return 0;</span><br><span class="line">        helper(root);</span><br><span class="line">        return rst;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int helper(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return 0;</span><br><span class="line">        int left = helper(root.left);</span><br><span class="line">        int right = helper(root.right);</span><br><span class="line">        if (rst &lt; left + right) rst = left + right;</span><br><span class="line">        return Math.max(left,right) + 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L530-BSTgetMinimumDifference/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L530-BSTgetMinimumDifference/" itemprop="url">L530_BSTgetMinimumDifference</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:21:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L530_BSTgetMinimumDifference &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * //二叉查找树中，中间节点的值一定是其左右节点值的中间数，因此最小差别一定是在中间节点与左右节点之间</span><br><span class="line">     * //中序遍历二叉查找树，每次比较当前节点与前一节点差值的绝对值与目前result中保存的最小值的大小，将较小的保存在result中</span><br><span class="line">     *</span><br><span class="line">     * @param root</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private int result = Integer.MAX_VALUE; private TreeNode preNode = null;</span><br><span class="line">    public int getMinimumDifference(TreeNode root) &#123;</span><br><span class="line">        getMin(root);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void getMin(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        getMin(root.left);</span><br><span class="line">        if(preNode != null)//todo</span><br><span class="line">        &#123;</span><br><span class="line">            result = Math.min(Math.abs(root.val - preNode.val), result);</span><br><span class="line">        &#125;</span><br><span class="line">        preNode = root;</span><br><span class="line">        getMin(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L501-BSTFindMode/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L501-BSTFindMode/" itemprop="url">L501_BSTFindMode</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:20:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个有相同值的二叉搜索树（BST），找出 BST 中的所有众数（出现频率最高的元素）。</span><br><span class="line"> *</span><br><span class="line"> * 假定 BST 有如下定义：</span><br><span class="line"> *</span><br><span class="line"> * 结点左子树中所含结点的值小于等于当前结点的值</span><br><span class="line"> * 结点右子树中所含结点的值大于等于当前结点的值</span><br><span class="line"> * 左子树和右子树都是二叉搜索树</span><br><span class="line"> * 例如：</span><br><span class="line"> * 给定 BST [1,null,2,2],</span><br><span class="line"> *</span><br><span class="line"> *    1</span><br><span class="line"> *     \</span><br><span class="line"> *      2</span><br><span class="line"> *     /</span><br><span class="line"> *    2</span><br><span class="line"> * 返回[2].</span><br><span class="line"> *</span><br><span class="line"> * 提示：如果众数超过1个，不需考虑输出顺序</span><br><span class="line"> *</span><br><span class="line"> * 进阶：你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内）</span><br><span class="line"> *</span><br><span class="line"> * 使用中序遍历</span><br><span class="line"> * https://blog.csdn.net/qq_38959715/article/details/82682383</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class L501_BSTFindMode &#123;</span><br><span class="line">    TreeNode pre = null;//todo must全局</span><br><span class="line">    Integer curTimes = 1,maxTimes = 0;//todo must全局</span><br><span class="line">    public int[] findMode(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return new int[]&#123;&#125;;</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        inOrder(root,list);</span><br><span class="line"></span><br><span class="line">        int[] result = new int[list.size()];</span><br><span class="line">        for(int i = 0;i&lt;list.size();i++)&#123;</span><br><span class="line">            result[i] = list.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void inOrder(TreeNode root, List&lt;Integer&gt; list) &#123;</span><br><span class="line">        if (root == null) return;</span><br><span class="line">        inOrder(root.left,list);</span><br><span class="line">        if (pre != null)&#123;</span><br><span class="line">            curTimes = (root.val == pre.val) ? curTimes + 1 : 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (curTimes == maxTimes)&#123;</span><br><span class="line">            list.add(root.val);</span><br><span class="line">        &#125; else if (curTimes &gt; maxTimes)&#123;</span><br><span class="line">            list.clear();</span><br><span class="line">            list.add(root.val);</span><br><span class="line">            maxTimes = curTimes;</span><br><span class="line">        &#125;</span><br><span class="line">        pre = root;</span><br><span class="line">        inOrder(root.right,list);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        TreeNode r = new TreeNode(1);</span><br><span class="line">        TreeNode t1  = new TreeNode(2);</span><br><span class="line">        TreeNode t2 = new TreeNode(2);</span><br><span class="line">        r.right = t1;</span><br><span class="line">        t1.left = t2;</span><br><span class="line">        L501_BSTFindMode t = new L501_BSTFindMode();</span><br><span class="line">        int[] mode = t.findMode(r);</span><br><span class="line">        for (int x:mode) &#123;</span><br><span class="line">            System.out.println(x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L437-TreePathSum/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L437-TreePathSum/" itemprop="url">L437_TreePathSum</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:19:00+08:00">
                 2016-01-26
               </time>
             
@@ -1501,7 +1479,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayDeque;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。</span><br><span class="line"> *</span><br><span class="line"> * 示例:</span><br><span class="line"> *</span><br><span class="line"> * 输入: [1,2,3,null,5,null,4]</span><br><span class="line"> * 输出: [1, 3, 4]</span><br><span class="line"> * 解释:</span><br><span class="line"> *</span><br><span class="line"> *    1            &lt;---</span><br><span class="line"> *  /   \</span><br><span class="line"> * 2     3         &lt;---</span><br><span class="line"> *  \     \</span><br><span class="line"> *   5     4       &lt;---</span><br><span class="line"> */</span><br><span class="line">public class L199_TreeRightSideView &#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    public List&lt;Integer&gt; rightSideView(TreeNode root) &#123;</span><br><span class="line">        List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();</span><br><span class="line">        if(root == null) return res;</span><br><span class="line">        ArrayDeque&lt;TreeNode&gt; queue = new ArrayDeque&lt;TreeNode&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        while(!queue.isEmpty())&#123;</span><br><span class="line">            int cont = queue.size();</span><br><span class="line">            TreeNode node = queue.peek();//todo 队列是先进先出的，因为下面优先遍历的是右子树</span><br><span class="line">            res.add(node.val);</span><br><span class="line">            while(cont &gt; 0)&#123;</span><br><span class="line">                node = queue.poll();</span><br><span class="line">                if(node.right != null) queue.add(node.right);//todo here</span><br><span class="line">                if(node.left != null) queue.add(node.left);</span><br><span class="line">                cont--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.Stack;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉树，它的每个结点都存放着一个整数值。</span><br><span class="line"> *</span><br><span class="line"> * 找出路径和等于给定数值的路径总数。</span><br><span class="line"> *</span><br><span class="line"> * 路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。</span><br><span class="line"> *</span><br><span class="line"> * 二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</span><br><span class="line"> *</span><br><span class="line"> * 示例：</span><br><span class="line"> *</span><br><span class="line"> * root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8</span><br><span class="line"> *</span><br><span class="line"> *       10</span><br><span class="line"> *      /  \</span><br><span class="line"> *     5   -3</span><br><span class="line"> *    / \    \</span><br><span class="line"> *   3   2   11</span><br><span class="line"> *  / \   \</span><br><span class="line"> * 3  -2   1</span><br><span class="line"> *</span><br><span class="line"> * 返回 3。和等于 8 的路径有:</span><br><span class="line"> *</span><br><span class="line"> * 1.  5 -&gt; 3</span><br><span class="line"> * 2.  5 -&gt; 2 -&gt; 1</span><br><span class="line"> * 3.  -3 -&gt; 11</span><br><span class="line"> */</span><br><span class="line">public class L437_TreePathSum &#123;</span><br><span class="line">    public int pathSum(TreeNode root, int sum) &#123;</span><br><span class="line">        int count = 0;</span><br><span class="line">        if(root == null)</span><br><span class="line">            return 0;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();</span><br><span class="line">        stack.add(root);</span><br><span class="line">        while(!stack.isEmpty())&#123;</span><br><span class="line">            TreeNode node = stack.pop();</span><br><span class="line">            count += helper(node, sum);</span><br><span class="line">            if(node.right != null)</span><br><span class="line">                stack.push(node.right);</span><br><span class="line">            if(node.left != null)</span><br><span class="line">                stack.push(node.left);</span><br><span class="line">        &#125;</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int helper(TreeNode root, int sum) &#123;</span><br><span class="line">        int count = 0;</span><br><span class="line">        if(root == null)</span><br><span class="line">            return 0;</span><br><span class="line">        if(sum == root.val)&#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        count += helper(root.left, sum-root.val);</span><br><span class="line">        count += helper(root.right, sum-root.val);</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//    public int pathSum(TreeNode root, int sum) &#123;</span><br><span class="line">//        if(root == null) return 0;</span><br><span class="line">//        int res = helper(root,sum);</span><br><span class="line">//        res += pathSum(root.left,sum);</span><br><span class="line">//        res += pathSum(root.right,sum);</span><br><span class="line">//        return res;</span><br><span class="line">//    &#125;</span><br><span class="line">//    public int helper(TreeNode node,int num)&#123;</span><br><span class="line">//        if(node == null)&#123;</span><br><span class="line">//            return 0;</span><br><span class="line">//        &#125;</span><br><span class="line">//        int res = 0;</span><br><span class="line">//        if(node.val == num)&#123;</span><br><span class="line">//            res++;</span><br><span class="line">//        &#125;</span><br><span class="line">//        res += helper(node.left,num - node.val);</span><br><span class="line">//        res += helper(node.right,num - node.val);</span><br><span class="line">//        return res;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1540,7 +1518,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1588,7 +1566,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1599,7 +1577,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1610,7 +1588,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

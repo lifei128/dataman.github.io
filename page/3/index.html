@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L700-SearchBST/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/转置文件/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L700-SearchBST/" itemprop="url">L700_SearchBST</a></h1>
+                <a class="post-title-link" href="/2019/01/26/转置文件/" itemprop="url">转置文件</a></h1>
         
 
         <div class="post-meta">
@@ -280,7 +280,1219 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:27:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:16:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个文件 file.txt，转置它的内容。</p>
+<p>你可以假设每行列数相同，并且每个字段由 ‘ ‘ 分隔.</p>
+<p>示例:</p>
+<p>假设 file.txt 文件内容如下：</p>
+<p>name age<br>alice 21<br>ryan 30<br>应当输出：</p>
+<p>name alice ryan<br>age 21 30  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file.txt | awk &apos;&#123;for(i=1;i&lt;=NF;i++)&#123;if(NR==1)&#123;res[i]=$i&#125;else&#123;res[i]=res[i]&quot; &quot;$i&#125;&#125;&#125;END&#123;for(i=1;i&lt;=NF;i++)&#123;print res[i]&#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/第十行/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/第十行/" itemprop="url">第十行</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:14:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个文本文件 file.txt，请只打印这个文件中的第十行。</p>
+<p>示例:</p>
+<p>假设 file.txt 有如下内容：</p>
+<p>Line 1<br>Line 2<br>Line 3<br>Line 4<br>Line 5<br>Line 6<br>Line 7<br>Line 8<br>Line 9<br>Line 10<br>你的脚本应当显示第十行：</p>
+<p>Line 10<br>说明:</p>
+<ol>
+<li>如果文件少于十行，你应当输出什么？</li>
+<li>至少有三种不同的解法，请尝试尽可能多的方法来解题。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tail -n +10 file.txt | head -n 1</span><br><span class="line">awk &apos;NR==10&#123;print $0&#125;&apos; file.txt</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/统计词频/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/统计词频/" itemprop="url">统计词频</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:02:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>cat words.txt | tr  -s &quot; &quot; &quot;\n&quot; |sort |uniq -c | sort -r -n | awk &#39;{print $2,$1}&#39;</code><br>tr -s 将重复出现字符串压缩为一个字符串<br>“ “ “\n”   将空格替换为换行<br>uniq 命令删除文件中的重复行。uniq 命令读取由 InFile 参数指定的标准输入或文件。该命令首先比较相邻的行，然后除去第二行和该行的后续副本。重复的行一定相邻。（<strong>所以一定要在发出 uniq 命令之前，请使用 sort 命令使所有重复行相邻。</strong>）<br>sort -n按照数值排序<br>sort -r降序排序<br>sort file.txt | uniq -c    -c或–count在每列旁边显示该行重复出现的次数  </p>
+<p>另:<br>删除字符asd<br>tr -d ‘asd’<br>删除空行<br>tr -s ‘\n’<br>sort -u 去重,如果只有sort是不会去重<br>sort file.txt | uniq -u     -u或——unique：仅显示出一次的行列；只显示单一行<br>sort file.txt | uniq -d    -d或–repeated：仅显示重复出现的行列</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/数据结构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/数据结构/" itemprop="url">数据结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T01:51:00+08:00">
+                2019-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>天下武功唯快不破，快是基本功，那么算法中的基本功首推递归<br>递归，迭代相互转换<br>动态规划<br>深度优先<br>广度优先<br>贪心算法<br>回溯算法<br>二分查找<br>分治算法<br>双指针<br>排序  </p>
+<p>数组<br>链表<br>栈<br>队列<br>堆<br>树<br>图</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-LeftSemiJoin/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/25/hive-LeftSemiJoin/" itemprop="url">left semi join</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T20:03:00+08:00">
+                2019-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/pasted-3.png" alt="upload successful"></p>
+<p><img src="/images/pasted-4.png" alt="upload successful"><br>参考:<br><a href="https://blog.csdn.net/happyrocking/article/details/79885071">https://blog.csdn.net/happyrocking/article/details/79885071</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-join倾斜/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/25/hive-join倾斜/" itemprop="url">join倾斜</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T19:51:00+08:00">
+                2019-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
+<p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive_groupby倾斜/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/25/hive_groupby倾斜/" itemprop="url">group by数据倾斜</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T12:19:00+08:00">
+                2019-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="group-by数据倾斜"><a href="#group-by数据倾斜" class="headerlink" title="group by数据倾斜"></a>group by数据倾斜</h1><p>倾斜原因：<br>select count(distinct name) from user时 使用distinct会将所有的name值都shuffle到一个reducer里面。<br>特别的有select uid, count(distinct name) from user group by uid; 即count distinct + （group by）的情况。</p>
+<h2 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h2><p>（1）主要是把count distinct改变成group by。<br>改变上面的sql为select uid, count(name) from (select uid, name from user group by uid, name)t group by uid.<br>（2）给group by 字段加随机数打散，聚合，之后把随机数去掉，再次聚合（有点类似下面的参数SET hive.groupby.skewindata=true;）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, count(name) names</span><br><span class="line">  from </span><br><span class="line">  (</span><br><span class="line">    select uid, name</span><br><span class="line">    from user</span><br><span class="line">    group by uid, name</span><br><span class="line">  )a</span><br><span class="line">  group by concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1))</span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br><span class="line"></span><br><span class="line">等同于下面</span><br><span class="line"></span><br><span class="line">select split(uid, &apos;_&apos;)[0] uid, sum(names) from</span><br><span class="line">(</span><br><span class="line">  select uid,count(name) names from (</span><br><span class="line">	  select concat_ws(&apos;-&apos;, uid, substr(rand()*10, 1, 1)) uid, name</span><br><span class="line">	  from </span><br><span class="line">	  (</span><br><span class="line">	    select uid, name</span><br><span class="line">	    from user</span><br><span class="line">	    group by uid, name</span><br><span class="line">	  )a</span><br><span class="line">  ) c </span><br><span class="line">  group by uid </span><br><span class="line">)b</span><br><span class="line">group by split(uid, &apos;_&apos;)[0]</span><br></pre></td></tr></table></figure></p>
+<p>  (3)SET hive.groupby.skewindata=true; 当选项设定为 true，生成的查询计划会有两个 MR Job。第一个 MR Job 中，Map 的输出结果集合会随机分布到 Reduce 中，该Reduce 做部分聚合操作，并输出结果，这样处理的结果是相同的 Group By Key 有可能被分发到不同的 Reduce 中，从而达到负载均衡的目的；第二个 MR Job 再根据预处理的数据结果按照 Group By Key 分布到 Reduce 中（这个过程可以保证相同的 Group By Key 被分布到同一个 Reduce 中），最后完成最终的聚合操作.<br>set hive.map.aggr=true; 在mapper端部分聚合，相当于Combiner 。而Map-Side聚合，一般在聚合函数sum,count时使用。  </p>
+<blockquote>
+<p>无论你使用Map端，或者两道作业。其原理都是通过部分聚合来来减少数据量。能不能部分聚合，部分聚合能不能有效减少数据量，通常与UDAF，也就是聚合函数有关。也就是<strong>只对代数聚合函数有效，对整体聚合函数无效</strong>。<br>所谓代数聚合函数，就是由部分结果可以汇总出整体结果的函数，如count，sum。 所谓整体聚合函数，就是无法由部分结果汇总出整体结果的函数，如avg，mean。 比如，sum, count，知道部分结果可以加和得到最终结果。 而对于，mean，avg，知道部分数据的中位数或者平均数，是求不出整体数据的中位数和平均数的。</p>
+</blockquote>
+<p>set hive.groupby.mapaggr.checkinterval=100000；–这个是group的键对应的记录条数超过这个值则会进行分拆,值根据具体数据量设置。<br>hive.map.aggr.hash.min.reduction=0.5(默认)预先取100000条数据聚合,如果聚合后的条数/100000&gt;0.5，则不再聚合   </p>
+<p>使用Hive的过程中，我们习惯性用set hive.groupby.skewindata=true来避免因数据倾斜造成的计算效率问题，但是每个设置都是把双刃剑，最近调研了下相关问题，现总结如下：</p>
+<p>从下表可以看出，skewindata配置真正发生作用，只会在以下三种情况下，能够将1个job转化为2个job：<br>select count distinct … from …<br>select a,count(<em>) from … group by a  <strong>只针对单列有效</strong><br>select count(</em>),count(distinct …) from     <strong>此处没有group by</strong><br>如下sql会报错<br>select count(*),count(distinct …) from … group by a   <strong>此处有group by</strong><br>需要改为<br>select a,sum(1),count(distinct …) from … group by a  </p>
+<p><img src="/images/pasted-0.png" alt="upload successful"></p>
+<p><img src="/images/pasted-1.png" alt="upload successful"></p>
+<p>参考：<br><a href="https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/">https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/</a><br><a href="https://blog.csdn.net/dxl342/article/details/77886577">https://blog.csdn.net/dxl342/article/details/77886577</a><br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/mapreduce模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/mapreduce模型/" itemprop="url">mapreduce模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T18:54:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
+                    <span itemprop="name">mapreduce</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre class="mermaid">graph TD
+A[Map] -->|partition,kvBuffer,sort与combiner,spill,merge| B{Shuffle}
+B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce]</pre>
+
+<p><img src="/images/pasted-6.png" alt="upload successful"></p>
+<p>从JVM的角度看Map和Reduce  </p>
+<h1 id="Map阶段包括："><a href="#Map阶段包括：" class="headerlink" title="Map阶段包括："></a>Map阶段包括：</h1><h2 id="第一读数据：从HDFS读取数据"><a href="#第一读数据：从HDFS读取数据" class="headerlink" title="第一读数据：从HDFS读取数据"></a>第一读数据：从HDFS读取数据</h2><p>1、问题:读取数据产生多少个Mapper？？<br>    Mapper数据过大的话，会产生大量的小文件，由于Mapper是基于虚拟机的，过多的Mapper创建和初始化及关闭虚拟机都会消耗大量的硬件资源；<br>   Mapper数太小，并发度过小，Job执行时间过长，无法充分利用分布式硬件资源；  </p>
+<p>2、Mapper数量由什么决定？？<br>  （1）输入文件数目<br>  （2）输入文件的大小<br>  （3）配置参数 <strong>所以说map数是可以控制的</strong><br>这三个因素决定的。</p>
+<p>涉及参数：<br>mapreduce.input.fileinputformat.split.minsize //启动map最小的split size大小，默认0     mapreduce.input.fileinputformat.split.maxsize //启动map最大的split size大小，默认256M<br>dfs.block.size//block块大小，默认64M<br>计算公式：splitSize =  Math.max(minSize, Math.min(maxSize, blockSize));   </p>
+<p>例如<strong>默认情况</strong>下：例如一个文件800M，Block大小是128M，那么Mapper数目就是7个。6个Mapper处理的数据是128M，1个Mapper处理的数据是32M；<br>再例如一个目录下有三个文件大小分别为：5M10M 150M 这个时候其实会产生四个Mapper处理的数据分别是5M，10M，128M，22M。   </p>
+<p>Mapper是基于文件自动产生的，如果想要自己控制Mapper的个数？？？  </p>
+<p>就如上面，5M，10M的数据很快处理完了，128M要很长时间；这个就需要通过参数的控制来调节Mapper的个数。  </p>
+<p>减少Mapper的个数的话，就要合并小文件，这种小文件有可能是直接来自于数据源的小文件，也可能是Reduce产生的小文件。  </p>
+<p>设置合并器：（set都是在hive脚本，也可以配置Hadoop）   </p>
+<p>设置合并器本身：<br>set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;<br>set hive.merge.mapFiles=true;<br>set hive.merge.mapredFiles=true;<br>set hive.merge.size.per.task=256000000;//每个Mapper要处理的数据，就把上面的5M10M……合并成为一个   </p>
+<p>一般还要配合一个参数：<br>set mapred.max.split.size=256000000 // mapred切分的大小<br>set mapred.min.split.size.per.node=128000000//低于128M就算小文件，数据在一个节点会合并，在多个不同的节点会把数据抓过来进行合并。   </p>
+<p>Hadoop中的参数：可以通过控制文件的数量控制mapper数量<br>mapreduce.input.fileinputformat.split.minsize（default：0），小于这个值会合并<br>mapreduce.input.fileinputformat.split.maxsize 大于这个值会切分     </p>
+<h2 id="第二处理数据："><a href="#第二处理数据：" class="headerlink" title="第二处理数据："></a>第二处理数据：</h2><p>Partition说明<br>对于map输出的每一个键值对，系统都会给定一个partition，partition值默认是通过计算key的hash值后对Reduce task的数量取模获得。如果一个键值对的partition值为1，意味着这个键值对会交给第一个Reducer处理。</p>
+<p>自定义partitioner的情况：<br>1、我们知道每一个Reduce的输出都是有序的，但是将所有Reduce的输出合并到一起却并非是全局有序的，如果要做到全局有序，我们该怎么做呢？最简单的方式，只设置一个Reduce task，但是这样完全发挥不出集群的优势，而且能应对的数据量也很受限。最佳的方式是自己定义一个Partitioner，用输入数据的最大值除以系统Reduce task数量的商作为分割边界，也就是说分割数据的边界为此商的1倍、2倍至numPartitions-1倍，这样就能保证执行partition后的数据是整体有序的。<br>2、解决数据倾斜：另一种需要我们自己定义一个Partitioner的情况是各个Reduce task处理的键值对数量极不平衡。对于某些数据集，由于很多不同的key的hash值都一样，导致这些键值对都被分给同一个Reducer处理，而其他的Reducer处理的键值对很少，从而拖延整个任务的进度。当然，编写自己的Partitioner必须要保证具有相同key值的键值对分发到同一个Reducer。<br>3、自定义的Key包含了好几个字段，比如自定义key是一个对象，包括type1，type2，type3,只需要根据type1去分发数据，其他字段用作二次排序。   </p>
+<p>环形缓冲区<br>    Map的输出结果是由collector处理的，每个Map任务不断地将键值对输出到在内存中构造的一个环形数据结构中。使用环形数据结构是为了更有效地使用内存空间，在内存中放置尽可能多的数据。   </p>
+<p>这个数据结构其实就是个字节数组，叫Kvbuffer，名如其义，但是这里面不光放置了数据，还放置了一些索引数据，给放置索引数据的区域起了一个Kvmeta的别名，在Kvbuffer的一块区域上穿了一个IntBuffer（字节序采用的是平台自身的字节序）的马甲。数据区域和索引数据区域在Kvbuffer中是相邻不重叠的两个区域，用一个分界点来划分两者，分界点不是亘古不变的，而是每次Spill之后都会更新一次。初始的分界点是0，数据的存储方向是向上增长，索引数据的存储方向是向下增长Kvbuffer的存放指针bufindex是一直闷着头地向上增长，比如bufindex初始值为0，一个Int型的key写完之后，bufindex增长为4，一个Int型的value写完之后，bufindex增长为8。     </p>
+<p>索引是对在kvbuffer中的键值对的索引，是个四元组，包括：value的起始位置、key的起始位置、partition值、value的长度，占用四个Int长度，Kvmeta的存放指针Kvindex每次都是向下跳四个“格子”，然后再向上一个格子一个格子地填充四元组的数据。比如Kvindex初始位置是-4，当第一个键值对写完之后，(Kvindex+0)的位置存放value的起始位置、(Kvindex+1)的位置存放key的起始位置、(Kvindex+2)的位置存放partition的值、(Kvindex+3)的位置存放value的长度，然后Kvindex跳到-8位置，等第二个键值对和索引写完之后，Kvindex跳到-12位置。   </p>
+<h2 id="第三写数据到磁盘"><a href="#第三写数据到磁盘" class="headerlink" title="第三写数据到磁盘"></a>第三写数据到磁盘</h2><p>Mapper中的Kvbuffer的大小默认100M，可以通过mapreduce.task.io.sort.mb（default：100）参数来调整。可以根据不同的硬件尤其是内存的大小来调整，调大的话，会减少磁盘spill的次数此时如果内存足够的话，一般都会显著提升性能。spill一般会在Buffer空间大小的80%开始进行spill（因为spill的时候还有可能别的线程在往里写数据，因为还预留空间，有可能有正在写到Buffer中的数据），可以通过mapreduce.map.sort.spill.percent（default：0.80）进行调整，Map Task在计算的时候会不断产生很多spill文件，在Map Task结束前会对这些spill文件进行合并，这个过程就是merge的过程。   mapreduce.task.io.sort.factor（default：10），代表进行merge的时候最多能同时merge多少spill，如果有100个spill个文件，此时就无法一次完成整个merge的过程，这个时候需要调大mapreduce.task.io.sort.factor（default：10）来减少merge的次数，从而减少磁盘的操作；   </p>
+<p>Spill这个重要的过程是由Spill线程承担，Spill线程从Map任务接到“命令”之后就开始正式干活，干的活叫SortAndSpill，原来不仅仅是Spill，在Spill之前还有个颇具争议性的Sort。    </p>
+<p><strong>Combiner存在的时候，此时会根据Combiner定义的函数对map的结果进行合并，什么时候进行Combiner操作呢？？？和Map在一个JVM中，是由min.num.spill.for.combine的参数决定的，默认是3，也就是说spill的文件数在默认情况下由三个的时候就要进行combine操作，最终减少磁盘数据；</strong>  </p>
+<p>减少磁盘IO和网络IO还可以进行：压缩，对spill，merge文件都可以进行压缩。中间结果非常的大，IO成为瓶颈的时候压缩就非常有用，可以通过mapreduce.map.output.compress（default：false）设置为true进行压缩，数据会被压缩写入磁盘，读数据读的是压缩数据需要解压，在实际经验中Hive在Hadoop的运行的瓶颈一般都是IO而不是CPU，压缩一般可以10倍的减少IO操作，压缩的方式Gzip，Lzo,BZip2,Lzma等，其中Lzo是一种比较平衡选择，mapreduce.map.output.compress.codec（default：org.apache.hadoop.io.compress.DefaultCodec）参数设置。但这个过程会消耗CPU，适合IO瓶颈比较大。     </p>
+<h1 id="Shuffle和Reduce阶段包括："><a href="#Shuffle和Reduce阶段包括：" class="headerlink" title="Shuffle和Reduce阶段包括："></a>Shuffle和Reduce阶段包括：</h1><h2 id="一、Copy"><a href="#一、Copy" class="headerlink" title="一、Copy"></a>一、Copy</h2><p>1、由于job的每一个map都会根据reduce(n)数将数据分成map 输出结果分成n个partition，所以map的中间结果中是有可能包含每一个reduce需要处理的部分数据的。所以，为了优化reduce的执行时间，hadoop中是等job的第一个map结束后，所有的reduce就开始尝试从完成的map中下载该reduce对应的partition部分数据，因此map和reduce是交叉进行的，其实就是shuffle。Reduce任务通过HTTP向各个Map任务拖取（下载）它所需要的数据（网络传输），Reducer是如何知道要去哪些机器取数据呢？一旦map任务完成之后，就会通过常规心跳通知应用程序的Application Master。reduce的一个线程会周期性地向master询问，直到提取完所有数据（如何知道提取完？）数据被reduce提走之后，map机器不会立刻删除数据，这是为了预防reduce任务失败需要重做。因此map输出数据是在整个作业完成之后才被删除掉的。<br>2、reduce进程启动数据copy线程(Fetcher)，通过HTTP方式请求maptask所在的TaskTracker获取maptask的输出文件。由于map通常有许多个，所以对一个reduce来说，下载也可以是并行的从多个map下载，那到底同时到多少个Mapper下载数据？？这个并行度是可以通过mapreduce.reduce.shuffle.parallelcopies(default5）调整。默认情况下，每个Reducer只会有5个map端并行的下载线程在从map下数据，如果一个时间段内job完成的map有100个或者更多，那么reduce也最多只能同时下载5个map的数据，所以这个参数比较适合map很多并且完成的比较快的job的情况下调大，有利于reduce更快的获取属于自己部分的数据。 在Reducer内存和网络都比较好的情况下，可以调大该参数；<br>3、reduce的每一个下载线程在下载某个map数据的时候，有可能因为那个map中间结果所在机器发生错误，或者中间结果的文件丢失，或者网络瞬断等等情况，这样reduce的下载就有可能失败，所以reduce的下载线程并不会无休止的等待下去，当一定时间后下载仍然失败，那么下载线程就会放弃这次下载，并在随后尝试从另外的地方下载（因为这段时间map可能重跑）。reduce下载线程的这个最大的下载时间段是可以通过mapreduce.reduce.shuffle.read.timeout（default180000秒）调整的。如果集群环境的网络本身是瓶颈，那么用户可以通过调大这个参数来避免reduce下载线程被误判为失败的情况。一般情况下都会调大这个参数，这是企业级最佳实战。   </p>
+<h2 id="二、MergeSort"><a href="#二、MergeSort" class="headerlink" title="二、MergeSort"></a>二、MergeSort</h2><p>1、这里的merge和map端的merge动作类似，只是数组中存放的是不同map端copy来的数值。Copy过来的数据会先放入内存缓冲区中，然后当使用内存达到一定量的时候才spill磁盘。这里的缓冲区大小要比map端的更为灵活，它基于JVM的heap size设置。这个内存大小的控制就不像map一样可以通过io.sort.mb来设定了，而是通过另外一个参数 mapreduce.reduce.shuffle.input.buffer.percent（default 0.7f 源码里面写死了） 来设置，这个参数其实是一个百分比，意思是说，shuffile在reduce内存中的数据最多使用内存量为：0.7 × maxHeap of reduce task。JVM的heapsize的70%。内存到磁盘merge的启动门限可以通过mapreduce.reduce.shuffle.merge.percent（default0.66）配置。也就是说，如果该reduce task的最大heap使用量（通常通过mapreduce.admin.reduce.child.java.opts来设置，比如设置为-Xmx1024m）的一定比例用来缓存数据。默认情况下，reduce会使用其heapsize的70%来在内存中缓存数据。假设 mapreduce.reduce.shuffle.input.buffer.percent 为0.7，reducetask的max heapsize为1G，那么用来做下载数据缓存的内存就为大概700MB左右。这700M的内存，跟map端一样，也不是要等到全部写满才会往磁盘刷的，而是当这700M中被使用到了一定的限度（通常是一个百分比），就会开始往磁盘刷（刷磁盘前会先做sortMerge）。这个限度阈值也是可以通过参数 mapreduce.reduce.shuffle.merge.percent（default0.66）来设定。与map 端类似，这也是溢写的过程，这个过程中如果你设置有Combiner，也是会启用的，然后在磁盘中生成了众多的溢写文件。这种merge方式一直在运行，直到没有map端的数据时才结束，然后启动磁盘到磁盘的merge方式生成最终的那个文件。    </p>
+<p>这里需要强调的是，merge有三种形式：1)内存到内存（memToMemMerger）2）内存中Merge（inMemoryMerger）3）磁盘上的Merge（onDiskMerger）具体包括两个：（一）Copy过程中磁盘合并（二）磁盘到磁盘。<br>（1）内存到内存Merge（memToMemMerger）    Hadoop定义了一种MemToMem合并，这种合并将内存中的map输出合并，然后再写入内存。这种合并默认关闭，可以通过mapreduce.reduce.merge.memtomem.enabled(default:false)   </p>
+<p>打开，当map输出文件达到mapreduce.reduce.merge.memtomem.threshold时，触发这种合并。<br>（2）内存中Merge（inMemoryMerger）：当缓冲中数据达到配置的阈值时，这些数据在内存中被合并、写入机器磁盘。阈值有2种配置方式：</p>
+<p>配置内存比例：前面提到reduceJVM堆内存的一部分用于存放来自map任务的输入，在这基础之上配置一个开始合并数据的比例。假设用于存放map输出的内存为500M，mapreduce.reduce.shuffle.merge.percent配置为0.66，则当内存中的数据达到330M的时候，会触发合并写入。<br>配置map输出数量： 通过mapreduce.reduce.merge.inmem.threshold配置。在合并的过程中，会对被合并的文件做全局的排序。如果作业配置了Combiner，则会运行combine函数，减少写入磁盘的数据量。<br>（3）磁盘上的Merge（onDiskMerger）：   </p>
+<p>（3.1）Copy过程中磁盘Merge：在copy过来的数据不断写入磁盘的过程中，一个后台线程会把这些文件合并为更大的、有序的文件。如果map的输出结果进行了压缩，则在合并过程中，需要在内存中解压后才能给进行合并。这里的合并只是为了减少最终合并的工作量，也就是在map输出还在拷贝时，就开始进行一部分合并工作。合并的过程一样会进行全局排序。<br>（3.2）最终磁盘中Merge：当所有map输出都拷贝完毕之后，所有数据被最后合并成一个整体有序的文件，作为reduce任务的输入。这个合并过程是一轮一轮进行的，最后一轮的合并结果直接推送给reduce作为输入，节省了磁盘操作的一个来回。最后（所以map输出都拷贝到reduce之后）进行合并的map输出可能来自合并后写入磁盘的文件，也可能来及内存缓冲，在最后写入内存的map输出可能没有达到阈值触发合并，所以还留在内存中。     </p>
+<p> 每一轮合并不一定合并平均数量的文件数，指导原则是使用整个合并过程中写入磁盘的数据量最小，为了达到这个目的，则需要最终的一轮合并中合并尽可能多的数据，因为最后一轮的数据直接作为reduce的输入，无需写入磁盘再读出。因此我们让最终的一轮合并的文件数达到最大，即合并因子的值，通过mapreduce.task.io.sort.factor（default：10）来配置。    </p>
+<p>如上图：Reduce阶段中一个Reduce过程 可能的合并方式为：假设现在有20个map输出文件，合并因子配置为5，则需要4轮的合并。最终的一轮确保合并5个文件，其中包括2个来自前2轮的合并结果，因此原始的20个中，再留出3个给最终一轮。</p>
+<h2 id="三、Reduce函数调用（用户自定义业务逻辑）"><a href="#三、Reduce函数调用（用户自定义业务逻辑）" class="headerlink" title="三、Reduce函数调用（用户自定义业务逻辑）"></a>三、Reduce函数调用（用户自定义业务逻辑）</h2><p>1、当reduce将所有的map上对应自己partition的数据下载完成后，就会开始真正的reduce计算阶段。reducetask真正进入reduce函数的计算阶段，由于reduce计算时肯定也是需要消耗内存的，而在读取reduce需要的数据时，同样是需要内存作为buffer，这个参数是控制，reducer需要多少的内存百分比来作为reduce读已经sort好的数据的buffer大小？？默认用多大内存呢？？默认情况下为0，也就是说，默认情况下，reduce是全部从磁盘开始读处理数据。可以用mapreduce.reduce.input.buffer.percent（default 0.0）(源代码MergeManagerImpl.java：674行)来设置reduce的缓存。如果这个参数大于0，那么就会有一定量的数据被缓存在内存并输送给reduce，当reduce计算逻辑消耗内存很小时，可以分一部分内存用来缓存数据，可以提升计算的速度。所以默认情况下都是从磁盘读取数据，如果内存足够大的话，务必设置该参数让reduce直接从缓存读数据，这样做就有点Spark Cache的感觉；<br>2、Reduce在这个阶段，框架为已分组的输入数据中的每个 &lt;key, (list of values)&gt;对调用一次 reduce(WritableComparable,Iterator, OutputCollector, Reporter)方法。Reduce任务的输出通常是通过调用 OutputCollector.collect(WritableComparable,Writable)写入文件系统的。Reducer的输出是没有排序的。    </p>
+<h1 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h1><p>如果能够根据情况对shuffle过程进行调优，对于提供MapReduce性能很有帮助。相关的参数配置列在后面的表格中。   </p>
+<p>一个通用的原则是给shuffle过程分配尽可能大的内存，当然你需要确保map和reduce有足够的内存来运行业务逻辑。因此在实现Mapper和Reducer时，应该尽量减少内存的使用，例如避免在Map中不断地叠加。   </p>
+<p>运行map和reduce任务的JVM，内存通过mapred.child.java.opts属性来设置，尽可能设大内存。容器的内存大小通过mapreduce.map.memory.mb和mapreduce.reduce.memory.mb来设置，默认都是1024M。   </p>
+<p>map优化   </p>
+<p>在map端，避免写入多个spill文件可能达到最好的性能，一个spill文件是最好的。通过估计map的输出大小，设置合理的mapreduce.task.io.sort.*属性，使得spill文件数量最小。例如尽可能调大mapreduce.task.io.sort.mb。     </p>
+<p>map端相关的属性如下表：</p>
+<p><img src="/images/pasted-7.png" alt="upload successful"><br>reduce优化   </p>
+<p>在reduce端，如果能够让所有数据都保存在内存中，可以达到最佳的性能。通常情况下，内存都保留给reduce函数，但是如果reduce函数对内存需求不是很高，将mapreduce.reduce.merge.inmem.threshold（触发合并的map输出文件数）设为0，mapreduce.reduce.input.buffer.percent（用于保存map输出文件的堆内存比例）设为1.0，可以达到很好的性能提升。在2008年的TB级别数据排序性能测试中，Hadoop就是通过将reduce的中间数据都保存在内存中胜利的。   </p>
+<p>reduce端相关属性：<br><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p>通用优化<br>Hadoop默认使用4KB作为缓冲，这个算是很小的，可以通过io.file.buffer.size来调高缓冲池大小。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L897-IncreasingBST/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/26/L897-IncreasingBST/" itemprop="url">L897_IncreasingBST</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
                 2016-01-26
               </time>
             
@@ -342,7 +1554,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L700_SearchBST &#123;</span><br><span class="line">    public TreeNode searchBST(TreeNode root, int val) &#123;</span><br><span class="line">        if(root == null) return null;</span><br><span class="line">        if(root.val == val) return root;</span><br><span class="line">        TreeNode left = searchBST(root.left,val);</span><br><span class="line">        TreeNode right = searchBST(root.right,val);</span><br><span class="line">        if(left != null)&#123;</span><br><span class="line">            return left;</span><br><span class="line">        &#125;</span><br><span class="line">        if(right != null)&#123;</span><br><span class="line">            return right;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个树，按中序遍历重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子结点，只有一个右子结点。</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 示例 ：</span><br><span class="line"> *</span><br><span class="line"> * 输入：[5,3,6,2,4,null,8,1,null,null,null,7,9]</span><br><span class="line"> *</span><br><span class="line"> *        5</span><br><span class="line"> *       / \</span><br><span class="line"> *     3    6</span><br><span class="line"> *    / \    \</span><br><span class="line"> *   2   4    8</span><br><span class="line"> *  /        / \</span><br><span class="line"> * 1        7   9</span><br><span class="line"> *</span><br><span class="line"> * 输出：[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]</span><br><span class="line"> *</span><br><span class="line"> *  1</span><br><span class="line"> *   \</span><br><span class="line"> *    2</span><br><span class="line"> *     \</span><br><span class="line"> *      3</span><br><span class="line"> *       \</span><br><span class="line"> *        4</span><br><span class="line"> *         \</span><br><span class="line"> *          5</span><br><span class="line"> *           \</span><br><span class="line"> *            6</span><br><span class="line"> *             \</span><br><span class="line"> *              7</span><br><span class="line"> *               \</span><br><span class="line"> *                8</span><br><span class="line"> *                 \</span><br><span class="line"> *                  9</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * 提示：</span><br><span class="line"> *</span><br><span class="line"> * 给定树中的结点数介于 1 和 100 之间。</span><br><span class="line"> * 每个结点都有一个从 0 到 1000 范围内的唯一整数值。</span><br><span class="line"> */</span><br><span class="line">public class L897_IncreasingBST &#123;</span><br><span class="line">    TreeNode dummy = new TreeNode(-1);</span><br><span class="line">    TreeNode res = dummy;</span><br><span class="line">    public TreeNode increasingBST(TreeNode root) &#123;</span><br><span class="line">        helper(root);</span><br><span class="line">        return res.right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root) &#123;</span><br><span class="line">//        if (root == null) return;</span><br><span class="line">        if (root.left != null)</span><br><span class="line">        helper(root.left);</span><br><span class="line">        dummy.right = new TreeNode(root.val);</span><br><span class="line">        dummy = dummy.right;</span><br><span class="line">        if (root.right != null)</span><br><span class="line">        helper(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -390,7 +1602,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L687-LongestUnivaluePath/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L965-IsUnivalTree/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -409,7 +1621,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/L687-LongestUnivaluePath/" itemprop="url">L687_LongestUnivaluePath</a></h1>
+                <a class="post-title-link" href="/2016/01/26/L965-IsUnivalTree/" itemprop="url">L965_IsUnivalTree</a></h1>
         
 
         <div class="post-meta">
@@ -421,7 +1633,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:26:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
                 2016-01-26
               </time>
             
@@ -461,1025 +1673,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * 解题思路类似于124题, 对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况:</span><br><span class="line"> * 1. 其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径</span><br><span class="line"> * 2. 左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径</span><br><span class="line"> * 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据</span><br><span class="line"> */</span><br><span class="line">public class L687_LongestUnivaluePath &#123;</span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private int max = 0;</span><br><span class="line">    public int longestUnivaluePath(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return 0;</span><br><span class="line">        helper(root,root.val);</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int helper(TreeNode node, int val) &#123;</span><br><span class="line">        if (node == null)return 0;</span><br><span class="line">        int left = helper(node.left,node.val);</span><br><span class="line">        int right = helper(node.right,node.val);</span><br><span class="line">        max = Math.max(max,left + right);// 路径长度为节点数减1所以此处不加1</span><br><span class="line">        if (node.val == val)</span><br><span class="line">            return Math.max(left,right) + 1;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">//        下面是自己作物的思路</span><br><span class="line">//        if (node.val == val)&#123;</span><br><span class="line">//            return Math.max(helper(node.left,node.val,count+1),helper(node.right,node.val,count+1));</span><br><span class="line">//        &#125; else &#123;</span><br><span class="line">//            return Math.max(helper(node.left,node.val,count),helper(node.right,node.val,count));</span><br><span class="line">//        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L671-BSTFindSecondMinimumValue/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L671-BSTFindSecondMinimumValue/" itemprop="url">L671_BSTFindSecondMinimumValue</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:25:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个非空特殊的二叉树，每个节点都是正数，并且每个节点的子节点数量只能为 2 或 0。如果一个节点有两个子节点的话，那么这个节点的值不大于它的子节点的值。</span><br><span class="line"> *</span><br><span class="line"> * 给出这样的一个二叉树，你需要输出所有节点中的第二小的值。如果第二小的值不存在的话，输出 -1 。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *     2</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   5</span><br><span class="line"> *      / \</span><br><span class="line"> *     5   7</span><br><span class="line"> *</span><br><span class="line"> * 输出: 5</span><br><span class="line"> * 说明: 最小的值是 2 ，第二小的值是 5 。</span><br><span class="line"> * 示例 2:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> *     2</span><br><span class="line"> *    / \</span><br><span class="line"> *   2   2</span><br><span class="line"> *</span><br><span class="line"> * 输出: -1</span><br><span class="line"> * 说明: 最小的值是 2, 但是不存在第二小的值。</span><br><span class="line"> */</span><br><span class="line">public class L671_BSTFindSecondMinimumValue &#123;</span><br><span class="line">    int second = -1;</span><br><span class="line">    public int findSecondMinimumValue(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return -1;</span><br><span class="line">        helper(root,root.val);</span><br><span class="line">        return second;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode root, int min) &#123;</span><br><span class="line">        if (root == null)return;</span><br><span class="line">        if (root.val == min)&#123;</span><br><span class="line">            helper(root.left,min);</span><br><span class="line">            helper(root.right,min);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (second == -1 || root.val &lt; second)&#123;</span><br><span class="line">            second = root.val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L654-ConstructMaximumBinaryTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L654-ConstructMaximumBinaryTree/" itemprop="url">L654_ConstructMaximumBinaryTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:24:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个不含重复元素的整数数组。一个以此数组构建的最大二叉树定义如下：</span><br><span class="line"> *</span><br><span class="line"> * 二叉树的根是数组中的最大元素。</span><br><span class="line"> * 左子树是通过数组中最大值左边部分构造出的最大二叉树。</span><br><span class="line"> * 右子树是通过数组中最大值右边部分构造出的最大二叉树。</span><br><span class="line"> * 通过给定的数组构建最大二叉树，并且输出这个树的根节点。</span><br><span class="line"> *</span><br><span class="line"> * Example 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入: [3,2,1,6,0,5]</span><br><span class="line"> * 输入: 返回下面这棵树的根节点：</span><br><span class="line"> *</span><br><span class="line"> *       6</span><br><span class="line"> *     /   \</span><br><span class="line"> *    3     5</span><br><span class="line"> *     \    /</span><br><span class="line"> *      2  0</span><br><span class="line"> *        \</span><br><span class="line"> *         1</span><br><span class="line"> * 注意:</span><br><span class="line"> *</span><br><span class="line"> * 给定的数组的大小在 [1, 1000] 之间。</span><br><span class="line"> */</span><br><span class="line">public class L654_ConstructMaximumBinaryTree &#123;</span><br><span class="line">    public TreeNode constructMaximumBinaryTree(int[] nums) &#123;</span><br><span class="line">        return buildTree(nums,0,nums.length -1);</span><br><span class="line">    &#125;</span><br><span class="line">    public TreeNode  buildTree(int[] nums, int start, int end)&#123;</span><br><span class="line">        if (start &gt; end)&#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int maxIndex = maxIndex(nums, start, end);</span><br><span class="line">        TreeNode root = new TreeNode(nums[maxIndex]);</span><br><span class="line">        root.left = buildTree(nums,start,maxIndex - 1);</span><br><span class="line">        root.right = buildTree(nums,maxIndex + 1,end);</span><br><span class="line">        return root;</span><br><span class="line">    &#125;</span><br><span class="line">    public int maxIndex(int[] arr,int start,int end)&#123;</span><br><span class="line">        int maxIndex = start;</span><br><span class="line">        for(int i = start ;i &lt;= end; i++)&#123;</span><br><span class="line">            if (arr[i] &gt; arr[maxIndex])&#123;</span><br><span class="line">                maxIndex = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return maxIndex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L572-IsSubtree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L572-IsSubtree/" itemprop="url">L572_IsSubtree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:23:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> * 给定的树 s:</span><br><span class="line"> *</span><br><span class="line"> *      3</span><br><span class="line"> *     / \</span><br><span class="line"> *    4   5</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 给定的树 t：</span><br><span class="line"> *</span><br><span class="line"> *    4</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。</span><br><span class="line"> *</span><br><span class="line"> * 示例 2:</span><br><span class="line"> * 给定的树 s：</span><br><span class="line"> *</span><br><span class="line"> *      3</span><br><span class="line"> *     / \</span><br><span class="line"> *    4   5</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> *     /</span><br><span class="line"> *    0</span><br><span class="line"> * 给定的树 t：</span><br><span class="line"> *</span><br><span class="line"> *    4</span><br><span class="line"> *   / \</span><br><span class="line"> *  1   2</span><br><span class="line"> * 返回 false。</span><br><span class="line"> */</span><br><span class="line">public class L572_IsSubtree &#123;</span><br><span class="line">    public boolean isSubtree(TreeNode s, TreeNode t) &#123;</span><br><span class="line">        if (s == null &amp;&amp; t != null)return false;</span><br><span class="line">        return isSame(s,t) || isSubtree(s.left,t) || isSubtree(s.right,t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private boolean isSame(TreeNode s, TreeNode t) &#123;</span><br><span class="line">        if (s!= null &amp;&amp; t != null)&#123;</span><br><span class="line">            return s.val == t.val &amp;&amp; isSame(s.left,t.left) &amp;&amp; isSame(s.right,t.right);</span><br><span class="line">        &#125; else if (s == null &amp;&amp; t == null)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L617-MergeTrees/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L617-MergeTrees/" itemprop="url">L617_MergeTrees</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:23:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。</span><br><span class="line"> *</span><br><span class="line"> * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</span><br><span class="line"> *</span><br><span class="line"> * 示例 1:</span><br><span class="line"> *</span><br><span class="line"> * 输入:</span><br><span class="line"> * 	Tree 1                     Tree 2</span><br><span class="line"> *           1                         2</span><br><span class="line"> *          / \                       / \</span><br><span class="line"> *         3   2                     1   3</span><br><span class="line"> *        /                           \   \</span><br><span class="line"> *       5                             4   7</span><br><span class="line"> * 输出:</span><br><span class="line"> * 合并后的树:</span><br><span class="line"> * 	     3</span><br><span class="line"> * 	    / \</span><br><span class="line"> * 	   4   5</span><br><span class="line"> * 	  / \   \</span><br><span class="line"> * 	 5   4   7</span><br><span class="line"> * 注意: 合并必须从两个树的根节点开始。</span><br><span class="line"> */</span><br><span class="line">public class L617_MergeTrees &#123;</span><br><span class="line"></span><br><span class="line">    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123;</span><br><span class="line">        if (t1 == null) return t2;</span><br><span class="line">        if (t2 == null) return t1;</span><br><span class="line">        TreeNode cur = new TreeNode(t1.val + t2.val);</span><br><span class="line">        cur.left = mergeTrees(t1.left,t2.left);</span><br><span class="line">        cur.right = mergeTrees(t1.right,t2.right);</span><br><span class="line">        return cur;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L543-DiameterOfBinaryTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L543-DiameterOfBinaryTree/" itemprop="url">L543_DiameterOfBinaryTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:22:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。</span><br><span class="line"> *</span><br><span class="line"> * 示例 :</span><br><span class="line"> * 给定二叉树</span><br><span class="line"> *</span><br><span class="line"> *           1</span><br><span class="line"> *          / \</span><br><span class="line"> *         2   3</span><br><span class="line"> *        / \</span><br><span class="line"> *       4   5</span><br><span class="line"> * 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。</span><br><span class="line"> *</span><br><span class="line"> * 注意：两结点之间的路径长度是以它们之间边的数目表示。</span><br><span class="line"> */</span><br><span class="line">public class L543_DiameterOfBinaryTree &#123;</span><br><span class="line">    private int rst = 0;</span><br><span class="line">    public int diameterOfBinaryTree(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return 0;</span><br><span class="line">        helper(root);</span><br><span class="line">        return rst;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int helper(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return 0;</span><br><span class="line">        int left = helper(root.left);</span><br><span class="line">        int right = helper(root.right);</span><br><span class="line">        if (rst &lt; left + right) rst = left + right;</span><br><span class="line">        return Math.max(left,right) + 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L530-BSTgetMinimumDifference/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L530-BSTgetMinimumDifference/" itemprop="url">L530_BSTgetMinimumDifference</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:21:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L530_BSTgetMinimumDifference &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * //二叉查找树中，中间节点的值一定是其左右节点值的中间数，因此最小差别一定是在中间节点与左右节点之间</span><br><span class="line">     * //中序遍历二叉查找树，每次比较当前节点与前一节点差值的绝对值与目前result中保存的最小值的大小，将较小的保存在result中</span><br><span class="line">     *</span><br><span class="line">     * @param root</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private int result = Integer.MAX_VALUE; private TreeNode preNode = null;</span><br><span class="line">    public int getMinimumDifference(TreeNode root) &#123;</span><br><span class="line">        getMin(root);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void getMin(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        getMin(root.left);</span><br><span class="line">        if(preNode != null)//todo</span><br><span class="line">        &#123;</span><br><span class="line">            result = Math.min(Math.abs(root.val - preNode.val), result);</span><br><span class="line">        &#125;</span><br><span class="line">        preNode = root;</span><br><span class="line">        getMin(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L501-BSTFindMode/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L501-BSTFindMode/" itemprop="url">L501_BSTFindMode</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:20:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个有相同值的二叉搜索树（BST），找出 BST 中的所有众数（出现频率最高的元素）。</span><br><span class="line"> *</span><br><span class="line"> * 假定 BST 有如下定义：</span><br><span class="line"> *</span><br><span class="line"> * 结点左子树中所含结点的值小于等于当前结点的值</span><br><span class="line"> * 结点右子树中所含结点的值大于等于当前结点的值</span><br><span class="line"> * 左子树和右子树都是二叉搜索树</span><br><span class="line"> * 例如：</span><br><span class="line"> * 给定 BST [1,null,2,2],</span><br><span class="line"> *</span><br><span class="line"> *    1</span><br><span class="line"> *     \</span><br><span class="line"> *      2</span><br><span class="line"> *     /</span><br><span class="line"> *    2</span><br><span class="line"> * 返回[2].</span><br><span class="line"> *</span><br><span class="line"> * 提示：如果众数超过1个，不需考虑输出顺序</span><br><span class="line"> *</span><br><span class="line"> * 进阶：你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内）</span><br><span class="line"> *</span><br><span class="line"> * 使用中序遍历</span><br><span class="line"> * https://blog.csdn.net/qq_38959715/article/details/82682383</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class L501_BSTFindMode &#123;</span><br><span class="line">    TreeNode pre = null;//todo must全局</span><br><span class="line">    Integer curTimes = 1,maxTimes = 0;//todo must全局</span><br><span class="line">    public int[] findMode(TreeNode root) &#123;</span><br><span class="line">        if (root == null) return new int[]&#123;&#125;;</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        inOrder(root,list);</span><br><span class="line"></span><br><span class="line">        int[] result = new int[list.size()];</span><br><span class="line">        for(int i = 0;i&lt;list.size();i++)&#123;</span><br><span class="line">            result[i] = list.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void inOrder(TreeNode root, List&lt;Integer&gt; list) &#123;</span><br><span class="line">        if (root == null) return;</span><br><span class="line">        inOrder(root.left,list);</span><br><span class="line">        if (pre != null)&#123;</span><br><span class="line">            curTimes = (root.val == pre.val) ? curTimes + 1 : 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (curTimes == maxTimes)&#123;</span><br><span class="line">            list.add(root.val);</span><br><span class="line">        &#125; else if (curTimes &gt; maxTimes)&#123;</span><br><span class="line">            list.clear();</span><br><span class="line">            list.add(root.val);</span><br><span class="line">            maxTimes = curTimes;</span><br><span class="line">        &#125;</span><br><span class="line">        pre = root;</span><br><span class="line">        inOrder(root.right,list);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        TreeNode r = new TreeNode(1);</span><br><span class="line">        TreeNode t1  = new TreeNode(2);</span><br><span class="line">        TreeNode t2 = new TreeNode(2);</span><br><span class="line">        r.right = t1;</span><br><span class="line">        t1.left = t2;</span><br><span class="line">        L501_BSTFindMode t = new L501_BSTFindMode();</span><br><span class="line">        int[] mode = t.findMode(r);</span><br><span class="line">        for (int x:mode) &#123;</span><br><span class="line">            System.out.println(x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L437-TreePathSum/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L437-TreePathSum/" itemprop="url">L437_TreePathSum</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:19:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">import java.util.Stack;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 给定一个二叉树，它的每个结点都存放着一个整数值。</span><br><span class="line"> *</span><br><span class="line"> * 找出路径和等于给定数值的路径总数。</span><br><span class="line"> *</span><br><span class="line"> * 路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。</span><br><span class="line"> *</span><br><span class="line"> * 二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</span><br><span class="line"> *</span><br><span class="line"> * 示例：</span><br><span class="line"> *</span><br><span class="line"> * root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8</span><br><span class="line"> *</span><br><span class="line"> *       10</span><br><span class="line"> *      /  \</span><br><span class="line"> *     5   -3</span><br><span class="line"> *    / \    \</span><br><span class="line"> *   3   2   11</span><br><span class="line"> *  / \   \</span><br><span class="line"> * 3  -2   1</span><br><span class="line"> *</span><br><span class="line"> * 返回 3。和等于 8 的路径有:</span><br><span class="line"> *</span><br><span class="line"> * 1.  5 -&gt; 3</span><br><span class="line"> * 2.  5 -&gt; 2 -&gt; 1</span><br><span class="line"> * 3.  -3 -&gt; 11</span><br><span class="line"> */</span><br><span class="line">public class L437_TreePathSum &#123;</span><br><span class="line">    public int pathSum(TreeNode root, int sum) &#123;</span><br><span class="line">        int count = 0;</span><br><span class="line">        if(root == null)</span><br><span class="line">            return 0;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();</span><br><span class="line">        stack.add(root);</span><br><span class="line">        while(!stack.isEmpty())&#123;</span><br><span class="line">            TreeNode node = stack.pop();</span><br><span class="line">            count += helper(node, sum);</span><br><span class="line">            if(node.right != null)</span><br><span class="line">                stack.push(node.right);</span><br><span class="line">            if(node.left != null)</span><br><span class="line">                stack.push(node.left);</span><br><span class="line">        &#125;</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int helper(TreeNode root, int sum) &#123;</span><br><span class="line">        int count = 0;</span><br><span class="line">        if(root == null)</span><br><span class="line">            return 0;</span><br><span class="line">        if(sum == root.val)&#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        count += helper(root.left, sum-root.val);</span><br><span class="line">        count += helper(root.right, sum-root.val);</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//    public int pathSum(TreeNode root, int sum) &#123;</span><br><span class="line">//        if(root == null) return 0;</span><br><span class="line">//        int res = helper(root,sum);</span><br><span class="line">//        res += pathSum(root.left,sum);</span><br><span class="line">//        res += pathSum(root.right,sum);</span><br><span class="line">//        return res;</span><br><span class="line">//    &#125;</span><br><span class="line">//    public int helper(TreeNode node,int num)&#123;</span><br><span class="line">//        if(node == null)&#123;</span><br><span class="line">//            return 0;</span><br><span class="line">//        &#125;</span><br><span class="line">//        int res = 0;</span><br><span class="line">//        if(node.val == num)&#123;</span><br><span class="line">//            res++;</span><br><span class="line">//        &#125;</span><br><span class="line">//        res += helper(node.left,num - node.val);</span><br><span class="line">//        res += helper(node.right,num - node.val);</span><br><span class="line">//        return res;</span><br><span class="line">//    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package LeetCode.topic.tree;</span><br><span class="line"></span><br><span class="line">public class L965_IsUnivalTree &#123;</span><br><span class="line"></span><br><span class="line">    public boolean isUnivalTree(TreeNode root) &#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return helper(root,root.val);</span><br><span class="line">    &#125;</span><br><span class="line">    public boolean helper(TreeNode node,int val)&#123;</span><br><span class="line">        if(node == null)return true;</span><br><span class="line">        if(node.val != val)return false;</span><br><span class="line">        if(node.left != null &amp;&amp; node.left.val != val) return false;</span><br><span class="line">        if(node.right != null &amp;&amp; node.right.val != val) return false;</span><br><span class="line">        return helper(node.left,val) &amp;&amp; helper(node.right,val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1518,7 +1712,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1566,7 +1760,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1577,7 +1771,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1588,7 +1782,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
