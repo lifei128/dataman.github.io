@@ -347,7 +347,7 @@
         <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
 <p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
 <p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
-<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753" target="_blank" rel="noopener">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
 
       
     </div>
@@ -378,8 +378,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/25/mr-GroupComparator/" rel="next" title="GroupComparator原理">
-                <i class="fa fa-chevron-left"></i> GroupComparator原理
+              <a href="/2019/01/25/hive_groupby倾斜/" rel="next" title="group by数据倾斜">
+                <i class="fa fa-chevron-left"></i> group by数据倾斜
               </a>
             
           </div>
@@ -469,7 +469,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -480,7 +480,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -491,7 +491,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -593,6 +593,15 @@
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
 
 
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
 
 
         

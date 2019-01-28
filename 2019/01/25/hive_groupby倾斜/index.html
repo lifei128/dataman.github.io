@@ -356,7 +356,7 @@
 <p>从下表可以看出，skewindata配置真正发生作用，只会在以下三种情况下，能够将1个job转化为2个job：<br>select count distinct … from …<br>select a,count(<em>) from … group by a  <strong>只针对单列有效</strong><br>select count(</em>),count(distinct …) from     <strong>此处没有group by</strong><br>如下sql会报错<br>select count(*),count(distinct …) from … group by a   <strong>此处有group by</strong><br>需要改为<br>select a,sum(1),count(distinct …) from … group by a  </p>
 <p><img src="/images/pasted-0.png" alt="upload successful"></p>
 <p><img src="/images/pasted-1.png" alt="upload successful"></p>
-<p>参考：<br><a href="https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/" target="_blank" rel="noopener">https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/</a><br><a href="https://blog.csdn.net/dxl342/article/details/77886577" target="_blank" rel="noopener">https://blog.csdn.net/dxl342/article/details/77886577</a><br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753" target="_blank" rel="noopener">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
+<p>参考：<br><a href="https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/">https://meihuakaile.github.io/2018/10/19/hive%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/</a><br><a href="https://blog.csdn.net/dxl342/article/details/77886577">https://blog.csdn.net/dxl342/article/details/77886577</a><br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
 
       
     </div>
@@ -387,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/23/twosum/" rel="next" title="twosum">
-                <i class="fa fa-chevron-left"></i> twosum
+              <a href="/2016/01/26/mapreduce模型/" rel="next" title="mapreduce模型">
+                <i class="fa fa-chevron-left"></i> mapreduce模型
               </a>
             
           </div>
@@ -397,8 +397,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/25/mr-GroupComparator/" rel="prev" title="GroupComparator原理">
-                GroupComparator原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/25/hive-join倾斜/" rel="prev" title="join倾斜">
+                join倾斜 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -478,7 +478,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -489,7 +489,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -500,7 +500,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -602,6 +602,15 @@
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
 
 
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
 
 
         

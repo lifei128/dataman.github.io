@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mapreduce,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分析最近看dadoop中关于辅助排序（SecondarySort）的实现，说到了三个东西要设置：1. partioner；2. Key Comparator；3. Group Comparator。前两个都比较容易理解，但是关于group的概念我一直理解不了：一，有了partioner，所有的key已经放到一个分区了，每个分区对应一个reducer，而且key也可以排序了，那么不是实现了整个数据集">
+<meta name="keywords" content="mapreduce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GroupComparator原理">
+<meta property="og:url" content="http://yoursite.com/2016/01/25/mr-GroupComparator/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="分析最近看dadoop中关于辅助排序（SecondarySort）的实现，说到了三个东西要设置：1. partioner；2. Key Comparator；3. Group Comparator。前两个都比较容易理解，但是关于group的概念我一直理解不了：一，有了partioner，所有的key已经放到一个分区了，每个分区对应一个reducer，而且key也可以排序了，那么不是实现了整个数据集">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-26T12:24:59.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GroupComparator原理">
+<meta name="twitter:description" content="分析最近看dadoop中关于辅助排序（SecondarySort）的实现，说到了三个东西要设置：1. partioner；2. Key Comparator；3. Group Comparator。前两个都比较容易理解，但是关于group的概念我一直理解不了：一，有了partioner，所有的key已经放到一个分区了，每个分区对应一个reducer，而且key也可以排序了，那么不是实现了整个数据集">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/25/mr-GroupComparator/">
+
+
+
+
+
+  <title>GroupComparator原理 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Quick notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/25/mr-GroupComparator/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GroupComparator原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-25T17:05:00+08:00">
+                2016-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
+                    <span itemprop="name">mapreduce</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>最近看dadoop中关于辅助排序（SecondarySort）的实现，说到了三个东西要设置：1. partioner；2. Key Comparator；3. Group Comparator。前两个都比较容易理解，但是关于group的概念我一直理解不了：<br>一，有了partioner，所有的key已经放到一个分区了，每个分区对应一个reducer，而且key也可以排序了，那么不是实现了整个数据集的全排序了吗？<br>第二，mapper产生的中间结果经过shuffle和sort后，每个key整合成一个记录(集合)，每次reduce方法调用处理这个记录(集合)，但是group的目的是让一次reduce调用处理多条记录(将该集合进行内部分组)，这不是矛盾吗，找了好久一直都没找到这个问题的清晰解释。</p>
+<p>后来找到一本书，《Pro Hadoop》，里面有一部分内容详细解释了这个问题，看后终于明白了，和大家分享一下。reduce方法每次是读一条记录(集合)，读到相应的key，但是处理value集合时，处理完当前记录的value后，<font color="#ff0000">还会判断下一条记录是不是和当前的key是不是同一个组，如果是的话，会继续读取这些记录的值，而这个记录也会被认为已经处理了，直到记录不是当前组，这次reduce调用才结束，这样一次reduce调用就会处理掉一个组中的所有记录</font>，而不仅仅是一条完整的记录(集合)了。</p>
+<p>这个有什么用呢？如果不用分组，那么同一组的记录就要在多次reduce方法中独立处理(所有的数据都在同一组中)，那么有些状态数据就要传递了，就会增加复杂度，在一次调用中处理的话，这些状态只要用方法内的变量就可以的。比如查找最大值，只要读第一个值就可以了。</p>
+<p>参考：<br><a href="https://blog.csdn.net/qq_20641565/article/details/52770872">https://blog.csdn.net/qq_20641565/article/details/52770872</a> </p>
+<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p>目标：弄明白，我们配置的GroupComparator是如何对进入reduce函数中的key   Iterable<value> 进行影响。<br>如下是一个配置了GroupComparator  的reduce 函数。具体影响是我们可以在自定义的GroupComparator 中确定哪儿些value组成一组，进入一个reduce函数<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static class DividendGrowthReducer extends Reducer&lt;Stock, DoubleWritable, NullWritable, DividendChange&gt; &#123;</span><br><span class="line">      private NullWritable outputKey = NullWritable.get();</span><br><span class="line">      private DividendChange outputValue = new DividendChange();</span><br><span class="line">      </span><br><span class="line">      @Override</span><br><span class="line">      protected void reduce(Stock key, Iterable&lt;DoubleWritable&gt; values, Context context)</span><br><span class="line">              throws IOException, InterruptedException &#123;</span><br><span class="line">          double previousDividend = 0.0;</span><br><span class="line">          for(DoubleWritable dividend : values) &#123;</span><br><span class="line">              double currentDividend = dividend.get();</span><br><span class="line">              double growth = currentDividend - previousDividend;</span><br><span class="line">              if(Math.abs(growth) &gt; 0.000001) &#123;</span><br><span class="line">                  outputValue.setSymbol(key.getSymbol());</span><br><span class="line">                  outputValue.setDate(key.getDate());</span><br><span class="line">                  outputValue.setChange(growth);</span><br><span class="line">                  context.write(outputKey, outputValue);</span><br><span class="line">                  previousDividend = currentDividend;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></value></p>
+<p>  着先我们找到向上找，是谁调用了我们写的这个reduce函数。 Reducer类的run 方法。通过如下代码，可以看到是在run方法中，对于每个key，调用一次reduce函数。<br>此处传入reduce函数的都是对象引用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * Advanced application writers can use the </span><br><span class="line">   * &#123;@link #run(org.apache.hadoop.mapreduce.Reducer.Context)&#125; method to</span><br><span class="line">   * control how the reduce task works.</span><br><span class="line">   */</span><br><span class="line">  public void run(Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">   .....</span><br><span class="line">    while (context.nextKey()) &#123;</span><br><span class="line">       reduce(context.getCurrentKey(), context.getValues(), context);</span><br><span class="line">       .....</span><br><span class="line">    &#125;   </span><br><span class="line">   .....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结合我们写的reduce函数，key是在遍历value的时候会对应变化。<br>那我们继续跟踪context.getValues 得到的迭代器的next方法。context 此处是ReduceContext.java （接口）. 对应的实现类为ReduceContextImpl.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">protected class ValueIterable implements Iterable&lt;VALUEIN&gt; &#123;</span><br><span class="line">    private ValueIterator iterator = new ValueIterator();</span><br><span class="line">    @Override</span><br><span class="line">    public Iterator&lt;VALUEIN&gt; iterator() &#123;</span><br><span class="line">      return iterator;</span><br><span class="line">    &#125; </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  /**</span><br><span class="line">   * Iterate through the values for the current key, reusing the same value </span><br><span class="line">   * object, which is stored in the context.</span><br><span class="line">   * @return the series of values associated with the current key. All of the </span><br><span class="line">   * objects returned directly and indirectly from this method are reused.</span><br><span class="line">   */</span><br><span class="line">  public </span><br><span class="line">  Iterable&lt;VALUEIN&gt; getValues() throws IOException, InterruptedException &#123;</span><br><span class="line">    return iterable;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>直接返回了一个iterable。继续跟踪ValueIterable 类型的iterable。那明白了，在reduce 函数中进行Iterable的遍历，其实调用的是ValueIterable的next方法。下面看一下next的实现。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public VALUEIN next() &#123;</span><br><span class="line">   ………………</span><br><span class="line">   nextKeyValue();</span><br><span class="line">   return value;</span><br><span class="line">   ………………</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>  再继续跟踪nextKeyValue()方法。终于找了一个comparator。  这个就是我们配置的GroupingComparator.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean nextKeyValue() throws IOException, InterruptedException &#123;</span><br><span class="line">  ……………………………………</span><br><span class="line">  if (hasMore) &#123;</span><br><span class="line">    nextKey = input.getKey();</span><br><span class="line">    nextKeyIsSame = comparator.compare(currentRawKey.getBytes(), 0, </span><br><span class="line">                                   currentRawKey.getLength(),</span><br><span class="line">                                   nextKey.getData(),</span><br><span class="line">                                   nextKey.getPosition(),</span><br><span class="line">                                   nextKey.getLength() - nextKey.getPosition()</span><br><span class="line">                                       ) == 0;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    nextKeyIsSame = false;</span><br><span class="line">  &#125;</span><br><span class="line">  inputValueCounter.increment(1);</span><br><span class="line">  return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了证明这个就是我们配置的GroupingComparator。 跟踪ReduceContextImpl的构造调用者。 ReduceTask的run方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">  public void run(JobConf job, final TaskUmbilicalProtocol umbilical)&#123;</span><br><span class="line">    ………………………………</span><br><span class="line">    RawComparator comparator = job.getOutputValueGroupingComparator();</span><br><span class="line">    runNewReducer(job, umbilical, reporter, rIter, comparator,</span><br><span class="line">                    keyClass, valueClass);   </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面把runNewReducer 的代码也贴出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void runNewReducer(JobConf job,</span><br><span class="line">                   final TaskUmbilicalProtocol umbilical,</span><br><span class="line">                   final TaskReporter reporter,</span><br><span class="line">                   RawKeyValueIterator rIter,</span><br><span class="line">                   RawComparator&lt;INKEY&gt; comparator,</span><br><span class="line">                   Class&lt;INKEY&gt; keyClass,</span><br><span class="line">                   Class&lt;INVALUE&gt; valueClass</span><br><span class="line">                   ) &#123;</span><br><span class="line"></span><br><span class="line">  org.apache.hadoop.mapreduce.Reducer.Context </span><br><span class="line">       reducerContext = createReduceContext(reducer, job, getTaskID(),</span><br><span class="line">                                             rIter, reduceInputKeyCounter, </span><br><span class="line">                                             reduceInputValueCounter, </span><br><span class="line">                                             trackedRW,</span><br><span class="line">                                             committer,</span><br><span class="line">                                             reporter, comparator, keyClass,</span><br><span class="line">                                             valueClass);</span><br></pre></td></tr></table></figure></p>
+<p>好吧，关于自定义GroupingComparator如何起做用的代码分析，就到此吧。<br>参考：<br><a href="http://blog.itpub.net/30066956/viewspace-2095520/">http://blog.itpub.net/30066956/viewspace-2095520/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/23/twosum/" rel="next" title="L1_twosum">
+                <i class="fa fa-chevron-left"></i> L1_twosum
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/26/L94-InorderTraversal/" rel="prev" title="L94_InorderTraversal">
+                L94_InorderTraversal <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://notes.iissnan.com/uploads/m3.jpg" alt="lifei">
+            
+              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码分析"><span class="nav-number">2.</span> <span class="nav-text">源码分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
