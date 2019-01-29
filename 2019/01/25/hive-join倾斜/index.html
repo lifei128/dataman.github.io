@@ -79,20 +79,22 @@
 
 
 
-<meta name="description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
+<meta name="description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
 <meta name="keywords" content="hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="join倾斜">
 <meta property="og:url" content="http://yoursite.com/2019/01/25/hive-join倾斜/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
+<meta property="og:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-36.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-37.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
-<meta property="og:updated_time" content="2019-01-25T12:04:15.905Z">
+<meta property="og:updated_time" content="2019-01-29T03:29:16.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="join倾斜">
-<meta name="twitter:description" content="hive.optimize.skewjoinhive 中设定set hive.optimize.skewjoin = true;set hive.skewjoin.key = skew_key_threshold （default = 100000）可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000">
-<meta name="twitter:image" content="http://yoursite.com/images/pasted-2.png">
+<meta name="twitter:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-36.png">
 
 
 
@@ -344,10 +346,19 @@
       
 
       
-        <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
+        <h1 id="map-join"><a href="#map-join" class="headerlink" title="map join"></a>map join</h1><p>使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住</p>
+<p><img src="/images/pasted-36.png" alt="upload successful"></p>
+<h1 id="Auto-Map-Join"><a href="#Auto-Map-Join" class="headerlink" title="Auto Map Join"></a>Auto Map Join</h1><p><img src="/images/pasted-37.png" alt="upload successful"><br>还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join   </p>
+<p>图上左边是优化前的，右边是优化后的  </p>
+<p>优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。左边的分支是MapJoin，右边的分支是Common Join(Reduce Join)  </p>
+<p>看看左边的分支是不是和我们上上一张图很像？      </p>
+<p>这个时候，我们在执行的时候，就由这个Conditional Task 进行实时路径选择，遇到小于25兆走左边，大于25兆走右边。所谓，男的走左边，女的走右边，人妖走中间。   </p>
+<p>在比较新版的Hive中，Auto Mapjoin是默认开启的。如果没有开启，可以使用一个开关， set hive.auto.convert.join=true 开启。<br>当然，Join也会遇到和上面的Group By一样的倾斜问题。   </p>
+<p>Ｈive 也可以通过像Group By一样两道作业的模式单独处理一行或者多行倾斜的数据。即采用下面的方式。</p>
+<h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
 <p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
 <p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
-<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a> </p>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
 
       
     </div>
@@ -469,7 +480,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">1.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">1.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">2.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">3.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li></ol></div>
             
 
           </div>

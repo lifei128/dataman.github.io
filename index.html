@@ -249,6 +249,298 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/29/hive-Update-Insert-Delete原理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/29/hive-Update-Insert-Delete原理/" itemprop="url">hive Update/Insert/Delete原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-29T11:31:00+08:00">
+                2019-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Ｈive从0.14开始支持ACID。也就是支持了Update Insert Delete及一些流式的API。也就是这个原因，Hive把0.14.1 Bug Fixes版本改成了 Hive 1.0，也就是认为功能基本稳定和健全了。   </p>
+<p>由于HDFS是不支持本地文件更改的，同时在写的时候也不支持读。<br>表或者分区内的数据作为基础数据。事务产生的新数据如Insert/Update/Flume/Storm等会存储在增量文件（Delta Files）中。读取这个文件的时候，通常是Table Scan阶段，会合并更改，使读出的数据一致。   </p>
+<p>Hive Metastore上面增加了若干个线程，会周期性地合并并合并删除这些增量文件。   </p>
+<p>具体可以实现参考这个网页。 <a href="https://cwiki.apache.org/confluence/display/Hive/Hive+Transactions">https://cwiki.apache.org/confluence/display/Hive/Hive+Transactions</a>    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/29/层次桥接表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/29/层次桥接表/" itemprop="url">层次桥接表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-29T10:45:00+08:00">
+                2019-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据仓库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据仓库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="初版："><a href="#初版：" class="headerlink" title="初版："></a>初版：</h1><p><img src="/images/pasted-28.png" alt="upload successful"></p>
+<h1 id="扁平化"><a href="#扁平化" class="headerlink" title="扁平化:"></a>扁平化:</h1><p><img src="/images/pasted-29.png" alt="upload successful"> </p>
+<h1 id="层次桥接表"><a href="#层次桥接表" class="headerlink" title="层次桥接表"></a>层次桥接表</h1><p><img src="/images/pasted-30.png" alt="upload successful"></p>
+<p><img src="/images/pasted-31.png" alt="upload successful"></p>
+<h2 id="下钻"><a href="#下钻" class="headerlink" title="下钻"></a>下钻</h2><p><img src="/images/pasted-32.png" alt="upload successful"></p>
+<h2 id="上钻"><a href="#上钻" class="headerlink" title="上钻"></a>上钻</h2><p><img src="/images/pasted-33.png" alt="upload successful"><br>er图：<br><img src="/images/pasted-34.png" alt="upload successful"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/桥接表/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -342,8 +634,16 @@
       
         
           
-            <p>面对<strong>多值维度</strong>，有两个基本选择：位置设计或桥接表设计。<br>1、位置设计是指预留空值字段用于新增字段，缺点是难以扩展，很快就会发现表的列用光了，要增加新列很困难。<br>2、桥接表消除了无法扩展和存在大量空值的情况，但是生成的表设计需要一个复杂的查询隐藏在用户直接视图之后(可能需要超越BI工具范围之外的sql)。<br>star schema完全参考手册<br><a href="https://blog.csdn.net/u012073449/article/list/3?t=1">https://blog.csdn.net/u012073449/article/list/3?t=1</a><br><a href="http://book.51cto.com/art/201207/346044.htm">http://book.51cto.com/art/201207/346044.htm</a><br>多对多维度或多值维度<br>维度表和事实表之间的标准关系是一对多关系，这意味着维度表中的一行记录会连接事实表中的多行记录，但是事实表中的一行记录在维度表中只关联一行记录。这种关系很重要，因为它防止了重复计数。幸运的是，在大多数情况下都是这种一对多关系。<br>在现实世界中还存在比一对多关系更复杂的两种常见情况：<br>事实表和维度表之间的多对多关系。<br>维度表之间的多对多关系。<br>这两种情况本质是相同的，但事实表和维度表之间的多对多关系少了唯一描述事实和维度组的中间维度。对于这两种情况，我们介绍一种称为桥接表的中间表，以支持更复杂的多对多关系。<br>1、事实表和维度表之间的多对多关系<br>在多个维度表的值可以赋给单个事实事务时，事实表和维度表之间通常是多对多关系。一个常见的示例是多个销售代表可以参与给定的销售事务，这种情形经常发生在涉及大宗交易的复杂销售事件中(例如计算机系统)。精确地处理这种情况需要创建一个桥接表，将销售代表组合成一个组。SalesRepGroup桥接表如图2-4所示。    </p>
-<p><img src="/images/pasted-14.png" alt="upload successful"><br>ETL过程需要针对每条引入的事实表记录中的销售代表组合，在桥接表中查找相应的销售代表组键。如果该销售代表组键不存在，就添加一个新的销售代表组。注意图2-4所示的桥接表有重复计数的风险。如果按照销售代表累加销售量，那么每个销售代表都会对总销售量做出贡献。对某些分析而言结果是正确的，但对于其他情况仍会有重复计数的问题。要解决这个问题，可以向桥接表中添加加权因子列。加权因子是一个分数值，所有的销售代表组的加权因子累加起来为1。<strong>将加权因子和累加事实相乘，以按照每个销售代表在分组中的比重分配事实</strong>。<br>注意可能需要在Orders和SalesRepGroup之间添加一个SalesRepGroupKey表，以支持真正的主键-外键关系。这会把这个事实-维度实例变成维度-维度实例。<br>但是不提倡使用加权因子，因为如果新增分类，历史数据不好恢复，而且如果加权因子没有达成共识，就没办法设置了。<br><strong>为了解决查询复杂的情况，有时不需要新建桥接表，直接将多个维度用字符串分割，然后存储解决</strong>。</p>
+            <p><img src="/images/pasted-17.png" alt="upload successful"><br>采用桥接表有利有弊，桥接表增加了误用模式的可能性，可能会大致不准确的结果，而拒绝桥接表则严重影响了维度解决方案应有的分析能力。所以只有了解它，才能在各种情况下为平衡能力与风险做出正确的抉择。 </p>
+<h1 id="标准的一对多关系："><a href="#标准的一对多关系：" class="headerlink" title="标准的一对多关系："></a>标准的一对多关系：</h1><p><img src="/images/pasted-18.png" alt="upload successful">  </p>
+<h1 id="多值维度："><a href="#多值维度：" class="headerlink" title="多值维度："></a>多值维度：</h1><p>如果每个订单有多个销售人员。<br>面对<strong>多值维度</strong>，有两个基本选择：位置设计或桥接表设计。<br>1、事实表中多个键值，位置设计是指预留空值字段用于新增字段，缺点是难以扩展，很快就会发现表的列用光了，要增加新列很困难。仅支持数量有限的关系。<br>2、利用桥接表消除无法扩展和存在大量空值的情况，但是生成的表。    可能会导致双重或多重计算。<br>3、为了解决查询复杂的情况，有时不需要新建桥接表，<strong>直接将多个维度用字符串分割</strong>，然后存储解决。如存|Ann|Henry|   </p>
+<p><img src="/images/pasted-19.png" alt="upload successful">   </p>
+<p><img src="/images/pasted-20.png" alt="upload successful"><br>区域是销售salesrep表的字段。  </p>
+<p><img src="/images/pasted-21.png" alt="upload successful"><br>是关系型数据库的问题。在设计大数据数仓时可以考虑其他这种方式规避。<br>问题解决：<br>1、不提倡<br><img src="/images/pasted-22.png" alt="upload successful"><br>2、增加分配因子。不提倡<br>多数情况下，分配因子不存在，可用性较低。<br><img src="/images/pasted-23.png" alt="upload successful"><br>3、使用主成员补充桥接表，桥接表不直接对外。不能最终解决问题。不提倡。<br>4、缓慢变化维的问题。<br>5、交叉，同样是对一些关系型分析工具的妥协。不提倡<br><img src="/images/pasted-25.png" alt="upload successful"><br><img src="/images/pasted-26.png" alt="upload successful"></p>
+<h1 id="多值属性"><a href="#多值属性" class="headerlink" title="多值属性"></a>多值属性</h1><p>理解上，是利用支架表和桥接表，解决方式和问题与多值维度雷同。 </p>
+<p>参考：<br>star schema完全参考手册<br><a href="https://blog.csdn.net/u012073449/article/list/3?t=1">https://blog.csdn.net/u012073449/article/list/3?t=1</a><br><a href="http://book.51cto.com/art/201207/346044.htm">http://book.51cto.com/art/201207/346044.htm</a><br>多对多维度或多值维度<br>维度表和事实表之间的标准关系是一对多关系，这意味着维度表中的一行记录会连接事实表中的多行记录，但是事实表中的一行记录在维度表中只关联一行记录。这种关系很重要，因为它防止了重复计数。幸运的是，在大多数情况下都是这种一对多关系。<br>在现实世界中还存在比一对多关系更复杂的两种常见情况：<br>事实表和维度表之间的多对多关系。<br>维度表之间的多对多关系。<br>这两种情况本质是相同的，但事实表和维度表之间的多对多关系少了唯一描述事实和维度组的中间维度。对于这两种情况，我们介绍一种称为桥接表的中间表，以支持更复杂的多对多关系。  </p>
+<p>1、事实表和维度表之间的多对多关系<br>在多个维度表的值可以赋给单个事实事务时，事实表和维度表之间通常是多对多关系。一个常见的示例是多个销售代表可以参与给定的销售事务，这种情形经常发生在涉及大宗交易的复杂销售事件中(例如计算机系统)。精确地处理这种情况需要创建一个桥接表，将销售代表组合成一个组。SalesRepGroup桥接表如图2-4所示。    </p>
+<p><img src="/images/pasted-14.png" alt="upload successful"><br>ETL过程需要针对每条引入的事实表记录中的销售代表组合，在桥接表中查找相应的销售代表组键。如果该销售代表组键不存在，就添加一个新的销售代表组。注意图2-4所示的桥接表有重复计数的风险。如果按照销售代表累加销售量，那么每个销售代表都会对总销售量做出贡献。对某些分析而言结果是正确的，但对于其他情况仍会有重复计数的问题。要解决这个问题，可以向桥接表中添加加权因子列。加权因子是一个分数值，所有的销售代表组的加权因子累加起来为1。<strong>将加权因子和累加事实相乘，以按照每个销售代表在分组中的比重分配事实</strong>。<br>注意可能需要在Orders和SalesRepGroup之间添加一个SalesRepGroupKey表，以支持真正的主键-外键关系。这会把这个事实-维度实例变成维度-维度实例。<br>但是不提倡使用加权因子，因为如果新增分类，历史数据不好恢复，而且如果加权因子没有达成共识，就没办法设置了。  </p>
 <p>2、维度之间的多对多关系<br>从分析的角度来看，维度之间的多对多关系是一个很重要的概念，大多数维度都不是完全相互独立的。维度之间的独立性是连续的，而不是有或没有这两种截然不同的状态。例如在连续的一端，零售店这条链状关系的库存维度和产品维度是相对独立的，而不是绝对独立的。一些库存方式不适合某些产品。其他维度之间的关系则紧密得多，但是由于存在多对多关系，因此很难将其组合成单个维度。例如在银行系统中，账户和顾客之间有直接关系，但不是一对一的关系。一个账户可以有一个或多个签名确认的顾客，一个顾客也可有多个账户。银行通常从账户的角度来处理数据；MonthAccountSnapshot(月账快照)是金融机构中常见的一种事实表。因为账户和顾客之间存在的多对多关系，这种更多关注账户的系统就很难按照顾客来查看账户。一种方法是创建CustomerGroup桥接表来连接事实表，例如前面多对多示例中的SalesRepGroup表。较好的方法是利用账户和顾客之间的关系，如图2-5所示。  </p>
 <p><img src="/images/pasted-15.png" alt="upload successful"><br>账户和顾客维度之间的AccountToCustomer桥接表可以捕获多对多关系，并且有几个显著的优点。首先，源系统中的关系是已知的，因此创建桥接表比手动构建SalesRepGroup维度表更容易。其次，账户-顾客关系自身就非常有趣。AccountToCustomer桥接表可以回答诸如”每个顾客的平均账户数量是多少？”这样的问题，而无须连接任何事实表。<br>桥接表经常是底层业务过程的标志，特别是在需要跟踪桥接表随时间而产生的变化(即关系本身是类型2变化)时。对顾客和账户来说，业务过程可能称为账户维护，其中一项事务可能称作”添加签名人”。如果3个顾客与同一个账户关联，在源系统中该账户就会有3个”Add(添加)”事务。通常这些事务和它们表示的业务过程还不是很重要，不需要在DW/BI系统中通过它们自身的事实表来跟踪。然而，这些关系和它们产生的变化对分析业务来说是相当重要的。我们在维度模型中把它们包含为渐变维度，在一些情况下包含为桥接表。</p>
 
@@ -1429,306 +1729,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/flink-vs-spark/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/flink-vs-spark/" itemprop="url">flink vs spark</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:45:00+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/flink/" itemprop="url" rel="index">
-                    <span itemprop="name">flink</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现<br>在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于</p>
-<p>1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java 对象，spark中的dataframes 才有执行计划，  flink 和 spark 两者最基础的东西， Dataset 和 RDD， 是不同的。 一个是经过优化器优化的， 一个没有。 flink 中的 Dataset 类似 spark 中经过优化的 Dataframe 概念，  spark 1.6 中引入的dataset（跟 flink 中的 Dataset 重名了，两者类似） 最终应该会代替RDD的抽象吧。</p>
-<p>2、在 spark 中， DStream 和 Dataframe 等都是基于 RDD 的封装， 然而 flink 中的 Dataset  和 DataStream 则是独立实现的， 尽管两者间尽量保持相同的 API， 但是你很难统一起来， 至少没有 spark 中那样优雅， 这个大方向， flink 能不能做到就难说了。我们不能统一 DataSet 和 DataStreams， 尽管 flink 有和 spark 相同的抽象，但是内部实现是不同的。</p>
-<h1 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h1><p>spark 1.5 之前， spark 一直都是使用 java jvm 堆来保存对象， 虽然有利于启动项目， 但是经常会产生 OOM 和 gc 问题， 所以 1.5 开始， spark 开始引入 自己管理内存的 tungsten 项目。</p>
-<p>Flink 从第一天起就自己管理内存，  spark 就是从这学的吧， 不仅保存数据使用 binary data， 而且可以直接在binary data 上进行操作。 spark 1.5 开始也可以直接在binary data 进行 dataframe API 提供的操作了。 自己管理内存， 直接使用分配的binary data而不是JVM objects 可以得到更高的性能 和 更好的资源利用。</p>
-<h1 id="流式处理"><a href="#流式处理" class="headerlink" title="流式处理"></a>流式处理</h1><p>在 spark 的眼里， streaming 是特殊的 batch， 在 flink 眼里， batch 是特殊的 streaming， 主要的区别在于<br>1、实时  vs 准实时  ，flink 提供 event 事件级别的延迟， 可以认为是实时的， 类似于 storm 的模型， 而 spark 中， 是微批处理， 不能提供事件级别的延迟， 我们可以称之为准实时。<br>2、flink 则可以灵活的支持窗口， 支持带有事件时间的窗口（Window）操作是flink 的亮点，  你可以选择使用处理时间还是事件时间进行窗口操作， 这种灵活性是 spark 所不如的。<br>3、spark 来自于 Map/Reduce 时代， 崇尚 运算追着数据走， 数据可以是内存中的数组， 也可以是磁盘中的文件，  可以进行很好的容错。Flink 的模型中， 数据是追着运算走的， 算子位于节点上， 数据从中流过， 类似于 akka-streams 中的概念。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/" itemprop="url">Spark Streamin、kafka、redis、 Exactly once</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:00+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转：<a href="http://lxw1234.com/archives/2018/02/901.htm">http://lxw1234.com/archives/2018/02/901.htm</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1781,7 +1781,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

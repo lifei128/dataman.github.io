@@ -249,6 +249,306 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/flink-vs-spark/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/flink-vs-spark/" itemprop="url">flink vs spark</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:45:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现<br>在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于</p>
+<p>1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java 对象，spark中的dataframes 才有执行计划，  flink 和 spark 两者最基础的东西， Dataset 和 RDD， 是不同的。 一个是经过优化器优化的， 一个没有。 flink 中的 Dataset 类似 spark 中经过优化的 Dataframe 概念，  spark 1.6 中引入的dataset（跟 flink 中的 Dataset 重名了，两者类似） 最终应该会代替RDD的抽象吧。</p>
+<p>2、在 spark 中， DStream 和 Dataframe 等都是基于 RDD 的封装， 然而 flink 中的 Dataset  和 DataStream 则是独立实现的， 尽管两者间尽量保持相同的 API， 但是你很难统一起来， 至少没有 spark 中那样优雅， 这个大方向， flink 能不能做到就难说了。我们不能统一 DataSet 和 DataStreams， 尽管 flink 有和 spark 相同的抽象，但是内部实现是不同的。</p>
+<h1 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h1><p>spark 1.5 之前， spark 一直都是使用 java jvm 堆来保存对象， 虽然有利于启动项目， 但是经常会产生 OOM 和 gc 问题， 所以 1.5 开始， spark 开始引入 自己管理内存的 tungsten 项目。</p>
+<p>Flink 从第一天起就自己管理内存，  spark 就是从这学的吧， 不仅保存数据使用 binary data， 而且可以直接在binary data 上进行操作。 spark 1.5 开始也可以直接在binary data 进行 dataframe API 提供的操作了。 自己管理内存， 直接使用分配的binary data而不是JVM objects 可以得到更高的性能 和 更好的资源利用。</p>
+<h1 id="流式处理"><a href="#流式处理" class="headerlink" title="流式处理"></a>流式处理</h1><p>在 spark 的眼里， streaming 是特殊的 batch， 在 flink 眼里， batch 是特殊的 streaming， 主要的区别在于<br>1、实时  vs 准实时  ，flink 提供 event 事件级别的延迟， 可以认为是实时的， 类似于 storm 的模型， 而 spark 中， 是微批处理， 不能提供事件级别的延迟， 我们可以称之为准实时。<br>2、flink 则可以灵活的支持窗口， 支持带有事件时间的窗口（Window）操作是flink 的亮点，  你可以选择使用处理时间还是事件时间进行窗口操作， 这种灵活性是 spark 所不如的。<br>3、spark 来自于 Map/Reduce 时代， 崇尚 运算追着数据走， 数据可以是内存中的数组， 也可以是磁盘中的文件，  可以进行很好的容错。Flink 的模型中， 数据是追着运算走的， 算子位于节点上， 数据从中流过， 类似于 akka-streams 中的概念。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/" itemprop="url">Spark Streamin、kafka、redis、 Exactly once</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转：<a href="http://lxw1234.com/archives/2018/02/901.htm">http://lxw1234.com/archives/2018/02/901.htm</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/状态计算/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1447,304 +1747,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/sed操作/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/26/sed操作/" itemprop="url">sed操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:25:00+08:00">
-                2019-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>一次性给文件多行加注释<br>在vim 视图模式下<br>：2,5 s/^/#/<br>或者直接使用sed，命令如下：<br>sed -i ‘2,5s/^/#/‘ filename  </li>
-<li>注释取消<br>反之，将2~5行带#注释取消：<br>：2,5 s/^#//<br>或者<br>sed -i ‘2,5s/^#//‘ filename  </li>
-<li>去掉空行<br>sed -i ‘/^$/d’ df.txt  </li>
-<li>将每一行拖尾的“空白字符”（空格，制表符）删除<br>sed ‘s/ *$//‘  df.txt   &gt;cwm.txt</li>
-<li>将每一行中的前导和拖尾的空白字符删除<br>sed ‘s/^ <em>//;s/ </em>$//‘  df.txt   &gt;cwm.txt </li>
-<li>vi下全文替换<br>:%s/1/2/g 全文替换<br>“1,20” ：表示从第1行到20行；<br>“%” ：表示整个文件，同“1,$”；<br>“. ,$” ：从当前行到文件尾；    </li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/有效电话号码/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/26/有效电话号码/" itemprop="url">有效电话号码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:19:00+08:00">
-                2019-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>给定一个包含电话号码列表（一行一个电话号码）的文本文件 file.txt，写一个 bash 脚本输出所有有效的电话号码。  </p>
-<p>你可以假设一个有效的电话号码必须满足以下两种格式： (xxx) xxx-xxxx 或 xxx-xxx-xxxx。（x 表示一个数字） </p>
-<p>你也可以假设每行前后没有多余的空格字符。</p>
-<p>示例:</p>
-<p>假设 file.txt 内容如下：</p>
-<p>987-123-4567<br>123 456 7890<br>(123) 456-7890<br>你的脚本应当输出下列有效的电话号码：</p>
-<p>987-123-4567<br>(123) 456-7890  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">egrep -o &quot;(^[0-9]&#123;3&#125;-[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$)|(^\([0-9][0-9][0-9]\)\s[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$)&quot; file.txt</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1797,7 +1799,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
