@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-36.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-37.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
-<meta property="og:updated_time" content="2019-01-29T03:29:16.460Z">
+<meta property="og:updated_time" content="2019-01-29T06:28:22.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="join倾斜">
 <meta name="twitter:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
@@ -358,6 +358,7 @@
 <h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
 <p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
 <p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
+<h1 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h1><p>如果A表关联B表在某个key上倾斜，B是码表，那么可以将B表放大1000倍，然后对A表的key字段加上一个1000以内hash后缀，然后和放大后的b表关联，可以解决问题。</p>
 <p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
 
       
@@ -480,7 +481,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -563,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">1.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">2.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">3.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">1.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">2.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">3.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他方法"><span class="nav-number">4.</span> <span class="nav-text">其他方法</span></a></li></ol></div>
             
 
           </div>

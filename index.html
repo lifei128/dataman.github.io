@@ -342,12 +342,16 @@
       
         
           
-            <p>Ｈive从0.14开始支持ACID。也就是支持了Update Insert Delete及一些流式的API。也就是这个原因，Hive把0.14.1 Bug Fixes版本改成了 Hive 1.0，也就是认为功能基本稳定和健全了。   </p>
-<p>由于HDFS是不支持本地文件更改的，同时在写的时候也不支持读。<br>表或者分区内的数据作为基础数据。事务产生的新数据如Insert/Update/Flume/Storm等会存储在增量文件（Delta Files）中。读取这个文件的时候，通常是Table Scan阶段，会合并更改，使读出的数据一致。   </p>
-<p>Hive Metastore上面增加了若干个线程，会周期性地合并并合并删除这些增量文件。   </p>
-<p>具体可以实现参考这个网页。 <a href="https://cwiki.apache.org/confluence/display/Hive/Hive+Transactions">https://cwiki.apache.org/confluence/display/Hive/Hive+Transactions</a>    </p>
-
-          
+          Ｈive从0.14开始支持ACID。也就是支持了Update Insert Delete及一些流式的API。也就是这个原因，Hive把0.14.1 Bug Fixes版本改成了 Hive 1.0，也就是认为功能基本稳定和健全了。   
+由于HDFS是不支持本地文件更改的，同时在写的时候也不支持读。表
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/29/hive-Update-Insert-Delete原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -487,14 +491,21 @@
       
         
           
-            <h1 id="初版："><a href="#初版：" class="headerlink" title="初版："></a>初版：</h1><p><img src="/images/pasted-28.png" alt="upload successful"></p>
-<h1 id="扁平化"><a href="#扁平化" class="headerlink" title="扁平化:"></a>扁平化:</h1><p><img src="/images/pasted-29.png" alt="upload successful"> </p>
-<h1 id="层次桥接表"><a href="#层次桥接表" class="headerlink" title="层次桥接表"></a>层次桥接表</h1><p><img src="/images/pasted-30.png" alt="upload successful"></p>
-<p><img src="/images/pasted-31.png" alt="upload successful"></p>
-<h2 id="下钻"><a href="#下钻" class="headerlink" title="下钻"></a>下钻</h2><p><img src="/images/pasted-32.png" alt="upload successful"></p>
-<h2 id="上钻"><a href="#上钻" class="headerlink" title="上钻"></a>上钻</h2><p><img src="/images/pasted-33.png" alt="upload successful"><br>er图：<br><img src="/images/pasted-34.png" alt="upload successful"></p>
+          初版：
+扁平化: 
+层次桥接表
+
+下钻
+上钻er图：
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/29/层次桥接表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -634,20 +645,17 @@
       
         
           
-            <p><img src="/images/pasted-17.png" alt="upload successful"><br>采用桥接表有利有弊，桥接表增加了误用模式的可能性，可能会大致不准确的结果，而拒绝桥接表则严重影响了维度解决方案应有的分析能力。所以只有了解它，才能在各种情况下为平衡能力与风险做出正确的抉择。 </p>
-<h1 id="标准的一对多关系："><a href="#标准的一对多关系：" class="headerlink" title="标准的一对多关系："></a>标准的一对多关系：</h1><p><img src="/images/pasted-18.png" alt="upload successful">  </p>
-<h1 id="多值维度："><a href="#多值维度：" class="headerlink" title="多值维度："></a>多值维度：</h1><p>如果每个订单有多个销售人员。<br>面对<strong>多值维度</strong>，有两个基本选择：位置设计或桥接表设计。<br>1、事实表中多个键值，位置设计是指预留空值字段用于新增字段，缺点是难以扩展，很快就会发现表的列用光了，要增加新列很困难。仅支持数量有限的关系。<br>2、利用桥接表消除无法扩展和存在大量空值的情况，但是生成的表。    可能会导致双重或多重计算。<br>3、为了解决查询复杂的情况，有时不需要新建桥接表，<strong>直接将多个维度用字符串分割</strong>，然后存储解决。如存|Ann|Henry|   </p>
-<p><img src="/images/pasted-19.png" alt="upload successful">   </p>
-<p><img src="/images/pasted-20.png" alt="upload successful"><br>区域是销售salesrep表的字段。  </p>
-<p><img src="/images/pasted-21.png" alt="upload successful"><br>是关系型数据库的问题。在设计大数据数仓时可以考虑其他这种方式规避。<br>问题解决：<br>1、不提倡<br><img src="/images/pasted-22.png" alt="upload successful"><br>2、增加分配因子。不提倡<br>多数情况下，分配因子不存在，可用性较低。<br><img src="/images/pasted-23.png" alt="upload successful"><br>3、使用主成员补充桥接表，桥接表不直接对外。不能最终解决问题。不提倡。<br>4、缓慢变化维的问题。<br>5、交叉，同样是对一些关系型分析工具的妥协。不提倡<br><img src="/images/pasted-25.png" alt="upload successful"><br><img src="/images/pasted-26.png" alt="upload successful"></p>
-<h1 id="多值属性"><a href="#多值属性" class="headerlink" title="多值属性"></a>多值属性</h1><p>理解上，是利用支架表和桥接表，解决方式和问题与多值维度雷同。 </p>
-<p>参考：<br>star schema完全参考手册<br><a href="https://blog.csdn.net/u012073449/article/list/3?t=1">https://blog.csdn.net/u012073449/article/list/3?t=1</a><br><a href="http://book.51cto.com/art/201207/346044.htm">http://book.51cto.com/art/201207/346044.htm</a><br>多对多维度或多值维度<br>维度表和事实表之间的标准关系是一对多关系，这意味着维度表中的一行记录会连接事实表中的多行记录，但是事实表中的一行记录在维度表中只关联一行记录。这种关系很重要，因为它防止了重复计数。幸运的是，在大多数情况下都是这种一对多关系。<br>在现实世界中还存在比一对多关系更复杂的两种常见情况：<br>事实表和维度表之间的多对多关系。<br>维度表之间的多对多关系。<br>这两种情况本质是相同的，但事实表和维度表之间的多对多关系少了唯一描述事实和维度组的中间维度。对于这两种情况，我们介绍一种称为桥接表的中间表，以支持更复杂的多对多关系。  </p>
-<p>1、事实表和维度表之间的多对多关系<br>在多个维度表的值可以赋给单个事实事务时，事实表和维度表之间通常是多对多关系。一个常见的示例是多个销售代表可以参与给定的销售事务，这种情形经常发生在涉及大宗交易的复杂销售事件中(例如计算机系统)。精确地处理这种情况需要创建一个桥接表，将销售代表组合成一个组。SalesRepGroup桥接表如图2-4所示。    </p>
-<p><img src="/images/pasted-14.png" alt="upload successful"><br>ETL过程需要针对每条引入的事实表记录中的销售代表组合，在桥接表中查找相应的销售代表组键。如果该销售代表组键不存在，就添加一个新的销售代表组。注意图2-4所示的桥接表有重复计数的风险。如果按照销售代表累加销售量，那么每个销售代表都会对总销售量做出贡献。对某些分析而言结果是正确的，但对于其他情况仍会有重复计数的问题。要解决这个问题，可以向桥接表中添加加权因子列。加权因子是一个分数值，所有的销售代表组的加权因子累加起来为1。<strong>将加权因子和累加事实相乘，以按照每个销售代表在分组中的比重分配事实</strong>。<br>注意可能需要在Orders和SalesRepGroup之间添加一个SalesRepGroupKey表，以支持真正的主键-外键关系。这会把这个事实-维度实例变成维度-维度实例。<br>但是不提倡使用加权因子，因为如果新增分类，历史数据不好恢复，而且如果加权因子没有达成共识，就没办法设置了。  </p>
-<p>2、维度之间的多对多关系<br>从分析的角度来看，维度之间的多对多关系是一个很重要的概念，大多数维度都不是完全相互独立的。维度之间的独立性是连续的，而不是有或没有这两种截然不同的状态。例如在连续的一端，零售店这条链状关系的库存维度和产品维度是相对独立的，而不是绝对独立的。一些库存方式不适合某些产品。其他维度之间的关系则紧密得多，但是由于存在多对多关系，因此很难将其组合成单个维度。例如在银行系统中，账户和顾客之间有直接关系，但不是一对一的关系。一个账户可以有一个或多个签名确认的顾客，一个顾客也可有多个账户。银行通常从账户的角度来处理数据；MonthAccountSnapshot(月账快照)是金融机构中常见的一种事实表。因为账户和顾客之间存在的多对多关系，这种更多关注账户的系统就很难按照顾客来查看账户。一种方法是创建CustomerGroup桥接表来连接事实表，例如前面多对多示例中的SalesRepGroup表。较好的方法是利用账户和顾客之间的关系，如图2-5所示。  </p>
-<p><img src="/images/pasted-15.png" alt="upload successful"><br>账户和顾客维度之间的AccountToCustomer桥接表可以捕获多对多关系，并且有几个显著的优点。首先，源系统中的关系是已知的，因此创建桥接表比手动构建SalesRepGroup维度表更容易。其次，账户-顾客关系自身就非常有趣。AccountToCustomer桥接表可以回答诸如”每个顾客的平均账户数量是多少？”这样的问题，而无须连接任何事实表。<br>桥接表经常是底层业务过程的标志，特别是在需要跟踪桥接表随时间而产生的变化(即关系本身是类型2变化)时。对顾客和账户来说，业务过程可能称为账户维护，其中一项事务可能称作”添加签名人”。如果3个顾客与同一个账户关联，在源系统中该账户就会有3个”Add(添加)”事务。通常这些事务和它们表示的业务过程还不是很重要，不需要在DW/BI系统中通过它们自身的事实表来跟踪。然而，这些关系和它们产生的变化对分析业务来说是相当重要的。我们在维度模型中把它们包含为渐变维度，在一些情况下包含为桥接表。</p>
-
-          
+          采用桥接表有利有弊，桥接表增加了误用模式的可能性，可能会大致不准确的结果，而拒绝桥接表则严重影响了维度解决方案应有的分析能力。所以只有了解它，才能在各种情况下为平衡能力与风险做出正确的抉择。 
+标准的一对多关系：  
+多值维度：如果每个订单有多个销售人员。面对多值维度，有两个基本选择：位置设计或桥接
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/桥接表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -787,9 +795,15 @@
       
         
           
-            <p>将分号改为\073<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE `table`(</span><br><span class="line">  `a` string COMMENT &apos;&apos;,</span><br><span class="line">  `b` string COMMENT &apos;&apos;,</span><br><span class="line">  `c` string COMMENT &apos;&apos;,</span><br><span class="line">  `d` int COMMENT &apos;&apos;,</span><br><span class="line">  `e` string COMMENT &apos;&apos;,</span><br><span class="line">  `f` string COMMENT &apos;&apos;,</span><br><span class="line">  `g` string COMMENT &apos;&apos;,</span><br><span class="line">  `h` int COMMENT &apos;&apos;)</span><br><span class="line">PARTITIONED BY (</span><br><span class="line">  `dt` string)</span><br><span class="line">ROW FORMAT SERDE</span><br><span class="line">  &apos;org.apache.hadoop.hive.serde2.RegexSerDe&apos;</span><br><span class="line">WITH SERDEPROPERTIES (</span><br><span class="line">    &apos;input.regex&apos;=&apos;(\\d&#123;4&#125;-\\d&#123;2&#125;-\\d&#123;2&#125;\\s*\\d&#123;2&#125;:\\d&#123;2&#125;:\\d&#123;2&#125;).\\d&#123;3&#125;\\s*[A-Z]&#123;3,5&#125;\\s*L:([a-zA-Z0-9_\\-]&#123;1,50&#125;),D:([A-Z0-9_]&#123;1,5&#125;),Mod:([0-9]&#123;1,2&#125;),([a-zA-Z0-9_]&#123;10,30&#125;):([A-Z]&#123;1&#125;),ClientCode:([a-zA-z\\d\\-_\\.\\|]&#123;1,100&#125;)(?:,RuleVersion:(\\d&#123;1,3&#125;))\073&apos;,</span><br><span class="line">   &apos;output.format.string&apos;=&apos;%1$s %2$s %3$s %4$s %5$s %6$s %7$s &apos;</span><br><span class="line">  )</span><br><span class="line">STORED AS INPUTFORMAT</span><br><span class="line">  &apos;org.apache.hadoop.mapred.TextInputFormat&apos;</span><br><span class="line">OUTPUTFORMAT</span><br><span class="line">  &apos;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&apos;</span><br><span class="line">LOCATION</span><br><span class="line">  &apos;hdfs://qunarcluster/user/abtest/log/abtest_sdk_log_daycombine&apos;</span><br></pre></td></tr></table></figure></p>
-
-          
+          将分号改为\0731234567891011121314151617181920212223CREATE EXTERNAL TABLE `table`(  `a` string COMMENT &apos;&apos;,  `b` string COMMENT &apos;&apos;,  `c` 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/hive默认分号提交问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -929,9 +943,15 @@
       
         
           
-            <p>支架表看起来和雪花模式有些类似。采用支架表的原因是：<br>1、支架表中的维度没有<strong>基本维度表</strong>中的分析价值大，使用也不是很频繁。<br>2、其次如果有维度在基本维度中有很大的冗余(基本维度记录中都含有重复字段)，那么将不常用的放到支架表中可以节省空间。<br><img src="/images/pasted-16.png" alt="upload successful"><br>备注：<br>可以使用支架表，但是只可偶尔为之，不要常用。如果您的设计包含大量的支架表，就应该拉响警报。您<strong>可能会陷入过度规范化设计的麻烦之中</strong>。</p>
-
-          
+          支架表看起来和雪花模式有些类似。采用支架表的原因是：1、支架表中的维度没有基本维度表中的分析价值大，使用也不是很频繁。2、其次如果有维度在基本维度中有很大的冗余(基本维度记录中都含有重复字段)，那么将不常用的放到支架表中可以节省空间。备注：可以使用支架表，但是只可偶尔为之，不要常用。如果您的设计包含
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/支架表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1071,9 +1091,16 @@
       
         
           
-            <p><a href="https://blog.csdn.net/zhangzeyuaaa/article/details/50675058">https://blog.csdn.net/zhangzeyuaaa/article/details/50675058</a></p>
+          https://blog.csdn.net/zhangzeyuaaa/article/details/50675058
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/横表和纵表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1213,174 +1240,16 @@
       
         
           
-            <p>OneData体系分为：<br>1、数据规范定义体系<br>2、数据模型规范设计<br>3、ETL规范研发以及支撑整个体系从方法到实施的工具体系。  </p>
-<h1 id="落地实现"><a href="#落地实现" class="headerlink" title="落地实现"></a>落地实现</h1><h2 id="数据规范定义"><a href="#数据规范定义" class="headerlink" title="数据规范定义"></a>数据规范定义</h2><p>将此前个性化的数据指标进行规范定义，抽象成：原子指标、时间周期、其他修饰词等三个要素。<br>例如，以往业务方提出的需求是：最近7天的成交。而实际上，这个指标在规范定义中，应该结构化分解成为：   </p>
-<p>原子指标（支付订单金额 ）+修饰词-时间周期（最近7天）+修饰词-卖家类型（淘宝）<br><img src="/images/pasted-11.png" alt="upload successful">  </p>
-<blockquote>
-<p>上文只有抽象指标的方法，应该还包括字段规范，表名规范</p>
-</blockquote>
-<h1 id="数据模型架构"><a href="#数据模型架构" class="headerlink" title="数据模型架构"></a>数据模型架构</h1><blockquote>
-<p>理解为数据仓库的分层设计</p>
-</blockquote>
-<p>将数据分为ODS（操作数据）层、CDM（公共维度模型）层、ADS（应用数据）层。  </p>
-<p>其中：<br>ODS层主要功能  </p>
-<p>这里先介绍一下阿里云数加大数据计算服务MaxCompute，是一种快速、完全托管的TB/PB级数据仓库解决方案，适用于多种数据处理场景，如日志分析，数据仓库，机器学习，个性化推荐和生物信息等。  </p>
-<p>同步：结构化数据增量或全量同步到数加MaxCompute（原ODPS）；<br>结构化：非结构化(日志)结构化处理并存储到MaxCompute（原ODPS）；<br>累积历史、清洗：根据数据业务需求及稽核和审计要求保存历史数据、数据清洗；  </p>
-<p>CDM层主要功能  </p>
-<p>CDM层又细分为DWD层和DWS层，分别是明细宽表层和公共汇总数据层，采取维度模型方法基础，<strong>更多采用一些维度退化手法</strong>，减少事实表和维度表的关联，容易维度到事实表强化明细事实表的易用性；同时在汇总数据层，<strong>加强指标的维度退化</strong>，采取更多宽表化的手段构建公共指标数据层，提升公共指标的复用性，减少重复的加工。   </p>
-<p>ADS层主要功能  </p>
-<p>个性化指标加工：不公用性；复杂性（指数型、比值型、排名型指标）<br>基于应用的数据组装：<strong>大宽表集市、横表转纵表、趋势指标串</strong><br>其模型架构图如下，阿里通过构建全域的公共层数据，极大的控制了数据规模的增长趋势，同时在整体的数据研发效率，成本节约、性能改进方面都有不错的结果。<br><img src="/images/pasted-12.png" alt="upload successful"></p>
-<h2 id="研发流程和工具落地实现"><a href="#研发流程和工具落地实现" class="headerlink" title="研发流程和工具落地实现"></a>研发流程和工具落地实现</h2><p>将OneData体系贯穿于整个研发流程的每个环节中，并通过研发工具来进行保障。</p>
-<p><img src="/images/pasted-13.png" alt="upload successful"></p>
-<h1 id="实施效果"><a href="#实施效果" class="headerlink" title="实施效果"></a>实施效果</h1><p>1、数据标准统一：数据指标口径一致，各种场景下看到的数据一致性得到保障<br>2、支撑多个业务，极大扩展性：服务了集团内部45个BU的业务，满足不同业务的个性化需求<br>3、统一数据服务：建立了统一的数据服务层，其中离线数据日均调用次数超过22亿；实时数据调用日均超过11亿<br>4、计算、存储成本：指标口径复用性强，将原本30000多个指标精简到3000个；模型分层、粒度清晰，数据表从之前的25000张精简到不超过3000张。<br>5、研发成本：通过数据分域、模型分层，强调工程师之间的分工和协作，不再需要从头到尾每个细节都了解一遍，节省了工程师的时间和精力。<br>参考：<br><a href="https://yq.aliyun.com/articles/67011">https://yq.aliyun.com/articles/67011</a>   </p>
-<p>明细宽表层-面向业务建模过程<br>    事务型事实宽表，周期性快照事实宽表，累计快照事实宽表<br>公共汇总款表层-面向分析主题建模<br>    流量，订单，商品，用户  </p>
-<p>上面两层都是基于公共维度表的基础上  </p>
-<hr>
-<p>维度退化手法<br>指标维度退化<br>大宽表集市、横表转纵表、趋势指标串<br>个性化指标加工：不公用性；复杂性（指数型、比值型、排名型指标）          </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/hiveserver2/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/hiveserver2/" itemprop="url">hiveserver2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T16:08:00+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import java.io.BufferedWriter;</span><br><span class="line">import java.io.FileWriter;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.sql.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class HiveJdbcCli &#123;</span><br><span class="line">    //网上写 org.apache.hadoop.hive.jdbc.HiveDriver ,新版本不能这样写</span><br><span class="line">    private static String driverName = &quot;org.apache.hive.jdbc.HiveDriver&quot;;</span><br><span class="line"></span><br><span class="line">    //这里是hive2，网上其他人都写hive,在高版本中会报错</span><br><span class="line">//    private static String url = &quot;jdbc:hive2://master:10000/default&quot;;</span><br><span class="line">    private static String url = &quot;jdbc:hive2://hdpm5.corp.qunar.com:2181,hdpm6.corp.qunar.com:2181,hdpm7.corp.qunar.com:2181/intercarhive;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=datahiveserver2_zk&quot;;</span><br><span class="line">    private static String user = &quot;intercarhive&quot;;</span><br><span class="line">    private static String password = &quot;intercarhive@qunar.com&quot;;</span><br><span class="line">    private static String sql = &quot;&quot;;</span><br><span class="line">    private static ResultSet res;</span><br><span class="line">    private static final Logger log = Logger.getLogger(HiveJdbcCli.class);</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        Statement stmt = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            conn = getConn();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line"></span><br><span class="line">            // 第一步:存在就先删除  </span><br><span class="line">            String tableName = dropTable(stmt);</span><br><span class="line">            stmt.close();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            // 第二步:不存在就创建  </span><br><span class="line">            createTable(stmt, tableName);</span><br><span class="line">            stmt.close();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            // 第三步:查看创建的表  </span><br><span class="line">            showTables(stmt, tableName);</span><br><span class="line">            stmt.close();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            // 执行describe table操作  </span><br><span class="line">            describeTables(stmt, tableName);</span><br><span class="line">            stmt.close();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line"></span><br><span class="line">            selectData2File(stmt, &quot; pf_test.hdfs_fsimage_file_orc&quot;, &quot;/d/test/fsimage.txt&quot;);</span><br><span class="line">            stmt.close();</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">//            // 执行load data into table操作</span><br><span class="line">//            loadData(stmt, tableName);</span><br><span class="line">//</span><br><span class="line">//            // 执行 select * query 操作</span><br><span class="line">//            selectData(stmt, tableName);</span><br><span class="line">//</span><br><span class="line">//            // 执行 regular hive query 统计操作</span><br><span class="line">//            countData(stmt, tableName);</span><br><span class="line"></span><br><span class="line">        &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            log.error(driverName + &quot; not found!&quot;, e);</span><br><span class="line">            System.exit(1);</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            log.error(&quot;Connection error!&quot;, e);</span><br><span class="line">            System.exit(1);</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if (conn != null) &#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                    conn = null;</span><br><span class="line">                &#125;</span><br><span class="line">                if (stmt != null) &#123;</span><br><span class="line">                    stmt.close();</span><br><span class="line">                    stmt = null;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void countData(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        sql = &quot;select count(1) from &quot; + tableName;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line">        res = stmt.executeQuery(sql);</span><br><span class="line">        System.out.println(&quot;执行“regular hive query”运行结果:&quot;);</span><br><span class="line">        while (res.next()) &#123;</span><br><span class="line">            System.out.println(&quot;count ------&gt;&quot; + res.getString(1));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void selectData(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        sql = &quot;select * from &quot; + tableName + &quot; limit 100&quot;;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line">        res = stmt.executeQuery(sql);</span><br><span class="line">        System.out.println(&quot;执行 select * query 运行结果:&quot;);</span><br><span class="line"></span><br><span class="line">        while (res.next()) &#123;</span><br><span class="line">            System.out.println(res.getString(1) + &quot;\t&quot; + res.getString(2));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void selectData2File(Statement stmt, String tableName, String fileName) &#123;</span><br><span class="line">        sql = &quot;select * from &quot; + tableName + &quot; limit 10000000&quot;;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            res = stmt.executeQuery(sql);</span><br><span class="line">            System.out.println(&quot;执行 select * query 运行结果:&quot;);</span><br><span class="line">            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));</span><br><span class="line">            ResultSetMetaData rsmd = res.getMetaData();</span><br><span class="line">            int columnsNumber = rsmd.getColumnCount();</span><br><span class="line"></span><br><span class="line">            while (res.next()) &#123;</span><br><span class="line">//                System.out.println(res.getString(1) + &quot;\t&quot; + res.getString(2));</span><br><span class="line">                for (int i = 1; i &lt;= columnsNumber; i++) &#123;</span><br><span class="line">                    bw.write(res.getString(i) + &quot;\t&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                bw.write(&quot;\n&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            bw.close();</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void loadData(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        //目录 ，我的是hive安装的机子的虚拟机的home目录下</span><br><span class="line">        String filepath = &quot;user.txt&quot;;</span><br><span class="line">        sql = &quot;load data local inpath &apos;&quot; + filepath + &quot;&apos; into table &quot;</span><br><span class="line">                + tableName;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line">        stmt.execute(sql);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void describeTables(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        sql = &quot;describe &quot; + tableName;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line">        res = stmt.executeQuery(sql);</span><br><span class="line">        System.out.println(&quot;执行 describe table 运行结果:&quot;);</span><br><span class="line">        while (res.next()) &#123;</span><br><span class="line">            System.out.println(res.getString(1) + &quot;\t&quot; + res.getString(2));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void showTables(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        sql = &quot;show tables &apos;&quot; + tableName + &quot;&apos;&quot;;</span><br><span class="line">        System.out.println(&quot;Running:&quot; + sql);</span><br><span class="line">        res = stmt.executeQuery(sql);</span><br><span class="line">        System.out.println(&quot;执行 show tables 运行结果:&quot;);</span><br><span class="line">        if (res.next()) &#123;</span><br><span class="line">            System.out.println(res.getString(1));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void createTable(Statement stmt, String tableName)</span><br><span class="line">            throws SQLException &#123;</span><br><span class="line">        sql = &quot;create table &quot;</span><br><span class="line">                + tableName</span><br><span class="line">                + &quot; (key int, value string)  row format delimited fields terminated by &apos;\t&apos;&quot;;</span><br><span class="line">        stmt.execute(sql);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static String dropTable(Statement stmt) throws SQLException &#123;</span><br><span class="line">        // 创建的表名  </span><br><span class="line">        String tableName = &quot;testHive&quot;;</span><br><span class="line">        sql = &quot;drop table if exists &quot; + tableName;</span><br><span class="line">        stmt.execute(sql);</span><br><span class="line">        return tableName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Connection getConn() throws ClassNotFoundException,</span><br><span class="line">            SQLException &#123;</span><br><span class="line">        Class.forName(driverName);</span><br><span class="line">        Connection conn = DriverManager.getConnection(url, user, password);</span><br><span class="line">        return conn;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.hive&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;hive-jdbc&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.2.2&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;2.2.0&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;5.1.45&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
-          
+          OneData体系分为：1、数据规范定义体系2、数据模型规范设计3、ETL规范研发以及支撑整个体系从方法到实施的工具体系。  
+落地实现数据规范定义将此前个性化的数据指标进行规范定义，抽象成：原子指标、时间周期、其他修饰词等三个要素。例如，以往业务方提出的需求是：最近7天的成交。而实际上，这个指标在
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/阿里onedata/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1520,40 +1389,16 @@
       
         
           
-            <p>使用complex type array 和 map 类型<br>创建表时指定类型和分隔符  </p>
-<p>create table test1<br>(f1 array<int>,<br>f2 map&lt;string,int&gt;)<br>ROW FORMAT DELIMITED<br>COLLECTION ITEMS TERMINATED BY ‘|’<br>MAP KEYS TERMINATED BY ‘:’;<br>文件中按照表定义的分隔符来分割，字段的分隔符默认为^A，可以在建表时通过 FIELDS TERMINATED BY ‘^A’ 指定   </int></p>
-<p>cat /home/hadoop/hivetest1.txt   </p>
-<p>1|2|3^Aa:1|b:2<br>11|12|13^Aaa:1|bb:2<br>把文件 load 到表中  </p>
-<p>load data local inpath ‘/home/hadoop/hivetest1.txt’ into table test1;<br>在查询中使用array 和 map 类型  </p>
-<p>select f1[0],f2[‘aa’] from test1;<br>select * from test1 where f1[0]=11 and f2[‘aa’]=1;<br>处理json字符串   </p>
-<p>create table test(json_str string);<br>test表的json_str字段的内容为：  </p>
-<p>{“a”:”1”,”b”:”2”,”c”:[“aa”,”11”,{“aaa”:”111”,”bbb”:”222”}]}   </p>
-<p>select get_json_object(json_str,’$.b’) from test;<br>select get_json_object(json_str,’$.c[0]’) from test;<br>select get_json_object(json_str,’$.c[2].aaa’) from test;<br>动态分区  </p>
-<p>set hive.exec.dynamic.partition=true;<br>set hive.exec.dynamic.partition.mode=nonstrict;<br>另外，如果默认值不够大，根据需要调大以下三个参数，否则会报错  </p>
-<p>set hive.exec.max.dynamic.partitions=2000<br>set hive.exec.max.dynamic.partitions.pernode=1000<br>set hive.exec.max.created.files=110000;<br>这样，从另外一个表把数据导入到目标表时，就会自动按照指定字段分区。<br>例如：</p>
-<p>insert overwrite table A partition(reportdate) select * from B;<br>表A要先创建，并且以reportdate作为分区的字段。在上面sql中不用指定reportdate的值（如果是非动态分区则需要指定）。表B最后一个字段作为分区的字段，会自动根据最后一个字段的值自动分区。  </p>
-<p>map join 优化<br>将hive.auto.convert.join设置为true</p>
-<p>set hive.auto.convert.join=true;<br>设置进行mapjoin的小表的阈值（即当小表的大小 少于 一定该阈值时 hive 会做 mapjoin 优化，如果不设置，则采用默认值）  </p>
-<p>set hive.mapjoin.smalltable.filesize=25000000;<br>hive.mapjoin.bucket.cache.size=100<br>每一个key有多少个value值缓存在内存中<br>hive.mapjoin.cache.numrows=25000<br>有多少行cache在内存中  </p>
-<p>insert into/overwrite多表插入的优化<br>通过对原表扫描一遍，插入到不同的目的表中</p>
-<p>from table<br>  insert overwrite table dest1 select <em> where col=condition ;<br>  insert overwrite table dest2 select </em> where col=condition ;<br>  insert overwrite table dest3 select * where col=condition ;<br>对limit语句的优化</p>
-<p>hive.limit.optimize.enable=false<br>hive.limit.row.max.size=100000<br>hive.limit.optimize.limit.file=10<br>hive.limit.optimize.fetch.max=50000<br>对reduce个数的设置<br>hive默认是根据输入的大小来设置，每个reducer处理的数据量是1G。如果有10G的输入数据，则hive自动生成10个reducer。<br>默认情况下一个reducer处理1G的数据，这样一个reducer处理的数据量太大，可以改小一些。  </p>
-<p>hiive.exec.reducers.bytes.per.reducer=1G<br>hive.exec.reducers.max=999<br>mapred.reduce.tasks<br>数据倾斜优化<br>有编译器的优化和运行期的优化  </p>
-<p>hive.groupby.skewindata=false<br>hive.optimize.skewjoin.compiletime=false<br>hive.optimize.skewjoin=false<br>hive.skewjoin.key=100000<br>文件压缩<br>对中间结果的压缩和最终结果的压缩</p>
-<p>hive.exec.compress.output=false<br>hive.exec.compress.intermediate=false<br>并行执行<br>一个hive sql语句编译成多个MR作业，没有依赖关系的作业可以并行执行。</p>
-<p>hive.exec.parallel=false<br>hive.exec.parallel.thread.number=8<br>合并结果的小文件<br>对于hive的结果中是小文件的，会再起一个MR作业合并小文件。</p>
-<p>hive.merge.mapfiles=true<br>hive.merge.mapredfiles=false<br>hive.merge.size.per.task=256000000<br>hive.merge.smallfiles.avgsize=16000000<br>推断执行</p>
-<p>hive.mapred.reduce.tasks.speculative.execution=true<br>设置reduce个数<br>显示设置reduce的个数，或者每个reduce处理的数据的大小（默认1G的值很多时候有些大，可以设置小一些，同时reduce的内存也要相应小一些，提高并行度）。  </p>
-<p>mapred.reduce.tasks=-1<br>hive.exec.reducers.bytes.per.reducer=1000000000（1G）<br>hive.exec.reducers.max=999<br>map端聚合</p>
-<p>hive.map.aggr=true<br>group by语句时现在map聚合一次，减少传输到reduce的数据，就是mapreduce的combiner。默认是打开的。</p>
-<p>列剪裁<br>列剪裁优化，只对需要的列进行处理，忽略其他的列，减少数据的处理量。默认是打开的。</p>
-<p>hive.optimize.cp=true<br>本地模式<br>一些sql处理的数据量比较少，或者计算量比较少，可以在本地运行而不是MR作业运行，这样性能会更好些，也节约hadoop集群的资源。</p>
-<p>hive.exec.mode.local.auto=false<br>hive.fetch.task.conversion=minimal<br>测试模式</p>
-<p>hive.test.mode=false<br>hive.test.mode.prefix=test_<br>hive.test.mode.samplefreq=32<br>hive.test.mode.nosamplelist=table1,table2,table3<br>用于测试，通过采样减少输入的数据，结果表前面加前缀“test_”</p>
-<p>严格模式  </p>
-<p>hive.mapred.mode=nonstrict<br>通过严格模式，使一些不严格的用法不通过，防止潜在的错误。<br>No partition being picked up for a query.<br>Comparing bigints and strings.<br>Comparing bigints and doubles.<br>Orderby without limit.</p>
-
-          
+          使用complex type array 和 map 类型创建表时指定类型和分隔符  
+create table test1(f1 array,f2 map&lt;string,int&gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/hive使用和优化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1600,7 +1445,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/hive-site-xml-参数优化/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/flink-vs-spark/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -1619,7 +1464,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/hive-site-xml-参数优化/" itemprop="url">hive-site.xml 参数优化</a></h1>
+                <a class="post-title-link" href="/2019/01/28/flink-vs-spark/" itemprop="url">flink vs spark</a></h1>
         
 
         <div class="post-meta">
@@ -1631,7 +1476,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:53:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:45:00+08:00">
                 2019-01-28
               </time>
             
@@ -1654,8 +1499,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -1693,9 +1549,165 @@
       
         
           
-            <p>强烈建议按照规定设置Hive参数，提高资源利用率！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 任务输出小文件后，自动启动任务进行合并 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.mapfiles&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;Merge small files at the end of a map-only job&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.mapredfiles&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;Merge small files at the end of a map-reduce job&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.tezfiles&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;Merge small files at the end of a Tez DAG&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.sparkfiles&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;Merge small files at the end of a Spark DAG Transformation&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.size.per.task&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;2560000000&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;Size of merged files at the end of the job&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.merge.smallfiles.avgsize&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;32000000&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;</span><br><span class="line">      When the average output file size of a job is less than this number, Hive will start an additional</span><br><span class="line">      map-reduce job to merge the output files into bigger files. This is only done for map-only jobs</span><br><span class="line">      if hive.merge.mapfiles is true, and for map-reduce jobs if hive.merge.mapredfiles is true.</span><br><span class="line">    &lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!— 新建表默认格式 —&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.default.fileformat&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;orc&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;</span><br><span class="line">      Expects one of [textfile, sequencefile, rcfile, orc].</span><br><span class="line">      Default file format for CREATE TABLE statement. Users can explicitly override it by CREATE TABLE ... STORED AS [FORMAT]</span><br><span class="line">    &lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!— blocksize —&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.blocksize&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;268435456&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">&lt;!— 数据倾斜优化参数 —&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.optimize.skewjoin.compiletime&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.optimize.skewjoin&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.optimize.groupby&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!— 压缩参数设置 —&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.map.output.compress&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.output.fileoutputformat.compress&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.exec.compress.output&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;true&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.output.fileoutputformat.compress.codec&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;org.apache.hadoop.io.compress.GzipCodec&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.map.output.compress.codec&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;org.apache.hadoop.io.compress.GzipCodec&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;!— 多个小文件用使用一个map —&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.input.format&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;org.apache.hadoop.hive.ql.io.CombineHiveInputFormat&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.input.fileinputformat.split.maxsize&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;1073741824&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.input.fileinputformat.split.minsize&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.input.fileinputformat.split.minsize.per.node&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;536870912&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;mapreduce.input.fileinputformat.split.minsize.per.rack&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;536870912&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.exec.reducers.bytes.per.reducer&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;2147483648&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure></p>
+          概念在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于
+1、
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/flink-vs-spark/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://notes.iissnan.com/uploads/m3.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/" itemprop="url">Spark Streamin、kafka、redis、 Exactly once</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:00+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          转：http://lxw1234.com/archives/2018/02/901.htm
+
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/28/Spark-Streamin、kafka、redis、-Exactly-once/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1781,7 +1793,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">76</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
