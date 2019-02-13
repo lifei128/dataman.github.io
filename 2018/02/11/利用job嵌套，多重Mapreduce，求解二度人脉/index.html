@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mapreduce模型,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="题意Tom LucyTom JackJone LucyJone JackLucy MaryLucy BenJack AliceJack JesseTerry AliceTerry JessePhilip TerryPhilip AlmaMark TerryMark Alma   只是这次是假设一个没有重复，也就是不会出现Tom Lucy-Lucy Tom这样的好友关系表。任务是求其其中的二度人脉、">
+<meta name="keywords" content="mapreduce模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用job嵌套，多重Mapreduce，求解二度人脉">
+<meta property="og:url" content="http://yoursite.com/2018/02/11/利用job嵌套，多重Mapreduce，求解二度人脉/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="题意Tom LucyTom JackJone LucyJone JackLucy MaryLucy BenJack AliceJack JesseTerry AliceTerry JessePhilip TerryPhilip AlmaMark TerryMark Alma   只是这次是假设一个没有重复，也就是不会出现Tom Lucy-Lucy Tom这样的好友关系表。任务是求其其中的二度人脉、">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-42.png">
+<meta property="og:updated_time" content="2019-02-11T14:56:17.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用job嵌套，多重Mapreduce，求解二度人脉">
+<meta name="twitter:description" content="题意Tom LucyTom JackJone LucyJone JackLucy MaryLucy BenJack AliceJack JesseTerry AliceTerry JessePhilip TerryPhilip AlmaMark TerryMark Alma   只是这次是假设一个没有重复，也就是不会出现Tom Lucy-Lucy Tom这样的好友关系表。任务是求其其中的二度人脉、">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-42.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/11/利用job嵌套，多重Mapreduce，求解二度人脉/">
+
+
+
+
+
+  <title>利用job嵌套，多重Mapreduce，求解二度人脉 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Quick notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/利用job嵌套，多重Mapreduce，求解二度人脉/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用job嵌套，多重Mapreduce，求解二度人脉</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T22:39:00+08:00">
+                2018-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/mapreduce编程/" itemprop="url" rel="index">
+                    <span itemprop="name">mapreduce编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>Tom Lucy<br>Tom Jack<br>Jone Lucy<br>Jone Jack<br>Lucy Mary<br>Lucy Ben<br>Jack Alice<br>Jack Jesse<br>Terry Alice<br>Terry Jesse<br>Philip Terry<br>Philip Alma<br>Mark Terry<br>Mark Alma  </p>
+<p>只是这次是假设一个没有重复，也就是不会出现Tom Lucy-Lucy Tom这样的好友关系表。<br>任务是求其其中的二度人脉、潜在好友，也就是如下图：<br><img src="/images/pasted-42.png" alt="upload successful"><br>比如I认识C、G、H，但C不认识G，那么C-G就是一对潜在好友，<strong>但G-H早就认识了，因此不算为潜在好友</strong>。<br>最终得出的是，如下的一个，没有重复的，首字母接近A再前的，也就Tom Mary-MaryTom只输出Mary Tom，因为M比T更接近A：</p>
+<p>Alice    Jesse<br>Alice    Jone<br>Alice    Mark<br>Alice    Philip<br>Alice    Tom<br>Alma    Terry<br>Ben    Jone<br>Ben    Mary<br>Ben    Tom<br>Jack    Lucy<br>Jack    Terry<br>Jesse    Jone<br>Jesse    Mark<br>Jesse    Philip<br>Jesse    Tom<br>Jone    Mary<br>Jone    Tom<br>Mark    Philip<br>Mary    Tom  </p>
+<h1 id="思路如下"><a href="#思路如下" class="headerlink" title="思路如下"></a>思路如下</h1><h2 id="首先，我们进行第一个MapReduce："><a href="#首先，我们进行第一个MapReduce：" class="headerlink" title="首先，我们进行第一个MapReduce："></a>首先，我们进行第一个MapReduce：</h2><p>1、一个输入行，<strong>产生一对互逆的关系</strong>，压入context  </p>
+<p>例如Tom Lucy这个输入行就在Map阶段搞出Tom Lucy-Lucy Tom这样的互逆关系。  </p>
+<p>2、之后Map-reduce会自动对context中相同的key合并在一起。   </p>
+<p>例如由于存在Tom Lucy、Tom Jack，显然会产生一个<strong>Tom:{Lucy,Jack}</strong></p>
+<p>这是Reduce阶段以开始的键值对。   </p>
+<p>3、这个<strong>键值</strong>对相当于Tom所认识的人。先进行如下的输出，1代表Tom的一度人脉    </p>
+<p><strong>Tom</strong> Lucy 1<br><strong>Tom</strong> Jack 1  </p>
+<p>潜在好友显然会在{Lucy,Jack}这个Tom所认识的人产生，对这个数组做<strong>笛卡尔乘积</strong>，形成关系：{&lt;Lucy,Lucy&gt;,&lt;Jack,Jack&gt;,&lt;Lucy,Jack&gt;,&lt;Jack,Lucy&gt;}   </p>
+<p><strong>将存在自反性，前项首字母大于后项剔除，也就是&lt;Lucy,Lucy&gt;这类无意义的剔除</strong>，&lt;Lucy,Jack&gt;,&lt;Jack,Lucy&gt;认定为一个关系，将剩余关系进行如下的输出，其中2代表Tom的二度人脉，也就是所谓的潜在好友：</p>
+<p>Lucy Jack 2   </p>
+<p>此时，第一个MapReduce，输出如下：   </p>
+<p>Alice    Jack    1<br>Alice    Terry    1<br>Jack    Terry    2<br>Alma    Philip    1<br>Alma    Mark    1<br>Mark    Philip    2<br>Ben    Lucy    1<br>Jack    Jesse    1<br>Jack    Tom    1<br>Jack    Jone    1<br>Alice    Jack    1<br>Jesse    Tom    2<br>Jesse    Jone    2<br>Jone    Tom    2<br>Alice    Jesse    2<br>Alice    Tom    2<br>Alice    Jone    2<br>Jesse    Terry    1<br>Jack    Jesse    1<br>Jack    Terry    2<br>Jack    Jone    1<br>Jone    Lucy    1<br>Jack    Lucy    2<br>Ben    Lucy    1<br>Jone    Lucy    1<br>Lucy    Tom    1<br>Lucy    Mary    1<br>Ben    Jone    2<br>Ben    Tom    2<br>Ben    Mary    2<br>Jone    Tom    2<br>Jone    Mary    2<br>Mary    Tom    2<br>Alma    Mark    1<br>Mark    Terry    1<br>Alma    Terry    2<br>Lucy    Mary    1<br>Philip    Terry    1<br>Alma    Philip    1<br>Alma    Terry    2<br>Philip    Terry    1<br>Alice    Terry    1<br>Mark    Terry    1<br>Jesse    Terry    1<br>Alice    Philip    2<br>Alice    Mark    2<br>Alice    Jesse    2<br>Mark    Philip    2<br>Jesse    Philip    2<br>Jesse    Mark    2<br>Jack    Tom    1<br>Lucy    Tom    1<br>Jack    Lucy    2<br>这时，形式已经很明朗了</p>
+<h2 id="再进行第二个Mapreduce"><a href="#再进行第二个Mapreduce" class="headerlink" title="再进行第二个Mapreduce"></a>再进行第二个Mapreduce</h2><p>任务是剔除本身就存在的关系，也就是在潜在好友中剔除本身就认识的关系。   </p>
+<p>将上述第一个Mapreduce的输出，关系作为key，后面的X度人脉这个1、2值作为value，进行Mapreduce的处理。  </p>
+<p>那么例如<jack lucy="">这个关系，之所以会被认定为潜在好友，是因为它所对应的值数组，<strong>里面一个1都没有，全是2</strong>，也就是它们本来不是一度人脉，而<alma mark="">这对，不能成为潜在好友，因为他们所对应的值数组，里面有1，存在任意一对一度人脉、直接认识，就绝对不能被认定为二度人脉。   </alma></jack></p>
+<p>将被认定为二度人脉的关系输出，就得到最终结果。  </p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code>package com.qunar.mr.deg2friend;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+//https://www.cnblogs.com/hxsyl/p/6127843.html
+public class Deg2Friend {
+    public static class Map extends Mapper&lt;Object,Text,Text,Text&gt; {
+        public void map(Object key,Text value,Context context) throws IOException, InterruptedException {
+            String[] line = value.toString().split(&quot;,&quot;);
+            context.write(new Text(line[0]),new Text(line[1]));
+            context.write(new Text(line[1]),new Text(line[0]));
+        }
+    }
+    public static class Reduce extends Reducer&lt;Text,Text,Text,Text&gt;{
+        public void reduce(Text key,Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
+
+            List&lt;String&gt; potentialFriends = new ArrayList&lt;&gt;();
+            //这里一定要用string存，而不是用Text，Text只是一个类似指针，一个MapReduce的引用
+            //换成用Text来存，你会惊讶，为何我存的值都一模一样的？
+            for (Text v:values) {
+                potentialFriends.add(v.toString());
+                if (key.toString().compareTo(v.toString()) &lt; 0){// 确保首字母大者再前，如Tom Alice则输出Alice Tom
+                    context.write(new Text(key + &quot;\t&quot; + v),new Text(&quot;1&quot;));
+                } else {
+                    context.write(new Text(v + &quot;\t&quot; + key),new Text(&quot;1&quot;));
+                }
+            }
+            for (String p1:potentialFriends) {
+                for (String p2:potentialFriends) {
+                    if (p1.compareTo(p2) &lt; 0){//todo 将存在自反性，前项首字母大于后项的关系剔除
+                        context.write(new Text(p1 +&quot;\t&quot; + p2),new Text(&quot;2&quot;));
+                    }
+                }
+            }
+        }
+    }
+
+    public static class Map2 extends Mapper&lt;Object,Text,Text,Text&gt;{
+        public void map(Object key,Text value,Context context) throws IOException, InterruptedException {
+            String[] line = value.toString().split(&quot;\t&quot;);//输入文件，键值对的分隔符为\t
+            context.write(new Text(line[0] + &quot;\t&quot; + line[1]), new Text(line[2]));//关系作为key，后面的X度人脉这个1、2值作为value
+        }
+    }
+
+    public static class Reduce2 extends Reducer&lt;Text, Text, Text, Text&gt; {
+        public void reduce(Text key,Iterable&lt;Text&gt; values,Context context) throws IOException, InterruptedException {
+            //检查合并之后是否存在任意一对一度人脉
+            boolean isPotentialFriend = true;
+            for (Text v:values) {
+                if (v.toString().equals(&quot;1&quot;)){
+                    isPotentialFriend = false;
+                    break;
+                }
+            }
+            if (isPotentialFriend){
+                String[] potentialFriends = key.toString().split(&quot;\t&quot;);
+                context.write(new Text(potentialFriends[0]),new Text(potentialFriends[1]));
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        Configuration conf = new Configuration();
+
+        // 判断output文件夹是否存在，如果存在则删除
+        Path outPath = new Path(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/deg2friend/out&quot;);
+        FileSystem fs = outPath.getFileSystem(conf);
+        if (fs.exists(outPath)){
+            fs.delete(outPath,true);// true的意思是，就算output有东西，也一带删除
+        }
+        Job job = Job.getInstance(conf,&quot;deg2friend&quot;);
+        job.setJarByClass(Deg2Friend.class);
+
+        job.setMapperClass(Map.class);
+        job.setReducerClass(Reduce.class);
+        job.setOutputKeyClass(Text.class);//todo keyClass
+        job.setOutputValueClass(Text.class);//todo valueClass
+
+//        原来当mapper与reducer的输出类型一致时可以用　job.setOutputKeyClass(theClass)与job.setOutputValueClass
+//(theClass)这两个进行配置就行，但是当mapper用于reducer两个的输出类型不一致的时候就需要分别进行配置了。
+//        job.setMapOutputKeyClass(Text.class); //todo 测试只有map的情况
+//        job.setMapOutputValueClass(Text.class);
+
+        FileInputFormat.addInputPath(job,new Path(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/deg2friend/in&quot;));
+        Path tempDir = new Path(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/deg2friend/out/&quot;
+                + Integer.toString(new Random().nextInt(Integer.MAX_VALUE))
+ );
+        FileOutputFormat.setOutputPath(job, tempDir);
+
+        if (job.waitForCompletion(true)){
+            Job job2 = Job.getInstance(conf,&quot;job2&quot;);
+            job2.setMapperClass(Map2.class);
+            job2.setReducerClass(Reduce2.class);
+
+            job2.setOutputKeyClass(Text.class);
+            job2.setOutputValueClass(Text.class);
+
+            FileInputFormat.addInputPath(job2,tempDir);
+            FileOutputFormat.setOutputPath(job2,new Path(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/deg2friend/out/final&quot;));
+
+            System.exit(job2.waitForCompletion(true) ? 0 : 1);
+        }
+    }
+}
+
+</code></pre><p>参考:<br><a href="https://blog.csdn.net/yongh701/article/details/50630498">https://blog.csdn.net/yongh701/article/details/50630498</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mapreduce模型/" rel="tag"># mapreduce模型</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/11/wordcount/" rel="next" title="wordcount">
+                <i class="fa fa-chevron-left"></i> wordcount
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/11/利用单表关联在父子关系中求解爷孙关/" rel="prev" title="利用单表关联在父子关系中求解祖孙关系">
+                利用单表关联在父子关系中求解祖孙关系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+            
+              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题意"><span class="nav-number">1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路如下"><span class="nav-number">2.</span> <span class="nav-text">思路如下</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先，我们进行第一个MapReduce："><span class="nav-number">2.1.</span> <span class="nav-text">首先，我们进行第一个MapReduce：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再进行第二个Mapreduce"><span class="nav-number">2.2.</span> <span class="nav-text">再进行第二个Mapreduce</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
