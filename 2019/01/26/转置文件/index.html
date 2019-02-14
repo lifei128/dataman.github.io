@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="给定一个文件 file.txt，转置它的内容。 你可以假设每行列数相同，并且每个字段由 ‘ ‘ 分隔. 示例: 假设 file.txt 文件内容如下： name agealice 21ryan 30应当输出： name alice ryanage 21 30   1cat file.txt | awk &amp;apos;&amp;#123;for(i=1;i&amp;lt;=NF;i++)&amp;#123;if(NR==1)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-25T18:18:33.615Z">
+<meta property="og:updated_time" content="2019-02-14T15:20:00.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="转置文件">
 <meta name="twitter:description" content="给定一个文件 file.txt，转置它的内容。 你可以假设每行列数相同，并且每个字段由 ‘ ‘ 分隔. 示例: 假设 file.txt 文件内容如下： name agealice 21ryan 30应当输出： name alice ryanage 21 30   1cat file.txt | awk &amp;apos;&amp;#123;for(i=1;i&amp;lt;=NF;i++)&amp;#123;if(NR==1)">
@@ -207,16 +207,6 @@
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
           </a>
         </li>
       
@@ -349,6 +339,7 @@
 <p>name age<br>alice 21<br>ryan 30<br>应当输出：</p>
 <p>name alice ryan<br>age 21 30  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat file.txt | awk &apos;&#123;for(i=1;i&lt;=NF;i++)&#123;if(NR==1)&#123;res[i]=$i&#125;else&#123;res[i]=res[i]&quot; &quot;$i&#125;&#125;&#125;END&#123;for(i=1;i&lt;=NF;i++)&#123;print res[i]&#125;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>awk是一行一行处理数据，if(NR==1){res[i]=$i}优先初始化第一行的res[]数组，长度为第一行的元素格式，后面每行在对应位置元素后面追加。</p>
 
       
     </div>
@@ -464,7 +455,7 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/">
+                <a href="/archives">
               
                   <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">日志</span>
