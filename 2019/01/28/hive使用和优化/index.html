@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   create table test1(f1 array,f2 map&amp;lt;string,int&amp;gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|’MAP KEYS TERMINATED BY ‘:’;文件中按照表定义的分隔符来分割，字段的分隔符">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-28T16:09:23.103Z">
+<meta property="og:updated_time" content="2019-02-14T08:40:00.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hive使用和优化">
 <meta name="twitter:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   create table test1(f1 array,f2 map&amp;lt;string,int&amp;gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|’MAP KEYS TERMINATED BY ‘:’;文件中按照表定义的分隔符来分割，字段的分隔符">
@@ -374,6 +374,17 @@
 <p>hive.test.mode=false<br>hive.test.mode.prefix=test_<br>hive.test.mode.samplefreq=32<br>hive.test.mode.nosamplelist=table1,table2,table3<br>用于测试，通过采样减少输入的数据，结果表前面加前缀“test_”</p>
 <p>严格模式  </p>
 <p>hive.mapred.mode=nonstrict<br>通过严格模式，使一些不严格的用法不通过，防止潜在的错误。<br>No partition being picked up for a query.<br>Comparing bigints and strings.<br>Comparing bigints and doubles.<br>Orderby without limit.</p>
+<h1 id="jvm重用"><a href="#jvm重用" class="headerlink" title="jvm重用"></a>jvm重用</h1><p>JVM重用是hadoop调优参数的内容，对hive的性能具有非常大的 影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生JVM来执行map和 reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job包含有成千上万个task任务的情况。</p>
+<p>JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml文件中进行设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mapred.job.reuse.jvm.num.tasks</span><br></pre></td></tr></table></figure>
+<p> 也可在hive的执行设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set  mapred.job.reuse.jvm.num.tasks=10;</span><br></pre></td></tr></table></figure></p>
+<p>JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成后才能释放。如果某个“不平衡“的job中有几个 reduce task 执行的时间要比其他reduce task消耗的时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结束了才会释放。</p>
+<h1 id="hive参数优化之默认启用本地模式"><a href="#hive参数优化之默认启用本地模式" class="headerlink" title="hive参数优化之默认启用本地模式"></a>hive参数优化之默认启用本地模式</h1><p>启动hive本地模式参数，一般建议将其设置为true，即时刻启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive (chavin)&gt; set hive.exec.mode.local.auto;    </span><br><span class="line">hive.exec.mode.local.auto=false</span><br></pre></td></tr></table></figure></p>
+<h1 id="推测执行相关配置"><a href="#推测执行相关配置" class="headerlink" title="推测执行相关配置"></a>推测执行相关配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hive (default)&gt; set mapred.map.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">mapred.map.tasks.speculative.execution=true</span><br><span class="line"></span><br><span class="line">hive (default)&gt; set mapred.reduce.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">mapred.reduce.tasks.speculative.execution=true</span><br><span class="line"></span><br><span class="line">hive (default)&gt; set hive.mapred.reduce.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">hive.mapred.reduce.tasks.speculative.execution=true</span><br></pre></td></tr></table></figure>
+<h1 id="单个mapreduce中运行多个group-by"><a href="#单个mapreduce中运行多个group-by" class="headerlink" title="单个mapreduce中运行多个group by"></a>单个mapreduce中运行多个group by</h1><p>参数hive.multigroupby.singlemr控制师徒将查询中的多个group by组装到单个mapreduce任务中。如果启用这个优化，那么需要一组常用的group by键：</p>
+<h1 id="聚合优化："><a href="#聚合优化：" class="headerlink" title="聚合优化："></a>聚合优化：</h1><p>启用参数：hive.map.aggr=true,默认开启</p>
+<h1 id="参数hive-fetch-task-conversion的调优："><a href="#参数hive-fetch-task-conversion的调优：" class="headerlink" title="参数hive.fetch.task.conversion的调优："></a>参数hive.fetch.task.conversion的调优：</h1><p>默认值：hive.fetch.task.conversion=minimal</p>
+<p>建议值：set hive.fetch.task.conversion=more;<br>参考：<br><a href="https://www.cnblogs.com/duanxingxing/p/4535842.html">https://www.cnblogs.com/duanxingxing/p/4535842.html</a>  </p>
 
       
     </div>
@@ -473,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -491,7 +511,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-count">105</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -502,7 +522,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -513,7 +533,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -536,6 +556,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jvm重用"><span class="nav-number">1.</span> <span class="nav-text">jvm重用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive参数优化之默认启用本地模式"><span class="nav-number">2.</span> <span class="nav-text">hive参数优化之默认启用本地模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推测执行相关配置"><span class="nav-number">3.</span> <span class="nav-text">推测执行相关配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单个mapreduce中运行多个group-by"><span class="nav-number">4.</span> <span class="nav-text">单个mapreduce中运行多个group by</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聚合优化："><span class="nav-number">5.</span> <span class="nav-text">聚合优化：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数hive-fetch-task-conversion的调优："><span class="nav-number">6.</span> <span class="nav-text">参数hive.fetch.task.conversion的调优：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
