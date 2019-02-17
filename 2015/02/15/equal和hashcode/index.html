@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mysql,">
+  <meta name="keywords" content="java,">
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N 其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句1select * from student limit 5; 问题：千万级的表查询分页">
-<meta name="keywords" content="mysql">
+<meta name="description" content="1、 为什么要重载equal方法？答案：因为Object的equal方法默认是两个对象的引用的比较，意思就是指向同一内存地址则相等，否则不相等；如果你现在需要利用对象里面的值来判断是否相等，则重载equal方法。 2、 为什么重载hashCode方法？答案：一般的地方不需要重载hashCode，只有当类需要放在HashTable、HashMap、HashSet等等hash结构的集合时才会 重载ha">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql千万级分页">
-<meta property="og:url" content="http://yoursite.com/2019/02/17/mysql千万级分页/index.html">
+<meta property="og:title" content="equal和hashcode">
+<meta property="og:url" content="http://yoursite.com/2015/02/15/equal和hashcode/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N 其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句1select * from student limit 5; 问题：千万级的表查询分页">
+<meta property="og:description" content="1、 为什么要重载equal方法？答案：因为Object的equal方法默认是两个对象的引用的比较，意思就是指向同一内存地址则相等，否则不相等；如果你现在需要利用对象里面的值来判断是否相等，则重载equal方法。 2、 为什么重载hashCode方法？答案：一般的地方不需要重载hashCode，只有当类需要放在HashTable、HashMap、HashSet等等hash结构的集合时才会 重载ha">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-17T09:31:43.360Z">
+<meta property="og:image" content="http://yoursite.com/images/pasted-82.png">
+<meta property="og:updated_time" content="2019-02-17T09:33:24.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql千万级分页">
-<meta name="twitter:description" content="Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N 其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句1select * from student limit 5; 问题：千万级的表查询分页">
+<meta name="twitter:title" content="equal和hashcode">
+<meta name="twitter:description" content="1、 为什么要重载equal方法？答案：因为Object的equal方法默认是两个对象的引用的比较，意思就是指向同一内存地址则相等，否则不相等；如果你现在需要利用对象里面的值来判断是否相等，则重载equal方法。 2、 为什么重载hashCode方法？答案：一般的地方不需要重载hashCode，只有当类需要放在HashTable、HashMap、HashSet等等hash结构的集合时才会 重载ha">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-82.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/17/mysql千万级分页/">
+  <link rel="canonical" href="http://yoursite.com/2015/02/15/equal和hashcode/">
 
 
 
 
 
-  <title>mysql千万级分页 | LiFei's Notes</title>
+  <title>equal和hashcode | LiFei's Notes</title>
   
 
 
@@ -275,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/mysql千万级分页/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/15/equal和hashcode/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lifei">
@@ -292,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql千万级分页</h1>
+          <h1 class="post-title" itemprop="name headline">equal和hashcode</h1>
         
 
         <div class="post-meta">
@@ -304,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-17T14:46:00+08:00">
-                2019-02-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-15T22:26:00+08:00">
+                2015-02-15
               </time>
             
 
@@ -327,8 +329,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -364,13 +366,16 @@
       
 
       
-        <p>Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM 表名称 LIMIT M,N</span><br></pre></td></tr></table></figure></p>
-<p>其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student limit 5;</span><br></pre></td></tr></table></figure></p>
-<p>问题：<br>千万级的表查询分页，怎么优化查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from user limit 10000000,10</span><br><span class="line">select * from user where name=&quot;a&quot; limit 10000000,10</span><br></pre></td></tr></table></figure></p>
-<p>为了能更加优化查询，建立联合索引是一个好的方法，where 的条件 和主键id 作为索引 serach(name,id)</p>
-<p>第一次建立索引时候 是id 在前 name在后，这样确实也解决这样的问题，都变成0.5s左右 ，但是还不是我想要的 ，最后上网搜索答案，发现建立联合索引顺序不同，性能也就大大提高，于是把建立索引顺序变成是id 在后 name在前。结果打出意料 ，速度变成了0.05秒 。性能大幅度提升.    </p>
-<p>开始的<code>select id from collect order by id limit 90000,10;</code>这么快就是因为走了索引，可是如果加了where 就不走索引了。<br>抱着试试看的想法加了 search(vtype,id) 这样的索引。<br>然后测试<code>select id from collect where vtype=1 limit 90000,10</code>; 非常快！0.04秒完成！<br>再测试: select id ,<strong>title</strong> from collect where vtype=1 limit 90000,10; 非常遗憾，8-9秒，没走search索引！<br>再测试：search(id,vtype)，还是select id 这个语句，也非常遗憾，0.5秒。<br>综上：如果对于有where 条件，又想走索引用limit的，必须设计一个索引，将where放第一位，limit用到的主键放第2位，而且只能select 主键！即search(vtype,id) 这样的索引,如下查询<code>select id from collect where vtype=1 limit 90000,10</code>可以快速返回id，然后根据id in (xxxx)的方式去实现   </p>
-<p>参考:<br><a href="https://blog.csdn.net/m0_37922390/article/details/81976014">https://blog.csdn.net/m0_37922390/article/details/81976014</a><br><a href="https://blog.csdn.net/li772030428/article/details/52839987/">https://blog.csdn.net/li772030428/article/details/52839987/</a>   </p>
+        <h1 id="1、-为什么要重载equal方法？"><a href="#1、-为什么要重载equal方法？" class="headerlink" title="1、 为什么要重载equal方法？"></a>1、 为什么要重载equal方法？</h1><p>答案：因为Object的equal方法默认是两个对象的引用的比较，意思就是指向同一内存地址则相等，否则不相等；如果你现在需要利用对象里面的值来判断是否相等，则重载equal方法。</p>
+<h1 id="2、-为什么重载hashCode方法？"><a href="#2、-为什么重载hashCode方法？" class="headerlink" title="2、 为什么重载hashCode方法？"></a>2、 为什么重载hashCode方法？</h1><p>答案：一般的地方不需要重载hashCode，只有当类需要放在HashTable、HashMap、HashSet等等hash结构的集合时才会 重载hashCode，那么为什么要重载hashCode呢？就HashMap来说，好比HashMap就是一个大内存块，里面有很多小内存块，小内存块 里面是一系列的对象，可以利用hashCode来查找小内存块hashCode%size(小内存块数量-即容量)，<strong>所以当equal相等时，hashCode必须相等，而且如果是object对象，必须重载hashCode和equal方法</strong>。</p>
+<h1 id="3、-为什么equals-相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等"><a href="#3、-为什么equals-相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等" class="headerlink" title="3、 为什么equals()相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等?"></a>3、 为什么equals()相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等?</h1><p>答案：<br>1、因为是按照hashCode来访问小内存块，所以hashCode必须相等。<br>2、HashMap获取一个对象是比较key的hashCode相等和equal为true。<br>之所以hashCode相等，却可以equal不等，<strong>就比如ObjectA和ObjectB他们都有属性name，那么hashCode都以name计算，所以hashCode一样，但是两个对象属于不同类型，所以equal为false</strong>。</p>
+<h1 id="4、-为什么需要hashCode"><a href="#4、-为什么需要hashCode" class="headerlink" title="4、 为什么需要hashCode?"></a>4、 为什么需要hashCode?</h1><p>1、 通过hashCode可以很快的查到小内存块。<br>2、 通过hashCode比较比equal方法快，当get时先比较hashCode，如果hashCode不同，直接返回false。   </p>
+<p>==比较符只会比较地址,如果地址不同就返回false<br>java中任何类都可以重写equals()方法来实现自己的比较方式,String类重写了equals()方法. <strong>String类</strong>的equals()方法不仅会比较两个对象的地址,还会比较他们的字符串的内容.如果被比较的两个引用指向不同的地址,但是两个地址中的字符串的内容是相同的String的equals()方法仍然会返回true.       </p>
+<h1 id="哈希码-HashCode"><a href="#哈希码-HashCode" class="headerlink" title="哈希码(HashCode)"></a>哈希码(HashCode)</h1><p>哈希码产生的依据：哈希码并不是完全唯一的，它是一种算法，让同一个类的对象按照自己不同的特征尽量的有不同的哈希码，但不表示不同的对象哈希码完全不同。也有相同的情况，看程序员如何写哈希码的算法。</p>
+<p>什么是哈希码(HashCode)<br>在Java中，哈希码代表对象的特征。<br>例如对象<br>String str1 = “aa”, str1.hashCode= 3104<br>String str2 = “bb”, str2.hashCode= 3106<br>String str3 = “aa”, str3.hashCode= 3104<br>根据HashCode由此可得出str1!=str2,str1==str3<br>下面给出几个常用的哈希码的算法。<br>1：Object类的hashCode.返回对象的内存地址经过处理后的结构，由于每个对象的内存地址都不一样，所以哈希码也不一样。<br>2：String类的hashCode.根据String类包含的字符串的内容，根据一种特殊算法返回哈希码，只要字符串所在的堆空间相同，返回的哈希码也相同。<br>3：Integer类，返回的哈希码就是Integer对象里所包含的那个整数的数值，例如Integer i1=new Integer(100),i1.hashCode的值就是100 。由此可见，2个一样大小的Integer对象，返回的哈希码也一样。   </p>
+<h1 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h1><p><a href="https://www.cnblogs.com/keyi/p/7119825.html">https://www.cnblogs.com/keyi/p/7119825.html</a>   </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>1、equals方法用于比较对象的内容是否相等（覆盖以后）<br>2、hashcode方法只有在集合中用到<br>3、当覆盖了equals方法时，比较对象是否相等将通过覆盖后的equals方法进行比较（判断对象的内容是否相等）。<br>4、将对象放入到集合中时，首先判断要放入对象的hashcode值与集合中的任意一个元素的hashcode值是否相等，如果不相等直接将该对象放入集合中。如果hashcode值相等，然后再通过equals方法判断要放入对象与集合中的任意一个对象是否相等，如果equals判断不相等，直接将该元素<strong>放入到集合中，否则不放入</strong>。<br>5、将元素放入集合的流程图：</p>
+<p><img src="/images/pasted-82.png" alt="upload successful"></p>
 
       
     </div>
@@ -388,7 +393,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -401,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/16/Elasticsearch/" rel="next" title="Elasticsearch">
-                <i class="fa fa-chevron-left"></i> Elasticsearch
+              <a href="/2015/02/15/二进制与16进制/" rel="next" title="二进制与16进制">
+                <i class="fa fa-chevron-left"></i> 二进制与16进制
               </a>
             
           </div>
@@ -410,6 +415,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/23/twosum/" rel="prev" title="L1_twosum">
+                L1_twosum <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -466,8 +475,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -529,6 +547,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、-为什么要重载equal方法？"><span class="nav-number">1.</span> <span class="nav-text">1、 为什么要重载equal方法？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、-为什么重载hashCode方法？"><span class="nav-number">2.</span> <span class="nav-text">2、 为什么重载hashCode方法？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、-为什么equals-相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等"><span class="nav-number">3.</span> <span class="nav-text">3、 为什么equals()相等，hashCode就一定要相等，而hashCode相等，却不要求equals相等?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、-为什么需要hashCode"><span class="nav-number">4.</span> <span class="nav-text">4、 为什么需要hashCode?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哈希码-HashCode"><span class="nav-number">5.</span> <span class="nav-text">哈希码(HashCode)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例分析"><span class="nav-number">6.</span> <span class="nav-text">案例分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
