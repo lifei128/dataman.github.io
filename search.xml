@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mysql千万级分页]]></title>
+    <url>%2F2019%2F02%2F17%2Fmysql%E5%8D%83%E4%B8%87%E7%BA%A7%E5%88%86%E9%A1%B5%2F</url>
+    <content type="text"><![CDATA[Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N 其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句1select * from student limit 5; 问题：千万级的表查询分页，怎么优化查询12select * from user limit 10000000,10select * from user where name=&quot;a&quot; limit 10000000,10 为了能更加优化查询，建立联合索引是一个好的方法，where 的条件 和主键id 作为索引 serach(name,id) 第一次建立索引时候 是id 在前 name在后，这样确实也解决这样的问题，都变成0.5s左右 ，但是还不是我想要的 ，最后上网搜索答案，发现建立联合索引顺序不同，性能也就大大提高，于是把建立索引顺序变成是id 在后 name在前。结果打出意料 ，速度变成了0.05秒 。性能大幅度提升. 开始的select id from collect order by id limit 90000,10;这么快就是因为走了索引，可是如果加了where 就不走索引了。抱着试试看的想法加了 search(vtype,id) 这样的索引。然后测试select id from collect where vtype=1 limit 90000,10; 非常快！0.04秒完成！再测试: select id ,title from collect where vtype=1 limit 90000,10; 非常遗憾，8-9秒，没走search索引！再测试：search(id,vtype)，还是select id 这个语句，也非常遗憾，0.5秒。综上：如果对于有where 条件，又想走索引用limit的，必须设计一个索引，将where放第一位，limit用到的主键放第2位，而且只能select 主键！即search(vtype,id) 这样的索引,如下查询select id from collect where vtype=1 limit 90000,10可以快速返回id，然后根据id in (xxxx)的方式去实现 参考:https://blog.csdn.net/m0_37922390/article/details/81976014https://blog.csdn.net/li772030428/article/details/52839987/]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Elasticsearch]]></title>
     <url>%2F2019%2F02%2F16%2FElasticsearch%2F</url>
     <content type="text"><![CDATA[建立倒排索引 标准化规则(normalization)并不会单纯直接建立的倒排索引，会使用到标准化规则(normalization) dog、dogs fox foxes单复数问题只保留一个，有共同词根Quick、quick 不区分大小写问题jump和leap意思相近，只保留一个 分词器介绍以及内置分词器 配置中文分词器重新启动elasticsearch在日志中可以看到。 CRUD新建索引,默认配置 PUT lib2查看索引 GET _all/_settings指定文档id用put,不指定文档id用post 获取docGET /lib2/user/1GET /lib2/user/1?_source=age,about 修改文档修改文档全覆盖用PUT，先把原有文档标记为deleted(es会在合适的时间把它删除掉),然后会创建一个新的文档修改具体字段用post两种修改方式的区别是： post方式对并发问题处理，可以增加一个重试参数 删除文档DELETE /lib/user/1 DELETE /lib/user 先把文档标记为deleted，es会在合适的时间把它删除mget,bulk 版本控制外部的版本号需要大于内存的版本号才能成功，相等也不行 mapping当我们添加一个文档的时候，elasticsearch就会默认给我们创建一个mapping,指定字段的数据类型。 数值，日期类型必须是完全一样才能查出来，即精确查询，没有分词；但是text类型默认进行分词，只需要包含就可以查到自定义mapping除了规定字段的类型，最大作用就是可以指定字段的属性是否分词,是否存储，是否索引等 字段类型 支持的属性 查询term、terms只会从倒排索引中查询，如果倒排索引中没有就不会查到数据terms表示包含其中一个即可。 基本查询 中文查询 Filter建立倒排索引时，会默认转为小写的，所以查大写字符的时，查询条件要转为小写，termId为id100127 exists相当于数据库的is not null将query转化为filter进行优化 聚合查询 cardinality相当于数据库的distinct constant_score由于不查评分，效率会高一些 原理解析es分布式结构特点作为应用程序的使用方目前只需要关心怎么添加文档和搜索文档。这就是隐藏特性垂直扩容是原集群节点数不变，新采购的机器配置高于旧机器。 路由相关到有相关数据的其他节点，就是将请求转发到其他节点，该及诶单将结果再转发回原始请求节点，最终返回给客户端(即应用程序)。 分片和副本机制新增节点。副本可以处理查询请求 水平扩容的过程 容错机制 文档核心元数据从6开始一个index下只能有一个type GUID算法可以保证在分布式并发情况下生成的id不会冲突 基于grovvy脚本实现partial update 文档数据路由原理 文档增删改内部原理 写一致原理和qurom机制 文档查询内部原理 分页查询中的deep paging问题mysql也可能会出现 copyto 字符串排序问题 如何计算相关度分数 DocValues解析默认开启的es对非字符串类型(日期，数字等)除建立倒排索引外，还会建立一个正排索引 基于scroll技术滚动搜索大量数据 dynamic mapping策略 english分词器会把is,a,an等停用词去掉，这些词不会建立倒排索引。而standard会建立。 重建索引 索引不可变的原因]]></content>
@@ -806,6 +817,15 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[L297_DeserializeSerializeTree]]></title>
+    <url>%2F2016%2F01%2F26%2FL297-DeserializeSerializeTree%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061package LeetCode.topic.tree;import java.util.ArrayDeque;import java.util.Arrays;import java.util.Queue;/** * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。 * * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。 * * 示例: * * 你可以将以下二叉树： * * 1 * / \ * 2 3 * / \ * 4 5 * * 序列化为 &quot;[1,2,3,null,null,4,5]&quot; * 提示: 这与 LeetCode 目前使用的方式一致，详情请参阅 LeetCode 序列化二叉树的格式。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。 * * 说明: 不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。 */public class L297_DeserializeSerializeTree &#123; // Encodes a tree to a single string. public String serialize(TreeNode root) &#123; if (root == null) &#123; return &quot;$,&quot;; &#125; return root.val + &quot;,&quot; + serialize(root.left) + serialize(root.right); &#125; // Decodes your encoded data to tree. public TreeNode deserialize(String data) &#123; String[] strings = data.split(&quot;,&quot;); Queue&lt;String&gt; queue = new ArrayDeque&lt;&gt;(Arrays.asList(strings)); return func(queue); &#125; private TreeNode func(Queue&lt;String&gt; strings) &#123; String string = strings.remove(); if (&quot;$&quot;.equals(string)) &#123; return null; &#125; TreeNode newNode = new TreeNode(Integer.parseInt(string)); newNode.left = func(strings); newNode.right = func(strings); return newNode; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+        <tag>tree</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[L404_TreeSumOfLeftLeaves]]></title>
     <url>%2F2016%2F01%2F26%2FL404-TreeSumOfLeftLeaves%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940package LeetCode.topic.tree;public class L404_TreeSumOfLeftLeaves &#123; /** * 本质还是二叉树的遍历 * * 1. 求所有左叶子节点的值的和，那就是求当前节点的左节点和右节点的所有左叶子节点的和 * * 2. 不是左叶子节点返回值为0，是左叶子节点放回叶子的值 * * 3. 递归求和即可 * * @param root * @return */ public int sumOfLeftLeaves(TreeNode root) &#123; return dfs(root, false); &#125; public int dfs(TreeNode node, Boolean isLeft) &#123; if (node == null) return 0; if (node.left == null &amp;&amp; node.right == null) &#123; if (isLeft == true) return node.val; else return 0; &#125; int leftVal = dfs(node.left, true); int rightVal = dfs(node.right, false); return leftVal + rightVal; &#125; class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
@@ -813,15 +833,6 @@
         <tag>leetcode</tag>
         <tag>tree</tag>
         <tag>recursion</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[L297_DeserializeSerializeTree]]></title>
-    <url>%2F2016%2F01%2F26%2FL297-DeserializeSerializeTree%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061package LeetCode.topic.tree;import java.util.ArrayDeque;import java.util.Arrays;import java.util.Queue;/** * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。 * * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。 * * 示例: * * 你可以将以下二叉树： * * 1 * / \ * 2 3 * / \ * 4 5 * * 序列化为 &quot;[1,2,3,null,null,4,5]&quot; * 提示: 这与 LeetCode 目前使用的方式一致，详情请参阅 LeetCode 序列化二叉树的格式。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。 * * 说明: 不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。 */public class L297_DeserializeSerializeTree &#123; // Encodes a tree to a single string. public String serialize(TreeNode root) &#123; if (root == null) &#123; return &quot;$,&quot;; &#125; return root.val + &quot;,&quot; + serialize(root.left) + serialize(root.right); &#125; // Decodes your encoded data to tree. public TreeNode deserialize(String data) &#123; String[] strings = data.split(&quot;,&quot;); Queue&lt;String&gt; queue = new ArrayDeque&lt;&gt;(Arrays.asList(strings)); return func(queue); &#125; private TreeNode func(Queue&lt;String&gt; strings) &#123; String string = strings.remove(); if (&quot;$&quot;.equals(string)) &#123; return null; &#125; TreeNode newNode = new TreeNode(Integer.parseInt(string)); newNode.left = func(strings); newNode.right = func(strings); return newNode; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
-      <tags>
-        <tag>leetcode</tag>
-        <tag>tree</tag>
       </tags>
   </entry>
   <entry>
