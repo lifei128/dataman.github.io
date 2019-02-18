@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/pasted-54.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-55.png">
-<meta property="og:updated_time" content="2019-02-13T06:51:13.694Z">
+<meta property="og:updated_time" content="2019-02-18T04:16:47.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hive 排序与分发的各种By">
 <meta name="twitter:description" content="排序与分发的各种By与传统关系型数据库最大的区别就是处理数据的能力这种能力最大的体现就是排序与分发的原理order by 是全局排序，只有一个reduce，数据量多时速度慢sort by 是随机分发到一个reduce然后reduce内部排序，一般不会单独使用;，也就是说保证了局部有序（每个reducer出来的数据是有序的，但是不能保证所有的数据是有序的，除非只有一个reducer）好处是：执">
@@ -346,6 +346,8 @@
       
         <p>排序与分发的各种By<br>与传统关系型数据库最大的区别就是处理数据的能力<br>这种能力最大的体现就是排序与分发的原理<br>order by 是全局排序，只有一个reduce，数据量多时速度慢<br>sort by 是<strong>随机分发</strong>到一个reduce<strong>然后reduce内部排序</strong>，一般不会单独使用;，也就是说保证了局部有序（每个reducer出来的数据是有序的，但是不能保证所有的数据是有序的，除非只有一个reducer）<br>好处是：执行了局部排序之后可以为接下去的全局排序提高不少的效率（其实就是做一次归并排序就可以做到全局排序了）<br>distribute by 是根据 distribute by 的字段把相应的记录分发到那个reduce    </p>
 <p><img src="/images/pasted-54.png" alt="upload successful"><br>cluster by是distribute by + sort by的简写<br><img src="/images/pasted-55.png" alt="upload successful"></p>
+<p>group by是对检索结果的保留行进行单纯分组，一般总爱和聚合函数一块用例如AVG（），COUNT（），max（），main（）等一块用。distribute by不可以。    </p>
+<p>partition by虽然也具有分组功能，但同时也具有其他的功能,一般和窗口函数一起使用。</p>
 
       
     </div>
@@ -457,7 +459,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">109</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

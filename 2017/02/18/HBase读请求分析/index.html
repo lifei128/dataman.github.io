@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hbase,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要是基于HBase的0.98.8版本的实现。HBase能提供实时计算服务主要原因是由其架构和底层的数据结构决定的，即由LSM-Tree(Log-Structured Merge-Tree) + HTable(region分区) + Cache决定——客户端可以直接定位到要查数据所在的HRegion server服务器，然后直接在服务器的一个region上查找要匹配的数据，并且这些数据部分是经">
+<meta name="keywords" content="hbase">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase读请求分析">
+<meta property="og:url" content="http://yoursite.com/2017/02/18/HBase读请求分析/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="本文主要是基于HBase的0.98.8版本的实现。HBase能提供实时计算服务主要原因是由其架构和底层的数据结构决定的，即由LSM-Tree(Log-Structured Merge-Tree) + HTable(region分区) + Cache决定——客户端可以直接定位到要查数据所在的HRegion server服务器，然后直接在服务器的一个region上查找要匹配的数据，并且这些数据部分是经">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-169.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-170.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-171.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-172.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-173.png">
+<meta property="og:updated_time" content="2019-02-18T09:04:44.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBase读请求分析">
+<meta name="twitter:description" content="本文主要是基于HBase的0.98.8版本的实现。HBase能提供实时计算服务主要原因是由其架构和底层的数据结构决定的，即由LSM-Tree(Log-Structured Merge-Tree) + HTable(region分区) + Cache决定——客户端可以直接定位到要查数据所在的HRegion server服务器，然后直接在服务器的一个region上查找要匹配的数据，并且这些数据部分是经">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-169.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/18/HBase读请求分析/">
+
+
+
+
+
+  <title>HBase读请求分析 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Quick notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/HBase读请求分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HBase读请求分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T16:36:00+08:00">
+                2017-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要是基于HBase的0.98.8版本的实现。<br>HBase能提供实时计算服务主要原因是由其架构和底层的数据结构决定的，即由LSM-Tree(Log-Structured Merge-Tree) + HTable(region分区) + Cache决定——客户端可以直接定位到要查数据所在的HRegion server服务器，然后直接在服务器的一个region上查找要匹配的数据，并且这些数据部分是经过cache缓存的。  </p>
+<h1 id="客户端读请求"><a href="#客户端读请求" class="headerlink" title="客户端读请求"></a>客户端读请求</h1><p>HBase为客户端提供了的读请求API主要有两个，get和scan。其中，get是通过指定单个的rowKey，获取其对应的value值。而scan是指定startRow和stopRow两个边界rowKey来指定范围rowKey值，获取它们对应的value值。</p>
+<p>   首先我们知道HBase会根据算法把一个表划分为多个Region，然后HMaster会把这几个Region分配到不同的节点中去，因此，当我们查找一个表的数据时，有可能要把请求发送到不同的节点，再获取其查询结果。但是要如何根据get指定的rowKey到指定的节点上查询呢（scan的流程相差不大）？HBase依靠hbase:meta这个系统表实现，事实上hbase:meta表和普通的HBase表一样，都是要分配到某个节点上，如果这个节点出现故障就会转移到另外可用的节点上，这样就可以防止某个节点出现故障导致整个HBase服务不可用。</p>
+<p>   HBase要求客户端的读请求需要自行定位到所属的Region的节点上，然后把请求的rowKey以及Region一并发送到这个节点。</p>
+<p>   我们来看看客户端的读请求执行过程：</p>
+<p><img src="/images/pasted-169.png" alt="upload successful"></p>
+<h2 id="get"><a href="#get" class="headerlink" title="get"></a>get</h2><p>由于hbase:meta表在存放在某台可用的节点机器上，因此我们需要定位究竟是哪台节点。这个过程步骤如下：</p>
+<p>HBase使用zookeeper来存放hbase:meta表的位置，这样客户端就需要先到zookeeper查询hbase:meta表在哪个节点上，如图中的1。<br>然后在根据读请求的rowKey发送请求到这个节点上，节点根据hbase:meta表查找到rowKey所属Region的节点，然后返回给客户端，即图中的2，3。<br>客户端再真正把读请求发送到指定的HRegionServer上，如图中的4，然后HRegionServer再执行具体读请求的查询操作，最后把结果返回到客户端上<br>    要注意的是，客户端会缓存每次hbase:meta表返回的结果缓存到本地上，这样就可以防止每次查询都要经过步骤1，2进行查询，导致过多的网络I/O操作。在上面的第2个过程中，节点是如何根据rowKey通过查询hbase:meta表得到所属的Region呢？hbase:meta表中保存了每个Region的startRow，这样可以查找小于rowKey里的最大startRow值即可确定Region，这个过程在HRegion.getClosestRowBefore()代码实现。</p>
+<h2 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h2><p>   对于scan来说，其实流程和get的查询相差不大，由于scan请求包含startRow和stopRow两个范围，因此可能需要查询多个Region。具体步骤如下：</p>
+<p>会先发送startRow作为指定rowKey到hbase:meta表上请求Region信息，返回的Region信息会包含这个Region的startKey和endKey<br>然后客户端再根据Regioin的范围判断。即如果stopRow&lt;=endKey，则只需要查询这个Region即可。<br>否则，需要首先把startRow和endKey作为一次的请求发送到这个Region的节点上，然后再把endKey作为新的startRow去查询hbase:meta，然后重复步骤1<br>    这样经过多次的迭代，即可把scan请求对应为多个Region的查询。</p>
+<h1 id="服务端读请求"><a href="#服务端读请求" class="headerlink" title="服务端读请求"></a>服务端读请求</h1><p>当客户端把读请求发送到对应的HRegionServer上时，服务端就会开始具体的查询了。实际上，客户端发送的读请求会包含Region信息，以及rowKey范围（如果是get，则只有一个rowKey），另外还有客户端指定的其它查询参数，包括columnFamily，timestamp，filter过滤器等。因此HRegionServer首先会简单地找出对应的HRegion对象来执行具体的读请求。另外，无论是get或者scan请求，HRegionServer都会转化成scan请求来对待，其实get请求就是一个特殊的scan请求，它的范围只有一个指定的rowKey。</p>
+<p>   对于HRegion是如何执行读请求的查询，首先要对HRegionServer内部有一个了解。</p>
+<p><img src="/images/pasted-170.png" alt="upload successful"><br>集中关注一下HRegionServer的内部结构。HRegion是HBase表经过Sharding后的一部分，每个HRegion里面可能有多个Store，每个Store就是一个Column Family的对象，同一Column Family允许有多个列，这些列的数据都必须存储到一个文件里（但有可能存在多个这样的文件），存储格式为HFile，因此每个Store都有多个StoreFile对象管理Column Family的列数据。另外注意到每个Store内部都有一个MemStore对象。MemStore是HBase用来缓存写请求数据的内存结构，由于HBase的写请求都会写MemStore，然后再写HLog（HBase的WriteAheadLog的实现，存储在HDFS里），这样写请求才算提交状态，才对读请求为可见。<strong>MemStore可以让我们从内存中读取最近写请求提交的数据，而不必从HLog中读取，因此避免了I/O操作。另外，图里没有画出的是BlockCache，这个是HRegionServer内部的单例，主要用于HFile读取时缓存HBlock，后面将会继续详述</strong>。</p>
+<p>   弄清楚HRegion的结构之后，可以知道，在某个存在读写请求的时刻里，HRegion包含表数据的地方有MemStore、HLog、HFile、BlockCache。由于MemStore的数据与HLog是等同的，因此对于每个读请求，HRegion需要查询MemStore、BlockCache和HFile这三个部分。</p>
+<h2 id="KeyValue"><a href="#KeyValue" class="headerlink" title="KeyValue"></a>KeyValue</h2><p>  还有一个要注意的是，HBase对于数据KeyValue的定义，来看看下图KeyValue的二进制格式:  </p>
+<p><img src="/images/pasted-171.png" alt="upload successful"><br>一个KeyValue只包含一个rowKey和一个对应的Value值，也就是说，如果一个rowKey在有多个列值，则会有多个KeyValue与其对应。上图的绿色部分中，第二个空格Row就是用于定义的rowKey，在HBase的内部里，对于整个KeyValue来说，包含Column Family、Column Qualifier、TimeStamp和KeyType的整个绿色Key部分才是KeyValue的key值。黄色的Value部分就是保存的列值。在查询流程里，可能会出现对比用于定义的rowKey，或者对比整个绿色部分的key值。</p>
+<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p> 为了提高查询速度，MemStore和HFile内部都是经过排序的数据，因此，在实际查询的过程中可以使用多路归并的方法进行查询。整个查询过程如下图所示：  </p>
+<p><img src="/images/pasted-172.png" alt="upload successful"><br> HRegion提供了Scanner接口方便解耦HRegion与MemStore、BlockCache和HFile这三个部分的查询过程。其中<strong>RegionScannerImpl</strong>负责HRegion内部查询的过程，<strong>StoreScanner</strong>则是负责HStore内部查询的过程，由于可能有多个HStore，则会有对应多个StoreScanner，<strong>MemStoreScanner</strong>则负责HStore内部的MemStore数据结构查询，<strong>StoreFileScanner</strong>则负责HStore内部多个HFile的查询。<strong>这几个部分分别用KeyValueHeap连接起来，KeyValueHeap实现了多路归并的查询逻辑</strong>。</p>
+<p>   多路归并的逻辑大致如下：首先初始化各个Scanner，这个过程需要Scanner根据要查询的KeyValue数据kv，进行一次seek查询，seek查询的结果是一个大于或等于查询值kv的peek值，然后KeyValueHeap使用优先级队列PriorityQueue保存各个Scanner，这个优先级队列会通过比较各个Scanner的peek值来进行排序，这个优先级队列的第一个元素就是这些scanner里查询kv的结果，如果这个值刚好等于kv，即成功找到，如果大于则表明不存在。如果需要查询多个值则重新进行一次seek查询，再获取优先级队列的第一个元素。可以类别优先级队列里的scanner就是多路归并的各个有序队列，这样就很容易理解算法。</p>
+<p>   另外，在StoreScanner的初始化过程中，为了减少进行多路归并的Scanner数，提高查询速度，会对Scanner进行一次简单的过滤。MemStoreScanner，会根据查询kv值的时间戳判断是否在TimeRange，以及TTL来判断。而StoreFileScanner则会利用TimeRange（包括TTL）、KeyRange、BloomFilter判断kv值是否在HFile中。BloomFilter特性通过计算kv的哈希值来快速判断是否存在，但有一定的失败几率。</p>
+<p>   从KeyValueHeap的多路归并算法逻辑可以看到，Scanner关键是如何通过seek查询更新对应的peek值。接下来主要分析一下MemStoreScanner和StoreFileScanner是如何通过seek查询来更新peek值的。</p>
+<h2 id="MemStoreScanner"><a href="#MemStoreScanner" class="headerlink" title="MemStoreScanner"></a>MemStoreScanner</h2><p>MemStoreScanner直接引用MemStore内部的两个主要的数据结构：kvset和snapshot。这两个数据结构都是保存KeyValue数据的KeyValueSkipListSet。KeyValueSkipListSet是HBase单独实现的一个专门保存KeyValue的SkipList，内部用ConcurrentNavigableMap封装实现了高效并发的有序队列。kvset是当HBase写入数据KeyValue的缓存，而snapshot则是指快照，这是MemStore大小超过阀值，需要把kvset数据写入HFile的时候生成的副本，这样当flush这份副本到HFile里的时候，减少对写请求的影响。</p>
+<p>   MemStoreScanner的seek过程比较简单，代码流程如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public synchronized KeyValue peek() &#123;</span><br><span class="line">  //DebugPrint.println(&quot; MS@&quot; + hashCode() + &quot; peek = &quot; + getLowest());</span><br><span class="line">  return theNext;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public synchronized boolean seek(KeyValue key) &#123;</span><br><span class="line">  if (key == null) &#123;</span><br><span class="line">    close();</span><br><span class="line">    return false;</span><br><span class="line">  &#125;</span><br><span class="line">  //tailSet返回的是大于等于key的集合</span><br><span class="line">  kvsetIt = kvsetAtCreation.tailSet(key).iterator();</span><br><span class="line">  snapshotIt = snapshotAtCreation.tailSet(key).iterator();</span><br><span class="line">  kvsetItRow = null;</span><br><span class="line">  snapshotItRow = null;</span><br><span class="line">  return seekInSubLists(key);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">private synchronized boolean seekInSubLists(KeyValue key)&#123;</span><br><span class="line">  //getNext从迭代器获取符合的KeyValue值</span><br><span class="line">  kvsetNextRow = getNext(kvsetIt);</span><br><span class="line">  snapshotNextRow = getNext(snapshotIt);</span><br><span class="line">  // Calculate the next value</span><br><span class="line">  theNext = getLowest(kvsetNextRow, snapshotNextRow);</span><br><span class="line">  // has data</span><br><span class="line">  return (theNext != null);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码主要实现逻辑比较简单，kvsetAtCreation和snapshotAtCreation两个数据结构（引用MemStore的kvset和snapshot），通过比较KeyValue的绿色key部分，来查找大于等于的集合，然后getNext需要通过比较MVCC版本号以及rowKey部分找出集合里符合KeyValue的值，最后再从两个集合里面找出最小的那个KeyValue，同样也是类似多路合并的思想，这样的结果就是theNext的值，也就是peek返回的值。<br>    这里的MVCC版本号是HBase提高读写并发事务，并维持一致性的实现。</p>
+<h2 id="StoreFileScanner"><a href="#StoreFileScanner" class="headerlink" title="StoreFileScanner"></a>StoreFileScanner</h2><p>StoreFileScanner由于涉及到BlockCache缓存，HFile读写，Bloom filter等特性，逻辑实现较为复杂。StoreFileScanner会首先利用HFile记录的时间戳范围、rowKey范围、Bloom filter来判断给定的KeyValue是否存在HFile中，如果不存在则直接跳过HFile的查找。然后会StoreFileScanner的seek操作就要涉及到HFile的查找过程。HFile采用HBlock作为文件操作的基本单位，有不同类型的HBlock，包括DataBlock（保存KeyValue），IndexBlock（保存索引以及对应的rowKey）、BloomMeta（Bloom filter相关）等。HFile采用类似B+树的多级索引算法，优化在数据量大的情况下查找一个指定的KeyValue的速度。在多级索引查找过程中，读取HBlock都会尝试从BlockCache缓存读取指定Block，尽量避免I/O操作；由于所有的Block的rowKey都是有序的，IndexBlock都是采用二分查找算法来得到下一个Block的offset，有助于提高查找速度。接下来是较为详细的实现解析。    </p>
+<h3 id="HFile"><a href="#HFile" class="headerlink" title="HFile"></a>HFile</h3><p> HBase的HFile目前有三个不同的版本，本文主要研究HFile v2的布局。首先来看看它的文件布局格式：   </p>
+<p><img src="/images/pasted-173.png" alt="upload successful"><br>HFile V2有四部分：”Scanned block”、”Non-scanned block”、”Load-on-open”和Trailer部分（详细请参考这里）。HFile的初始化记载过程中，默认把Trailer和”Load-on-open”部分加载到内存中。首先会加载位于文件末尾的Trailer，包含着HFile的版本、索引数、压缩/非压缩大小、”Load-on-open”部分的偏移等文件信息。从Trailer获得”Load-on-open”部分的偏移开始加载”Load-on-open”部分，这部分主要包括RootDataIndex、midkey、MetaIndex（V2起不再存储Bloom信息，但仍支持）、FileInfo以及Bloom filter metadata。RootDataIndex就是根索引Block，midKey是用于HFile在split的时候快速找到处于中间Key的值。FileInfo包括了LastKey、平均Key长度等信息，BloomFilterMetaData就是Bloom filter的rootIndexBlock。</p>
+<p>   对于多级索引的算法，是按照数据量大小来确定究竟需要查找多少个IndexBlock的。    </p>
+<ol>
+<li>在数据量较少的情况下，可以直接从RootDataIndex直接定位DataBlock，也就是RootDataIndex-&gt;DataBlock；</li>
+<li>当数据量较大时，索引的数量超过RootDataIndex的大小，因此就要建立多级索引，索引的级数与数据量大小有关，其路径为Root-&gt;Intermediate(0…N)-&gt;Leaf(0…1)-&gt;DataBlock，除了Root和DataBlock必定会有之外，Intermediate会有0到N个（取决于数据量大小），Leaf会有0到1个；</li>
+<li><p>Bloom filter只采用一级索引，也就是只会有BloomFilterMetaData-&gt;BloomBlock这样的路径。  </p>
+<p>HFile保证在IndexBlock中的rowKey有序，这样在查找rowKey对应的索引中，采用的是二分查找算法，稍微有点不同的是，这里的二分查找并不是一定要找到对应的rowKey，而是要找到刚好小于等于这个rowKey的索引，这是由于这个rowKey都是IndexBlock或者DataBlock里最小值。  </p>
+<p>二分查找到最后确定DataBlock的时候，就需要顺序遍历DataBlock里的KeyValue值，由于每个DataBlock大小约为64kb（这里大约是由于DataBlock是按照KeyValue顺序写入，当超过64KB的时候才会停止写这个DataBlock，另外压缩也会有影响），因此遍历比较的时候不会有太大性能影响。</p>
+</li>
+</ol>
+<h3 id="BlockCache"><a href="#BlockCache" class="headerlink" title="BlockCache"></a>BlockCache</h3><p>在以上的HFile查找过程中，需要大量I/O读取HBlock，因此HBase提供了BlockCache缓存机制，专门优化读性能。BlockCache是以HBlock为基本单位进行缓存的内存结构，经过多次的改进与性能测试，HBase官方推荐的一种做法是按照HBlock的类型进行分类缓存。事实上，由于在读请求里，对于IndexBlock的请求命中率几乎可以达到100%，而DataBlock由于业务的不确定性，可能会有巨大的命中率差距，因此把这两种类型的Block进行分类缓存，其中IndexBlock会缓存到LruBlockCache中，而DataBlock则缓存到BucketCache中。</p>
+<p>   LruBlockCache是利用LRU算法+优先级比重对HBlock进行缓存。优先级比重是HBase对HBlock进行优先级划分，分为SINGLE、MULTI、MEMORY三个等级，刚开始缓存为SINGLE等级，如果后面有读请求命中则升级到MULTI等级，MEMORY等级是用户指定HBase表设置的。进行淘汰的时候，会尽可能地按照SINGLE、MULTI、MEMORY的优先级来进行淘汰。在我们的线上集群中，几台HRegionServer的LruBlockCache命中率几乎为100%。</p>
+<p>   BucketCache同样也是利用LRU算法对HBlock进行缓存。但不同的是，由于它是针对DataBlock进行缓存，如果在随机读较多的情景下，很容易造成大量GC，这个在我们集群中曾经造成过严重的问题，因此可以把它缓存的介质指定为offheap（也支持SSD的File方式），这样可以有效减轻GC带来的影响。BucketCache还有一个优点，就是它把缓存大小分为很多个尺寸，每个尺寸都有对应一个槽，这些槽可以互相转换，这对于经过压缩的DataBlock来说能够大大提高内存利用率。</p>
+<p>   多级索引+二分查找的做法不但有助于提高读性能，允许动态读取索引Block，减轻读取HFile内存初始化时的压力。BlockCache的使用也能够尽可能地利用好内存进行缓存，避免产生I/O。另外，由于多个HFile是并行查找的，如果对多个小的HFile进行compact操作，可以避免减少多个HFile的读操作。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>   HBase使用了多种不同的内存结构、多级索引、二分查找等各种方法提高读请求性能，另外把HFile以HBlock为基本单位进行读写，减轻I/O的同时，也能够动态按照需要进行Block读取，减轻内存压力。</p>
+<p>参考：<br><a href="https://blog.csdn.net/pun_c/article/details/46841625">https://blog.csdn.net/pun_c/article/details/46841625</a><br><a href="https://www.cnblogs.com/ulysses-you/p/10072883.html#_label2">https://www.cnblogs.com/ulysses-you/p/10072883.html#_label2</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hbase/" rel="tag"># hbase</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/18/Hbase写入逻辑/" rel="next" title="Hbase写入逻辑">
+                <i class="fa fa-chevron-left"></i> Hbase写入逻辑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/18/Region的拆分/" rel="prev" title="Region的拆分">
+                Region的拆分 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+            
+              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">102</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#客户端读请求"><span class="nav-number">1.</span> <span class="nav-text">客户端读请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#get"><span class="nav-number">1.1.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scan"><span class="nav-number">1.2.</span> <span class="nav-text">scan</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务端读请求"><span class="nav-number">2.</span> <span class="nav-text">服务端读请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#KeyValue"><span class="nav-number">2.1.</span> <span class="nav-text">KeyValue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询流程"><span class="nav-number">2.2.</span> <span class="nav-text">查询流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MemStoreScanner"><span class="nav-number">2.3.</span> <span class="nav-text">MemStoreScanner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StoreFileScanner"><span class="nav-number">2.4.</span> <span class="nav-text">StoreFileScanner</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HFile"><span class="nav-number">2.4.1.</span> <span class="nav-text">HFile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BlockCache"><span class="nav-number">2.4.2.</span> <span class="nav-text">BlockCache</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lifei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
