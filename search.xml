@@ -468,6 +468,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Elasticsearch]]></title>
+    <url>%2F2017%2F02%2F16%2FElasticsearch%2F</url>
+    <content type="text"><![CDATA[建立倒排索引 标准化规则(normalization)并不会单纯直接建立的倒排索引，会使用到标准化规则(normalization) dog、dogs fox foxes单复数问题只保留一个，有共同词根Quick、quick 不区分大小写问题jump和leap意思相近，只保留一个 分词器介绍以及内置分词器 配置中文分词器重新启动elasticsearch在日志中可以看到。 CRUD新建索引,默认配置 PUT lib2查看索引 GET _all/_settings指定文档id用put,不指定文档id用post 获取docGET /lib2/user/1GET /lib2/user/1?_source=age,about 修改文档修改文档全覆盖用PUT，先把原有文档标记为deleted(es会在合适的时间把它删除掉),然后会创建一个新的文档修改具体字段用post两种修改方式的区别是： post方式对并发问题处理，可以增加一个重试参数 删除文档DELETE /lib/user/1 DELETE /lib/user 先把文档标记为deleted，es会在合适的时间把它删除mget,bulk 版本控制外部的版本号需要大于内存的版本号才能成功，相等也不行 mapping当我们添加一个文档的时候，elasticsearch就会默认给我们创建一个mapping,指定字段的数据类型。 数值，日期类型必须是完全一样才能查出来，即精确查询，没有分词；但是text类型默认进行分词，只需要包含就可以查到自定义mapping除了规定字段的类型，最大作用就是可以指定字段的属性是否分词,是否存储，是否索引等 字段类型 支持的属性 查询term、terms只会从倒排索引中查询，如果倒排索引中没有就不会查到数据terms表示包含其中一个即可。 基本查询 中文查询 Filter建立倒排索引时，会默认转为小写的，所以查大写字符的时，查询条件要转为小写，termId为id100127 exists相当于数据库的is not null将query转化为filter进行优化 聚合查询 cardinality相当于数据库的distinct constant_score由于不查评分，效率会高一些 原理解析es分布式结构特点作为应用程序的使用方目前只需要关心怎么添加文档和搜索文档。这就是隐藏特性垂直扩容是原集群节点数不变，新采购的机器配置高于旧机器。 路由相关到有相关数据的其他节点，就是将请求转发到其他节点，该及诶单将结果再转发回原始请求节点，最终返回给客户端(即应用程序)。 分片和副本机制新增节点。副本可以处理查询请求 水平扩容的过程 容错机制 文档核心元数据从6开始一个index下只能有一个type GUID算法可以保证在分布式并发情况下生成的id不会冲突 基于grovvy脚本实现partial update 文档数据路由原理 文档增删改内部原理 写一致原理和qurom机制 文档查询内部原理 分页查询中的deep paging问题mysql也可能会出现 copyto 字符串排序问题 如何计算相关度分数 DocValues解析默认开启的es对非字符串类型(日期，数字等)除建立倒排索引外，还会建立一个正排索引 基于scroll技术滚动搜索大量数据 dynamic mapping策略 english分词器会把is,a,an等停用词去掉，这些词不会建立倒排索引。而standard会建立。 重建索引 索引不可变的原因]]></content>
+      <categories>
+        <category>elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[KMP]]></title>
     <url>%2F2017%2F02%2F14%2FKMP%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637package bluebridgecup.array.kmp;public class Kmp &#123; public static void main(String[] args) &#123; int[] next = new int[14]; char[] p = &quot;abcdabdefgabca&quot;.toCharArray(); getNext(p,next); for (int n:next) &#123; System.out.println(n); &#125; &#125; static void getNext(char[] p,int next[])&#123; int nLen = p.length; next[0] = -1;//todo 初始化为-1，所以 int k = -1; int j = 0;// next[j]代表[0, j - 1]区段中最长相同真前后缀的长度 while (j &lt; nLen - 1)&#123; //j //针对数组p,p[k]表示前项,p[j]表示后项;因为k=-1,j=0 //注:k==-1表示未找到k前缀与k后缀相等,首次分析可先忽略// 细心的朋友会问if语句中k == -1存在的意义是何？第一，程序刚运行时，k是被初始为-1，直接进行P[i] == P[k]判断无疑会边界溢出；// 第二，else语句中k = next[k]，k是不断后退的，若k在后退中被赋值为-1（也就是j = next[0]），在P[i] == P[k]判断也会边界溢出。// 综上两点，其意义就是为了特殊边界判断。 if (k &gt; -1)System.out.println(p[j]+&quot;***&quot;+p[k]+&quot;$$$&quot;+j+&quot;,&quot;+k); if (k == -1 || p[j] == p[k])&#123;//匹配成功 ++j; ++k; next[j] = k;//todo 首次是next[1] = 0;next中存的是索引;next[0] = -1是初始化的，不用再计算 &#125; else &#123; //p[j]与p[k]失配,则继续递归计算前缀p[next[k]] k = next[k];//todo next[0]=-1是初始化的，该出逻辑是判断k的取值为next数组的前一项，前一项如果为-1，则k=-1,那么下一次循环会进入两一个逻辑 &#125; &#125; &#125;&#125;]]></content>
@@ -519,9 +530,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -529,9 +540,9 @@
     <url>%2F2016%2F01%2F26%2FL965-IsUnivalTree%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425package LeetCode.topic.tree;public class L965_IsUnivalTree &#123; public boolean isUnivalTree(TreeNode root) &#123; if(root == null)&#123; return true; &#125; return helper(root,root.val); &#125; public boolean helper(TreeNode node,int val)&#123; if(node == null)return true; if(node.val != val)return false; if(node.left != null &amp;&amp; node.left.val != val) return false; if(node.right != null &amp;&amp; node.right.val != val) return false; return helper(node.left,val) &amp;&amp; helper(node.right,val); &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -542,9 +553,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -552,9 +563,9 @@
     <url>%2F2016%2F01%2F26%2FL687-LongestUnivaluePath%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041package LeetCode.topic.tree;/** * * 解题思路类似于124题, 对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况: * 1. 其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径 * 2. 左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径 * 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据 */public class L687_LongestUnivaluePath &#123; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125; private int max = 0; public int longestUnivaluePath(TreeNode root) &#123; if (root == null)return 0; helper(root,root.val); return max; &#125; private int helper(TreeNode node, int val) &#123; if (node == null)return 0; int left = helper(node.left,node.val); int right = helper(node.right,node.val); max = Math.max(max,left + right);// 路径长度为节点数减1所以此处不加1 if (node.val == val) return Math.max(left,right) + 1; return 0; &#125;// 下面是自己作物的思路// if (node.val == val)&#123;// return Math.max(helper(node.left,node.val,count+1),helper(node.right,node.val,count+1));// &#125; else &#123;// return Math.max(helper(node.left,node.val,count),helper(node.right,node.val,count));// &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -565,9 +576,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -587,9 +598,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -597,9 +608,9 @@
     <url>%2F2016%2F01%2F26%2FL617-MergeTrees%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243package LeetCode.topic.tree;/** * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。 * * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。 * * 示例 1: * * 输入: * Tree 1 Tree 2 * 1 2 * / \ / \ * 3 2 1 3 * / \ \ * 5 4 7 * 输出: * 合并后的树: * 3 * / \ * 4 5 * / \ \ * 5 4 7 * 注意: 合并必须从两个树的根节点开始。 */public class L617_MergeTrees &#123; public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123; if (t1 == null) return t2; if (t2 == null) return t1; TreeNode cur = new TreeNode(t1.val + t2.val); cur.left = mergeTrees(t1.left,t2.left); cur.right = mergeTrees(t1.right,t2.right); return cur; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -607,9 +618,9 @@
     <url>%2F2016%2F01%2F26%2FL543-DiameterOfBinaryTree%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041package LeetCode.topic.tree;/** * 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。 * * 示例 : * 给定二叉树 * * 1 * / \ * 2 3 * / \ * 4 5 * 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。 * * 注意：两结点之间的路径长度是以它们之间边的数目表示。 */public class L543_DiameterOfBinaryTree &#123; private int rst = 0; public int diameterOfBinaryTree(TreeNode root) &#123; if (root == null) return 0; helper(root); return rst; &#125; private int helper(TreeNode root) &#123; if (root == null) return 0; int left = helper(root.left); int right = helper(root.right); if (rst &lt; left + right) rst = left + right; return Math.max(left,right) + 1; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -665,9 +676,9 @@
     <url>%2F2016%2F01%2F26%2FL404-TreeSumOfLeftLeaves%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940package LeetCode.topic.tree;public class L404_TreeSumOfLeftLeaves &#123; /** * 本质还是二叉树的遍历 * * 1. 求所有左叶子节点的值的和，那就是求当前节点的左节点和右节点的所有左叶子节点的和 * * 2. 不是左叶子节点返回值为0，是左叶子节点放回叶子的值 * * 3. 递归求和即可 * * @param root * @return */ public int sumOfLeftLeaves(TreeNode root) &#123; return dfs(root, false); &#125; public int dfs(TreeNode node, Boolean isLeft) &#123; if (node == null) return 0; if (node.left == null &amp;&amp; node.right == null) &#123; if (isLeft == true) return node.val; else return 0; &#125; int leftVal = dfs(node.left, true); int rightVal = dfs(node.right, false); return leftVal + rightVal; &#125; class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -675,9 +686,9 @@
     <url>%2F2016%2F01%2F26%2FL257-BinaryTreePaths%2F</url>
     <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100package LeetCode.topic.tree;import java.util.ArrayList;import java.util.List;/** * 给定一个二叉树，返回所有从根节点到叶子节点的路径。 * * 说明: 叶子节点是指没有子节点的节点。 * * 示例: * * 输入: * * 1 * / \ * 2 3 * \ * 5 * * 输出: [&quot;1-&gt;2-&gt;5&quot;, &quot;1-&gt;3&quot;] * * 解释: 所有根节点到叶子节点的路径为: 1-&gt;2-&gt;5, 1-&gt;3 */public class L257_BinaryTreePaths &#123; List&lt;String&gt; res = new ArrayList&lt;&gt;(); public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123; if (root == null)return new ArrayList&lt;&gt;(); ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;(); helper(root,list); return res; &#125; private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123; if (root == null) return; if (root.left == null &amp;&amp; root.right == null)&#123; list.add(root.val); String s = &quot;&quot;; for (Integer node:list) &#123; if (s.equals(&quot;&quot;))&#123; s += node+&quot;&quot;; &#125; else &#123; s = s + &quot;-&gt;&quot;+ node; &#125; &#125; res.add(s); list.remove(list.size() - 1); return; &#125; list.add(root.val); helper(root.right,list); helper(root.left,list); list.remove(list.size() - 1); &#125;// List&lt;String&gt; res = new ArrayList&lt;&gt;();// public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123;// if (root == null)return new ArrayList&lt;&gt;();// ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();// list.add(root.val);// helper(root,list);// return res;// &#125;//// private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123;// if (root.left == null &amp;&amp; root.right == null)&#123;// String s = &quot;&quot;;// for (Integer node:list) &#123;// if (s.equals(&quot;&quot;))&#123;// s += node+&quot;&quot;;// &#125; else &#123;// s = s + &quot;-&gt;&quot;+ node;// &#125;// &#125;// res.add(s);// &#125; else if (root.left == null)&#123;// list.add(root.right.val);// helper(root.right,list);// &#125; else if (root.right == null)&#123;// list.add(root.left.val);// helper(root.left,list);// &#125; else &#123;// ArrayList&lt;Integer&gt; mycopy=new ArrayList&lt;Integer&gt;();// mycopy=(ArrayList&lt;Integer&gt;) list.clone();// list.add(root.right.val);// helper(root.right,list);// mycopy.add(root.left.val);// helper(root.left,mycopy);// &#125;// &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -688,9 +699,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -698,9 +709,9 @@
     <url>%2F2016%2F01%2F26%2FL235-BSTLowestCommonAncestor%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859package LeetCode.topic.tree;/** * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。 * * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。” * * 例如，给定如下二叉搜索树: root = [6,2,8,0,4,7,9,null,null,3,5] * * * * * * 示例 1: * * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8 * 输出: 6 * 解释: 节点 2 和节点 8 的最近公共祖先是 6。 * 示例 2: * * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4 * 输出: 2 * 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。 * * * 说明: * * 所有节点的值都是唯一的。 * p、q 为不同节点且均存在于给定的二叉搜索树中。 * * * //todo 可以利用二叉搜索树的特性 */public class L235_BSTLowestCommonAncestor &#123; TreeNode res = null; public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123; if (root == null) return null; helper(root,p,q); return res; &#125; private void helper(TreeNode root, TreeNode p, TreeNode q) &#123; if(root == null)return; if ((p.val - root.val)*(q.val - root.val) &lt;= 0)&#123;//一定在最近公共祖先的两侧 res = root; &#125; else if (p.val &gt; root.val &amp;&amp; q.val &gt; root.val)&#123; helper(root.right,q,p); &#125; else &#123; helper(root.left,p,q); &#125; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -831,9 +842,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -844,9 +855,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -857,9 +868,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -870,9 +881,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -883,9 +894,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -908,9 +919,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -921,9 +932,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -934,9 +945,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -971,9 +982,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -996,9 +1007,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -1033,9 +1044,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
+        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
