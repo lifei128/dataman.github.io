@@ -259,17 +259,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[数据结构]]></title>
-    <url>%2F2019%2F01%2F26%2F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%2F</url>
-    <content type="text"><![CDATA[天下武功唯快不破，快是基本功，那么算法中的基本功首推递归递归，迭代相互转换动态规划深度优先广度优先贪心算法回溯算法二分查找分治算法双指针排序 数组链表栈队列堆树图]]></content>
-      <categories>
-        <category>algorithm</category>
-      </categories>
-      <tags>
-        <tag>algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[left semi join]]></title>
     <url>%2F2019%2F01%2F25%2Fhive-LeftSemiJoin%2F</url>
     <content type="text"><![CDATA[参考:https://blog.csdn.net/happyrocking/article/details/79885071]]></content>
@@ -785,9 +774,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[L144_PreorderTraversal]]></title>
-    <url>%2F2016%2F01%2F26%2FL144-PreorderTraversal%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package LeetCode.topic.tree;import java.util.ArrayList;import java.util.List;import java.util.Stack;/** * 给定一个二叉树，返回它的 前序 遍历。 * * 示例: * * 输入: [1,null,2,3] * 1 * \ * 2 * / * 3 * * 输出: [1,2,3] * 进阶: 递归算法很简单，你可以通过迭代算法完成吗？ */public class L144_PreorderTraversal &#123; public List&lt;Integer&gt; preorderTraversal(TreeNode root) &#123; if (root == null) return new ArrayList&lt;&gt;(); List&lt;Integer&gt; res = new ArrayList&lt;&gt;(); Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;(); stack.push(root); while (!stack.isEmpty())&#123; TreeNode cur = stack.pop(); res.add(cur.val); if (cur.right != null)&#123; stack.push(cur.right); &#125; if (cur.left != null)&#123; stack.push(cur.left); &#125; &#125; return res; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+    <title><![CDATA[L129_TreeSumNumbers]]></title>
+    <url>%2F2016%2F01%2F26%2FL129-TreeSumNumbers%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109package LeetCode.topic.tree;import java.util.ArrayList;import java.util.Arrays;import java.util.List;/** * 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。 * * 例如，从根到叶子节点路径 1-&gt;2-&gt;3 代表数字 123。 * * 计算从根到叶子节点生成的所有数字之和。 * * 说明: 叶子节点是指没有子节点的节点。 * * 示例 1: * * 输入: [1,2,3] * 1 * / \ * 2 3 * 输出: 25 * 解释: * 从根到叶子节点路径 1-&gt;2 代表数字 12. * 从根到叶子节点路径 1-&gt;3 代表数字 13. * 因此，数字总和 = 12 + 13 = 25. * 示例 2: * * 输入: [4,9,0,5,1] * 4 * / \ * 9 0 * / \ * 5 1 * 输出: 1026 * 解释: * 从根到叶子节点路径 4-&gt;9-&gt;5 代表数字 495. * 从根到叶子节点路径 4-&gt;9-&gt;1 代表数字 491. * 从根到叶子节点路径 4-&gt;0 代表数字 40. * 因此，数字总和 = 495 + 491 + 40 = 1026. */public class L129_TreeSumNumbers &#123; private int total; public int sumNumbers(TreeNode root) &#123; if (root == null) return 0; ArrayList&lt;Integer&gt; sum = new ArrayList&lt;&gt;(); helper(root,sum); return total; &#125; private void helper(TreeNode cur,ArrayList&lt;Integer&gt; sum) &#123; if (cur == null) return; if (cur.left == null &amp;&amp; cur.right == null)&#123; sum.add(0,cur.val);//todo int s = 0; for (int i = sum.size() -1 ;i&gt;=0;i--)&#123; s += (int) (Math.pow(10,Double.parseDouble(i+&quot;&quot;))*sum.get(i).intValue()); &#125; total += s; sum.remove(0);//todo return; &#125; sum.add(0,cur.val); helper(cur.left,sum); helper(cur.right,sum); sum.remove(0);//todo &#125;// private int total;// public int sumNumbers(TreeNode root) &#123;// if (root == null) return 0;// ArrayList&lt;Integer&gt; sum = new ArrayList&lt;&gt;();// sum.add(root.val);// helper(root,sum);// return total;// &#125;//// private void helper(TreeNode cur,ArrayList&lt;Integer&gt; sum) &#123;// if (cur.left == null &amp;&amp; cur.right == null)&#123;// int s = 0;// for (int i = sum.size() -1 ;i&gt;=0;i--)&#123;// s += (int) (Math.pow(10,Double.parseDouble(i+&quot;&quot;))*sum.get(i).intValue());// &#125;// total += s;// &#125; else if (cur.left == null)&#123;// sum.add(0,cur.right.val);// helper(cur.right,sum);// &#125; else if (cur.right == null)&#123;// sum.add(0,cur.left.val);// helper(cur.left,sum);// &#125; else &#123;// ArrayList&lt;Integer&gt; mycopy=new ArrayList&lt;Integer&gt;();// mycopy=(ArrayList&lt;Integer&gt;) sum.clone();// sum.add(0,cur.right.val);// helper(cur.right,sum);// mycopy.add(0,cur.left.val);// helper(cur.left,mycopy);// &#125;// &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
@@ -797,9 +786,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[L129_TreeSumNumbers]]></title>
-    <url>%2F2016%2F01%2F26%2FL129-TreeSumNumbers%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109package LeetCode.topic.tree;import java.util.ArrayList;import java.util.Arrays;import java.util.List;/** * 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。 * * 例如，从根到叶子节点路径 1-&gt;2-&gt;3 代表数字 123。 * * 计算从根到叶子节点生成的所有数字之和。 * * 说明: 叶子节点是指没有子节点的节点。 * * 示例 1: * * 输入: [1,2,3] * 1 * / \ * 2 3 * 输出: 25 * 解释: * 从根到叶子节点路径 1-&gt;2 代表数字 12. * 从根到叶子节点路径 1-&gt;3 代表数字 13. * 因此，数字总和 = 12 + 13 = 25. * 示例 2: * * 输入: [4,9,0,5,1] * 4 * / \ * 9 0 * / \ * 5 1 * 输出: 1026 * 解释: * 从根到叶子节点路径 4-&gt;9-&gt;5 代表数字 495. * 从根到叶子节点路径 4-&gt;9-&gt;1 代表数字 491. * 从根到叶子节点路径 4-&gt;0 代表数字 40. * 因此，数字总和 = 495 + 491 + 40 = 1026. */public class L129_TreeSumNumbers &#123; private int total; public int sumNumbers(TreeNode root) &#123; if (root == null) return 0; ArrayList&lt;Integer&gt; sum = new ArrayList&lt;&gt;(); helper(root,sum); return total; &#125; private void helper(TreeNode cur,ArrayList&lt;Integer&gt; sum) &#123; if (cur == null) return; if (cur.left == null &amp;&amp; cur.right == null)&#123; sum.add(0,cur.val);//todo int s = 0; for (int i = sum.size() -1 ;i&gt;=0;i--)&#123; s += (int) (Math.pow(10,Double.parseDouble(i+&quot;&quot;))*sum.get(i).intValue()); &#125; total += s; sum.remove(0);//todo return; &#125; sum.add(0,cur.val); helper(cur.left,sum); helper(cur.right,sum); sum.remove(0);//todo &#125;// private int total;// public int sumNumbers(TreeNode root) &#123;// if (root == null) return 0;// ArrayList&lt;Integer&gt; sum = new ArrayList&lt;&gt;();// sum.add(root.val);// helper(root,sum);// return total;// &#125;//// private void helper(TreeNode cur,ArrayList&lt;Integer&gt; sum) &#123;// if (cur.left == null &amp;&amp; cur.right == null)&#123;// int s = 0;// for (int i = sum.size() -1 ;i&gt;=0;i--)&#123;// s += (int) (Math.pow(10,Double.parseDouble(i+&quot;&quot;))*sum.get(i).intValue());// &#125;// total += s;// &#125; else if (cur.left == null)&#123;// sum.add(0,cur.right.val);// helper(cur.right,sum);// &#125; else if (cur.right == null)&#123;// sum.add(0,cur.left.val);// helper(cur.left,sum);// &#125; else &#123;// ArrayList&lt;Integer&gt; mycopy=new ArrayList&lt;Integer&gt;();// mycopy=(ArrayList&lt;Integer&gt;) sum.clone();// sum.add(0,cur.right.val);// helper(cur.right,sum);// mycopy.add(0,cur.left.val);// helper(cur.left,mycopy);// &#125;// &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+    <title><![CDATA[L144_PreorderTraversal]]></title>
+    <url>%2F2016%2F01%2F26%2FL144-PreorderTraversal%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package LeetCode.topic.tree;import java.util.ArrayList;import java.util.List;import java.util.Stack;/** * 给定一个二叉树，返回它的 前序 遍历。 * * 示例: * * 输入: [1,null,2,3] * 1 * \ * 2 * / * 3 * * 输出: [1,2,3] * 进阶: 递归算法很简单，你可以通过迭代算法完成吗？ */public class L144_PreorderTraversal &#123; public List&lt;Integer&gt; preorderTraversal(TreeNode root) &#123; if (root == null) return new ArrayList&lt;&gt;(); List&lt;Integer&gt; res = new ArrayList&lt;&gt;(); Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;(); stack.push(root); while (!stack.isEmpty())&#123; TreeNode cur = stack.pop(); res.add(cur.val); if (cur.right != null)&#123; stack.push(cur.right); &#125; if (cur.left != null)&#123; stack.push(cur.left); &#125; &#125; return res; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
