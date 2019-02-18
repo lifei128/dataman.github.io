@@ -479,17 +479,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[递归]]></title>
-    <url>%2F2017%2F02%2F14%2F%E8%93%9D%E6%A1%A5%E6%9D%AF-%E5%BE%AA%E7%8E%AF%2F</url>
-    <content type="text"><![CDATA[任何循环都可以改为递归，关键是发现逻辑“相似性”和递归出口。有些语言没有循环只有递归，如lisp和clojure。拓展尾递归。 数组求和12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758package bluebridgecup;public class A01_SumArray &#123; public static int f1(int[] arr) &#123; int sum = 0; for (int i = 0; i &lt; arr.length; i++) &#123; sum += arr[i]; &#125; return sum; &#125; //**************************线性递归************************** public static int f2(int[] arr,int start) &#123; if (start == arr.length) //递归出口 return 0; return arr[start] + f2(arr,start+1); &#125; public static int f3_2(int[] arr,int end) &#123; if (end &lt; 0) //递归出口 return 0; return f3_2(arr,end-1) + arr[end]; &#125; //**************************二分递归************************** public static int f4(int[] arr,int start,int end) &#123; if (start &gt; end) return 0;//递归出口 int mid = (start + end)/2; return f4(arr,start,mid-1) + arr[mid] + f4(arr,mid+1,end);//todo 不如下面的方式 &#125; public static int f5(int[] arr,int start,int end) &#123; if (start == end) return arr[start];//递归出口 int mid = (start + end)/2; return f5(arr,start,mid) + f5(arr,mid+1,end);//注意分为mid mid+1 &#125; public static void main(String[] args) &#123;// int[] arr = new int[]&#123;1,2,3,4,5,6,7,8,9,10&#125;;// System.out.println(f1(arr));// System.out.println(f2(arr,0));// System.out.println(f3_2(arr,arr.length - 1));// System.out.println(f4(arr,0,arr.length - 1));// System.out.println(f5(arr,0,arr.length - 1)); &#125;&#125; 打印数组123456789101112131415161718192021222324252627282930package bluebridgecup;public class A02_PrintArray &#123; private static void f1(int n) &#123; if (n &gt; 0) f1(n - 1); System.out.println(n); &#125; private static void f2(int start, int end) &#123; if (start &gt; end)return; System.out.println(start); f2(start+1,end); &#125; public static void f_arr(int[] arr,int start)&#123; if (start &gt; arr.length - 1)return; System.out.println(arr[start]); f_arr(arr,start+1); &#125; public static void main(String[] args)&#123;// f1(10);// f2(0,10);// int[] arr = new int[]&#123;1,2,3,4,5,6,7,8,9,10&#125;;// fa(arr,0); &#125;&#125; 字符串是否相同1234567891011121314151617181920212223242526package bluebridgecup;public class A03_IsSameString &#123; private static boolean isSameString2(String s1, String s2) &#123; if (s1.length() != s2.length()) return false;//******边界******** if (s1.length() == 0) return true;//******边界********// if (s1.charAt(0) != s2.charAt(0)) return false; if (s1.charAt(0) == s2.charAt(0)) return true; return isSameString2(s1.substring(1),s2.substring(1)); &#125; public static boolean isSameString1(String s1,String s2)&#123; return s1.equals(s2); &#125; public static void main(String[] args) &#123;// String s1 = &quot;abc&quot;;// String s2 = &quot;abcd&quot;;// System.out.println(isSameString1(s1,s2));// System.out.println(isSameString2(s1,s2)); &#125;&#125; 求阶乘123456789101112package bluebridgecup;public class A04_FactorialOfN &#123; public static void main(String[] args) &#123; System.out.println(helper(3)); &#125; private static int helper(int n) &#123; if (n &gt; 0)return n * helper(n - 1); return 1; &#125;&#125; 求n个不同元素的全排列*12345678910111213141516171819202122232425262728293031323334package bluebridgecup;/** * 求n个不同元素的全排列 * * 回溯问题，用于八皇后和迷宫问题 * 如果包含重复元素怎么办? * 罗列出每一种可能用什么方法?动态规划怎么实现 * * * R的全排列可归纳定义如下： * 当n=1时，perm(R)=(r)，其中r是集合R中唯一的元素； * 当n&gt;1时，perm(R)由(r1)perm(R1)，(r2)perm(R2)，…，(rn)perm(Rn)构成。 * 实现思想：将整组数中的所有的数分别与第一个数交换，这样就总是在处理后n-1个数的全排列。 */public class A05_FullPermutation &#123; public static void main(String[] args) &#123; char[] chars = &quot;ABC&quot;.toCharArray(); helper(chars,0); &#125; //k:当前的交换位置(关注点),与其后的元素交换 private static void helper(char[] chars,int k) &#123; if (k == chars.length)&#123; for (char c:chars) System.out.print(c +&quot; &quot;); System.out.println(); &#125; for (int i = k; i &lt; chars.length; i++) &#123; &#123;char t = chars[k];chars[k] = chars[i];chars[i] = t;&#125;//试探 helper(chars,k + 1); &#123;char t = chars[k];chars[k] = chars[i];chars[i] = t;&#125;//回溯 &#125; &#125;&#125; 在n个求中，任意取出m个，求有多少种不同取法12345678910111213141516171819package bluebridgecup;/** * 在n个求中，任意取出m个，求有多少种不同取法 */public class A06_GraspBall &#123; //从n个取m个 public static void main(String[] args) &#123; int k = helper(5,3); System.out.println(k); &#125; private static int helper(int n, int m) &#123; if (n &lt; m) return 0; if (n == m) return 1; if (m == 0) return 1; return helper(n - 1,m - 1) + helper(n - 1,m);//n个里有个特殊球x，取法划分，包不包含x &#125;&#125; 求最长公共子序列的长度12345678910111213141516171819package bluebridgecup;public class A07_MaxSequence &#123; public static void main(String[] args) &#123; String s1 = &quot;abc&quot;; String s2 = &quot;xbacd&quot;; int x = helper(s1,s2); System.out.println(x); &#125; private static int helper(String s1, String s2) &#123; if (s1.length() == 0 || s2.length() == 0)return 0; if (s1.charAt(0) == s2.charAt(0))&#123; return 1 + helper(s1.substring(1),s2.substring(1)); &#125; else &#123; return Math.max(helper(s1,s2.substring(1)),helper(s1.substring(1),s2)); &#125; &#125;&#125; 翻转字符串123456789101112package bluebridgecup;public class A08_Reverse &#123; public static void main(String[] args) &#123; System.out.println(helper_str(&quot;12345&quot;));; &#125; private static String helper_str(String s) &#123; if (s.length() == 0)return &quot;&quot;; return helper_str(s.substring(1))+s.charAt(0); &#125;&#125; 杨辉三角1234567891011121314151617181920212223242526272829package bluebridgecup;/** * 1 * 1 1 * 1 2 1 * 1 3 3 1 * 1 4 6 4 1 * 1 5 10 10 5 1 * * 计算第m层，第n个系数，m和n都从0开始 */public class A09_YangTriangle &#123; public static void main(String[] args) &#123; int level = 5; for (int i = 0; i &lt;= level; i++) &#123; System.out.print(helper(level,i) +&quot; &quot;); &#125; System.out.println(); &#125; //m层第n个元素 private static int helper(int m,int n)&#123; if (n == 0)return 1; if (m == n)return 1; return helper(m - 1,n) + helper(m - 1,n - 1); &#125;&#125; m个a,n个b 可以有多少种组合123456789101112package bluebridgecup;// m个a,n个b 可以有多少种组合public class A10_MN_sort &#123; public static void main(String[] args) &#123; System.out.println(helper(3,2)); &#125; private static int helper(int m, int n) &#123; if (m == 0 || n == 0)return 1; return helper(m - 1,n) + helper(m,n - 1); &#125;&#125; split 612345678910111213141516171819202122232425262728package bluebridgecup;public class A11_Split_6 &#123; public static void main(String[] args) &#123; int[] a = new int[100];//做缓冲 helper(3,a,0); &#125; //对n进行加法划分 // a:缓冲 // k:当前的位置 private static void helper(int n,int[] a,int k) &#123; if (n &lt;= 0)&#123; for(int i=0;i &lt; k;i++)System.out.printf(a[i] + &quot; &quot;); System.out.println(); return; &#125; //6 //5...f(1) //4...f(2) for (int i = n; i &gt; 0; i--) &#123; if (k &gt; 0 &amp;&amp; i &gt; a[k - 1])continue;//a[k - 1]表示前一项 ; 后一项 &gt; 前一项 a[k] = i; helper(n - i,a,k + 1); &#125; &#125;&#125; ErrorSum12345678910111213141516171819202122232425262728293031package bluebridgecup;public class A12_ErrorSum &#123; public static void main(String[] args) &#123; int sum = 6; int[] a = &#123;3,2,4,3,1&#125;; boolean[] b = new boolean[a.length];//表示a对应项是否选取 helper(sum,a,0,0,b); &#125; //error_sum:有错误的和 //a：明细 //k:当前处理的位置 //cur_sum:前边元素的累加和 //b:记录取舍 private static void helper(int error_sum, int[] a, int k, int cur_sum, boolean[] b) &#123; if (cur_sum &gt; error_sum)return; if (error_sum == cur_sum)&#123; for(int i = 0;i &lt; b.length;i++) if (b[i] == true)System.out.printf(a[i]+&quot; &quot;); System.out.println(); return; &#125; if (k &gt;= a.length)return; b[k] = false; helper(error_sum,a,k + 1,cur_sum,b); b[k] = true; cur_sum += a[k]; helper(error_sum,a,k + 1,cur_sum,b); b[k] = false;//回溯！！！！！ &#125;&#125; 打印二叉树从根节点到叶子节点的所有路径1234567891011121314151617181920212223242526272829303132333435363738394041424344package bluebridgecup;import java.util.ArrayList;import java.util.LinkedList;import java.util.List;//打印二叉树从根节点到叶子节点的所有路径public class A13_BSTTreePath &#123; List&lt;String&gt; res = new ArrayList&lt;&gt;(); public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123; if (root == null)return new ArrayList&lt;&gt;(); LinkedList&lt;Integer&gt; list = new LinkedList&lt;&gt;(); helper(root,list); return res; &#125; private void helper(TreeNode node,LinkedList&lt;Integer&gt; list) &#123; if (node == null) return; list.add(node.val); if (node.left == null &amp;&amp; node.right == null)&#123; String s = &quot;&quot;; for (Integer n:list) &#123; if (s.equals(&quot;&quot;))&#123; s += n+&quot;&quot;; &#125; else &#123; s = s + &quot;-&gt;&quot;+ n; &#125; &#125; res.add(s); list.removeLast();//TODO 最后一个节点是叶子节点,继续下一条路线,所以要剔除最后一个 return;//TODO 该次结束，返回到上一层 &#125; helper(node.left,list); helper(node.right,list); list.removeLast();//TODO 返回时一定要清除 最后一个节点是最后一个叉的根节点,一定是要排除的,因为这个节点的左右方向都走完了 &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125; 汉诺塔1234567891011121314151617package bluebridgecup;public class A14_Hanoi &#123; public static void main(String[] args) &#123; hanoi(2,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;); &#125; public static void hanoi(int n,String start,String middle,String end)&#123; if (n &lt;= 1)&#123; System.out.println(start+&quot;--&gt;&quot;+end); &#125; else &#123; hanoi(n -1,start,end,middle); System.out.println(start+&quot;--&gt;&quot;+end); hanoi(n - 1,middle,start,end); &#125; &#125;&#125; 遍历二叉树1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495package bluebridgecup;import java.util.ArrayList;public class A15_TreeRec &#123; /** * 中序遍历递归解法 * （1）如果二叉树为空，空操作。 * （2）如果二叉树不为空，中序遍历左子树，访问根节点，中序遍历右子树 */ public void inOrderRec(TreeNode root)&#123; if (root == null)return; inOrderRec(root.left); System.out.println(root.val); inOrderRec(root.right); &#125; /** * 分层遍历二叉树（递归） * 很少有人会用递归去做level traversal * 基本思想是用一个大的ArrayList，里面包含了每一层的ArrayList。 * 大的ArrayList的size和level有关系 * */ public static void levelTraversalRec(TreeNode root) &#123; ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;(); dfs(root, 0, ret); System.out.println(ret); &#125; private static void dfs(TreeNode root, int level, ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret)&#123; if(root == null)&#123; return; &#125; // 添加一个新的ArrayList表示新的一层 if(level &gt;= ret.size())&#123; ret.add(new ArrayList&lt;Integer&gt;()); &#125; ret.get(level).add(root.val); // 把节点添加到表示那一层的ArrayList里 dfs(root.left, level+1, ret); // 递归处理下一层的左子树和右子树 dfs(root.right, level+1, ret); &#125; /** * 求二叉树中的节点个数递归解法： O(n) * （1）如果二叉树为空，节点个数为0 * （2）如果二叉树不为空，二叉树节点个数 = 左子树节点个数 + 右子树节点个数 + 1 */ public static int getNodeNumRec(TreeNode root) &#123; if (root == null) &#123; return 0; &#125; else &#123; return getNodeNumRec(root.left) + getNodeNumRec(root.right) + 1; //左 右节点加上主节点1为总数 &#125; &#125; /** * 求二叉树的深度（高度） 递归解法： O(n) * （1）如果二叉树为空，二叉树的深度为0 * （2）如果二叉树不为空，二叉树的深度 = max(左子树深度， 右子树深度) + 1 * * * maxDepth() 1. 如果树为空，那么返回0 2. 否则 (a) 递归得到左子树的最大高度 例如，调用maxDepth( tree-&gt; left-subtree ) (b) 递归得到右子树的最大高度 例如，调用maxDepth( tree-&gt; right-subtree ) (c) 对于当前节点，取左右子树高度的最大值并加1。 max_depth = max(左子树的最大高度, 右子树的最大高度) + 1 (d) 返回max_depth */ public static int getDepthRec(TreeNode root) &#123; if (root == null) &#123; return 0; &#125; int leftDepth = getDepthRec(root.left); int rightDepth = getDepthRec(root.right); return Math.max(leftDepth, rightDepth) + 1; // +1是因为根节点已经是一层了,否则root==null直接是0了 &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125; 翻转链表1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950package com.lifeibigdata.offer;import java.util.Stack;/** * 从尾到头打印链表 * Created by lifei on 16/11/13. */public class PrintListReverse &#123; private static class Node &#123; int val; Node next; public Node(int val) &#123; this.val = val; &#125; &#125; public static void main(String[] args) &#123; Node n1 = new Node(1); Node n2 = new Node(2);Node n3 = new Node(3); Node n4 = new Node(4);Node n5 = new Node(5); n1.next = n2;n2.next = n3;n3.next = n4;n4.next = n5; printListReverse2(n1); &#125; static void printListReverse1(Node head)&#123; Stack&lt;Node&gt; stack = new Stack(); Node tmpNode = head; while (tmpNode != null)&#123; stack.push(tmpNode); tmpNode = tmpNode.next; &#125; while (!stack.isEmpty())&#123; System.out.println(stack.pop().val); &#125; &#125; /** * 栈的本质是递归,要实现反过来输出链表,我们访问到一个节点的时候,先递归输出后面的节点,再输入该节点本身,这样链表的输出结果就反过来了 * @param head */ static void printListReverse2(Node head)&#123; if (head != null)&#123; if (head.next != null)&#123; printListReverse2(head.next); &#125; System.out.println(head.val); &#125; &#125;&#125;]]></content>
-      <categories>
-        <category>recursion</category>
-      </categories>
-      <tags>
-        <tag>recursion</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[mysql千万级分页]]></title>
     <url>%2F2016%2F02%2F17%2Fmysql%E5%8D%83%E4%B8%87%E7%BA%A7%E5%88%86%E9%A1%B5%2F</url>
     <content type="text"><![CDATA[Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N 其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面的sql语句1select * from student limit 5; 问题：千万级的表查询分页，怎么优化查询12select * from user limit 10000000,10select * from user where name=&quot;a&quot; limit 10000000,10 为了能更加优化查询，建立联合索引是一个好的方法，where 的条件 和主键id 作为索引 serach(name,id) 第一次建立索引时候 是id 在前 name在后，这样确实也解决这样的问题，都变成0.5s左右 ，但是还不是我想要的 ，最后上网搜索答案，发现建立联合索引顺序不同，性能也就大大提高，于是把建立索引顺序变成是id 在后 name在前。结果打出意料 ，速度变成了0.05秒 。性能大幅度提升. 开始的select id from collect order by id limit 90000,10;这么快就是因为走了索引，可是如果加了where 就不走索引了。抱着试试看的想法加了 search(vtype,id) 这样的索引。然后测试select id from collect where vtype=1 limit 90000,10; 非常快！0.04秒完成！再测试: select id ,title from collect where vtype=1 limit 90000,10; 非常遗憾，8-9秒，没走search索引！再测试：search(id,vtype)，还是select id 这个语句，也非常遗憾，0.5秒。综上：如果对于有where 条件，又想走索引用limit的，必须设计一个索引，将where放第一位，limit用到的主键放第2位，而且只能select 主键！即search(vtype,id) 这样的索引,如下查询select id from collect where vtype=1 limit 90000,10可以快速返回id，然后根据id in (xxxx)的方式去实现 参考:https://blog.csdn.net/m0_37922390/article/details/81976014https://blog.csdn.net/li772030428/article/details/52839987/]]></content>
@@ -530,9 +519,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -540,9 +529,9 @@
     <url>%2F2016%2F01%2F26%2FL965-IsUnivalTree%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425package LeetCode.topic.tree;public class L965_IsUnivalTree &#123; public boolean isUnivalTree(TreeNode root) &#123; if(root == null)&#123; return true; &#125; return helper(root,root.val); &#125; public boolean helper(TreeNode node,int val)&#123; if(node == null)return true; if(node.val != val)return false; if(node.left != null &amp;&amp; node.left.val != val) return false; if(node.right != null &amp;&amp; node.right.val != val) return false; return helper(node.left,val) &amp;&amp; helper(node.right,val); &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -553,9 +542,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -563,9 +552,9 @@
     <url>%2F2016%2F01%2F26%2FL687-LongestUnivaluePath%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041package LeetCode.topic.tree;/** * * 解题思路类似于124题, 对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况: * 1. 其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径 * 2. 左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径 * 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据 */public class L687_LongestUnivaluePath &#123; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125; private int max = 0; public int longestUnivaluePath(TreeNode root) &#123; if (root == null)return 0; helper(root,root.val); return max; &#125; private int helper(TreeNode node, int val) &#123; if (node == null)return 0; int left = helper(node.left,node.val); int right = helper(node.right,node.val); max = Math.max(max,left + right);// 路径长度为节点数减1所以此处不加1 if (node.val == val) return Math.max(left,right) + 1; return 0; &#125;// 下面是自己作物的思路// if (node.val == val)&#123;// return Math.max(helper(node.left,node.val,count+1),helper(node.right,node.val,count+1));// &#125; else &#123;// return Math.max(helper(node.left,node.val,count),helper(node.right,node.val,count));// &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -576,9 +565,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -598,9 +587,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -608,9 +597,9 @@
     <url>%2F2016%2F01%2F26%2FL617-MergeTrees%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243package LeetCode.topic.tree;/** * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。 * * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。 * * 示例 1: * * 输入: * Tree 1 Tree 2 * 1 2 * / \ / \ * 3 2 1 3 * / \ \ * 5 4 7 * 输出: * 合并后的树: * 3 * / \ * 4 5 * / \ \ * 5 4 7 * 注意: 合并必须从两个树的根节点开始。 */public class L617_MergeTrees &#123; public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123; if (t1 == null) return t2; if (t2 == null) return t1; TreeNode cur = new TreeNode(t1.val + t2.val); cur.left = mergeTrees(t1.left,t2.left); cur.right = mergeTrees(t1.right,t2.right); return cur; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -618,9 +607,9 @@
     <url>%2F2016%2F01%2F26%2FL543-DiameterOfBinaryTree%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041package LeetCode.topic.tree;/** * 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。 * * 示例 : * 给定二叉树 * * 1 * / \ * 2 3 * / \ * 4 5 * 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。 * * 注意：两结点之间的路径长度是以它们之间边的数目表示。 */public class L543_DiameterOfBinaryTree &#123; private int rst = 0; public int diameterOfBinaryTree(TreeNode root) &#123; if (root == null) return 0; helper(root); return rst; &#125; private int helper(TreeNode root) &#123; if (root == null) return 0; int left = helper(root.left); int right = helper(root.right); if (rst &lt; left + right) rst = left + right; return Math.max(left,right) + 1; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -663,16 +652,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[L404_TreeSumOfLeftLeaves]]></title>
-    <url>%2F2016%2F01%2F26%2FL404-TreeSumOfLeftLeaves%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940package LeetCode.topic.tree;public class L404_TreeSumOfLeftLeaves &#123; /** * 本质还是二叉树的遍历 * * 1. 求所有左叶子节点的值的和，那就是求当前节点的左节点和右节点的所有左叶子节点的和 * * 2. 不是左叶子节点返回值为0，是左叶子节点放回叶子的值 * * 3. 递归求和即可 * * @param root * @return */ public int sumOfLeftLeaves(TreeNode root) &#123; return dfs(root, false); &#125; public int dfs(TreeNode node, Boolean isLeft) &#123; if (node == null) return 0; if (node.left == null &amp;&amp; node.right == null) &#123; if (isLeft == true) return node.val; else return 0; &#125; int leftVal = dfs(node.left, true); int rightVal = dfs(node.right, false); return leftVal + rightVal; &#125; class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
-      <tags>
-        <tag>leetcode</tag>
-        <tag>tree</tag>
-        <tag>recursion</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[L297_DeserializeSerializeTree]]></title>
     <url>%2F2016%2F01%2F26%2FL297-DeserializeSerializeTree%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061package LeetCode.topic.tree;import java.util.ArrayDeque;import java.util.Arrays;import java.util.Queue;/** * 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。 * * 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。 * * 示例: * * 你可以将以下二叉树： * * 1 * / \ * 2 3 * / \ * 4 5 * * 序列化为 &quot;[1,2,3,null,null,4,5]&quot; * 提示: 这与 LeetCode 目前使用的方式一致，详情请参阅 LeetCode 序列化二叉树的格式。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。 * * 说明: 不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。 */public class L297_DeserializeSerializeTree &#123; // Encodes a tree to a single string. public String serialize(TreeNode root) &#123; if (root == null) &#123; return &quot;$,&quot;; &#125; return root.val + &quot;,&quot; + serialize(root.left) + serialize(root.right); &#125; // Decodes your encoded data to tree. public TreeNode deserialize(String data) &#123; String[] strings = data.split(&quot;,&quot;); Queue&lt;String&gt; queue = new ArrayDeque&lt;&gt;(Arrays.asList(strings)); return func(queue); &#125; private TreeNode func(Queue&lt;String&gt; strings) &#123; String string = strings.remove(); if (&quot;$&quot;.equals(string)) &#123; return null; &#125; TreeNode newNode = new TreeNode(Integer.parseInt(string)); newNode.left = func(strings); newNode.right = func(strings); return newNode; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
@@ -682,13 +661,23 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[L404_TreeSumOfLeftLeaves]]></title>
+    <url>%2F2016%2F01%2F26%2FL404-TreeSumOfLeftLeaves%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940package LeetCode.topic.tree;public class L404_TreeSumOfLeftLeaves &#123; /** * 本质还是二叉树的遍历 * * 1. 求所有左叶子节点的值的和，那就是求当前节点的左节点和右节点的所有左叶子节点的和 * * 2. 不是左叶子节点返回值为0，是左叶子节点放回叶子的值 * * 3. 递归求和即可 * * @param root * @return */ public int sumOfLeftLeaves(TreeNode root) &#123; return dfs(root, false); &#125; public int dfs(TreeNode node, Boolean isLeft) &#123; if (node == null) return 0; if (node.left == null &amp;&amp; node.right == null) &#123; if (isLeft == true) return node.val; else return 0; &#125; int leftVal = dfs(node.left, true); int rightVal = dfs(node.right, false); return leftVal + rightVal; &#125; class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+      <tags>
+        <tag>recursion</tag>
+        <tag>leetcode</tag>
+        <tag>tree</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[L257_BinaryTreePaths]]></title>
     <url>%2F2016%2F01%2F26%2FL257-BinaryTreePaths%2F</url>
     <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100package LeetCode.topic.tree;import java.util.ArrayList;import java.util.List;/** * 给定一个二叉树，返回所有从根节点到叶子节点的路径。 * * 说明: 叶子节点是指没有子节点的节点。 * * 示例: * * 输入: * * 1 * / \ * 2 3 * \ * 5 * * 输出: [&quot;1-&gt;2-&gt;5&quot;, &quot;1-&gt;3&quot;] * * 解释: 所有根节点到叶子节点的路径为: 1-&gt;2-&gt;5, 1-&gt;3 */public class L257_BinaryTreePaths &#123; List&lt;String&gt; res = new ArrayList&lt;&gt;(); public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123; if (root == null)return new ArrayList&lt;&gt;(); ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;(); helper(root,list); return res; &#125; private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123; if (root == null) return; if (root.left == null &amp;&amp; root.right == null)&#123; list.add(root.val); String s = &quot;&quot;; for (Integer node:list) &#123; if (s.equals(&quot;&quot;))&#123; s += node+&quot;&quot;; &#125; else &#123; s = s + &quot;-&gt;&quot;+ node; &#125; &#125; res.add(s); list.remove(list.size() - 1); return; &#125; list.add(root.val); helper(root.right,list); helper(root.left,list); list.remove(list.size() - 1); &#125;// List&lt;String&gt; res = new ArrayList&lt;&gt;();// public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123;// if (root == null)return new ArrayList&lt;&gt;();// ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();// list.add(root.val);// helper(root,list);// return res;// &#125;//// private void helper(TreeNode root, ArrayList&lt;Integer&gt; list) &#123;// if (root.left == null &amp;&amp; root.right == null)&#123;// String s = &quot;&quot;;// for (Integer node:list) &#123;// if (s.equals(&quot;&quot;))&#123;// s += node+&quot;&quot;;// &#125; else &#123;// s = s + &quot;-&gt;&quot;+ node;// &#125;// &#125;// res.add(s);// &#125; else if (root.left == null)&#123;// list.add(root.right.val);// helper(root.right,list);// &#125; else if (root.right == null)&#123;// list.add(root.left.val);// helper(root.left,list);// &#125; else &#123;// ArrayList&lt;Integer&gt; mycopy=new ArrayList&lt;Integer&gt;();// mycopy=(ArrayList&lt;Integer&gt;) list.clone();// list.add(root.right.val);// helper(root.right,list);// mycopy.add(root.left.val);// helper(root.left,mycopy);// &#125;// &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -699,9 +688,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -709,9 +698,9 @@
     <url>%2F2016%2F01%2F26%2FL235-BSTLowestCommonAncestor%2F</url>
     <content type="text"><![CDATA[1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859package LeetCode.topic.tree;/** * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。 * * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。” * * 例如，给定如下二叉搜索树: root = [6,2,8,0,4,7,9,null,null,3,5] * * * * * * 示例 1: * * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8 * 输出: 6 * 解释: 节点 2 和节点 8 的最近公共祖先是 6。 * 示例 2: * * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4 * 输出: 2 * 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。 * * * 说明: * * 所有节点的值都是唯一的。 * p、q 为不同节点且均存在于给定的二叉搜索树中。 * * * //todo 可以利用二叉搜索树的特性 */public class L235_BSTLowestCommonAncestor &#123; TreeNode res = null; public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123; if (root == null) return null; helper(root,p,q); return res; &#125; private void helper(TreeNode root, TreeNode p, TreeNode q) &#123; if(root == null)return; if ((p.val - root.val)*(q.val - root.val) &lt;= 0)&#123;//一定在最近公共祖先的两侧 res = root; &#125; else if (p.val &gt; root.val &amp;&amp; q.val &gt; root.val)&#123; helper(root.right,q,p); &#125; else &#123; helper(root.left,p,q); &#125; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -842,9 +831,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -855,9 +844,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -868,9 +857,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -881,9 +870,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -894,9 +883,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -919,9 +908,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -932,9 +921,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -945,9 +934,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -982,9 +971,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -1007,9 +996,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
@@ -1044,9 +1033,9 @@
         <category>leetcode</category>
       </categories>
       <tags>
+        <tag>recursion</tag>
         <tag>leetcode</tag>
         <tag>tree</tag>
-        <tag>recursion</tag>
       </tags>
   </entry>
   <entry>
