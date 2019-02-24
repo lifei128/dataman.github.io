@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="统计 列出当天访问次数最多的IP前20个命令：cut -d- -f 1 /usr/local/apache2/logs/access_log |uniq -c | sort -rn | head -20   查看当天有多少个IP访问：awk ‘{print $1}’ log_file|sort|uniq|wc -l    查看某一个页面被访问的次数;grep “/index.php” log_fi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-25T18:51:25.410Z">
+<meta property="og:updated_time" content="2019-02-20T13:39:25.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell统计">
 <meta name="twitter:description" content="统计 列出当天访问次数最多的IP前20个命令：cut -d- -f 1 /usr/local/apache2/logs/access_log |uniq -c | sort -rn | head -20   查看当天有多少个IP访问：awk ‘{print $1}’ log_file|sort|uniq|wc -l    查看某一个页面被访问的次数;grep “/index.php” log_fi">
@@ -161,7 +161,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -191,22 +191,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -278,9 +278,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/shell统计/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -373,7 +373,7 @@
 <li>查看某一个IP访问了哪些页面：<br>grep ^111.111.111.111 log_file| awk ‘{print $1,$7}’  </li>
 <li>去掉搜索引擎统计当天的页面：<br>awk ‘{print $12,$1}’ log_file | grep ^\”Mozilla | awk ‘{print $2}’ |sort | uniq | wc -l  </li>
 <li>查看2009年6月21日14时这一个小时内有多少IP访问：<br>awk ‘{print $4,$1}’ log_file | grep 21/Jun/2009:14 | awk ‘{print $2}’| sort | uniq | wc -l  </li>
-<li>统计访问日志里每个ip访问次数<br>[root@qunar logs]# cat a.sh<br>#!/bin/bash#将28/Jan/2015全天的访问日志放到a.txt文本<br>cat access.log |sed -rn ‘/28\/Jan\/2015/p’ &gt; a.txt #统计a.txt里面有多少个ip访问<br>cat a.txt |awk ‘{print $1}’|sort |uniq &gt; ipnum.txt#通过shell统计每个ip访问次数<br>for i in `cat ipnum.txt`<br>do<br>iptj=`cat  access.log |grep $i | grep -v 400 |wc -l`<br>echo “ip地址”$i”在2015-01-28日全天(24小时)累计成功请求”$iptj”次，平均每分钟请求次数为：”$(($iptj/1440)) &gt;&gt; result.txt<br>done  </li>
+<li>统计访问日志里每个ip访问次数<br>[root@qr logs]# cat a.sh<br>#!/bin/bash#将28/Jan/2015全天的访问日志放到a.txt文本<br>cat access.log |sed -rn ‘/28\/Jan\/2015/p’ &gt; a.txt #统计a.txt里面有多少个ip访问<br>cat a.txt |awk ‘{print $1}’|sort |uniq &gt; ipnum.txt#通过shell统计每个ip访问次数<br>for i in `cat ipnum.txt`<br>do<br>iptj=`cat  access.log |grep $i | grep -v 400 |wc -l`<br>echo “ip地址”$i”在2015-01-28日全天(24小时)累计成功请求”$iptj”次，平均每分钟请求次数为：”$(($iptj/1440)) &gt;&gt; result.txt<br>done  </li>
 <li>把100天前的文件打包并且删除<br>find [path] -type f -mtime +100 -exec tar rvf tmp.tar –remove-files {} \;  </li>
 </ol>
 <h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><p>find . -name ‘<em>.sh’ | xargs grep -in ‘48 </em>‘   </p>
@@ -505,9 +505,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -516,9 +516,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -529,7 +529,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -540,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -597,7 +597,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -667,6 +667,8 @@
   
 
 
+  
+
 
 
 
@@ -705,6 +707,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

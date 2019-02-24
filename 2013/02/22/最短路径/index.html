@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="algorithm,图,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Dijkstra（迪杰斯特拉 权值都是正的）&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;是典型的单源最短路径算法，用于计算一个节点到其他所有节点的最短路径。主要特点是以起始点为中心向外层层扩展，直到扩展到终点为止算法的输入是：&amp;nbsp;&amp;nbsp;&amp;nbsp;有权（有向）图&amp;nbsp;&amp;nbsp;&amp;nbsp;起点（源）&amp;nbsp;&amp;nbsp;&amp;nbsp;所有边的权非负算法的输出是：&amp;nbs">
+<meta name="keywords" content="algorithm,图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路径">
+<meta property="og:url" content="http://yoursite.com/2013/02/22/最短路径/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="Dijkstra（迪杰斯特拉 权值都是正的）&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;是典型的单源最短路径算法，用于计算一个节点到其他所有节点的最短路径。主要特点是以起始点为中心向外层层扩展，直到扩展到终点为止算法的输入是：&amp;nbsp;&amp;nbsp;&amp;nbsp;有权（有向）图&amp;nbsp;&amp;nbsp;&amp;nbsp;起点（源）&amp;nbsp;&amp;nbsp;&amp;nbsp;所有边的权非负算法的输出是：&amp;nbs">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-22T06:31:17.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最短路径">
+<meta name="twitter:description" content="Dijkstra（迪杰斯特拉 权值都是正的）&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;是典型的单源最短路径算法，用于计算一个节点到其他所有节点的最短路径。主要特点是以起始点为中心向外层层扩展，直到扩展到终点为止算法的输入是：&amp;nbsp;&amp;nbsp;&amp;nbsp;有权（有向）图&amp;nbsp;&amp;nbsp;&amp;nbsp;起点（源）&amp;nbsp;&amp;nbsp;&amp;nbsp;所有边的权非负算法的输出是：&amp;nbs">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2013/02/22/最短路径/">
+
+
+
+
+
+  <title>最短路径 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/02/22/最短路径/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">最短路径</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-02-22T14:25:00+08:00">
+                2013-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li><p>Dijkstra（迪杰斯特拉 权值都是正的）<br>&nbsp;&nbsp;&nbsp;&nbsp;是典型的单源最短路径算法，用于计算一个节点到其他所有节点的最短路径。主要特点是以起始点为中心向外层层扩展，直到扩展到终点为止<br><strong>算法的输入是：</strong><br>&nbsp;&nbsp;&nbsp;有权（有向）图<br>&nbsp;&nbsp;&nbsp;起点（源）<br>&nbsp;&nbsp;&nbsp;所有边的权非负<br><strong>算法的输出是：</strong><br>&nbsp;&nbsp;&nbsp;起点（源）到其他各点的最短路径   </p>
+</li>
+<li><p>Floyd（弗洛伊德 可以带负权值）<br>是解决任意两点间的最短路径的一种算法，可以正确处理有向图或负权的最短路径问题，同时也被用于计算有向图的传递闭包。Floyd-Warshall算法的时间复杂度为O(N3)，空间复杂度为O(N2)    </p>
+</li>
+<li><p>Bellman-Ford（伯尔曼  单源最短路径可以带负权值,比Dijkstra要广）<br>&nbsp;&nbsp;&nbsp;&nbsp;首先假设源点到所有点的距离为无穷大，然后从任一顶点u出发，遍历其它所有顶点vi，计算从源点到其它顶点vi的距离与从vi到u的距离的和，如果比原来距离小，则更新，遍历完所有的顶点为止，即可求得源点到所有顶点的最短距离。   </p>
+</li>
+<li>有向无权图的最短路径算法(广搜)<br><a href="http://blog.csdn.net/zhutulang/article/details/7886747">http://blog.csdn.net/zhutulang/article/details/7886747</a> </li>
+<li>无向无权图的最短路径算法 </li>
+</ol>
+<h1 id="Dijkstra"><a href="#Dijkstra" class="headerlink" title="Dijkstra"></a>Dijkstra</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">public class Dijkstra &#123;</span><br><span class="line"></span><br><span class="line">    static int max = Integer.MAX_VALUE;</span><br><span class="line">    static int dist[] = new int[6];</span><br><span class="line">    static int prev[] = new int[6];</span><br><span class="line">    static int a[][] = &#123;</span><br><span class="line">            &#123;0,max,10,max,30,100&#125;,</span><br><span class="line">            &#123;max,0,5,max,max,max&#125;,</span><br><span class="line">            &#123;max,max,0,50,max,max&#125;,</span><br><span class="line">            &#123;max,max,max,0,max,10&#125;,</span><br><span class="line">            &#123;max,max,max,20,0,60&#125;,</span><br><span class="line">            &#123;max,max,max,max,max,0&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    void dijkstra(int v,int a[][], int dist[], int prev[])&#123;</span><br><span class="line">        int n = dist.length - 1;</span><br><span class="line">        boolean s[] = new boolean[n+1];</span><br><span class="line">        for (int i = 1; i&lt;= n;i++)&#123;</span><br><span class="line">            dist[i] = a[v][i];</span><br><span class="line">            s[i] = false;</span><br><span class="line">            if (dist[i] &lt; Integer.MAX_VALUE)</span><br><span class="line">                prev[i] = v;</span><br><span class="line">            else</span><br><span class="line">                prev[i] = -1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dist[v] = 0;</span><br><span class="line">        s[v] = true;</span><br><span class="line">        for (int i=1;i&lt;=n;i++)&#123;</span><br><span class="line">            int temp = Integer.MAX_VALUE;</span><br><span class="line">            int u = v;</span><br><span class="line">            for (int j =1; j&lt;= n;j++)&#123;</span><br><span class="line">                if (!s[j] &amp;&amp; dist[j] &lt;temp)&#123;</span><br><span class="line">                    u = j;</span><br><span class="line">                    temp = dist[j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            s[u] = true;</span><br><span class="line">            for (int j = 0;j &lt;= n; j++)&#123;</span><br><span class="line">                if(!s[j] &amp;&amp; a[u][j] &lt; Integer.MAX_VALUE)&#123;</span><br><span class="line">                    int newDist = dist[u] + a[u][j];</span><br><span class="line">                    if (newDist &lt; dist[j])&#123;</span><br><span class="line">                        dist[j] = newDist;</span><br><span class="line">                        prev[j] = u;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void outPath(int m, int p[],int []d)&#123;</span><br><span class="line">        for (int i = 0; i&lt; dist.length; i++)&#123;</span><br><span class="line">            if (d[i] &lt; Integer.MAX_VALUE &amp;&amp; i != m)&#123;</span><br><span class="line">                System.out.print(&quot;v&quot;+i+&quot;&lt;--&quot;);</span><br><span class="line">                int next = p[i];</span><br><span class="line">                while (next != m)&#123;</span><br><span class="line">                    System.out.print(&quot;v&quot;+next+&quot;&lt;--&quot;);</span><br><span class="line">                    next = p[next];</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;v&quot;+m+&quot;:&quot;+d[i]);</span><br><span class="line">            &#125; else if( i != m)</span><br><span class="line">                System.out.println(&quot;v&quot;+i+&quot;&lt;--&quot;+&quot;v&quot;+m+&quot;:no path&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Dijkstra d = new Dijkstra();</span><br><span class="line">        d.dijkstra(0,a,dist,prev);</span><br><span class="line">        d.outPath(0,prev,dist);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Floyd"><a href="#Floyd" class="headerlink" title="Floyd"></a>Floyd</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">public class Floyd &#123;</span><br><span class="line"> /*</span><br><span class="line">  * 给出一个含有n个顶点的带权有向图，要求其每一对顶点之间的最短路径。</span><br><span class="line">  * 这里采用佛洛依德(Floyd)最短路径算法：</span><br><span class="line">  */</span><br><span class="line"></span><br><span class="line">    private static int max=Integer.MAX_VALUE;</span><br><span class="line">    private static int [][]dist=new int[6][6];          //存储最短路径</span><br><span class="line">    private static int [][]path=new int[6][6];          //存储最短路径的长度</span><br><span class="line">    private static ArrayList list=new ArrayList&lt;Integer&gt;();</span><br><span class="line">    private static int [][]Arcs=&#123;</span><br><span class="line">            &#123;max,max,10,max,30,100&#125;,</span><br><span class="line">            &#123;max,max,5,max,max,max&#125;,</span><br><span class="line">            &#123;max,max,max,50,max,max&#125;,</span><br><span class="line">            &#123;max,max,max,max,20,10&#125;,</span><br><span class="line">            &#123;max,max,max,max,max,60&#125;,</span><br><span class="line">            &#123;max,max,max,max,max,max&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public void findCheapestPath(int begin,int end,int Arcs[][])&#123;</span><br><span class="line">        floyd(Arcs);</span><br><span class="line">        list.clear();</span><br><span class="line">        list.add(begin);</span><br><span class="line">        findPath(begin,end);</span><br><span class="line">        list.add(end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void findPath(int i,int j)&#123;</span><br><span class="line">        int k=path[i][j];</span><br><span class="line">        if(k==-1)</span><br><span class="line">            return ;</span><br><span class="line">        findPath(i,k);</span><br><span class="line">        list.add(k);</span><br><span class="line">        findPath(k,j);</span><br><span class="line">    &#125;</span><br><span class="line">    public void floyd(int [][] Arcs)&#123;</span><br><span class="line">        int n=Arcs.length;</span><br><span class="line">        for(int i=0;i&lt;n;i++)</span><br><span class="line">            for(int j=0;j&lt;n;j++)&#123;</span><br><span class="line">                path[i][j]=-1;            //初始化当前的路径长度表</span><br><span class="line">                dist[i][j]=Arcs[i][j];         //初始化当前的路径表</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        for(int k=0;k&lt;n;k++)</span><br><span class="line">            for(int i=0;i&lt;n;i++)</span><br><span class="line">                for(int j=0;j&lt;n;j++)&#123;</span><br><span class="line">                    if(dist[i][k]!=max&amp;&amp;dist[k][j]!=max&amp;&amp;dist[i][k]+dist[k][j]&lt;dist[i][j])&#123;</span><br><span class="line">                        dist[i][j]=dist[i][k]+dist[k][j];</span><br><span class="line">                        path[i][j]=k;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        Floyd f=new Floyd();</span><br><span class="line">        for(int i=0;i&lt;Arcs.length;i++)</span><br><span class="line">            for(int j=0;j&lt;Arcs.length;j++)&#123;</span><br><span class="line">                f.findCheapestPath(i, j, Arcs);</span><br><span class="line">                ArrayList&lt;Integer&gt;L=f.list;</span><br><span class="line">                System.out.print(i+&quot;--&gt;&quot;+j+&quot;:&quot;);</span><br><span class="line">                if(f.dist[i][j]==max)&#123;</span><br><span class="line">                    System.out.println(&quot;之间没有最短路径&quot;);</span><br><span class="line">                    System.out.println();</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    System.out.println(&quot;的最短路径是：&quot;);</span><br><span class="line">                    System.out.print(L.toString()+&quot; &quot;);</span><br><span class="line">                    System.out.println(&quot;路径长度:&quot;+f.dist[i][j]);</span><br><span class="line">                    System.out.println();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="bellmanford"><a href="#bellmanford" class="headerlink" title="bellmanford"></a>bellmanford</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">import java.io.*;</span><br><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">public class bellmanford &#123;</span><br><span class="line">	</span><br><span class="line">	final public static int MAX = 1000000000;</span><br><span class="line"></span><br><span class="line">	// Short driver program to test the Bellman Ford&apos;s method.	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		// Read in graph.</span><br><span class="line">		int[][] adj = new int[5][5];</span><br><span class="line">		Scanner fin = new Scanner(System.in);</span><br><span class="line">		int numEdges = 0;</span><br><span class="line">		for (int i = 0; i&lt;25; i++) &#123;</span><br><span class="line">			adj[i/5][i%5] = fin.nextInt();</span><br><span class="line">			if (adj[i/5][i%5] != 0) numEdges++;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		// Form edge list.</span><br><span class="line">		edge[] eList = new edge[numEdges];</span><br><span class="line">		int eCnt = 0;</span><br><span class="line">		for (int i = 0; i&lt;25; i++) </span><br><span class="line">			if (adj[i/5][i%5] != 0) </span><br><span class="line">				eList[eCnt++] = new edge(i/5, i%5, adj[i/5][i%5]);</span><br><span class="line">			</span><br><span class="line">		// Run algorithm and print out shortest distances.</span><br><span class="line">		int[] answers = bellmanford(eList, 5, 0);</span><br><span class="line">		for (int i=0; i&lt;5; i++)</span><br><span class="line">			System.out.print(answers[i]+&quot; &quot;);</span><br><span class="line">		System.out.println();		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	// Returns the shortest paths from vertex source to the rest of the </span><br><span class="line">	// vertices in the graph via Bellman Ford&apos;s algorithm. </span><br><span class="line">	public static int[] bellmanford(edge[] eList, int numVertices, int source) &#123;</span><br><span class="line">		</span><br><span class="line">		// This array will store our estimates of shortest distances.</span><br><span class="line">		int[] estimates = new int[numVertices];</span><br><span class="line">		</span><br><span class="line">		// Set these to a very large number, larger than any path in our</span><br><span class="line">		// graph could possibly be.</span><br><span class="line">		for (int i=0; i&lt;estimates.length; i++)</span><br><span class="line">			estimates[i] = MAX;</span><br><span class="line">			</span><br><span class="line">		// We are already at our source vertex.</span><br><span class="line">		estimates[source] = 0;</span><br><span class="line">		</span><br><span class="line">		// Runs v-1 times since the max number of edges on any shortest path is v-1, if</span><br><span class="line">		// there are no negative weight cycles.</span><br><span class="line">		for (int i=0; i&lt;numVertices-1; i++) &#123;</span><br><span class="line">		</span><br><span class="line">			// Update all estimates based on this particular edge only.</span><br><span class="line">			for (edge e: eList) &#123;</span><br><span class="line">				if (estimates[e.v1]+e.w &lt; estimates[e.v2])</span><br><span class="line">				    estimates[e.v2] = estimates[e.v1] + e.w;	</span><br><span class="line">			&#125;</span><br><span class="line">					</span><br><span class="line">		&#125;</span><br><span class="line">		return estimates;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class edge &#123;</span><br><span class="line"></span><br><span class="line">	public int v1;</span><br><span class="line">	public int v2;</span><br><span class="line">	public int w;</span><br><span class="line"></span><br><span class="line">	public edge(int a, int b, int c) &#123;</span><br><span class="line">		v1 = a;</span><br><span class="line">		v2 = b;</span><br><span class="line">		w = c;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void negate() &#123;</span><br><span class="line">		w = -w;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/图/" rel="tag"># 图</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/02/22/创建线程的四种方法以及区别/" rel="next" title="创建线程的四种方法以及区别">
+                <i class="fa fa-chevron-left"></i> 创建线程的四种方法以及区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/02/22/最小生成树/" rel="prev" title="最小生成树">
+                最小生成树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">248</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dijkstra"><span class="nav-number">1.</span> <span class="nav-text">Dijkstra</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Floyd"><span class="nav-number">2.</span> <span class="nav-text">Floyd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bellmanford"><span class="nav-number">3.</span> <span class="nav-text">bellmanford</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

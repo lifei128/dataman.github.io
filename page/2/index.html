@@ -157,7 +157,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -187,22 +187,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -271,12 +271,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/flink-vs-spark/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/Callable、Future和FutureTask/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/flink-vs-spark/" itemprop="url">flink vs spark</a></h1>
+                <a class="post-title-link" href="/2019/02/22/Callable、Future和FutureTask/" itemprop="url">Callable、Future和FutureTask</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:45:00+08:00">
-                2019-01-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:51:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/flink/" itemprop="url" rel="index">
-                    <span itemprop="name">flink</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -364,12 +364,12 @@
       
         
           
-          概念在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于
-1、
+          创建线程的2种方式，一种是直接继承Thread，另外一种就是实现Runnable接口。这2种方式都有一个缺陷就是：在执行完任务之后无法获取执行结果。    自从Java 1.5开始，就提供了Callable和Future，通过它们可以在任务执行完毕之后得到任务执行结果。  
+Callable先说一下
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/28/flink-vs-spark/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/Callable、Future和FutureTask/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -420,12 +420,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/状态计算/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/一个servlet引发的血案/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -439,7 +439,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/状态计算/" itemprop="url">状态计算</a></h1>
+                <a class="post-title-link" href="/2019/02/22/一个servlet引发的血案/" itemprop="url">一个servlet引发的血案</a></h1>
         
 
         <div class="post-meta">
@@ -451,8 +451,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T14:37:00+08:00">
-                2019-01-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:46:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -474,8 +474,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark编程/" itemprop="url" rel="index">
-                    <span itemprop="name">spark编程</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -513,11 +513,11 @@
       
         
           
-           spark流计算的数据是以窗口的形式，源源不断的流过来的。如果每个窗口之间的数据都有联系的话，那么就需要对前一个窗口的数据做状态管理。spark有提供了两种模型来达到这样的功能，一个是updateStateByKey，另一个是mapWithState ，后者属于Spark1.6之后的版本特性，性能
+          无状态servlet:1234567891011121314151617181920212223242526272829303132333435package net.jcip.examples;import java.math.BigInteger;import javax.servlet.*;i
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/28/状态计算/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/一个servlet引发的血案/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -568,12 +568,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/幂等操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/共享对象/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -587,7 +587,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/幂等操作/" itemprop="url">幂等操作</a></h1>
+                <a class="post-title-link" href="/2019/02/22/共享对象/" itemprop="url">共享对象</a></h1>
         
 
         <div class="post-meta">
@@ -599,8 +599,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T14:02:00+08:00">
-                2019-01-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:44:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -622,8 +622,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -661,12 +661,14 @@
       
         
           
-          最近很多人都在谈论幂等性，好吧，这回我也来聊聊这个话题，光看着俩字，一开始的确有点一头雾水，语文不好嘛，词太专业嘛，对吧   
-现如今我们的系统大多拆分为分布式SOA，或者微服务，一套系统中包含了多个子系统服务，而一个子系统服务往往会去调用另一个服务，而服务调用服务无非就是使用RPC通信或者rest
+          
+可见性在没有同步的情况下，共享变量(错误的做法)：      
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/28/幂等操作/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/共享对象/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -717,12 +719,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/Spark-Streaming如何应对-Exactly-once-语义/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/同步集合类的应用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -736,7 +738,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/28/Spark-Streaming如何应对-Exactly-once-语义/" itemprop="url">Spark Streaming如何应对 Exactly once 语义（kafka）</a></h1>
+                <a class="post-title-link" href="/2019/02/22/同步集合类的应用/" itemprop="url">同步集合类的应用</a></h1>
         
 
         <div class="post-meta">
@@ -748,8 +750,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T12:53:00+08:00">
-                2019-01-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:42:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -771,8 +773,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -810,12 +812,11 @@
       
         
           
-          Spark Streaming（以下简写SS）Exactly once语义（以下简写EO）  
-首先EO表示可以精准控制到某一条记录，但由于SS是基于rdd和batch的，所以SS的EO可以认为是针对一个批次的的精准控制(控制各个批次间是否重复和漏读)。涉及到三部分都保证 exactly once 
+          使用Concurrentmap代替HashmapCollections.synchronizedMap(null);1234567891011121314151617181920212223242526package cn.itcast.heima2;import java.util.ArrayLi
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/28/Spark-Streaming如何应对-Exactly-once-语义/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/同步集合类的应用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -866,12 +867,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/Hive小文件合并/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/阻塞队列/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -885,7 +886,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/Hive小文件合并/" itemprop="url">Hive小文件合并</a></h1>
+                <a class="post-title-link" href="/2019/02/22/阻塞队列/" itemprop="url">阻塞队列</a></h1>
         
 
         <div class="post-meta">
@@ -897,8 +898,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T18:19:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:40:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -920,8 +921,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -959,12 +960,11 @@
       
         
           
-          HDFS中的文件、目录和块都映射为一个对象，存储在NameNode服务器内存中，通常占用150个字节。 如果有1千万个文件，就需要消耗大约3G的内存空间。如果是10亿个文件呢，简直不可想象。所以我们要了解一下,hadoop 处理小文件的各种方案，然后选择一种适合的方案来解决本的小文件问题。   
-此
+          阻塞队列的应用12345678910111213141516171819202122232425262728293031323334353637383940414243444546package cn.itcast.heima2;import java.util.concurrent.ArrayBl
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/Hive小文件合并/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/阻塞队列/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1015,12 +1015,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/awk/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/线程同步工具/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1034,7 +1034,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/awk/" itemprop="url">awk</a></h1>
+                <a class="post-title-link" href="/2019/02/22/线程同步工具/" itemprop="url">线程同步工具</a></h1>
         
 
         <div class="post-meta">
@@ -1046,8 +1046,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:54:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:37:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -1069,8 +1069,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1108,12 +1108,11 @@
       
         
           
-          awk是行处理器: 相比较屏幕处理的优点，在处理庞大文件时不会出现内存溢出或是处理缓慢的问题，通常用来格式化文本信息awk处理过程: 依次对每一行进行处理，然后输出  
-awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}   
+          Semaphere同步工具1234567891011121314151617181920212223242526272829303132333435363738package cn.itcast.heima2;import java.util.concurrent.ExecutorService;i
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/awk/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/线程同步工具/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1164,12 +1163,12 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/shell统计/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/condition/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1183,7 +1182,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/shell统计/" itemprop="url">shell统计</a></h1>
+                <a class="post-title-link" href="/2019/02/22/condition/" itemprop="url">condition</a></h1>
         
 
         <div class="post-meta">
@@ -1195,8 +1194,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:39:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:33:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -1218,8 +1217,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1257,13 +1256,12 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
       
         
           
-          统计
-列出当天访问次数最多的IP前20个命令：cut -d- -f 1 /usr/local/apache2/logs/access_log |uniq -c | sort -rn | head -20  
-查看当天有多少个IP访问：awk ‘{print $1}’ log_file|sort|un
+          锁只能互斥，但是不能通信。condition就是解决该问题的，类似于wait()和notify()。  
+一个condition12345678910111213141516171819202122232425262728293031323334353637383940414243444546474
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/shell统计/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/condition/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1314,12 +1312,12 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/Top/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/Lock/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1333,7 +1331,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/Top/" itemprop="url">Top*</a></h1>
+                <a class="post-title-link" href="/2019/02/22/Lock/" itemprop="url">Lock</a></h1>
         
 
         <div class="post-meta">
@@ -1345,8 +1343,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:38:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:30:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -1368,8 +1366,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1407,12 +1405,11 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
       
         
           
-          
-
-          
+          Lock1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768package cn.itcast.h
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/Top/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/Lock/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1463,12 +1460,12 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/sed操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/Callable与Future的应用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1482,7 +1479,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/sed操作/" itemprop="url">sed操作</a></h1>
+                <a class="post-title-link" href="/2019/02/22/Callable与Future的应用/" itemprop="url">Callable与Future的应用</a></h1>
         
 
         <div class="post-meta">
@@ -1494,8 +1491,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:25:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:28:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -1517,8 +1514,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1556,14 +1553,11 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
       
         
           
-          
-一次性给文件多行加注释在vim 视图模式下：2,5 s/^/#/或者直接使用sed，命令如下：sed -i ‘2,5s/^/#/‘ filename  
-注释取消反之，将2~5行带#注释取消：：2,5 s/^#//或者sed -i ‘2,5s/^#//‘ filename  
-去掉空行sed -i
+          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768package cn.itcast.heima
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/sed操作/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/Callable与Future的应用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1614,12 +1608,12 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/26/有效电话号码/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/线程池/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1633,7 +1627,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/26/有效电话号码/" itemprop="url">有效电话号码</a></h1>
+                <a class="post-title-link" href="/2019/02/22/线程池/" itemprop="url">线程池</a></h1>
         
 
         <div class="post-meta">
@@ -1645,8 +1639,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-26T02:19:00+08:00">
-                2019-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:27:00+08:00">
+                2019-02-22
               </time>
             
 
@@ -1668,8 +1662,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1707,13 +1701,11 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
       
         
           
-          给定一个包含电话号码列表（一行一个电话号码）的文本文件 file.txt，写一个 bash 脚本输出所有有效的电话号码。  
-你可以假设一个有效的电话号码必须满足以下两种格式： (xxx) xxx-xxxx 或 xxx-xxx-xxxx。（x 表示一个数字） 
-你也可以假设每行前后没有多余的空格字符
+          123456789101112131415161718192021222324252627282930313233343536373839404142434445464748package cn.itcast.heima2;import java.util.concurrent.ExecutorSe
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/01/26/有效电话号码/#more" rel="contents">
+            <a class="btn" href="/2019/02/22/线程池/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1755,7 +1747,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1790,9 +1782,9 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1801,9 +1793,9 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1814,7 +1806,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1825,7 +1817,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1866,7 +1858,7 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -1936,6 +1928,8 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
 
 
+  
+
 
 
 
@@ -1974,6 +1968,11 @@ awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   create table test1(f1 array,f2 map&amp;lt;string,int&amp;gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|’MAP KEYS TERMINATED BY ‘:’;文件中按照表定义的分隔符来分割，字段的分隔符">
+<meta name="description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   123456create table test1  (f1 array&amp;lt;int&amp;gt;,   f2 map&amp;lt;string,int&amp;gt;)   ROW FORMAT DELIMITED  COLLECTION ITEMS TERMINATED BY &amp;apos;|&amp;apos;  MAP KEYS T">
 <meta name="keywords" content="hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hive使用和优化">
 <meta property="og:url" content="http://yoursite.com/2019/01/28/hive使用和优化/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   create table test1(f1 array,f2 map&amp;lt;string,int&amp;gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|’MAP KEYS TERMINATED BY ‘:’;文件中按照表定义的分隔符来分割，字段的分隔符">
+<meta property="og:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   123456create table test1  (f1 array&amp;lt;int&amp;gt;,   f2 map&amp;lt;string,int&amp;gt;)   ROW FORMAT DELIMITED  COLLECTION ITEMS TERMINATED BY &amp;apos;|&amp;apos;  MAP KEYS T">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-14T08:40:00.651Z">
+<meta property="og:updated_time" content="2019-02-23T13:06:21.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hive使用和优化">
-<meta name="twitter:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   create table test1(f1 array,f2 map&amp;lt;string,int&amp;gt;)ROW FORMAT DELIMITEDCOLLECTION ITEMS TERMINATED BY ‘|’MAP KEYS TERMINATED BY ‘:’;文件中按照表定义的分隔符来分割，字段的分隔符">
+<meta name="twitter:description" content="使用complex type array 和 map 类型创建表时指定类型和分隔符   123456create table test1  (f1 array&amp;lt;int&amp;gt;,   f2 map&amp;lt;string,int&amp;gt;)   ROW FORMAT DELIMITED  COLLECTION ITEMS TERMINATED BY &amp;apos;|&amp;apos;  MAP KEYS T">
 
 
 
@@ -161,7 +161,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -191,22 +191,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -278,9 +278,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/hive使用和优化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -364,38 +364,49 @@
       
 
       
-        <p>使用complex type array 和 map 类型<br>创建表时指定类型和分隔符  </p>
-<p>create table test1<br>(f1 array<int>,<br>f2 map&lt;string,int&gt;)<br>ROW FORMAT DELIMITED<br>COLLECTION ITEMS TERMINATED BY ‘|’<br>MAP KEYS TERMINATED BY ‘:’;<br>文件中按照表定义的分隔符来分割，字段的分隔符默认为^A，可以在建表时通过 FIELDS TERMINATED BY ‘^A’ 指定   </int></p>
-<p>cat /home/hadoop/hivetest1.txt   </p>
-<p>1|2|3^Aa:1|b:2<br>11|12|13^Aaa:1|bb:2<br>把文件 load 到表中  </p>
-<p>load data local inpath ‘/home/hadoop/hivetest1.txt’ into table test1;<br>在查询中使用array 和 map 类型  </p>
-<p>select f1[0],f2[‘aa’] from test1;<br>select * from test1 where f1[0]=11 and f2[‘aa’]=1;<br>处理json字符串   </p>
-<p>create table test(json_str string);<br>test表的json_str字段的内容为：  </p>
-<p>{“a”:”1”,”b”:”2”,”c”:[“aa”,”11”,{“aaa”:”111”,”bbb”:”222”}]}   </p>
-<p>select get_json_object(json_str,’$.b’) from test;<br>select get_json_object(json_str,’$.c[0]’) from test;<br>select get_json_object(json_str,’$.c[2].aaa’) from test;<br>动态分区  </p>
-<p>set hive.exec.dynamic.partition=true;<br>set hive.exec.dynamic.partition.mode=nonstrict;<br>另外，如果默认值不够大，根据需要调大以下三个参数，否则会报错  </p>
-<p>set hive.exec.max.dynamic.partitions=2000<br>set hive.exec.max.dynamic.partitions.pernode=1000<br>set hive.exec.max.created.files=110000;<br>这样，从另外一个表把数据导入到目标表时，就会自动按照指定字段分区。<br>例如：</p>
-<p>insert overwrite table A partition(reportdate) select * from B;<br>表A要先创建，并且以reportdate作为分区的字段。在上面sql中不用指定reportdate的值（如果是非动态分区则需要指定）。表B最后一个字段作为分区的字段，会自动根据最后一个字段的值自动分区。  </p>
-<p>map join 优化<br>将hive.auto.convert.join设置为true</p>
-<p>set hive.auto.convert.join=true;<br>设置进行mapjoin的小表的阈值（即当小表的大小 少于 一定该阈值时 hive 会做 mapjoin 优化，如果不设置，则采用默认值）  </p>
-<p>set hive.mapjoin.smalltable.filesize=25000000;<br>hive.mapjoin.bucket.cache.size=100<br>每一个key有多少个value值缓存在内存中<br>hive.mapjoin.cache.numrows=25000<br>有多少行cache在内存中  </p>
-<p>insert into/overwrite多表插入的优化<br>通过对原表扫描一遍，插入到不同的目的表中</p>
-<p>from table<br>  insert overwrite table dest1 select <em> where col=condition ;<br>  insert overwrite table dest2 select </em> where col=condition ;<br>  insert overwrite table dest3 select * where col=condition ;<br>对limit语句的优化</p>
-<p>hive.limit.optimize.enable=false<br>hive.limit.row.max.size=100000<br>hive.limit.optimize.limit.file=10<br>hive.limit.optimize.fetch.max=50000<br>对reduce个数的设置<br>hive默认是根据输入的大小来设置，每个reducer处理的数据量是1G。如果有10G的输入数据，则hive自动生成10个reducer。<br>默认情况下一个reducer处理1G的数据，这样一个reducer处理的数据量太大，可以改小一些。  </p>
-<p>hiive.exec.reducers.bytes.per.reducer=1G<br>hive.exec.reducers.max=999<br>mapred.reduce.tasks<br>数据倾斜优化<br>有编译器的优化和运行期的优化  </p>
-<p>hive.groupby.skewindata=false<br>hive.optimize.skewjoin.compiletime=false<br>hive.optimize.skewjoin=false<br>hive.skewjoin.key=100000<br>文件压缩<br>对中间结果的压缩和最终结果的压缩</p>
-<p>hive.exec.compress.output=false<br>hive.exec.compress.intermediate=false<br>并行执行<br>一个hive sql语句编译成多个MR作业，没有依赖关系的作业可以并行执行。</p>
-<p>hive.exec.parallel=false<br>hive.exec.parallel.thread.number=8<br>合并结果的小文件<br>对于hive的结果中是小文件的，会再起一个MR作业合并小文件。</p>
-<p>hive.merge.mapfiles=true<br>hive.merge.mapredfiles=false<br>hive.merge.size.per.task=256000000<br>hive.merge.smallfiles.avgsize=16000000<br>推断执行</p>
-<p>hive.mapred.reduce.tasks.speculative.execution=true<br>设置reduce个数<br>显示设置reduce的个数，或者每个reduce处理的数据的大小（默认1G的值很多时候有些大，可以设置小一些，同时reduce的内存也要相应小一些，提高并行度）。  </p>
-<p>mapred.reduce.tasks=-1<br>hive.exec.reducers.bytes.per.reducer=1000000000（1G）<br>hive.exec.reducers.max=999<br>map端聚合</p>
-<p>hive.map.aggr=true<br>group by语句时现在map聚合一次，减少传输到reduce的数据，就是mapreduce的combiner。默认是打开的。</p>
-<p>列剪裁<br>列剪裁优化，只对需要的列进行处理，忽略其他的列，减少数据的处理量。默认是打开的。</p>
-<p>hive.optimize.cp=true<br>本地模式<br>一些sql处理的数据量比较少，或者计算量比较少，可以在本地运行而不是MR作业运行，这样性能会更好些，也节约hadoop集群的资源。</p>
-<p>hive.exec.mode.local.auto=false<br>hive.fetch.task.conversion=minimal<br>测试模式</p>
-<p>hive.test.mode=false<br>hive.test.mode.prefix=test_<br>hive.test.mode.samplefreq=32<br>hive.test.mode.nosamplelist=table1,table2,table3<br>用于测试，通过采样减少输入的数据，结果表前面加前缀“test_”</p>
-<p>严格模式  </p>
-<p>hive.mapred.mode=nonstrict<br>通过严格模式，使一些不严格的用法不通过，防止潜在的错误。<br>No partition being picked up for a query.<br>Comparing bigints and strings.<br>Comparing bigints and doubles.<br>Orderby without limit.</p>
+        <h1 id="使用complex-type-array-和-map-类型"><a href="#使用complex-type-array-和-map-类型" class="headerlink" title="使用complex type array 和 map 类型"></a>使用complex type array 和 map 类型</h1><p>创建表时指定类型和分隔符  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table test1  </span><br><span class="line">(f1 array&lt;int&gt;,   </span><br><span class="line">f2 map&lt;string,int&gt;)   </span><br><span class="line">ROW FORMAT DELIMITED  </span><br><span class="line">COLLECTION ITEMS TERMINATED BY &apos;|&apos;  </span><br><span class="line">MAP KEYS TERMINATED BY &apos;:&apos;;</span><br></pre></td></tr></table></figure>
+<p>文件中按照表定义的分隔符来分割，字段的分隔符默认为^A，可以在建表时通过 FIELDS TERMINATED BY ‘^A’ 指定   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /home/hadoop/hivetest1.txt   </span><br><span class="line"></span><br><span class="line">1|2|3^Aa:1|b:2   </span><br><span class="line">11|12|13^Aaa:1|bb:2</span><br></pre></td></tr></table></figure>
+<h1 id="把文件-load-到表中"><a href="#把文件-load-到表中" class="headerlink" title="把文件 load 到表中"></a>把文件 load 到表中</h1><p><code>load data local inpath &#39;/home/hadoop/hivetest1.txt&#39; into table test1;</code> </p>
+<h1 id="在查询中使用array-和-map-类型"><a href="#在查询中使用array-和-map-类型" class="headerlink" title="在查询中使用array 和 map 类型"></a>在查询中使用array 和 map 类型</h1><p><code>select f1[0],f2[&#39;aa&#39;] from test1;   
+select * from test1 where f1[0]=11 and f2[&#39;aa&#39;]=1;</code>  </p>
+<h1 id="处理json字符串"><a href="#处理json字符串" class="headerlink" title="处理json字符串"></a>处理json字符串</h1><p>create table test(json_str string);<br>test表的json_str字段的内容为：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;a&quot;:&quot;1&quot;,&quot;b&quot;:&quot;2&quot;,&quot;c&quot;:[&quot;aa&quot;,&quot;11&quot;,&#123;&quot;aaa&quot;:&quot;111&quot;,&quot;bbb&quot;:&quot;222&quot;&#125;]&#125;   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select get_json_object(json_str,&apos;$.b&apos;) from test;  </span><br><span class="line">select get_json_object(json_str,&apos;$.c[0]&apos;) from test;  </span><br><span class="line">select get_json_object(json_str,&apos;$.c[2].aaa&apos;) from test;</span><br></pre></td></tr></table></figure>
+<h1 id="动态分区"><a href="#动态分区" class="headerlink" title="动态分区"></a>动态分区</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set hive.exec.dynamic.partition=true;   </span><br><span class="line">set hive.exec.dynamic.partition.mode=nonstrict;</span><br></pre></td></tr></table></figure>
+<p>另外，如果默认值不够大，根据需要调大以下三个参数，否则会报错  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set hive.exec.max.dynamic.partitions=2000  </span><br><span class="line">set hive.exec.max.dynamic.partitions.pernode=1000  </span><br><span class="line">set hive.exec.max.created.files=110000;</span><br></pre></td></tr></table></figure>
+<p>这样，从另外一个表把数据导入到目标表时，就会自动按照指定字段分区。<br>例如：</p>
+<p><code>insert overwrite table A partition(reportdate) select * from B;</code><br>表A要先创建，并且以reportdate作为分区的字段。在上面sql中不用指定reportdate的值（如果是非动态分区则需要指定）。表B最后一个字段作为分区的字段，会自动根据最后一个字段的值自动分区。  </p>
+<h1 id="map-join-优化"><a href="#map-join-优化" class="headerlink" title="map join 优化"></a>map join 优化</h1><p>将hive.auto.convert.join设置为true</p>
+<p><code>set hive.auto.convert.join=true;</code><br>设置进行mapjoin的小表的阈值（即当小表的大小 少于 一定该阈值时 hive 会做 mapjoin 优化，如果不设置，则采用默认值）  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set hive.mapjoin.smalltable.filesize=25000000;  </span><br><span class="line">hive.mapjoin.bucket.cache.size=100</span><br></pre></td></tr></table></figure>
+<p>每一个key有多少个value值缓存在内存中<br><code>hive.mapjoin.cache.numrows=25000</code><br>有多少行cache在内存中  </p>
+<h1 id="insert-into-overwrite多表插入的优化"><a href="#insert-into-overwrite多表插入的优化" class="headerlink" title="insert into/overwrite多表插入的优化"></a>insert into/overwrite多表插入的优化</h1><p>通过对原表扫描一遍，插入到不同的目的表中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from table  </span><br><span class="line">  insert overwrite table dest1 select * where col=condition ;  </span><br><span class="line">  insert overwrite table dest2 select * where col=condition ;  </span><br><span class="line">  insert overwrite table dest3 select * where col=condition ;</span><br></pre></td></tr></table></figure>
+<h1 id="对limit语句的优化"><a href="#对limit语句的优化" class="headerlink" title="对limit语句的优化"></a>对limit语句的优化</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.limit.optimize.enable=false  </span><br><span class="line">hive.limit.row.max.size=100000  </span><br><span class="line">hive.limit.optimize.limit.file=10  </span><br><span class="line">hive.limit.optimize.fetch.max=50000</span><br></pre></td></tr></table></figure>
+<h1 id="对reduce个数的设置"><a href="#对reduce个数的设置" class="headerlink" title="对reduce个数的设置"></a>对reduce个数的设置</h1><p>hive默认是根据输入的大小来设置，每个reducer处理的数据量是1G。如果有10G的输入数据，则hive自动生成10个reducer。<br>默认情况下一个reducer处理1G的数据，这样一个reducer处理的数据量太大，可以改小一些。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hiive.exec.reducers.bytes.per.reducer=1G  </span><br><span class="line">hive.exec.reducers.max=999  </span><br><span class="line">mapred.reduce.tasks</span><br></pre></td></tr></table></figure>
+<h1 id="数据倾斜优化"><a href="#数据倾斜优化" class="headerlink" title="数据倾斜优化"></a>数据倾斜优化</h1><p>有编译器的优化和运行期的优化  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.groupby.skewindata=false  </span><br><span class="line">hive.optimize.skewjoin.compiletime=false  </span><br><span class="line">hive.optimize.skewjoin=false  </span><br><span class="line">hive.skewjoin.key=100000</span><br></pre></td></tr></table></figure>
+<h1 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a>文件压缩</h1><p>对中间结果的压缩和最终结果的压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive.exec.compress.output=false  </span><br><span class="line">hive.exec.compress.intermediate=false</span><br></pre></td></tr></table></figure>
+<h1 id="并行执行"><a href="#并行执行" class="headerlink" title="并行执行"></a>并行执行</h1><p>一个hive sql语句编译成多个MR作业，没有依赖关系的作业可以并行执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive.exec.parallel=false  </span><br><span class="line">hive.exec.parallel.thread.number=8</span><br></pre></td></tr></table></figure>
+<h1 id="合并结果的小文件"><a href="#合并结果的小文件" class="headerlink" title="合并结果的小文件"></a>合并结果的小文件</h1><p>对于hive的结果中是小文件的，会再起一个MR作业合并小文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.merge.mapfiles=true  </span><br><span class="line">hive.merge.mapredfiles=false  </span><br><span class="line">hive.merge.size.per.task=256000000  </span><br><span class="line">hive.merge.smallfiles.avgsize=16000000</span><br></pre></td></tr></table></figure>
+<h1 id="推断执行"><a href="#推断执行" class="headerlink" title="推断执行"></a>推断执行</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive.mapred.reduce.tasks.speculative.execution=true</span><br></pre></td></tr></table></figure>
+<h1 id="设置reduce个数"><a href="#设置reduce个数" class="headerlink" title="设置reduce个数"></a>设置reduce个数</h1><p>显示设置reduce的个数，或者每个reduce处理的数据的大小（默认1G的值很多时候有些大，可以设置小一些，同时reduce的内存也要相应小一些，提高并行度）。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mapred.reduce.tasks=-1  </span><br><span class="line">hive.exec.reducers.bytes.per.reducer=1000000000（1G） </span><br><span class="line">hive.exec.reducers.max=999</span><br></pre></td></tr></table></figure>
+<h1 id="map端聚合"><a href="#map端聚合" class="headerlink" title="map端聚合"></a>map端聚合</h1><p><code>hive.map.aggr=true</code><br>group by语句时现在map聚合一次，减少传输到reduce的数据，就是mapreduce的combiner。默认是打开的。</p>
+<h1 id="列剪裁"><a href="#列剪裁" class="headerlink" title="列剪裁"></a>列剪裁</h1><p>列剪裁优化，只对需要的列进行处理，忽略其他的列，减少数据的处理量。默认是打开的。</p>
+<p><code>hive.optimize.cp=true</code></p>
+<h1 id="本地模式"><a href="#本地模式" class="headerlink" title="本地模式"></a>本地模式</h1><p>一些sql处理的数据量比较少，或者计算量比较少，可以在本地运行而不是MR作业运行，这样性能会更好些，也节约hadoop集群的资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive.exec.mode.local.auto=false  </span><br><span class="line">hive.fetch.task.conversion=minimal</span><br></pre></td></tr></table></figure>
+<h1 id="测试模式"><a href="#测试模式" class="headerlink" title="测试模式"></a>测试模式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hive.test.mode=false  </span><br><span class="line">hive.test.mode.prefix=test_  </span><br><span class="line">hive.test.mode.samplefreq=32  </span><br><span class="line">hive.test.mode.nosamplelist=table1,table2,table3</span><br></pre></td></tr></table></figure>
+<p>用于测试，通过采样减少输入的数据，结果表前面加前缀“test_”</p>
+<h1 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive.mapred.mode=nonstrict</span><br></pre></td></tr></table></figure>
+<p>通过严格模式，使一些不严格的用法不通过，防止潜在的错误。<br>No partition being picked up for a query.<br>Comparing bigints and strings.<br>Comparing bigints and doubles.<br>Orderby without limit.</p>
 <h1 id="jvm重用"><a href="#jvm重用" class="headerlink" title="jvm重用"></a>jvm重用</h1><p>JVM重用是hadoop调优参数的内容，对hive的性能具有非常大的 影响，特别是对于很难避免小文件的场景或者task特别多的场景，这类场景大多数执行时间都很短。hadoop默认配置是使用派生JVM来执行map和 reduce任务的，这是jvm的启动过程可能会造成相当大的开销，尤其是执行的job包含有成千上万个task任务的情况。</p>
 <p>JVM重用可以使得JVM实例在同一个JOB中重新使用N次，N的值可以在Hadoop的mapre-site.xml文件中进行设置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mapred.job.reuse.jvm.num.tasks</span><br></pre></td></tr></table></figure>
@@ -403,10 +414,11 @@
 <p>JVM的一个缺点是，开启JVM重用将会一直占用使用到的task插槽，以便进行重用，直到任务完成后才能释放。如果某个“不平衡“的job中有几个 reduce task 执行的时间要比其他reduce task消耗的时间多得多的话，那么保留的插槽就会一直空闲着却无法被其他的job使用，直到所有的task都结束了才会释放。</p>
 <h1 id="hive参数优化之默认启用本地模式"><a href="#hive参数优化之默认启用本地模式" class="headerlink" title="hive参数优化之默认启用本地模式"></a>hive参数优化之默认启用本地模式</h1><p>启动hive本地模式参数，一般建议将其设置为true，即时刻启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hive (chavin)&gt; set hive.exec.mode.local.auto;    </span><br><span class="line">hive.exec.mode.local.auto=false</span><br></pre></td></tr></table></figure></p>
 <h1 id="推测执行相关配置"><a href="#推测执行相关配置" class="headerlink" title="推测执行相关配置"></a>推测执行相关配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hive (default)&gt; set mapred.map.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">mapred.map.tasks.speculative.execution=true</span><br><span class="line"></span><br><span class="line">hive (default)&gt; set mapred.reduce.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">mapred.reduce.tasks.speculative.execution=true</span><br><span class="line"></span><br><span class="line">hive (default)&gt; set hive.mapred.reduce.tasks.speculative.execution;</span><br><span class="line"></span><br><span class="line">hive.mapred.reduce.tasks.speculative.execution=true</span><br></pre></td></tr></table></figure>
-<h1 id="单个mapreduce中运行多个group-by"><a href="#单个mapreduce中运行多个group-by" class="headerlink" title="单个mapreduce中运行多个group by"></a>单个mapreduce中运行多个group by</h1><p>参数hive.multigroupby.singlemr控制师徒将查询中的多个group by组装到单个mapreduce任务中。如果启用这个优化，那么需要一组常用的group by键：</p>
-<h1 id="聚合优化："><a href="#聚合优化：" class="headerlink" title="聚合优化："></a>聚合优化：</h1><p>启用参数：hive.map.aggr=true,默认开启</p>
+<h1 id="单个mapreduce中运行多个group-by"><a href="#单个mapreduce中运行多个group-by" class="headerlink" title="单个mapreduce中运行多个group by"></a>单个mapreduce中运行多个group by</h1><p>参数hive.multigroupby.singlemr控制师徒将查询中的多个group by组装到单个mapreduce任务中。如果启用这个优化，那么需要一组常用的group by键：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">例子：</span><br><span class="line"></span><br><span class="line">select Provice,city,county,count(rainfall) from area where data=&quot;2018-09-02&quot; group by provice,city,count</span><br><span class="line">select Provice,count(rainfall) from area where data=&quot;2018-09-02&quot; group by provice</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">#使用multi group by</span><br><span class="line">from area</span><br><span class="line"> insert overwrite table temp1</span><br><span class="line">  select Provice,city,county,count(rainfall) from area where data=&quot;2018-09-02&quot; group by provice,city,count</span><br><span class="line"> insert overwrite table temp2</span><br><span class="line">  select Provice,count(rainfall) from area where data=&quot;2018-09-02&quot; group by provice</span><br></pre></td></tr></table></figure></p>
+<h1 id="聚合优化："><a href="#聚合优化：" class="headerlink" title="聚合优化："></a>聚合优化：</h1><p>启用参数：<code>hive.map.aggr=true</code>默认开启</p>
 <h1 id="参数hive-fetch-task-conversion的调优："><a href="#参数hive-fetch-task-conversion的调优：" class="headerlink" title="参数hive.fetch.task.conversion的调优："></a>参数hive.fetch.task.conversion的调优：</h1><p>默认值：hive.fetch.task.conversion=minimal</p>
-<p>建议值：set hive.fetch.task.conversion=more;<br>参考：<br><a href="https://www.cnblogs.com/duanxingxing/p/4535842.html">https://www.cnblogs.com/duanxingxing/p/4535842.html</a>  </p>
+<p>建议值：set hive.fetch.task.conversion=more;<br>原理：<br> 对于简单的不需要聚合的类似 SELECT <col> from <table> LIMIT n 语句，不需要起 MapReduce job ，直接通过 Fetch task 获取数据<br><a href="https://blog.csdn.net/liyaohhh/article/details/50675267">https://blog.csdn.net/liyaohhh/article/details/50675267</a>  </table></p>
+<p>参考：<br><a href="https://www.cnblogs.com/duanxingxing/p/4535842.html">https://www.cnblogs.com/duanxingxing/p/4535842.html</a><br><a href="https://blog.csdn.net/z_l_l_m/article/details/8773505">https://blog.csdn.net/z_l_l_m/article/details/8773505</a></p>
 
       
     </div>
@@ -447,8 +459,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/28/阿里onedata/" rel="prev" title="阿里onedata">
-                阿里onedata <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/28/hiveserver2/" rel="prev" title="hiveserver2 jdbc">
+                hiveserver2 jdbc <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -520,9 +532,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -531,9 +543,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +556,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +567,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -588,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jvm重用"><span class="nav-number">1.</span> <span class="nav-text">jvm重用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive参数优化之默认启用本地模式"><span class="nav-number">2.</span> <span class="nav-text">hive参数优化之默认启用本地模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推测执行相关配置"><span class="nav-number">3.</span> <span class="nav-text">推测执行相关配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单个mapreduce中运行多个group-by"><span class="nav-number">4.</span> <span class="nav-text">单个mapreduce中运行多个group by</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聚合优化："><span class="nav-number">5.</span> <span class="nav-text">聚合优化：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数hive-fetch-task-conversion的调优："><span class="nav-number">6.</span> <span class="nav-text">参数hive.fetch.task.conversion的调优：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用complex-type-array-和-map-类型"><span class="nav-number">1.</span> <span class="nav-text">使用complex type array 和 map 类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#把文件-load-到表中"><span class="nav-number">2.</span> <span class="nav-text">把文件 load 到表中</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在查询中使用array-和-map-类型"><span class="nav-number">3.</span> <span class="nav-text">在查询中使用array 和 map 类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#处理json字符串"><span class="nav-number">4.</span> <span class="nav-text">处理json字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态分区"><span class="nav-number">5.</span> <span class="nav-text">动态分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join-优化"><span class="nav-number">6.</span> <span class="nav-text">map join 优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#insert-into-overwrite多表插入的优化"><span class="nav-number">7.</span> <span class="nav-text">insert into/overwrite多表插入的优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对limit语句的优化"><span class="nav-number">8.</span> <span class="nav-text">对limit语句的优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对reduce个数的设置"><span class="nav-number">9.</span> <span class="nav-text">对reduce个数的设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据倾斜优化"><span class="nav-number">10.</span> <span class="nav-text">数据倾斜优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件压缩"><span class="nav-number">11.</span> <span class="nav-text">文件压缩</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并行执行"><span class="nav-number">12.</span> <span class="nav-text">并行执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#合并结果的小文件"><span class="nav-number">13.</span> <span class="nav-text">合并结果的小文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推断执行"><span class="nav-number">14.</span> <span class="nav-text">推断执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置reduce个数"><span class="nav-number">15.</span> <span class="nav-text">设置reduce个数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map端聚合"><span class="nav-number">16.</span> <span class="nav-text">map端聚合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#列剪裁"><span class="nav-number">17.</span> <span class="nav-text">列剪裁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地模式"><span class="nav-number">18.</span> <span class="nav-text">本地模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试模式"><span class="nav-number">19.</span> <span class="nav-text">测试模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#严格模式"><span class="nav-number">20.</span> <span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jvm重用"><span class="nav-number">21.</span> <span class="nav-text">jvm重用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive参数优化之默认启用本地模式"><span class="nav-number">22.</span> <span class="nav-text">hive参数优化之默认启用本地模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推测执行相关配置"><span class="nav-number">23.</span> <span class="nav-text">推测执行相关配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单个mapreduce中运行多个group-by"><span class="nav-number">24.</span> <span class="nav-text">单个mapreduce中运行多个group by</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聚合优化："><span class="nav-number">25.</span> <span class="nav-text">聚合优化：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数hive-fetch-task-conversion的调优："><span class="nav-number">26.</span> <span class="nav-text">参数hive.fetch.task.conversion的调优：</span></a></li></ol></div>
             
 
           </div>
@@ -612,7 +624,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -682,6 +694,8 @@
   
 
 
+  
+
 
 
 
@@ -720,6 +734,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

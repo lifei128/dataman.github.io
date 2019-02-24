@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="recursion,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="任何循环都可以改为递归，关键是发现逻辑“相似性”和递归出口。有些语言没有循环只有递归，如lisp和clojure。拓展尾递归。    数组求和12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758package bluebridgecup;">
+<meta name="keywords" content="recursion">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归">
+<meta property="og:url" content="http://yoursite.com/2017/02/14/蓝桥杯-循环/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="任何循环都可以改为递归，关键是发现逻辑“相似性”和递归出口。有些语言没有循环只有递归，如lisp和clojure。拓展尾递归。    数组求和12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758package bluebridgecup;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-64.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-65.png">
+<meta property="og:updated_time" content="2019-02-18T13:51:40.242Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="递归">
+<meta name="twitter:description" content="任何循环都可以改为递归，关键是发现逻辑“相似性”和递归出口。有些语言没有循环只有递归，如lisp和clojure。拓展尾递归。    数组求和12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758package bluebridgecup;">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-64.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/14/蓝桥杯-循环/">
+
+
+
+
+
+  <title>递归 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/蓝桥杯-循环/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">递归</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-14T18:00:00+08:00">
+                2017-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/recursion/" itemprop="url" rel="index">
+                    <span itemprop="name">recursion</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>任何循环都可以改为递归，关键是发现逻辑“相似性”和递归出口。<br>有些语言没有循环只有递归，如lisp和clojure。<em>拓展尾递归</em>。   </p>
+<h1 id="数组求和"><a href="#数组求和" class="headerlink" title="数组求和"></a>数组求和</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A01_SumArray &#123;</span><br><span class="line"></span><br><span class="line">    public static int f1(int[] arr)</span><br><span class="line">    &#123;</span><br><span class="line">        int sum = 0;</span><br><span class="line">        for (int i = 0; i &lt; arr.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return sum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //**************************线性递归**************************</span><br><span class="line">    public static int f2(int[] arr,int start)</span><br><span class="line">    &#123;</span><br><span class="line">        if (start == arr.length) //递归出口</span><br><span class="line">            return 0;</span><br><span class="line">        return arr[start] + f2(arr,start+1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static int f3_2(int[] arr,int end)</span><br><span class="line">    &#123;</span><br><span class="line">        if (end &lt; 0) //递归出口</span><br><span class="line">            return 0;</span><br><span class="line">        return f3_2(arr,end-1) + arr[end];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //**************************二分递归**************************</span><br><span class="line">    public static int f4(int[] arr,int start,int end)</span><br><span class="line">    &#123;</span><br><span class="line">        if (start &gt; end) return 0;//递归出口</span><br><span class="line">        int mid = (start + end)/2;</span><br><span class="line">        return f4(arr,start,mid-1) + arr[mid] + f4(arr,mid+1,end);//todo 不如下面的方式</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static int f5(int[] arr,int start,int end)</span><br><span class="line">    &#123;</span><br><span class="line">        if (start == end) return arr[start];//递归出口</span><br><span class="line">        int mid = (start + end)/2;</span><br><span class="line">        return f5(arr,start,mid) + f5(arr,mid+1,end);//注意分为mid    mid+1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)</span><br><span class="line">    &#123;</span><br><span class="line">//        int[] arr = new int[]&#123;1,2,3,4,5,6,7,8,9,10&#125;;</span><br><span class="line">//        System.out.println(f1(arr));</span><br><span class="line"></span><br><span class="line">//        System.out.println(f2(arr,0));</span><br><span class="line">//        System.out.println(f3_2(arr,arr.length - 1));</span><br><span class="line"></span><br><span class="line">//        System.out.println(f4(arr,0,arr.length - 1));</span><br><span class="line">//        System.out.println(f5(arr,0,arr.length - 1));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="打印数组"><a href="#打印数组" class="headerlink" title="打印数组"></a>打印数组</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A02_PrintArray &#123;</span><br><span class="line"></span><br><span class="line">    private static void f1(int n) &#123;</span><br><span class="line">        if (n &gt; 0) f1(n - 1);</span><br><span class="line">        System.out.println(n);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void f2(int start, int end) &#123;</span><br><span class="line">        if (start &gt; end)return;</span><br><span class="line">        System.out.println(start);</span><br><span class="line">        f2(start+1,end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void f_arr(int[] arr,int start)&#123;</span><br><span class="line">        if (start &gt; arr.length - 1)return;</span><br><span class="line">        System.out.println(arr[start]);</span><br><span class="line">        f_arr(arr,start+1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">//        f1(10);</span><br><span class="line">//        f2(0,10);</span><br><span class="line"></span><br><span class="line">//        int[] arr = new int[]&#123;1,2,3,4,5,6,7,8,9,10&#125;;</span><br><span class="line">//        fa(arr,0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="字符串是否相同"><a href="#字符串是否相同" class="headerlink" title="字符串是否相同"></a>字符串是否相同</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A03_IsSameString &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static boolean isSameString2(String s1, String s2) &#123;</span><br><span class="line">        if (s1.length() != s2.length()) return false;//******边界********</span><br><span class="line">        if (s1.length() == 0) return true;//******边界********</span><br><span class="line"></span><br><span class="line">//        if (s1.charAt(0) != s2.charAt(0)) return false;</span><br><span class="line">        if (s1.charAt(0) == s2.charAt(0)) return true;</span><br><span class="line">        return isSameString2(s1.substring(1),s2.substring(1));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean isSameString1(String s1,String s2)&#123;</span><br><span class="line">        return s1.equals(s2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">//        String s1 = &quot;abc&quot;;</span><br><span class="line">//        String s2 = &quot;abcd&quot;;</span><br><span class="line">//        System.out.println(isSameString1(s1,s2));</span><br><span class="line">//        System.out.println(isSameString2(s1,s2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="求阶乘"><a href="#求阶乘" class="headerlink" title="求阶乘"></a>求阶乘</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A04_FactorialOfN &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(helper(3));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int helper(int n) &#123;</span><br><span class="line">        if (n &gt; 0)return n * helper(n - 1);</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="求n个不同元素的全排列"><a href="#求n个不同元素的全排列" class="headerlink" title="求n个不同元素的全排列*"></a>求n个不同元素的全排列*</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 求n个不同元素的全排列</span><br><span class="line"> *</span><br><span class="line"> * 回溯问题，用于八皇后和迷宫问题</span><br><span class="line"> * 如果包含重复元素怎么办?</span><br><span class="line"> * 罗列出每一种可能用什么方法?动态规划怎么实现</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * R的全排列可归纳定义如下：</span><br><span class="line"> * 当n=1时，perm(R)=(r)，其中r是集合R中唯一的元素；</span><br><span class="line"> * 当n&gt;1时，perm(R)由(r1)perm(R1)，(r2)perm(R2)，…，(rn)perm(Rn)构成。</span><br><span class="line"> * 实现思想：将整组数中的所有的数分别与第一个数交换，这样就总是在处理后n-1个数的全排列。</span><br><span class="line"> */</span><br><span class="line">public class A05_FullPermutation &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        char[] chars = &quot;ABC&quot;.toCharArray();</span><br><span class="line">        helper(chars,0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //k:当前的交换位置(关注点),与其后的元素交换</span><br><span class="line">    private static void helper(char[] chars,int k) &#123;</span><br><span class="line">        if (k == chars.length)&#123;</span><br><span class="line">            for (char c:chars) System.out.print(c +&quot; &quot;);</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i = k; i &lt; chars.length; i++) &#123;</span><br><span class="line">            &#123;char t = chars[k];chars[k] = chars[i];chars[i] = t;&#125;//试探</span><br><span class="line">            helper(chars,k + 1);</span><br><span class="line">            &#123;char t = chars[k];chars[k] = chars[i];chars[i] = t;&#125;//回溯</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="在n个求中，任意取出m个，求有多少种不同取法"><a href="#在n个求中，任意取出m个，求有多少种不同取法" class="headerlink" title="在n个求中，任意取出m个，求有多少种不同取法"></a>在n个求中，任意取出m个，求有多少种不同取法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 在n个求中，任意取出m个，求有多少种不同取法</span><br><span class="line"> */</span><br><span class="line">public class A06_GraspBall &#123;</span><br><span class="line">    //从n个取m个</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int k = helper(5,3);</span><br><span class="line">        System.out.println(k);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int helper(int n, int m) &#123;</span><br><span class="line">        if (n &lt; m) return 0;</span><br><span class="line">        if (n == m) return 1;</span><br><span class="line">        if (m == 0) return 1;</span><br><span class="line">        return helper(n - 1,m - 1) + helper(n - 1,m);//n个里有个特殊球x，取法划分，包不包含x</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="求最长公共子序列的长度"><a href="#求最长公共子序列的长度" class="headerlink" title="求最长公共子序列的长度"></a>求最长公共子序列的长度</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A07_MaxSequence &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String s1 = &quot;abc&quot;;</span><br><span class="line">        String s2 = &quot;xbacd&quot;;</span><br><span class="line">        int x = helper(s1,s2);</span><br><span class="line">        System.out.println(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int helper(String s1, String s2) &#123;</span><br><span class="line">        if (s1.length() == 0 || s2.length() == 0)return 0;</span><br><span class="line">        if (s1.charAt(0) == s2.charAt(0))&#123;</span><br><span class="line">            return 1 + helper(s1.substring(1),s2.substring(1));</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return Math.max(helper(s1,s2.substring(1)),helper(s1.substring(1),s2));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="翻转字符串"><a href="#翻转字符串" class="headerlink" title="翻转字符串"></a>翻转字符串</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A08_Reverse &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(helper_str(&quot;12345&quot;));;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static String helper_str(String s) &#123;</span><br><span class="line">        if (s.length() == 0)return &quot;&quot;;</span><br><span class="line">        return helper_str(s.substring(1))+s.charAt(0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="杨辉三角"><a href="#杨辉三角" class="headerlink" title="杨辉三角"></a>杨辉三角</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 1</span><br><span class="line"> * 1 1</span><br><span class="line"> * 1 2 1</span><br><span class="line"> * 1 3 3 1</span><br><span class="line"> * 1 4 6 4 1</span><br><span class="line"> * 1 5 10 10 5 1</span><br><span class="line"> *</span><br><span class="line"> * 计算第m层，第n个系数，m和n都从0开始</span><br><span class="line"> */</span><br><span class="line">public class A09_YangTriangle &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int level = 5;</span><br><span class="line">        for (int i = 0; i &lt;= level; i++) &#123;</span><br><span class="line">            System.out.print(helper(level,i) +&quot; &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //m层第n个元素</span><br><span class="line">    private static int helper(int m,int n)&#123;</span><br><span class="line">        if (n == 0)return 1;</span><br><span class="line">        if (m == n)return 1;</span><br><span class="line">        return helper(m - 1,n) + helper(m - 1,n - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="m个a-n个b-可以有多少种组合"><a href="#m个a-n个b-可以有多少种组合" class="headerlink" title="m个a,n个b 可以有多少种组合"></a>m个a,n个b 可以有多少种组合</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line">// m个a,n个b 可以有多少种组合</span><br><span class="line">public class A10_MN_sort &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(helper(3,2));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static int helper(int m, int n) &#123;</span><br><span class="line">        if (m == 0 || n == 0)return 1;</span><br><span class="line">        return helper(m - 1,n) + helper(m,n - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="split-6"><a href="#split-6" class="headerlink" title="split 6"></a>split 6</h1><p><img src="/images/pasted-64.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A11_Split_6 &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int[] a = new int[100];//做缓冲</span><br><span class="line">        helper(3,a,0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //对n进行加法划分</span><br><span class="line">    // a:缓冲</span><br><span class="line">    // k:当前的位置</span><br><span class="line">    private static void helper(int n,int[] a,int k) &#123;</span><br><span class="line">        if (n &lt;= 0)&#123;</span><br><span class="line">            for(int i=0;i &lt; k;i++)System.out.printf(a[i] + &quot; &quot;);</span><br><span class="line">            System.out.println();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //6</span><br><span class="line">        //5...f(1)</span><br><span class="line">        //4...f(2)</span><br><span class="line">        for (int i = n; i &gt; 0; i--) &#123;</span><br><span class="line">            if (k &gt; 0 &amp;&amp; i &gt; a[k - 1])continue;//a[k - 1]表示前一项   ;   后一项 &gt; 前一项</span><br><span class="line">            a[k] = i;</span><br><span class="line">            helper(n - i,a,k + 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="ErrorSum"><a href="#ErrorSum" class="headerlink" title="ErrorSum"></a>ErrorSum</h1><p><img src="/images/pasted-65.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A12_ErrorSum &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int sum = 6;</span><br><span class="line">        int[] a = &#123;3,2,4,3,1&#125;;</span><br><span class="line">        boolean[] b = new boolean[a.length];//表示a对应项是否选取</span><br><span class="line">        helper(sum,a,0,0,b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //error_sum:有错误的和</span><br><span class="line">    //a：明细</span><br><span class="line">    //k:当前处理的位置</span><br><span class="line">    //cur_sum:前边元素的累加和</span><br><span class="line">    //b:记录取舍</span><br><span class="line">    private static void helper(int error_sum, int[] a, int k, int cur_sum, boolean[] b) &#123;</span><br><span class="line">        if (cur_sum &gt; error_sum)return;</span><br><span class="line">        if (error_sum == cur_sum)&#123;</span><br><span class="line">            for(int i = 0;i &lt; b.length;i++) if (b[i] == true)System.out.printf(a[i]+&quot; &quot;);</span><br><span class="line">            System.out.println();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (k &gt;= a.length)return;</span><br><span class="line">        b[k] = false;</span><br><span class="line">        helper(error_sum,a,k + 1,cur_sum,b);</span><br><span class="line">        b[k] = true;</span><br><span class="line">        cur_sum += a[k];</span><br><span class="line">        helper(error_sum,a,k + 1,cur_sum,b);</span><br><span class="line">        b[k] = false;//回溯！！！！！</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="打印二叉树从根节点到叶子节点的所有路径"><a href="#打印二叉树从根节点到叶子节点的所有路径" class="headerlink" title="打印二叉树从根节点到叶子节点的所有路径"></a>打印二叉树从根节点到叶子节点的所有路径</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line">//打印二叉树从根节点到叶子节点的所有路径</span><br><span class="line">public class A13_BSTTreePath &#123;</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">    public List&lt;String&gt; binaryTreePaths(TreeNode root) &#123;</span><br><span class="line">        if (root == null)return new ArrayList&lt;&gt;();</span><br><span class="line">        LinkedList&lt;Integer&gt; list = new LinkedList&lt;&gt;();</span><br><span class="line">        helper(root,list);</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helper(TreeNode node,LinkedList&lt;Integer&gt; list) &#123;</span><br><span class="line">        if (node == null) return;</span><br><span class="line">        list.add(node.val);</span><br><span class="line">        if (node.left == null &amp;&amp; node.right == null)&#123;</span><br><span class="line">            String s = &quot;&quot;;</span><br><span class="line">            for (Integer n:list) &#123;</span><br><span class="line">                if (s.equals(&quot;&quot;))&#123;</span><br><span class="line">                    s += n+&quot;&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    s = s + &quot;-&gt;&quot;+ n;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(s);</span><br><span class="line">            list.removeLast();//TODO 最后一个节点是叶子节点,继续下一条路线,所以要剔除最后一个</span><br><span class="line">            return;//TODO 该次结束，返回到上一层</span><br><span class="line">        &#125;</span><br><span class="line">        helper(node.left,list);</span><br><span class="line">        helper(node.right,list);</span><br><span class="line">        list.removeLast();//TODO  返回时一定要清除    最后一个节点是最后一个叉的根节点,一定是要排除的,因为这个节点的左右方向都走完了</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="汉诺塔"><a href="#汉诺塔" class="headerlink" title="汉诺塔"></a>汉诺塔</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">public class A14_Hanoi &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        hanoi(2,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void hanoi(int n,String start,String middle,String end)&#123;</span><br><span class="line">        if (n &lt;= 1)&#123;</span><br><span class="line">            System.out.println(start+&quot;--&gt;&quot;+end);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            hanoi(n -1,start,end,middle);</span><br><span class="line">            System.out.println(start+&quot;--&gt;&quot;+end);</span><br><span class="line">            hanoi(n - 1,middle,start,end);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="遍历二叉树"><a href="#遍历二叉树" class="headerlink" title="遍历二叉树"></a>遍历二叉树</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">package bluebridgecup;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public class A15_TreeRec &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 中序遍历递归解法</span><br><span class="line">     * （1）如果二叉树为空，空操作。</span><br><span class="line">     * （2）如果二叉树不为空，中序遍历左子树，访问根节点，中序遍历右子树</span><br><span class="line">     */</span><br><span class="line">    public void inOrderRec(TreeNode root)&#123;</span><br><span class="line">        if (root == null)return;</span><br><span class="line">        inOrderRec(root.left);</span><br><span class="line">        System.out.println(root.val);</span><br><span class="line">        inOrderRec(root.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  分层遍历二叉树（递归）</span><br><span class="line">     *  很少有人会用递归去做level traversal</span><br><span class="line">     *  基本思想是用一个大的ArrayList，里面包含了每一层的ArrayList。</span><br><span class="line">     *  大的ArrayList的size和level有关系</span><br><span class="line">     *</span><br><span class="line">     */</span><br><span class="line">    public static void levelTraversalRec(TreeNode root) &#123;</span><br><span class="line">        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();</span><br><span class="line">        dfs(root, 0, ret);</span><br><span class="line">        System.out.println(ret);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void dfs(TreeNode root, int level, ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret)&#123;</span><br><span class="line">        if(root == null)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 添加一个新的ArrayList表示新的一层</span><br><span class="line">        if(level &gt;= ret.size())&#123;</span><br><span class="line">            ret.add(new ArrayList&lt;Integer&gt;());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ret.get(level).add(root.val);   // 把节点添加到表示那一层的ArrayList里</span><br><span class="line">        dfs(root.left, level+1, ret);       // 递归处理下一层的左子树和右子树</span><br><span class="line">        dfs(root.right, level+1, ret);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 求二叉树中的节点个数递归解法： O(n)</span><br><span class="line">     * （1）如果二叉树为空，节点个数为0</span><br><span class="line">     * （2）如果二叉树不为空，二叉树节点个数 = 左子树节点个数 + 右子树节点个数 + 1</span><br><span class="line">     */</span><br><span class="line">    public static int getNodeNumRec(TreeNode root) &#123;</span><br><span class="line">        if (root == null) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return getNodeNumRec(root.left) + getNodeNumRec(root.right) + 1;  //左 右节点加上主节点1为总数</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 求二叉树的深度（高度） 递归解法： O(n)</span><br><span class="line">     * （1）如果二叉树为空，二叉树的深度为0</span><br><span class="line">     * （2）如果二叉树不为空，二叉树的深度 = max(左子树深度， 右子树深度) + 1</span><br><span class="line">     *</span><br><span class="line">     *</span><br><span class="line">     *</span><br><span class="line">     maxDepth()</span><br><span class="line">     1. 如果树为空，那么返回0</span><br><span class="line">     2. 否则</span><br><span class="line">     (a) 递归得到左子树的最大高度</span><br><span class="line">     例如，调用maxDepth( tree-&gt; left-subtree )</span><br><span class="line">     (b) 递归得到右子树的最大高度</span><br><span class="line">     例如，调用maxDepth( tree-&gt; right-subtree )</span><br><span class="line">     (c) 对于当前节点，取左右子树高度的最大值并加1。</span><br><span class="line">     max_depth = max(左子树的最大高度, 右子树的最大高度) + 1</span><br><span class="line">     (d) 返回max_depth</span><br><span class="line">     */</span><br><span class="line">    public static int getDepthRec(TreeNode root) &#123;</span><br><span class="line">        if (root == null) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int leftDepth = getDepthRec(root.left);</span><br><span class="line">        int rightDepth = getDepthRec(root.right);</span><br><span class="line">        return Math.max(leftDepth, rightDepth) + 1;   // +1是因为根节点已经是一层了,否则root==null直接是0了</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class TreeNode &#123;</span><br><span class="line">        int val;</span><br><span class="line">        TreeNode left;</span><br><span class="line">        TreeNode right;</span><br><span class="line">        TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="翻转链表"><a href="#翻转链表" class="headerlink" title="翻转链表"></a>翻转链表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package com.lifeibigdata.offer;</span><br><span class="line"></span><br><span class="line">import java.util.Stack;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 从尾到头打印链表</span><br><span class="line"> * Created by lifei on 16/11/13.</span><br><span class="line"> */</span><br><span class="line">public class PrintListReverse &#123;</span><br><span class="line">    private static class Node &#123;</span><br><span class="line">        int val;</span><br><span class="line">        Node next;</span><br><span class="line"></span><br><span class="line">        public Node(int val) &#123;</span><br><span class="line">            this.val = val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Node n1 = new Node(1);</span><br><span class="line">        Node n2 = new Node(2);Node n3 = new Node(3);</span><br><span class="line">        Node n4 = new Node(4);Node n5 = new Node(5);</span><br><span class="line">        n1.next = n2;n2.next = n3;n3.next = n4;n4.next = n5;</span><br><span class="line">        printListReverse2(n1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static void printListReverse1(Node head)&#123;</span><br><span class="line">        Stack&lt;Node&gt; stack = new Stack();</span><br><span class="line">        Node tmpNode = head;</span><br><span class="line">        while (tmpNode != null)&#123;</span><br><span class="line">            stack.push(tmpNode);</span><br><span class="line">            tmpNode = tmpNode.next;</span><br><span class="line">        &#125;</span><br><span class="line">        while (!stack.isEmpty())&#123;</span><br><span class="line">            System.out.println(stack.pop().val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 栈的本质是递归,要实现反过来输出链表,我们访问到一个节点的时候,先递归输出后面的节点,再输入该节点本身,这样链表的输出结果就反过来了</span><br><span class="line">     * @param head</span><br><span class="line">     */</span><br><span class="line">    static void printListReverse2(Node head)&#123;</span><br><span class="line">        if (head != null)&#123;</span><br><span class="line">            if (head.next != null)&#123;</span><br><span class="line">                printListReverse2(head.next);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(head.val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/recursion/" rel="tag"># recursion</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/12/hive窗口函数/" rel="next" title="hive窗口函数">
+                <i class="fa fa-chevron-left"></i> hive窗口函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/14/KMP/" rel="prev" title="KMP">
+                KMP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">248</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数组求和"><span class="nav-number">1.</span> <span class="nav-text">数组求和</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打印数组"><span class="nav-number">2.</span> <span class="nav-text">打印数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串是否相同"><span class="nav-number">3.</span> <span class="nav-text">字符串是否相同</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#求阶乘"><span class="nav-number">4.</span> <span class="nav-text">求阶乘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#求n个不同元素的全排列"><span class="nav-number">5.</span> <span class="nav-text">求n个不同元素的全排列*</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在n个求中，任意取出m个，求有多少种不同取法"><span class="nav-number">6.</span> <span class="nav-text">在n个求中，任意取出m个，求有多少种不同取法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#求最长公共子序列的长度"><span class="nav-number">7.</span> <span class="nav-text">求最长公共子序列的长度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#翻转字符串"><span class="nav-number">8.</span> <span class="nav-text">翻转字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#杨辉三角"><span class="nav-number">9.</span> <span class="nav-text">杨辉三角</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#m个a-n个b-可以有多少种组合"><span class="nav-number">10.</span> <span class="nav-text">m个a,n个b 可以有多少种组合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#split-6"><span class="nav-number">11.</span> <span class="nav-text">split 6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ErrorSum"><span class="nav-number">12.</span> <span class="nav-text">ErrorSum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#打印二叉树从根节点到叶子节点的所有路径"><span class="nav-number">13.</span> <span class="nav-text">打印二叉树从根节点到叶子节点的所有路径</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#汉诺塔"><span class="nav-number">14.</span> <span class="nav-text">汉诺塔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遍历二叉树"><span class="nav-number">15.</span> <span class="nav-text">遍历二叉树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#翻转链表"><span class="nav-number">16.</span> <span class="nav-text">翻转链表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

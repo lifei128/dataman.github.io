@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hbase,java,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="学习来源：HBase官网和http://hbasefly.com/ Java GC                  GC的出现是来源于在内存管理时大多数内存对象要么生存周期特别短，可以快速进行内存回收。要么生存周期比较长。 JVM将整个堆内存分为两部分：新生代(young generation)和老生代(tenured generation),同时对于常驻内存的对象JVM设有一个非堆内存区-Pe">
+<meta name="keywords" content="hbase,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase GC原理和优化">
+<meta property="og:url" content="http://yoursite.com/2015/02/20/HBase-GC原理和优化/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="学习来源：HBase官网和http://hbasefly.com/ Java GC                  GC的出现是来源于在内存管理时大多数内存对象要么生存周期特别短，可以快速进行内存回收。要么生存周期比较长。 JVM将整个堆内存分为两部分：新生代(young generation)和老生代(tenured generation),同时对于常驻内存的对象JVM设有一个非堆内存区-Pe">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-215.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-216.png">
+<meta property="og:updated_time" content="2019-02-23T12:45:46.344Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBase GC原理和优化">
+<meta name="twitter:description" content="学习来源：HBase官网和http://hbasefly.com/ Java GC                  GC的出现是来源于在内存管理时大多数内存对象要么生存周期特别短，可以快速进行内存回收。要么生存周期比较长。 JVM将整个堆内存分为两部分：新生代(young generation)和老生代(tenured generation),同时对于常驻内存的对象JVM设有一个非堆内存区-Pe">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-215.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/02/20/HBase-GC原理和优化/">
+
+
+
+
+
+  <title>HBase GC原理和优化 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-GC原理和优化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HBase GC原理和优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T14:20:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习来源：HBase官网和<a href="http://hbasefly.com/">http://hbasefly.com/</a></p>
+<p>Java GC<br>                  GC的出现是来源于在内存管理时大多数内存对象要么生存周期特别短，可以快速进行内存回收。要么生存周期比较长。 JVM将整个堆内存分为两部分：新生代(young generation)和老生代(tenured generation),同时对于常驻内存的对象JVM设有一个非堆内存区-Perm区(主要是存放静态的类信息和方法信息),class信息和meta元数据信息就存放在此区。</p>
+<p>其中Young区为了方便垃圾回收细分为Eden区和两个Survivor区:S0和S1。因此JVM内存结构如下:</p>
+<p><img src="/images/pasted-215.png" alt="upload successful"><br> 一个内存对象创建后首先会进入新生代，如果内存对象存活时间很长后会迁移到老生代。</p>
+<p>在大多数对延迟敏感的业务场景下（比如HBase），建议使用如下JVM参数，-XX:+UseParNewGC和XX:+UseConcMarkSweepGC，其中前者表示对<strong>新生代执行并行的垃圾回收机制</strong>，而后者表示<strong>对老生代执行并行标记－清除垃圾回收机制</strong>。可见，JVM允许针对不同内存区执行不同的GC策略。    </p>
+<h1 id="GC信息查看"><a href="#GC信息查看" class="headerlink" title="GC信息查看"></a>GC信息查看</h1><p>jstat -gcutil 3600<br>  S0     S1        E          O      P        YGC     YGCT        FGC    FGCT     GCT<br>  0.00  53.12  28.15  93.10  99.17 455569 3210.991  3470  196.670 3407.661</p>
+<p>S0  — Heap上的 Survivor space 0 区已使用空间的百分比<br>S1  — Heap上的 Survivor space 1 区已使用空间的百分比<br>E   — Heap上的 Eden space 区已使用空间的百分比<br>O   — Heap上的 Old space 区已使用空间的百分比<br>P   — Perm space 区已使用空间的百分比<br>YGC — 从应用程序启动到采样时发生 Young GC 的次数<br>YGCT– 从应用程序启动到采样时 Young GC 所用的时间(单位秒)<br>FGC — 从应用程序启动到采样时发生 Full GC 的次数<br>FGCT– 从应用程序启动到采样时 Full GC 所用的时间(单位秒)<br>GCT — 从应用程序启动到采样时用于垃圾回收的总时间(单位秒)  </p>
+<p>如果gc没有问题，继续查看thriftserver的连接数是否异常,如果连接数打满也会有问题:<br>netstat -apn|grep 15046|grep 9090|wc -l   </p>
+<h1 id="新生代GC策略-Parallel-New-Collector"><a href="#新生代GC策略-Parallel-New-Collector" class="headerlink" title="新生代GC策略-Parallel New Collector"></a>新生代GC策略-Parallel New Collector</h1><p>新生代为了方便进行内存回收，分为S0、S1、Eden三部分。新建的内存对象是存放在Eden区，当Eden区满后会触发一次小GC(Minor GC)：GC算法会检查所有对象的引用情况，如果对象还被引用则表示存活并进行标记，检查完Eden区后会将标记为存活的对象迁移到S0区，然后回收整个Eden区。 当过段时间Eden区再次满之后，GC算法会检查Eden区和S0区存活的对象并将所有存活的对象迁移到S1区，然后回收整个Eden区和S0区的内存空间。因此S0、S1总会有一个区是空闲预留给下一次存放迁移的存活对象的。   </p>
+<p><img src="/images/pasted-216.png" alt="upload successful"><br>新生代GC算法为<strong>复制算法</strong>，一般情况影响会很小。需要注意的是:<br>1.算法会执行 stop-the-world暂停，但是时间非常短。因为Young区通常会设置的比较小(不建议超过512M)，同时JVM会启动大量线程并发执行，一次Minor GC通常会在毫秒级完成。<br>2.<strong>新生代GC不会出现内存碎片</strong>，每次GC之后都会将存活对象迁移到整个空闲的S0或S1空间,然后回收整个非存活对象存储的区(Eden+ S1/S0)</p>
+<p>   新生代的对象什么时候迁移到老年代？<br>   内存中所有对象都会维护一个计数器，每次Minor GC迁移一个内存对象后，该内存对象所属的计数器＋1，当内存对象的计数达到一定阀值则会将该内存对象迁移到老生代。<strong>阀值通过JVM参数XX:MaxTenuringThreshold指定</strong>。</p>
+<h1 id="老生代GC策略-Concurrent-Mark-Sweep"><a href="#老生代GC策略-Concurrent-Mark-Sweep" class="headerlink" title="老生代GC策略-Concurrent Mark-Sweep"></a>老生代GC策略-Concurrent Mark-Sweep</h1><p>每次执行Minor GC之后都会有部分生命周期长的对象迁移到老生代，久而久之老生代空间也会占满，同样此时需要堆老生代进行GC操作。常见的算法有CMS、G1,先介绍CMS(Concurrent Mark-Sweep)算法。</p>
+<p>CMS算法整个流程分为6个阶段，其中部分阶段会执行 ‘stop-the-world’ 暂停，部分阶段会和应用线程一起并发执行：</p>
+<ol>
+<li><p>initial-mark：这个阶段虚拟机<strong>会暂停所有正在执行的任务</strong>。这一过程虚拟机会标记所有 ‘根对象’(ROOT)，    所谓‘根对象’，一般是指一个运行线程直接引用到的对象。虽然会暂停整个JVM，但因为’根对象’相对较少，这个过程通常很快。</p>
+</li>
+<li><p>concurrent mark：垃圾回收器会从‘根节点’开始，将所有引用到的对象都打上标记。   这个阶段应用程序的线程和标记线程并发执行，因此用户并不会感到停顿。</p>
+</li>
+<li><p>concurrent precleaning：并发预清理阶段仍然是并发的。在这个阶段，虚拟机查找在执行mark阶段新进入老年代的对象(可能会有一些对象从新生代晋升到老年代， 或者有一些对象被分配到老年代)。</p>
+</li>
+<li><p>remark：在阶段3的基础上对查找到的对象进行重新标记，<strong>这一阶段会暂停整个JVM</strong>，但是因为阶段3已经欲检查出了所有新进入的对象，因此这个过程也会很快。</p>
+</li>
+<li><p>concurrent sweep：上述3阶段完成了引用对象的标记，此阶段会将所有没有标记的对象作为垃圾回收掉。这个阶段应用程序的线程和标记线程并发执行。</p>
+</li>
+<li><p>concurrent reset：重置CMS收集器的数据结构，等待下一次垃圾回收。</p>
+</li>
+</ol>
+<p>相应的，对于CMS算法，也需要关注两点：</p>
+<ol>
+<li>‘stop－the－world’暂停时间也很短暂，耗时较长的标记和清理都是并发执行的。</li>
+<li>CMS算法在标记清理之后并没有重新压缩分配存活对象，因此整个老生代会产生很多的内存碎片。   </li>
+</ol>
+<h1 id="CMS算法缺点"><a href="#CMS算法缺点" class="headerlink" title="CMS算法缺点"></a>CMS算法缺点</h1><p>理想情况下CMS的stop-thr-world时间会很短，ms级别。但是真实业务场景通常并非如此，在读写压力很大的情况下会出现长时间的卡顿，甚至严重阻塞读写。HBase相关会导致RS和ZK超时，RS异常离线后shutdown。 CMS在两种场景下会出现严重的Full GC: Concurrent Failure &amp;&amp; Promotion Failure。    </p>
+<h2 id="Concurrent-Failure"><a href="#Concurrent-Failure" class="headerlink" title="Concurrent Failure"></a>Concurrent Failure</h2><p>根据CMS GC算法，当老生代正在进行GC时，由于读写压力特别大导致新生代一批内存对象需要进入老生代，老生代由于还没有GC完成导致没有足够的空间容纳需要新迁移的新生代对象。这种场景下CMS回收器会stop-the-world，并且<strong>回收算法退化到单线程复制算法</strong>，重新分配整个堆内存的存活对象到S0中并释放所有其他空间。整个过程会持续很长时间，影响较大。</p>
+<p> JVM提供参数XX:CMSInitiatingOccupancyFraction=N来设置CMS回收的时机，其中N表示当前老生代已使用内存占总内存的比例，该值默认为68，可以将该值修改的更小使得回收更早进行。  CMS回收器更早回收就可以避免该类FULL GC的发生。</p>
+<h2 id="Promotion-Failure"><a href="#Promotion-Failure" class="headerlink" title="Promotion Failure"></a>Promotion Failure</h2><p>  假设此时设置XX:CMSInitiatingOccupancyFraction＝60，但是在已使用内存还没有达到总内存60%的时候，已经没有空间容纳从新生代迁移的对象了。罪魁祸首就是内存碎片，上文中提到CMS算法会产生大量碎片，当碎片容量积累到一定大小之后就会造成上面的场景。这种场景下，CMS回收器一样会停止工作，进入漫长的 ’stop-the-world’ 模式。</p>
+<p>  JVM也提供了参数 -XX: UseCMSCompactAtFullCollection来减少碎片的产生，这个参数表示会在每次CMS回收垃圾之后执行一次碎片整理，很显然，这个参数会对性能有比较大的影响，对HBase这种对延迟敏感的业务来说并不是一个完美解决方案。</p>
+<p>注意：CMS GC会不断产生内存碎片，当碎片小到一定程度之后就会基本维持不变，如果此时业务写入一些单条数据量很大的KeyValue，就有可能触发Promotion Failure模式Full GC。在实际线上环境中，很少出现Concurrent Failure模式的Full GC，大多数Full GC场景都是Promotion Failure。</p>
+<h3 id="CMS-GC调优"><a href="#CMS-GC调优" class="headerlink" title="CMS GC调优"></a>CMS GC调优</h3><pre><code>GC优化的思想：避免长时间Full GC 和 减少GC时间，这样可以避免影响用户的读写请求和提高读写性能。
+</code></pre><h3 id="CMS默认JVM参数"><a href="#CMS默认JVM参数" class="headerlink" title="CMS默认JVM参数"></a>CMS默认JVM参数</h3><pre><code>常见的JVM推荐配置参数模版:     
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Xmx -Xms -Xmn -Xss -XX:MaxPermSize= M -XX:SurvivorRatio=S  -XX:+UseConcMarkSweepGC -XX:+UseParNewGC  </span><br><span class="line">-XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=N -XX:+UseCMSCompactAtFullCollection  </span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=C -XX:-DisableExplicitGC</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Xmx	分配给JVM的最大堆内存</span><br><span class="line">Xms	分给给JVM的初始化内存，一般和Xmx设置相同</span><br><span class="line">Xmn	分配给Young区的内存大小，建议不要设置过大</span><br><span class="line">Xss	分配给每个线程的堆栈大小，建议设置1M左右。</span><br><span class="line">MaxPermSize	分配给持久代的内存大小</span><br><span class="line">SurvivorRatio	表示Young区中Eden区和Survivor区的内存大小比例，默认为8，该值设置对系统影响很大。</span><br><span class="line">UseConcMarkSweepGC	表示回收器使用CMS GC策略</span><br><span class="line">UseParNewGC	表示Young区采用并行回收机制，推荐使用</span><br><span class="line">CMSParallelRemarkEnabled	表示CMS的Remark阶段采用并行发誓，推荐使用</span><br><span class="line">MaxTenuringThreshold	表示Young区对象晋升到Tenured区的阀值，该值的设置对系统影响很大。</span><br><span class="line">UseCMSCompactAtFullCollection	表示每次执行完CMS GC之后执行一次碎片合并，推荐使用</span><br><span class="line">UseCMSInitiatingOccupancyOnly 	表示CMS GC只基于参数CMSInitiatingOccupancyFraction触发</span><br><span class="line">CMSInitiatingOccupancyFraction	表示当Tenured区内存使用量超过Tenured总大小的百分比超过该阀值之后会触发CMS GC，建议设置为70%~80%</span><br><span class="line">DisableExplicitGC	表示禁止使用命令System.gc(),该命令用于触发整个JVM的垃圾回收，禁用。</span><br></pre></td></tr></table></figure>
+<p>通过上文对各个GC参数的说明，可以轻松得出第一阶段推荐的参数设置如下，这样的设置基本适用于所有的场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection </span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75% -XX:-DisableExplicitGC</span><br></pre></td></tr></table></figure></p>
+<h3 id="CMS-GC-JVM参数调优"><a href="#CMS-GC-JVM参数调优" class="headerlink" title="CMS GC JVM参数调优"></a>CMS GC JVM参数调优</h3><p>主要的参数在于 Xmn(Young区的大小)、SurvivorRatio(Eden区和Survivor区内存大小比例)。</p>
+<h4 id="Xmn-Young区大小设置"><a href="#Xmn-Young区大小设置" class="headerlink" title="Xmn -Young区大小设置"></a>Xmn -Young区大小设置</h4><pre><code>JVM调优跟应用的内存对象类型紧密相关，需要区分应用的内存对象是短生命周期居多还是长生命周期居多。HBase应用分析,主要的内存对象有三类：RPC请求、Memstore对象、BlockCache对象。
+</code></pre><ol>
+<li><p>RPC请求对象:生命周期短，Request对象和Reponse对象在ms～s级别。   </p>
+</li>
+<li><p>Memstore对象:生命周期长，持续到整个Memstore flush到HDFS生成HFile。通常内存对象为2M。</p>
+</li>
+<li><p>BlockCache对象: 读缓存，生命周期长。   </p>
+</li>
+</ol>
+<p>   因此HBase应用是生命周期长的内存对象较多，GC时避免大对象进行GC，也就是减少老生代的GC次数。而 新生代的大小直接决定了老生代GC的速度。具体情况就是：<br>   Young区大小决定了minor gc的频率，minor gc频率决定了对象晋升老年代对象的速度(计数器到达即可),从而老年代GC的评率。</p>
+<ol>
+<li><p>Young区设置过大，则minor gc频率降低，单次gc时间会比较长从而stop-the-world时间较长，业务读写操作延迟大。 </p>
+</li>
+<li><p>Young区设置过小，则minor gc频率增大，晋升老年代对象的速度加快，增加了老年代GC的评率和风险。</p>
+<p>因此Young区大小设置要合理，在大内存场景RS配置64G内存时 Young区大小建议设置为1~3g：即<strong>-Xmn2g</strong>。</p>
+</li>
+</ol>
+<h4 id="SurvivorRatio-Eden区和Survivor区内存大小比例"><a href="#SurvivorRatio-Eden区和Survivor区内存大小比例" class="headerlink" title="SurvivorRatio(Eden区和Survivor区内存大小比例)"></a>SurvivorRatio(Eden区和Survivor区内存大小比例)</h4><p>  每次Minor GC都会将存活对象从Eden区复制到Survivor区，因此增大Survivor区可以容纳更多的存活对象。Survivor区的合理设置可以避免因为Survivor区太小导致存活对象没有达到MaxTenuringThreshold阀值就直接进入老生代，减少老生代GC的评率。但是如果设置过大会导致存活对象来回的在Young区进行复制，增加了Minor GC的开销。</p>
+<p>  <strong>SurvivorRatio</strong>越大，Survivor区大小越小，建议设置为2。即新生代中Eden区20%，S区80%。</p>
+<p>  <strong>MaxTenuringThreshold</strong>阀值不能设置过小，该值直接决定了新生代存活对象进入老生代的概率.默认设置为15即可。   </p>
+<h3 id="CMS-GC-调优结论"><a href="#CMS-GC-调优结论" class="headerlink" title="CMS GC 调优结论"></a>CMS GC 调优结论</h3><ol>
+<li>缓存模式采用BucketCache策略Offheap模式</li>
+<li>对于大内存（大于64G），采用如下配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Xmx64g -Xms64g -Xmn2g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC </span><br><span class="line">-XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection </span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75 -XX:-DisableExplicitGC</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中Xmn可以随着Java分配堆内存增大而适度增大，但是不能大于4g，取值范围在1~3g范围；<br>SurvivorRatio一般建议选择为2；MaxTenuringThreshold默认设置15即可；</p>
+<ol start="3">
+<li><p>对于小内存（小于64G），只需要将上述配置中Xmn改为512m-1g即可<br>不同于CMS等其他的分代回收算法、收集的范围都是整个新生代或者老年代，而G1不再是这样。<strong>G1将堆空间划分成了互相独立的heap区块（Region）。每块区域既有可能属于O区、也有可能是Y区，且每类区域空间可以是不连续的（对比CMS的O区和Y区都必须是连续的）。G1在全局标记阶段(global marking phase)并发执行, 以确定堆内存中哪些对象是存活的。标记阶段完成后,G1就可以知道哪些heap区的empty空间最大。它会首先回收这些区,通常会得到大量的自由空间. 这也是为什么这种垃圾收集方法叫做Garbage-First(垃圾优先)的原因</strong>。    </p>
+<p>现有参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-Xms64g </span><br><span class="line">-Xmx64g </span><br><span class="line">-XX:PermSize=256m </span><br><span class="line">-XX:MaxPermSize=256m </span><br><span class="line">-XX:+UseG1GC </span><br><span class="line">-server </span><br><span class="line">-XX:+DisableExplicitGC </span><br><span class="line">-XX:+UseFastAccessorMethods </span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=0 </span><br><span class="line">-XX:G1ReservePercent=15 </span><br><span class="line">-XX:InitiatingHeapOccupancyPercent=40 </span><br><span class="line">-XX:ConcGCThreads=18 </span><br><span class="line">-XX:+ParallelRefProcEnabled </span><br><span class="line">-XX:-ResizePLAB </span><br><span class="line">-XX:ParallelGCThreads=18</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>  优化<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-Xms64g </span><br><span class="line">-Xmx64g </span><br><span class="line">-XX:PermSize=256m </span><br><span class="line">-XX:MaxPermSize=256m </span><br><span class="line">-XX:+UseG1GC </span><br><span class="line">-server </span><br><span class="line">-XX:+DisableExplicitGC </span><br><span class="line">-XX:+UseFastAccessorMethods </span><br><span class="line">-XX:SoftRefLRUPolicyMSPerMB=0 </span><br><span class="line">-XX:G1ReservePercent=15 </span><br><span class="line">-XX:InitiatingHeapOccupancyPercent=50 </span><br><span class="line">-XX:ConcGCThreads=6 </span><br><span class="line">-XX:+ParallelRefProcEnabled </span><br><span class="line">-XX:-ResizePLAB </span><br><span class="line">-XX:ParallelGCThreads=18</span><br><span class="line">-XX:+UnlockExperimentalVMOptions</span><br><span class="line">-XX:MaxGCPauseMillis=90</span><br><span class="line">-XX:G1NewSizePercent=5</span><br><span class="line">-XX:MaxTenuringThreshold=1</span><br><span class="line">-XX:G1HeapRegionSize=32m</span><br></pre></td></tr></table></figure></p>
+<p>  参考：<br><a href="http://blog.csdn.net/u013980127/article/details/53913994">http://blog.csdn.net/u013980127/article/details/53913994</a><br><a href="http://blog.csdn.net/renfufei/article/details/41897113">http://blog.csdn.net/renfufei/article/details/41897113</a><br><a href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html">http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html</a><br><a href="http://www.oracle.com/technetwork/articles/java/g1gc-1984535.html">http://www.oracle.com/technetwork/articles/java/g1gc-1984535.html</a><br><a href="http://ifeve.com/深入理解g1垃圾收集器/">http://ifeve.com/深入理解g1垃圾收集器/</a><br><a href="https://blogs.apache.org/hbase/entry/tuning_g1gc_for_your_hbase">https://blogs.apache.org/hbase/entry/tuning_g1gc_for_your_hbase</a><br><a href="http://hbase-help.com/?/question/19">http://hbase-help.com/?/question/19</a><br><a href="http://www.cnblogs.com/ityouknow/p/5614961.html">http://www.cnblogs.com/ityouknow/p/5614961.html</a><br><a href="https://cantellow.iteye.com/blog/1472072">https://cantellow.iteye.com/blog/1472072</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hbase/" rel="tag"># hbase</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/20/HBase-HBCK/" rel="next" title="HBase HBCK">
+                <i class="fa fa-chevron-left"></i> HBase HBCK
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/20/BlockCache/" rel="prev" title="BlockCache">
+                BlockCache <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">248</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GC信息查看"><span class="nav-number">1.</span> <span class="nav-text">GC信息查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新生代GC策略-Parallel-New-Collector"><span class="nav-number">2.</span> <span class="nav-text">新生代GC策略-Parallel New Collector</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#老生代GC策略-Concurrent-Mark-Sweep"><span class="nav-number">3.</span> <span class="nav-text">老生代GC策略-Concurrent Mark-Sweep</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CMS算法缺点"><span class="nav-number">4.</span> <span class="nav-text">CMS算法缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Concurrent-Failure"><span class="nav-number">4.1.</span> <span class="nav-text">Concurrent Failure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promotion-Failure"><span class="nav-number">4.2.</span> <span class="nav-text">Promotion Failure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS-GC调优"><span class="nav-number">4.2.1.</span> <span class="nav-text">CMS GC调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS默认JVM参数"><span class="nav-number">4.2.2.</span> <span class="nav-text">CMS默认JVM参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS-GC-JVM参数调优"><span class="nav-number">4.2.3.</span> <span class="nav-text">CMS GC JVM参数调优</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xmn-Young区大小设置"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">Xmn -Young区大小设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SurvivorRatio-Eden区和Survivor区内存大小比例"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">SurvivorRatio(Eden区和Survivor区内存大小比例)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMS-GC-调优结论"><span class="nav-number">4.2.4.</span> <span class="nav-text">CMS GC 调优结论</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

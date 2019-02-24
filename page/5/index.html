@@ -157,7 +157,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -187,22 +187,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -271,12 +271,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Hbase写入逻辑/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/20/HBase运维要点/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Hbase写入逻辑/" itemprop="url">Hbase写入逻辑</a></h1>
+                <a class="post-title-link" href="/2019/02/20/HBase运维要点/" itemprop="url">HBase运维要点</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T10:42:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-20T10:59:00+08:00">
+                2019-02-20
               </time>
             
 
@@ -364,11 +364,11 @@
       
         
           
-          写入逻辑HBase仅仅支持行级别的事务一致性。本文主要探讨一下HBase的写请求流程。主要基于0.98.8版本号的实现Hbase的写逻辑涉及到写内存、写log、刷盘等操作从上图可以看出氛围3步骤：第1步：Client获取数据写入的Region所在的RegionServer第2步：请求写Hlog第3步
+          运维细节1.建表细节: 单列族、预分区、压缩、设置TTL2.flush和compaction操作是针对一个Region。所以当一个列族操作大量数据的时候会引发一个flush。那些不相关的列族也有进行flush操作，尽管他们没有操作多少数据。3.Compaction操作是根据一个列族下的全部文件的数量
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Hbase写入逻辑/#more" rel="contents">
+            <a class="btn" href="/2019/02/20/HBase运维要点/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,12 +419,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/hbase中的zookeeper/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/20/压缩-HBase配置snappy/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -438,7 +438,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/hbase中的zookeeper/" itemprop="url">hbase中的zookeeper</a></h1>
+                <a class="post-title-link" href="/2019/02/20/压缩-HBase配置snappy/" itemprop="url">压缩--HBase配置snappy</a></h1>
         
 
         <div class="post-meta">
@@ -450,8 +450,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T10:11:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-20T10:38:00+08:00">
+                2019-02-20
               </time>
             
 
@@ -512,14 +512,15 @@
       
         
           
-          ZooKeeper：协调者ZooKeeper为HBase集群提供协调服务
+          
+编译安装snappy
+12345git clone https://github.com/google/snappy.gityum install -y automake autoconf gcc-c++ cmake libedit./configuremakemake install
 
-它管理着HMaster和HRegionServer的状态(available/alive等)，并且会在它们宕机时通知给HMaster，从而HMaster可以实现HMaster之间的failover
-对宕机的HRegionSe
+编译安装
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/hbase中的zookeeper/#more" rel="contents">
+            <a class="btn" href="/2019/02/20/压缩-HBase配置snappy/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -570,12 +571,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Region寻址/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/netty/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -589,7 +590,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Region寻址/" itemprop="url">Region寻址</a></h1>
+                <a class="post-title-link" href="/2019/02/19/netty/" itemprop="url">netty</a></h1>
         
 
         <div class="post-meta">
@@ -601,8 +602,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T09:34:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T23:28:00+08:00">
+                2019-02-19
               </time>
             
 
@@ -624,8 +625,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/netty/" itemprop="url" rel="index">
+                    <span itemprop="name">netty</span>
                   </a>
                 </span>
 
@@ -663,11 +664,12 @@
       
         
           
-          老的Region寻址方式在Hbase 0.96版本以前，Hbase有两个特殊的表，分别是-ROOT-表和.META.表，其中-ROOT-的位置存储在ZooKeeper中，-ROOT-本身存储了 .META. Table的RegionInfo信息，并且-ROOT-不会分裂，只有一个region。而.M
+          Netty提供异步的、事件驱动的网络应用程序框架和工具，用以快速开发高性能、高可靠性的网络服务器和客户端程序    
+NIO模型同步非阻塞NIO有同步阻塞和同步非阻塞两种模式，一般讲的是同步非阻塞，服务器实现模式为一个请求一个线程，但客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Region寻址/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/netty/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -718,12 +720,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/Elasticsearch/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/I-O模型/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -737,7 +739,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/16/Elasticsearch/" itemprop="url">Elasticsearch</a></h1>
+                <a class="post-title-link" href="/2019/02/19/I-O模型/" itemprop="url">基本概念</a></h1>
         
 
         <div class="post-meta">
@@ -749,8 +751,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T12:41:00+08:00">
-                2017-02-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T23:21:00+08:00">
+                2019-02-19
               </time>
             
 
@@ -772,8 +774,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/elasticsearch/" itemprop="url" rel="index">
-                    <span itemprop="name">elasticsearch</span>
+                  <a href="/categories/netty/" itemprop="url" rel="index">
+                    <span itemprop="name">netty</span>
                   </a>
                 </span>
 
@@ -811,15 +813,13 @@
       
         
           
-          建立倒排索引
-
-标准化规则(normalization)并不会单纯直接建立的倒排索引，会使用到标准化规则(normalization)  
-dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、quick 不区分大小写问题jump和leap意思相近，只保留一个   
-分
+          同步就是如果有多个任务或者事件要发生，这些任务或者事件必须逐个地进行，一个事件或者任务的执行会导致整个流程的暂时等待，这些事件没有办法并发地执行。
+异步就是如果有多个任务或者事件发生，这些事件可以并发地执行，一个事件或者任务的执行不会导致整个流程的暂时等待
+重点：判断是同步还是异步，就看同时多个任务
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/16/Elasticsearch/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/I-O模型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -870,12 +870,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/KMP/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/hive的ACID/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -889,7 +889,7 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/14/KMP/" itemprop="url">KMP</a></h1>
+                <a class="post-title-link" href="/2019/02/19/hive的ACID/" itemprop="url">hive的ACID</a></h1>
         
 
         <div class="post-meta">
@@ -901,8 +901,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-14T18:15:00+08:00">
-                2017-02-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T18:09:00+08:00">
+                2019-02-19
               </time>
             
 
@@ -924,8 +924,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
                   </a>
                 </span>
 
@@ -963,11 +963,11 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
       
         
           
-          12345678910111213141516171819202122232425262728293031323334353637package bluebridgecup.array.kmp;public class Kmp &#123;    public static void main(St
+          Hive自0.14版本开始支持update和delete，要执行update和delete的表必须支持ACID。但缺省是不支持的，，需要一些附加的配置。如果一个表要实现update和delete功能，该表就必须支持ACID，而支持ACID，就必须满足以下条件：1、表的存储格式必须是ORC（STORE
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/14/KMP/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/hive的ACID/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1018,12 +1018,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/17/mysql千万级分页/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/spark-算子错误使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1037,7 +1037,7 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/02/17/mysql千万级分页/" itemprop="url">mysql千万级分页</a></h1>
+                <a class="post-title-link" href="/2019/02/19/spark-算子错误使用/" itemprop="url">spark 算子错误使用</a></h1>
         
 
         <div class="post-meta">
@@ -1049,8 +1049,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-17T14:46:00+08:00">
-                2016-02-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T15:58:00+08:00">
+                2019-02-19
               </time>
             
 
@@ -1072,8 +1072,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1111,12 +1111,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
       
         
           
-          Mysql数据库最简单，是利用mysql的LIMIT函数,LIMIT [offset,] rows从数据库表中M条记录(不包含m条)开始检索N条记录的语句为：1SELECT * FROM 表名称 LIMIT M,N
-其中limit为可选项，例如我们有个student表，我们选取前5条记录可以使用下面
+          cache本例中，首先计算出一个baseRDD，然后对其进行cache，后续启动三个子任务基于cache进行后续计算。
+对于5分钟小数据量，采用StorageLevel.MEMORY_ONLY，而对于大数据下我们直接采用了StorageLevel.DISK_ONLY。DISK_ONLY_2相较DIS
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/02/17/mysql千万级分页/#more" rel="contents">
+            <a class="btn" href="/2019/02/19/spark-算子错误使用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1167,12 +1167,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/14/面试题目/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/spark-gc优化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1186,7 +1186,7 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/02/14/面试题目/" itemprop="url">题目</a></h1>
+                <a class="post-title-link" href="/2019/02/19/spark-gc优化/" itemprop="url">spark优化</a></h1>
         
 
         <div class="post-meta">
@@ -1198,8 +1198,266 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-14T16:58:00+08:00">
-                2016-02-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T15:31:57+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          设置合适的资源参数spark程序跑在yarn集群上1234--queue：集群队列--num-executors：executor数量，默认2--executor-memory：executor内存，默认512M--executor-cores：每个executor的并发数，默认1
+executor
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/19/spark-gc优化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/18/hbase读代码分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/18/hbase读代码分析/" itemprop="url">hbase读流程代码分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-18T17:20:30+08:00">
+                2019-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          流程总览
+从zookeeper中获取meta信息，并通过meta信息找到需要查找的table的startkey所在的region信息
+
+和该region所在的regionserver进行rpc交互获取result
+
+region server查询memstore（memstore是是一个按key排序
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/18/hbase读代码分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/spark常规优化点/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/14/spark常规优化点/" itemprop="url">spark参数优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T14:47:00+08:00">
+                2019-02-14
               </time>
             
 
@@ -1221,8 +1479,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题目/" itemprop="url" rel="index">
-                    <span itemprop="name">面试题目</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1260,13 +1518,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
       
         
           
-          简答说一下hadoop的map-reduce编程模型首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合
-使用的是hadoop内置的数据类型，比如longwritable、text等
-将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在
+          spark集群优化
+数据本地性如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/02/14/面试题目/#more" rel="contents">
+            <a class="btn" href="/2019/02/14/spark常规优化点/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1317,12 +1574,12 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/mapreduce模型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/spark-jvm优化点/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1336,7 +1593,7 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/26/mapreduce模型/" itemprop="url">mapreduce模型</a></h1>
+                <a class="post-title-link" href="/2019/02/14/spark-jvm优化点/" itemprop="url">spark jvm优化</a></h1>
         
 
         <div class="post-meta">
@@ -1348,8 +1605,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T18:54:00+08:00">
-                2016-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T14:28:00+08:00">
+                2019-02-14
               </time>
             
 
@@ -1371,8 +1628,8 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1410,287 +1667,11 @@ dog、dogs   fox foxes单复数问题只保留一个，有共同词根Quick、qu
       
         
           
-          graph TD
-A[Map] -->|partition,kvBuffer,sort,spill与combiner,merge| B{Shuffle}
-B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
+          https://blog.csdn.net/kwu_ganymede/article/details/51299115关于JVM内存的深入知识在这里不赘述，请大家自行对相关知识进行补充。好，说回Spark，运行Spark作业的时候，JVM对会对Spark作业产生什么影响呢？答案很简单，如果数据量过大
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/01/26/mapreduce模型/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L897-IncreasingBST/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L897-IncreasingBST/" itemprop="url">L897_IncreasingBST</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970package LeetCode.to
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/01/26/L897-IncreasingBST/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/L965-IsUnivalTree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/26/L965-IsUnivalTree/" itemprop="url">L965_IsUnivalTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-26T01:28:00+08:00">
-                2016-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          12345678910111213141516171819202122232425package LeetCode.topic.tree;public class L965_IsUnivalTree &#123;    public boolean isUnivalTree(TreeNode roo
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/01/26/L965-IsUnivalTree/#more" rel="contents">
+            <a class="btn" href="/2019/02/14/spark-jvm优化点/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1732,7 +1713,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1767,9 +1748,9 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1778,9 +1759,9 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1791,7 +1772,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1802,7 +1783,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1843,7 +1824,7 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -1913,6 +1894,8 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
   
 
 
+  
+
 
 
 
@@ -1951,6 +1934,11 @@ B -->|copy,cache_sort_merge,spill,merge,file,GroupingComparator| C[reduce
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

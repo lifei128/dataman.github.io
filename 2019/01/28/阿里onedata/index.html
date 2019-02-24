@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据仓库,">
+  <meta name="keywords" content="dw,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="OneData体系分为：1、数据规范定义体系2、数据模型规范设计3、ETL规范研发以及支撑整个体系从方法到实施的工具体系。   落地实现数据规范定义将此前个性化的数据指标进行规范定义，抽象成：原子指标、时间周期、其他修饰词等三个要素。例如，以往业务方提出的需求是：最近7天的成交。而实际上，这个指标在规范定义中，应该结构化分解成为：    原子指标（支付订单金额 ）+修饰词-时间周期（最近7天）+修">
-<meta name="keywords" content="数据仓库">
+<meta name="keywords" content="dw">
 <meta property="og:type" content="article">
 <meta property="og:title" content="阿里onedata">
 <meta property="og:url" content="http://yoursite.com/2019/01/28/阿里onedata/index.html">
@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-11.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-12.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-13.png">
-<meta property="og:updated_time" content="2019-01-29T06:44:32.658Z">
+<meta property="og:updated_time" content="2019-02-24T09:32:22.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阿里onedata">
 <meta name="twitter:description" content="OneData体系分为：1、数据规范定义体系2、数据模型规范设计3、ETL规范研发以及支撑整个体系从方法到实施的工具体系。   落地实现数据规范定义将此前个性化的数据指标进行规范定义，抽象成：原子指标、时间周期、其他修饰词等三个要素。例如，以往业务方提出的需求是：最近7天的成交。而实际上，这个指标在规范定义中，应该结构化分解成为：    原子指标（支付订单金额 ）+修饰词-时间周期（最近7天）+修">
@@ -165,7 +165,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -195,22 +195,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -282,9 +282,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/阿里onedata/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -331,8 +331,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据仓库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据仓库</span>
+                  <a href="/categories/dw/" itemprop="url" rel="index">
+                    <span itemprop="name">dw</span>
                   </a>
                 </span>
 
@@ -374,12 +374,12 @@
 <blockquote>
 <p>上文只有抽象指标的方法，应该还包括字段规范，表名规范<br>派生指标的定义也很重要，因为数据运营人员经常会查最近7，最近一月的指标，每次都从基础事实表中，查询的量会很大。</p>
 </blockquote>
-<h1 id="数据模型架构"><a href="#数据模型架构" class="headerlink" title="数据模型架构"></a>数据模型架构</h1><blockquote>
-<p>理解为数据仓库的分层设计</p>
+<h2 id="数据模型架构"><a href="#数据模型架构" class="headerlink" title="数据模型架构"></a>数据模型架构</h2><blockquote>
+<p>理解为dw的分层设计</p>
 </blockquote>
 <p>将数据分为ODS（操作数据）层、CDM（公共维度模型）层、ADS（应用数据）层。  </p>
 <p>其中：<br>ODS层主要功能  </p>
-<p>这里先介绍一下阿里云数加大数据计算服务MaxCompute，是一种快速、完全托管的TB/PB级数据仓库解决方案，适用于多种数据处理场景，如日志分析，数据仓库，机器学习，个性化推荐和生物信息等。  </p>
+<p>这里先介绍一下阿里云数加大数据计算服务MaxCompute，是一种快速、完全托管的TB/PB级dw解决方案，适用于多种数据处理场景，如日志分析，dw，机器学习，个性化推荐和生物信息等。  </p>
 <p>同步：结构化数据增量或全量同步到数加MaxCompute（原ODPS）；<br>结构化：非结构化(日志)结构化处理并存储到MaxCompute（原ODPS）；<br>累积历史、清洗：根据数据业务需求及稽核和审计要求保存历史数据、数据清洗；  </p>
 <p>CDM层主要功能  </p>
 <p>CDM层又细分为DWD层和DWS层，分别是明细宽表层和公共汇总数据层，采取维度模型方法基础，<strong>更多采用一些维度退化手法</strong>，减少事实表和维度表的关联，容易维度到事实表强化明细事实表的易用性；同时在汇总数据层，<strong>加强指标的维度退化</strong>，采取更多宽表化的手段构建公共指标数据层，提升公共指标的复用性，减少重复的加工。<br><img src="/images/pasted-12.png" alt="upload successful"><br>ADS层主要功能  </p>
@@ -387,7 +387,7 @@
 <p>其模型架构图如上图，阿里通过构建全域的公共层数据，极大的控制了数据规模的增长趋势，同时在整体的数据研发效率，成本节约、性能改进方面都有不错的结果。    </p>
 <h2 id="研发流程和工具落地实现"><a href="#研发流程和工具落地实现" class="headerlink" title="研发流程和工具落地实现"></a>研发流程和工具落地实现</h2><p>将OneData体系贯穿于整个研发流程的每个环节中，并通过研发工具来进行保障。</p>
 <p><img src="/images/pasted-13.png" alt="upload successful"></p>
-<h1 id="实施效果"><a href="#实施效果" class="headerlink" title="实施效果"></a>实施效果</h1><p>1、数据标准统一：数据指标口径一致，各种场景下看到的数据一致性得到保障<br>2、支撑多个业务，极大扩展性：服务了集团内部45个BU的业务，满足不同业务的个性化需求<br>3、统一数据服务：建立了统一的数据服务层，其中离线数据日均调用次数超过22亿；实时数据调用日均超过11亿<br>4、计算、存储成本：指标口径复用性强，将原本30000多个指标精简到3000个；模型分层、粒度清晰，数据表从之前的25000张精简到不超过3000张。<br>5、研发成本：通过数据分域、模型分层，强调工程师之间的分工和协作，不再需要从头到尾每个细节都了解一遍，节省了工程师的时间和精力。<br>参考：<br><a href="https://yq.aliyun.com/articles/67011">https://yq.aliyun.com/articles/67011</a>   </p>
+<h2 id="实施效果"><a href="#实施效果" class="headerlink" title="实施效果"></a>实施效果</h2><p>1、数据标准统一：数据指标口径一致，各种场景下看到的数据一致性得到保障<br>2、支撑多个业务，极大扩展性：服务了集团内部45个BU的业务，满足不同业务的个性化需求<br>3、统一数据服务：建立了统一的数据服务层，其中离线数据日均调用次数超过22亿；实时数据调用日均超过11亿<br>4、计算、存储成本：指标口径复用性强，将原本30000多个指标精简到3000个；模型分层、粒度清晰，数据表从之前的25000张精简到不超过3000张。<br>5、研发成本：通过数据分域、模型分层，强调工程师之间的分工和协作，不再需要从头到尾每个细节都了解一遍，节省了工程师的时间和精力。<br>参考：<br><a href="https://yq.aliyun.com/articles/67011">https://yq.aliyun.com/articles/67011</a>   </p>
 <p>明细宽表层-面向业务建模过程：<br>    &emsp;&emsp;事务型事实宽表，周期性快照事实宽表，累计快照事实宽表<br>公共汇总款表层-面向分析主题建模:<br>    &emsp;&emsp;流量，订单，商品，用户  </p>
 <p>上面两层都是基于公共维度表的基础上  </p>
 <hr>
@@ -409,7 +409,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据仓库/" rel="tag"># 数据仓库</a>
+            <a href="/tags/dw/" rel="tag"># dw</a>
           
         </div>
       
@@ -422,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/28/hive使用和优化/" rel="next" title="hive使用和优化">
-                <i class="fa fa-chevron-left"></i> hive使用和优化
+              <a href="/2019/01/28/hiveserver2/" rel="next" title="hiveserver2 jdbc">
+                <i class="fa fa-chevron-left"></i> hiveserver2 jdbc
               </a>
             
           </div>
@@ -505,9 +505,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -516,9 +516,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -529,7 +529,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -540,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -573,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#落地实现"><span class="nav-number">1.</span> <span class="nav-text">落地实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据规范定义"><span class="nav-number">1.1.</span> <span class="nav-text">数据规范定义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据模型架构"><span class="nav-number">2.</span> <span class="nav-text">数据模型架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#研发流程和工具落地实现"><span class="nav-number">2.1.</span> <span class="nav-text">研发流程和工具落地实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实施效果"><span class="nav-number">3.</span> <span class="nav-text">实施效果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#落地实现"><span class="nav-number">1.</span> <span class="nav-text">落地实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据规范定义"><span class="nav-number">1.1.</span> <span class="nav-text">数据规范定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型架构"><span class="nav-number">1.2.</span> <span class="nav-text">数据模型架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#研发流程和工具落地实现"><span class="nav-number">1.3.</span> <span class="nav-text">研发流程和工具落地实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实施效果"><span class="nav-number">1.4.</span> <span class="nav-text">实施效果</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -597,7 +597,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -667,6 +667,8 @@
   
 
 
+  
+
 
 
 
@@ -705,6 +707,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

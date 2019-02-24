@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-36.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-37.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
-<meta property="og:updated_time" content="2019-01-29T06:28:22.445Z">
+<meta property="og:updated_time" content="2019-02-23T14:45:50.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="join倾斜">
 <meta name="twitter:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
@@ -165,7 +165,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -195,22 +195,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -282,9 +282,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/25/hive-join倾斜/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -377,11 +377,37 @@
 <p>这个时候，我们在执行的时候，就由这个Conditional Task 进行实时路径选择，遇到小于25兆走左边，大于25兆走右边。所谓，男的走左边，女的走右边，人妖走中间。   </p>
 <p>在比较新版的Hive中，Auto Mapjoin是默认开启的。如果没有开启，可以使用一个开关， set hive.auto.convert.join=true 开启。<br>当然，Join也会遇到和上面的Group By一样的倾斜问题。   </p>
 <p>Ｈive 也可以通过像Group By一样两道作业的模式单独处理一行或者多行倾斜的数据。即采用下面的方式。</p>
-<h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br>set hive.optimize.skewjoin = true;<br>set hive.skewjoin.key = skew_key_threshold （default = 100000）<br>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
-<p>其原理是就在Reduce Join过程，把超过十万条的倾斜键的行写到文件里，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
+<h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set hive.optimize.skewjoin = true; </span><br><span class="line">set hive.skewjoin.key = skew_key_threshold （default = 100000）</span><br></pre></td></tr></table></figure></p>
+<p>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
+<p>其原理是就在Reduce Join过程，把<strong>超过十万条的倾斜键的行写到文件里</strong>，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
 <p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
-<h1 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h1><p>如果A表关联B表在某个key上倾斜，B是码表，那么可以将B表放大1000倍，然后对A表的key字段加上一个1000以内hash后缀，然后和放大后的b表关联，可以解决问题。</p>
-<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a></p>
+<h1 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h1><ol>
+<li>null或者某个无效字符太多导致数据倾斜。<br>null=null结果是null，即false，在join时关联不上，join之前去掉不影响结果；<br>‘’关联得上，但是不需要时产生不必要的脏数据，可以在join之前把key为null/‘’的值去掉。<br>因为null关联不上如果null有用不能去掉，可以用下面两种方法。<br>办法（1）用union all   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Select * From log a </span><br><span class="line">　　　Join users b </span><br><span class="line">  On a.user_id is not null And a.user_id = b.user_id</span><br><span class="line">　 Union all </span><br><span class="line">Select * from log a　where a.user_id is null;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>办法（2）赋予null值新的随机值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Select * </span><br><span class="line">  from log a </span><br><span class="line">　　 left Join </span><br><span class="line">   bmw_users b </span><br><span class="line"> on case when a.user_id is null then concat(&apos;dp_hive&apos;,rand()) </span><br><span class="line">　　   else a.user_id end = b.user_id;</span><br></pre></td></tr></table></figure></p>
+<p>方法1的log读取两次，jobs是2。方法2的job数是1。这个优化适合无效id(比如-99,’’,null等)产生的倾斜问题。<br>把空值的key变成一个字符串加上随机数，就能把倾斜的数据分到不同的reduce上 ,解决数据倾斜问题。    </p>
+<ol start="2">
+<li><p>不同数据类型关联也会产生数据倾斜。<br>场景：一张表s8的日志，每个商品一条记录，要和商品表关联。但关联却碰到倾斜的问题，s8的日志中有字符串商品id,也有数字的商品id,类型是string的，但商品中的数字id是bigint的。<br>问题原因：把s8的商品id转成数字id做hash来分配reduce，所以字符串id的s8日志，都到一个reduce上了，解决的方法验证了这个猜测。<br>解决方法：把数字类型转换成字符串类型    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Select * from s8_log a</span><br><span class="line">　Left outer join r_auction_auctions b</span><br><span class="line">　　On a.auction_id = cast(b.auction_id as string);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大表Join的数据偏斜<br>MapReduce编程模型下开发代码需要考虑数据偏斜的问题，Hive代码也是一样。数据偏斜的原因包括以下两点：<br>　　1. Map输出key数量极少，导致reduce端退化为单机作业。<br>　　2. Map输出key分布不均，少量key对应大量value，导致reduce端单机瓶颈。<br>Hive中我们使用MapJoin解决数据偏斜的问题，即将其中的某个小表（全量）分发到所有Map端的内存进行Join，从而避免了reduce。这要求分发的表可以被全量载入内存。<br>极限情况下，Join两边的表都是大表，就无法使用MapJoin。这种问题最为棘手，目前已知的解决思路有两种：</p>
+<ol>
+<li><p>如果是上述情况1，考虑先对Join中的一个表去重，以此结果过滤无用信息。<br>这样一般会将其中一个大表转化为小表，再使用MapJoin 。一个实例是广告投放效果分析，<br>　　  例如将广告投放者信息表i中的信息填充到广告曝光日志表w中，使用投放者id关联。因为实际广告投放者数量很少（但是投放者信息表i很大），因此可以考虑先在w表中去重查询所有实际广告投放者id列表，以此Join过滤表i，<strong>这一结果必然是一个小表，就可以使用MapJoin</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  select /*+mapjoin(x)*/* from log a left outer join (</span><br><span class="line">　　select /*+mapjoin(c)*/d.*</span><br><span class="line">　　from ( select distinct user_id from log ) c</span><br><span class="line">　　join users d on c.user_id = d.user_id</span><br><span class="line">) x on a.user_id = b.user_id;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是上述情况2，考虑切分Join中的一个表为多片，以便将切片全部载入内存，然后采用多次MapJoin得到结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select * from  </span><br><span class="line">(  </span><br><span class="line">select w.id, w.time, w.amount, i1.name, i1.loc, i1.cat  </span><br><span class="line">from w left outer join i sampletable(1 out of 2 on id) i1  </span><br><span class="line">)  </span><br><span class="line">union all  </span><br><span class="line">(  </span><br><span class="line">select w.id, w.time, w.amount, i2.name, i2.loc, i2.cat  </span><br><span class="line">from w left outer join i sampletable(1 out of 2 on id) i2  </span><br><span class="line">)  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<p>以下语句实现了left outer join逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select t1.id, t1.time, t1.amount,  </span><br><span class="line">    coalease(t1.name, t2.name),   </span><br><span class="line">    coalease(t1.loc, t2.loc),   </span><br><span class="line">    coalease(t1.cat, t2.cat)   </span><br><span class="line">from (    </span><br><span class="line">    select w.id, w.time, w.amount, i1.name, i1.loc, i1.cat   </span><br><span class="line">    from w left outer join i sampletable(1 out of 2 on id) i1   </span><br><span class="line">) t1 left outer join i sampletable(2 out of 2 on id) t2;</span><br></pre></td></tr></table></figure></p>
+<p>上述语句使用Hive的sample table特性对表做切分。   </p>
+<ol start="4">
+<li>如果A表关联B表在某个key上倾斜，B是码表，那么可以将B表放大1000倍，然后对A表的key字段加上一个1000以内hash后缀，然后和放大后的b表关联，可以解决问题。</li>
+</ol>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a><br><a href="https://www.cnblogs.com/skyl/p/4855099.html">https://www.cnblogs.com/skyl/p/4855099.html</a><br><a href="https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization">https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization</a> </p>
 
       
     </div>
@@ -495,9 +521,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -506,9 +532,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -519,7 +545,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -530,7 +556,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -587,7 +613,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -657,6 +683,8 @@
   
 
 
+  
+
 
 
 
@@ -695,6 +723,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

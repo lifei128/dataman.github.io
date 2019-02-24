@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="面试题目,">
+  <meta name="keywords" content="题目,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="简答说一下hadoop的map-reduce编程模型首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合 使用的是hadoop内置的数据类型，比如longwritable、text等 将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在输出 之后会进行一个partition分区操作，默认使用的是hashpartitioner，可以通过">
-<meta name="keywords" content="面试题目">
+<meta name="keywords" content="题目">
 <meta property="og:type" content="article">
 <meta property="og:title" content="题目">
 <meta property="og:url" content="http://yoursite.com/2016/02/14/面试题目/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="简答说一下hadoop的map-reduce编程模型首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合 使用的是hadoop内置的数据类型，比如longwritable、text等 将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在输出 之后会进行一个partition分区操作，默认使用的是hashpartitioner，可以通过">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-18T13:34:05.598Z">
+<meta property="og:updated_time" content="2019-02-24T09:32:22.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="题目">
 <meta name="twitter:description" content="简答说一下hadoop的map-reduce编程模型首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合 使用的是hadoop内置的数据类型，比如longwritable、text等 将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在输出 之后会进行一个partition分区操作，默认使用的是hashpartitioner，可以通过">
@@ -161,7 +161,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -191,22 +191,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -278,9 +278,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/14/面试题目/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -327,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题目/" itemprop="url" rel="index">
-                    <span itemprop="name">面试题目</span>
+                  <a href="/categories/题目/" itemprop="url" rel="index">
+                    <span itemprop="name">题目</span>
                   </a>
                 </span>
 
@@ -382,7 +382,7 @@
 <p>文件都是存储在datanode上面的，namenode记录着datanode的元数据信息，而namenode的元数据信息是存在内存中的，所以当文件切片很小或者很多的时候会卡死</p>
 <h1 id="简单说一下hadoop和spark的shuffle过程"><a href="#简单说一下hadoop和spark的shuffle过程" class="headerlink" title="简单说一下hadoop和spark的shuffle过程"></a>简单说一下hadoop和spark的shuffle过程</h1><p>hadoop：map端保存分片数据，通过网络收集到reduce端<br>spark：spark的shuffle是在DAGSchedular划分Stage的时候产生的，TaskSchedule要分发Stage到各个worker的executor  </p>
 <p>减少shuffle可以提高性能  </p>
-<h1 id="Hive中存放是什么？"><a href="#Hive中存放是什么？" class="headerlink" title="Hive中存放是什么？"></a>Hive中存放是什么？</h1><p>表。<br>存的是和hdfs的映射关系，hive是逻辑上的数据仓库，实际操作的都是hdfs上的文件，HQL就是用sql语法来写的mr程序。 </p>
+<h1 id="Hive中存放是什么？"><a href="#Hive中存放是什么？" class="headerlink" title="Hive中存放是什么？"></a>Hive中存放是什么？</h1><p>表。<br>存的是和hdfs的映射关系，hive是逻辑上的dw，实际操作的都是hdfs上的文件，HQL就是用sql语法来写的mr程序。 </p>
 <h1 id="Flume工作机制是什么？"><a href="#Flume工作机制是什么？" class="headerlink" title="Flume工作机制是什么？"></a>Flume工作机制是什么？</h1><p>核心概念是agent，里面包括source、chanel和sink三个组件。<br>source运行在日志收集节点进行日志采集，之后临时存储在chanel中，sink负责将chanel中的数据发送到目的地。<br>只有成功发送之后chanel中的数据才会被删除。<br>首先书写flume配置文件，定义agent、source、chanel和sink然后将其组装，执行flume-ng命令。  </p>
 <h1 id="Sqoop工作原理是什么？"><a href="#Sqoop工作原理是什么？" class="headerlink" title="Sqoop工作原理是什么？"></a>Sqoop工作原理是什么？</h1><p>hadoop生态圈上的数据传输工具。<br>可以将关系型数据库的数据导入非结构化的hdfs、hive或者bbase中，也可以将hdfs中的数据导出到关系型数据库或者文本文件中。<br>使用的是mr程序来执行任务，使用jdbc和关系型数据库进行交互。<br>import原理：通过指定的分隔符进行数据切分，将分片传入各个map中，在map任务中在每行数据进行写入处理没有reduce。<br>export原理：根据要操作的表名生成一个java类，并读取其元数据信息和分隔符对非结构化的数据进行匹配，多个map作业同时执行写入关系型数据库</p>
 <h1 id="Hbase行健列族的概念，物理模型，表的设计原则？"><a href="#Hbase行健列族的概念，物理模型，表的设计原则？" class="headerlink" title="Hbase行健列族的概念，物理模型，表的设计原则？"></a>Hbase行健列族的概念，物理模型，表的设计原则？</h1><p>行健：是hbase表自带的，每个行健对应一条数据。<br>列族：是创建表时指定的，为列的集合，每个列族作为一个文件单独存储，存储的数据都是字节数组，其中的数据可以有很多，通过时间戳来区分。<br>物理模型：整个hbase表会拆分为多个region，每个region记录着行健的起始点保存在不同的节点上，查询时就是对各个节点的并行查询，当region很大时使用.META表存储各个region的起始点，-ROOT又可以存储.META的起始点。<br>rowkey的设计原则：各个列簇数据平衡，长度原则、相邻原则，创建表的时候设置表放入regionserver缓存中，避免自动增长和时间，使用字节数组代替string，最大长度64kb，最好16字节以内，按天分表，两个字节散列，四个字节存储时分毫秒。<br>列族的设计原则：尽可能少（按照列族进行存储，按照region进行读取，不必要的io操作），经常和不经常使用的两类数据放入不同列族中，列族名字尽可能短。   </p>
@@ -416,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/面试题目/" rel="tag"># 面试题目</a>
+            <a href="/tags/题目/" rel="tag"># 题目</a>
           
         </div>
       
@@ -512,9 +512,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -523,9 +523,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -536,7 +536,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,7 +547,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -604,7 +604,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -674,6 +674,8 @@
   
 
 
+  
+
 
 
 
@@ -712,6 +714,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

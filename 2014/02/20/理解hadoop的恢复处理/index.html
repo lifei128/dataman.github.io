@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hadoop,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文链接：http://blog.cloudera.com/blog/2015/02/understanding-hdfs-recovery-processes-part-1/ 理解HDFS的恢复机制对使用hadoop的非常有帮助！   HDFS中一个重要的设计原则就是保证生产环境下能够持续正确的执行一些操作，一个重要的点就是保证HDFS在不稳定和网络下，或者节点失败的情况下也能正确写入。HDFS">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解hadoop的恢复处理">
+<meta property="og:url" content="http://yoursite.com/2014/02/20/理解hadoop的恢复处理/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="原文链接：http://blog.cloudera.com/blog/2015/02/understanding-hdfs-recovery-processes-part-1/ 理解HDFS的恢复机制对使用hadoop的非常有帮助！   HDFS中一个重要的设计原则就是保证生产环境下能够持续正确的执行一些操作，一个重要的点就是保证HDFS在不稳定和网络下，或者节点失败的情况下也能正确写入。HDFS">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-226.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-227.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-228.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-229.png">
+<meta property="og:updated_time" content="2019-02-23T12:45:46.347Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解hadoop的恢复处理">
+<meta name="twitter:description" content="原文链接：http://blog.cloudera.com/blog/2015/02/understanding-hdfs-recovery-processes-part-1/ 理解HDFS的恢复机制对使用hadoop的非常有帮助！   HDFS中一个重要的设计原则就是保证生产环境下能够持续正确的执行一些操作，一个重要的点就是保证HDFS在不稳定和网络下，或者节点失败的情况下也能正确写入。HDFS">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-226.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2014/02/20/理解hadoop的恢复处理/">
+
+
+
+
+
+  <title>理解hadoop的恢复处理 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/02/20/理解hadoop的恢复处理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解hadoop的恢复处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-20T17:12:00+08:00">
+                2014-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接：<a href="http://blog.cloudera.com/blog/2015/02/understanding-hdfs-recovery-processes-part-1/">http://blog.cloudera.com/blog/2015/02/understanding-hdfs-recovery-processes-part-1/</a></p>
+<h1 id="理解HDFS的恢复机制对使用hadoop的非常有帮助！"><a href="#理解HDFS的恢复机制对使用hadoop的非常有帮助！" class="headerlink" title="理解HDFS的恢复机制对使用hadoop的非常有帮助！"></a>理解HDFS的恢复机制对使用hadoop的非常有帮助！</h1><p>   HDFS中一个重要的设计原则就是保证生产环境下能够持续正确的执行一些操作，一个重要的点就是保证HDFS在不稳定和网络下，或者节点失败的情况下也能正确写入。HDFS有lease recovery，block recovery，pipeline recovery这几种恢复机制，理解什么情况下将会调用哪种恢复机制也能够帮我们更好的理解我们的集群的工作情况。</p>
+<p>   本文将带你深入了解恢复机制。首先简单介绍HDFS的write pipr和恢复处理，解释两个重要概念：block/replica stats和generation stamps，然后逐步介绍恢复过程，最后我们总结一些相关的问题。</p>
+<p>   本文分两部分：part1将会详细介绍lease recovery和block recovery，part2将介绍pipeline recovery。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>   在HDFS中，文件是切分为一块一块的，多个reader来读文件，一个writer写文件。为了满足数据容错，不同的datanode上会保留文件的备份，备份数量被称为：replication factor。当新的文件块创建，或者要对一个已经存在的文件进行追加时，HDFS会创建一个写管道，管道里面就是存放数据和备份的datanode。如下图写过程：<br><img src="/images/pasted-226.png" alt="upload successful"><br>对于读操作，客户端选择含有数据的其中一个datanode，然后发送请求。  </p>
+<h1 id="下面是两个特别需要容错的场景："><a href="#下面是两个特别需要容错的场景：" class="headerlink" title="下面是两个特别需要容错的场景："></a>下面是两个特别需要容错的场景：</h1><ol>
+<li><p>hbase用WAL机制来保证数据安全，WAL是是存放在HDFS上的文件，如果regionserver挂了，就指望WAL来恢复数据了，所以一定要保证写pipeline的正确性。</p>
+</li>
+<li><p>当一个Flume客户端流式的写入HDFS中时，即使一些datanode挂了，也必须要保证写连续。</p>
+</li>
+</ol>
+<p>既然有了这些需求，下面就该隆重介绍 lease recovery，block recovery，pipeline recovery这三个的作用了。</p>
+<ol>
+<li><p>在client往HDFS中写数据之前，它必须获取一个租约，我们可以理解是一把锁，这样就保证了单点写。这个租约要在预定的时间段内刷新，否则就会超时，HDFS认为这个写操作超时，这时HDFS将会关闭这个文件，释放这个租约，以方便其他client写文件。这个过程叫做lease recovery。</p>
+</li>
+<li><p>如果正在写入的文件块还没有在所有的datanode中同步时，如果这时候发生lease recovery，那这几个datanode中这个数据块的数据就会不一致，因此在lease recovery关闭这个文件块之前，有必要同步一下各个datanode之间的数据。这个过程叫做block recovery。它只会被lease recovery触发，并且只有不是COMPLETE状态的文件块才会被lease recovery触发block recovery。</p>
+</li>
+<li><p>在管道写的时候，假如一些datanode挂掉了，这时候HDFS并不会就直接停止写操作，它会试图恢复错误，来保证继续写文件，这个过程叫pipeline recovery。</p>
+<h1 id="下面我们详细解释一下："><a href="#下面我们详细解释一下：" class="headerlink" title="下面我们详细解释一下："></a>下面我们详细解释一下：</h1><p>为了区分namenode上下文中的block和datanode中的blocks，这里我们指定前者为blocks，后者为replicas。</p>
+</li>
+</ol>
+<p>在datanode的上下文中，一个replica的状态有以下几种（可以在org.apache.hadoop.hdfs.server.common.HdfsServerConstats.java这个类中找到ReplicaState枚举类）：</p>
+<ol>
+<li><p>FNALIZED：当replica是这个状态时，表明数据已经写完了，这个replica将不会再发生变化，除非这个replica再次因为追加数据被打开。一个block中的所有Finalized的replica都有一个仙童的generation stamp（GS），GS也有可能因为一次recovery而变大。</p>
+</li>
+<li><p>RBW（replica being written）：表明一个replica正在被写入，一般处于RBW的replica都是文件的最后面的block。RBW的replica的数据对cilent是可见的，如果期间发生错误，HDFS将会尝试保护这些没有Finalized的数据。</p>
+</li>
+<li><p>RWR（replica waiting to be recovered）:如果datanode挂了并且重启了，它所有的RBW的replica将会变成RWR状态，RWR状态下的replica要么因为过时被丢弃，要么参与lease recovery（这里是什么意思）。</p>
+</li>
+<li><p>RUR（replica under recovery）：一个non-TEMPRORARY的replica将会变成RUR状态，当它参与lease recovery的时候。</p>
+</li>
+<li><p>TEMPORARY：为了block replica而临时创建的replica。它和RBW replica很类似，只不过它的数据对client是不可见的。如果replication失败，它将会被删除。</p>
+</li>
+</ol>
+<p>namenode中的block可能有下面集中状态（可以在org.apache.hadoop.hdfs.server.common.HdfsServerConstats.java这个类中找到BlockUCState枚举类）：   </p>
+<ol>
+<li><p>UNDER_CONSTRUCTION:这个状态发生在正在写入时，UNDER_CONSTRUCTION通常是一个打开的文件的最后一个block，它的茶馆难度和genaration stamp都是可变的，数据对用户也是可见的，这个UNDER_CONSTRUCTION block是namenode是用来追踪写管道，和定位RWR replicas的位置。</p>
+</li>
+<li><p>UNDER_RECOVERY:如果处于UNDER_CONSTRUCTION的block发生了lease expire，它将变成UNDER_RECOVERY。</p>
+</li>
+<li><p>COMMITED：这个状态表示block的数据和GS不再改变，但是（还是贴原文吧，这句翻译不好，and there are fewer than the minimal-replication number of DataNodes that have reported FINALIZED replicas of same GS/length，大概意思是：已经FINALIZED的replicas比datanode最小的复制数要少，），这时候为了安全提供读服务，COMMITTEDblock必须追踪RBW replicas的位置，GS，和FINALIZED replicas的数量。当client要求namenode添加一个新的文件block，或者关闭一个文件时，UNDER_CONSTRUCTION block将会变成COMITTED状态。但是如果（这个文件）之前的blocks是COMMITED状态时，文件不能被关闭，client必须部队重试。</p>
+</li>
+<li><p>COMPLETE：当namenode看到FINALIZED的replica的最小数量和GS/length（疑问）匹配时，对应的COMMITTED block变成COMPLETE状态。只有当文件所有的block都是COMPLETED状态时才可以被关闭。有时block也有可能被强制变成COMPLETE状态，即使replicas的数量并没有满足最低要求，例如：当client要求一个新的block，并且周期i安的block还没有COMPLETE。</p>
+</li>
+</ol>
+<p>datanode持久化replicas的状态到硬盘上，但是namenode并不持久化block的状态，当namenode重启时，它将任何之前打开的文件的最后block变成UNDER_CONSTRUCTION状态，其他的block变成COMPLETE状态。</p>
+<h1 id="下面是replica和block的状态转换图："><a href="#下面是replica和block的状态转换图：" class="headerlink" title="下面是replica和block的状态转换图："></a>下面是replica和block的状态转换图：</h1><h2 id="replica："><a href="#replica：" class="headerlink" title="replica："></a>replica：</h2><p><img src="/images/pasted-227.png" alt="upload successful"></p>
+<h2 id="block："><a href="#block：" class="headerlink" title="block："></a>block：</h2><p><img src="/images/pasted-228.png" alt="upload successful"></p>
+<h2 id="generation-stamp"><a href="#generation-stamp" class="headerlink" title="generation stamp"></a>generation stamp</h2><p>GS是一个单调递增的8byte的数字，namenode傻姑娘的每一个block都各自维护一个。GS为了以下目的设计（参考链接：HDFS Append and Truncates ）：</p>
+<ol>
+<li><p>发现block中陈旧的replicas：意思是，replica的GS比block的GS要older，例如当一个append操作不知怎么的跳过了replica。</p>
+</li>
+<li><p>发现datanode上过期时间很长的replica，并且重新加入集群。</p>
+</li>
+</ol>
+<p>下面情况发生时会产生新的GS：</p>
+<ol>
+<li><p>创建一个新文件</p>
+</li>
+<li><p>client打开一个存在的文件，为了追加或者删除。</p>
+</li>
+<li><p>当在写数据到datanode上时发生了错误。</p>
+</li>
+<li><p>namenode为一个文件初始化一个lease recovery</p>
+<h2 id="lease-recovery和block-recovery"><a href="#lease-recovery和block-recovery" class="headerlink" title="lease recovery和block recovery"></a>lease recovery和block recovery</h2><h3 id="lease-Manager"><a href="#lease-Manager" class="headerlink" title="lease Manager"></a>lease Manager</h3><p>租约是namenode上的租约管理器来管理，namenode追踪每一个被client打开写的文件。client不会单独为每一个它所打开的文件刷新租约，它是每隔一段时间发送一个请求来刷新所有的租约。（org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos.RenewLeaseResponseProto类，HDFS client和namenode的RPC协议）</p>
+<p>每一个namenode管理一个HDFS namespaces,每个namespaces通过一个lease 管理器来管理所有的文件。（Federater  HDFS集群可能有多个namespaces。）</p>
+<p>lease管理器维护一个软限制（1分钟）和一个硬限制（1小时）超时时间，在软限制没有过期之前，client拥有对文件的排它写权限，，如果软限制超时，或者文件被关闭，另一个client可以强制领走该文件的租约。如果硬限制超时，HDFS就会认为client已经退出，并且关闭该client在该文件上的所有行为，并且开始恢复租约。</p>
+<p>如果一个client已经获取了一个文件的租约，但这并不影响其他client读这个文件，一个client可以对文件写的时候，同时可以有多个client对文件读。</p>
+<p>lease管理器内部支持的操作有;</p>
+<p>1.为一个client和路径添加租约（如果client已经拥有了租约，它添加路径到这个租约，否则它将会创建一个新的租约，并且绑定路径）</p>
+<p>2.移除租约和路径（如果这是租约中的最后一个路径，那么租约也一起移除）</p>
+<p>3.检查是否有软限制或者硬限制超时</p>
+<p>4.刷新client的租约</p>
+<p>lease 管理器每隔2妙会进行一次检查，看是否硬限制超时，如果发现有，它将会触发这个租约上的所有文件的lease recovery。</p>
+<p>HDFS client通过org.apache.hadoop.hdfs.LeaseRenewer.LeaseRenewer类来刷新租约，这个类包含了一个用户列表，并且client为每个namenode上的每个用户运行一个线程。这线程定时检查namenode并刷新租约，当lease period过半的时候。</p>
+</li>
+</ol>
+<p>（注意：一个HDFS client只链接一个namenode）</p>
+<h3 id="lease-recovery-process"><a href="#lease-recovery-process" class="headerlink" title="lease recovery process"></a>lease recovery process</h3><p> 有2种情况会触发namenode对一个client进行lease recovery：1.监控线程发现硬限制超时，2.当软限制发生时，一个client尝试拿走另一个client上面的租约。它将会检查该client打开的所有文件，如果文件最后的block不是COMPLETE状态，就进行block recovery，并且关闭文件。block recovery只有在恢复文件的租约的时候才会被触发。</p>
+<p>下面是lease recovery的算法，针对一个文件f：</p>
+<pre><code>1.得到含有f的最后block的datanodes。
+
+2.指定其中的一个datanode为主datanode p。
+
+3.p从namenode上获取一个新的GS
+
+4.p获取每一个datanode上的block信息
+
+5.p计算最小的block长度
+
+6.p更新所有的datanodes，包括GS和最小block长度
+
+7.p通知namenode更新结果
+
+8.namenode更新blockinfo
+
+9.namenode移除f的租约（现在其他的client可以获取这个文件的租约了）
+
+10.namnode提交日志
+
+步骤3到7是block recovery算法，如果一个文件需要block recovery，namenode选择一个主datanode，这个datanode哟国有文件最后block的replica，然后namenode告知这个datanode负责其他datanode的block recovery。然后datanode向namenode汇报结果，namenode更新它自己的block状态，移除租约，提交日志。
+</code></pre><p>有时，管理员需要自己强制执行recovery，在硬限制超时之前，可以通过命令行来执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hdfs debug recoverLease [-path</span><br><span class="line">&lt;path&gt;] [-retries &lt;num-retries&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>Lease recovery, block recovery, and pipeline recovery对HDFS的容错是必须的。它们保证即使有网络不稳定，或者节点失败，仍然能够保证数据持续写和一致性。</p>
+<p>下篇我们介绍</p>
+<h2 id="pipe-recovery"><a href="#pipe-recovery" class="headerlink" title="pipe recovery"></a>pipe recovery</h2><p>the write pipeline:<br>当HDFS client写文件时，数据作为block块依次写进去，HDFS将block切分为packets，然后发送给datanode管道，如下图： </p>
+<p><img src="/images/pasted-229.png" alt="upload successful"><br>wite pipeline有3个阶段：</p>
+<p>1.pipeline setup：client向pipeline发送一个写请求，然后最后一个datanode节点返回一个确认信息，收到确认信息之后，pipeline开始准备写数据。</p>
+<p>2.Data streaming：数据是以packet的方式送到pipeline中的，client端缓存数据，当buffer的大小等于packet的大小时，发送出去。client可以选择使用hflush（）来强制发送，但是下一个packet必须要等到上一个调用hflush()的pakcet的确认信息后才能发送。</p>
+<p>3.close：所有的packet都返回确认信息后，client发送一个关闭请求，所有的datanode将对应的replica变成FINALIZED状态，并且报告给namenode。当FINALIZED的datanode满足配置的replica个数时，然后namenode将block的状态变成COMPLETE。</p>
+<p>pipeline recovery：</p>
+<p>当datanode在文件正在写入时，以下三种情况下发生错误，都会触发pipeline恢复。</p>
+<p>1.recovery from pipeline setup failure</p>
+<p>2.Recovery from Data Streaming Failure</p>
+<p>3.Recovery from Close Failure</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/02/22/Leetcode-22/" rel="next" title="Leetcode 22">
+                <i class="fa fa-chevron-left"></i> Leetcode 22
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/02/20/hdfs映射本地磁盘webdav/" rel="prev" title="hdfs映射本地磁盘webdav">
+                hdfs映射本地磁盘webdav <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">248</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#理解HDFS的恢复机制对使用hadoop的非常有帮助！"><span class="nav-number">1.</span> <span class="nav-text">理解HDFS的恢复机制对使用hadoop的非常有帮助！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面是两个特别需要容错的场景："><span class="nav-number">3.</span> <span class="nav-text">下面是两个特别需要容错的场景：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面我们详细解释一下："><span class="nav-number">4.</span> <span class="nav-text">下面我们详细解释一下：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面是replica和block的状态转换图："><span class="nav-number">5.</span> <span class="nav-text">下面是replica和block的状态转换图：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#replica："><span class="nav-number">5.1.</span> <span class="nav-text">replica：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#block："><span class="nav-number">5.2.</span> <span class="nav-text">block：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generation-stamp"><span class="nav-number">5.3.</span> <span class="nav-text">generation stamp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lease-recovery和block-recovery"><span class="nav-number">5.4.</span> <span class="nav-text">lease recovery和block recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lease-Manager"><span class="nav-number">5.4.1.</span> <span class="nav-text">lease Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lease-recovery-process"><span class="nav-number">5.4.2.</span> <span class="nav-text">lease recovery process</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipe-recovery"><span class="nav-number">5.5.</span> <span class="nav-text">pipe recovery</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

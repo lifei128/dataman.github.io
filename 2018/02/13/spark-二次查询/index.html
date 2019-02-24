@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="spark编程,">
+  <meta name="keywords" content="spark,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="数据：40 2040 1040 3040 530 3030 2030 1030 4050 2050 5050 1050 601234567891011121314151617181920212223242526272829303132333435363738394041package com.scala.test.core.secondsortimport org.apache.spark.&amp;#1">
-<meta name="keywords" content="spark编程">
+<meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark 二次排序">
 <meta property="og:url" content="http://yoursite.com/2018/02/13/spark-二次查询/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="数据：40 2040 1040 3040 530 3030 2030 1030 4050 2050 5050 1050 601234567891011121314151617181920212223242526272829303132333435363738394041package com.scala.test.core.secondsortimport org.apache.spark.&amp;#1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-13T15:09:59.931Z">
+<meta property="og:updated_time" content="2019-02-24T09:31:40.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark 二次排序">
 <meta name="twitter:description" content="数据：40 2040 1040 3040 530 3030 2030 1030 4050 2050 5050 1050 601234567891011121314151617181920212223242526272829303132333435363738394041package com.scala.test.core.secondsortimport org.apache.spark.&amp;#1">
@@ -161,7 +161,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -191,22 +191,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -278,9 +278,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/13/spark-二次查询/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -327,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark编程/" itemprop="url" rel="index">
-                    <span itemprop="name">spark编程</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -364,7 +364,7 @@
       
 
       
-        <p>数据：<br>40 20<br>40 10<br>40 30<br>40 5<br>30 30<br>30 20<br>30 10<br>30 40<br>50 20<br>50 50<br>50 10<br>50 60<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.test.core.secondsort</span><br><span class="line"></span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object SecondarySort &#123;</span><br><span class="line"></span><br><span class="line">  def main(args:Array[String]): Unit =&#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;SecondarySort&quot;).setMaster(&quot;local[*]&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    val line = sc.textFile(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/secondarysort/sort.txt&quot;)</span><br><span class="line"></span><br><span class="line">    val data = line.map(x =&gt; &#123;</span><br><span class="line">      val line : Array[String] = x.split(&quot; &quot;)</span><br><span class="line">      (line(0),line(1))</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    val rdd = data.groupByKey().sortByKey()//todo groupbykey和sortByKey</span><br><span class="line">//    (40,CompactBuffer(20, 10, 30, 5))</span><br><span class="line">//    (50,CompactBuffer(20, 50, 10, 60))</span><br><span class="line">//    (30,CompactBuffer(30, 20, 10, 40))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //todo 之前多条现在变成3条了,改变了原来的条数</span><br><span class="line">//    val result = rdd.map(item =&gt; (item._1, item._2.toList.sortWith(_.toInt&lt;_.toInt)))//todo values转list并排序</span><br><span class="line"></span><br><span class="line">    //todo 不改变原来的条数</span><br><span class="line">    val result = rdd.flatMap(item =&gt; &#123;</span><br><span class="line">      val list = item._2.toList.sortWith(_.toInt&lt;_.toInt)</span><br><span class="line">      list.map(x =&gt; (item._1,x))</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">//  保存</span><br><span class="line">//    result.saveAsTextFile(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/secondarysort/out&quot;)</span><br><span class="line">//      打印</span><br><span class="line">    result.collect().foreach(println)</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">```   </span><br><span class="line">上面的方式，groupbykey之后把相同的key聚合在一起排序，实际上是内存排序，这种方法可能导致归约器耗尽内存。如果数量很少可以用。和mapreduce的setGroupingComparatorClass方式不同,mapreduce在reduce中没有排序操作，是用框架中的排序进行。   </span><br><span class="line">使用repartitionAndSortWithinPartitions：</span><br></pre></td></tr></table></figure></p>
+        <p>数据：<br>40 20<br>40 10<br>40 30<br>40 5<br>30 30<br>30 20<br>30 10<br>30 40<br>50 20<br>50 50<br>50 10<br>50 60<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package com.scala.test.core.secondsort</span><br><span class="line"></span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object SecondarySort &#123;</span><br><span class="line"></span><br><span class="line">  def main(args:Array[String]): Unit =&#123;</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;SecondarySort&quot;).setMaster(&quot;local[*]&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line">    val line = sc.textFile(&quot;/Users/lifei/qrproject/hiveudf/src/main/java/com/qr/mr/secondarysort/sort.txt&quot;)</span><br><span class="line"></span><br><span class="line">    val data = line.map(x =&gt; &#123;</span><br><span class="line">      val line : Array[String] = x.split(&quot; &quot;)</span><br><span class="line">      (line(0),line(1))</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    val rdd = data.groupByKey().sortByKey()//todo groupbykey和sortByKey</span><br><span class="line">//    (40,CompactBuffer(20, 10, 30, 5))</span><br><span class="line">//    (50,CompactBuffer(20, 50, 10, 60))</span><br><span class="line">//    (30,CompactBuffer(30, 20, 10, 40))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //todo 之前多条现在变成3条了,改变了原来的条数</span><br><span class="line">//    val result = rdd.map(item =&gt; (item._1, item._2.toList.sortWith(_.toInt&lt;_.toInt)))//todo values转list并排序</span><br><span class="line"></span><br><span class="line">    //todo 不改变原来的条数</span><br><span class="line">    val result = rdd.flatMap(item =&gt; &#123;</span><br><span class="line">      val list = item._2.toList.sortWith(_.toInt&lt;_.toInt)</span><br><span class="line">      list.map(x =&gt; (item._1,x))</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">//  保存</span><br><span class="line">//    result.saveAsTextFile(&quot;/Users/lifei/qrproject/hiveudf/src/main/java/com/qr/mr/secondarysort/out&quot;)</span><br><span class="line">//      打印</span><br><span class="line">    result.collect().foreach(println)</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">```   </span><br><span class="line">上面的方式，groupbykey之后把相同的key聚合在一起排序，实际上是内存排序，这种方法可能导致归约器耗尽内存。如果数量很少可以用。和mapreduce的setGroupingComparatorClass方式不同,mapreduce在reduce中没有排序操作，是用框架中的排序进行。   </span><br><span class="line">使用repartitionAndSortWithinPartitions：</span><br></pre></td></tr></table></figure></p>
 <p>package com.scala.test.core.secondsort</p>
 <p>import org.apache.spark.{HashPartitioner, Partitioner, SparkConf, SparkContext}</p>
 <p>object SecondarySortRepartition {</p>
@@ -383,7 +383,7 @@ class KeyBasePartitioner(partitions: Int) extends Partitioner {
 
 val conf = new SparkConf().setAppName(&quot;SecondarySortRepartition&quot;).setMaster(&quot;local[*]&quot;)
 val sc = new SparkContext(conf)
-val line = sc.textFile(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/secondarysort/sort.txt&quot;)
+val line = sc.textFile(&quot;/Users/lifei/qrproject/hiveudf/src/main/java/com/qr/mr/secondarysort/sort.txt&quot;)
 
 class SecondarySort(val one :Int,val two : Int) extends Ordered[SecondarySort] with Serializable {
   override def compare(that: SecondarySort): Int = {
@@ -403,7 +403,7 @@ line.map(x =&gt;
   }
 )
   .repartitionAndSortWithinPartitions(new KeyBasePartitioner(3))
-  .saveAsTextFile(&quot;/Users/lifei/qunarproject/hiveudf/src/main/java/com/qunar/mr/secondarysort/out&quot;)
+  .saveAsTextFile(&quot;/Users/lifei/qrproject/hiveudf/src/main/java/com/qr/mr/secondarysort/out&quot;)
 </code></pre><p>//      .foreach(println)<br>    sc.stop()<br>  }<br>}<br><code>`</code><br>当spark的分区数大于线程数时，spark仍会按照一个一个分区单独处理，而不会像MapReduce设置setGroupingComparatorClass。<br>可以通过设置.setMaster(“local[2]”)和new KeyBasePartitioner(3)来验证。    </p>
 <p>spark 1.2之后引入了一个高质量的算子  repartitionAndSortWithinPartitions?。<strong>该算子为spark的Shuffle增加了sort</strong>。假如，后面再跟mapPartitions算子的话，其算子就是针对已经按照key排序的分区，这就有点像mr的意思了。与groupbykey不同的是，<strong>数据不会一次装入内存，而是使用迭代器一次一条记录从磁盘加载。这种方式最小化了内存压力</strong>。    </p>
 <p>定义partitioner的方式可以参考<br><a href="https://www.bbsmax.com/A/LPdoVrl253/">https://www.bbsmax.com/A/LPdoVrl253/</a><br>repartitionAndSortWithinPartitions算子比先分区在排序效率高<br><a href="https://blog.csdn.net/luofazha2012/article/details/80587128">https://blog.csdn.net/luofazha2012/article/details/80587128</a>    </p>
@@ -425,7 +425,7 @@ line.map(x =&gt;
       
         <div class="post-tags">
           
-            <a href="/tags/spark编程/" rel="tag"># spark编程</a>
+            <a href="/tags/spark/" rel="tag"># spark</a>
           
         </div>
       
@@ -448,8 +448,8 @@ line.map(x =&gt;
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/25/hive_groupby倾斜/" rel="prev" title="group by数据倾斜">
-                group by数据倾斜 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/14/维度建模/" rel="prev" title="维度建模">
+                维度建模 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -512,9 +512,9 @@ line.map(x =&gt;
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -523,9 +523,9 @@ line.map(x =&gt;
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -536,7 +536,7 @@ line.map(x =&gt;
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,7 +547,7 @@ line.map(x =&gt;
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -588,7 +588,7 @@ line.map(x =&gt;
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -658,6 +658,8 @@ line.map(x =&gt;
   
 
 
+  
+
 
 
 
@@ -696,6 +698,11 @@ line.map(x =&gt;
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

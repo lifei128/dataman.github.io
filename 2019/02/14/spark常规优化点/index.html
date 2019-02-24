@@ -79,21 +79,36 @@
 
 
 
-<meta name="description" content="spark.default.parallelism默认的并发数spark中有partition的概念（和slice是同一个概念，在spark1.2中官网已经做出了说明），一般每个partition对应一个task。在我的测试过程中，如果没有设置spark.default.parallelism参数，spark计算出来的partition非常巨大，与我的cores非常不搭。我在两台机器上（8core">
+<meta name="description" content="spark集群优化 数据本地性如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality.wait.rack等；123spark.locality.wait.process	进程内等待时间">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark参数优化">
 <meta property="og:url" content="http://yoursite.com/2019/02/14/spark常规优化点/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="spark.default.parallelism默认的并发数spark中有partition的概念（和slice是同一个概念，在spark1.2中官网已经做出了说明），一般每个partition对应一个task。在我的测试过程中，如果没有设置spark.default.parallelism参数，spark计算出来的partition非常巨大，与我的cores非常不搭。我在两台机器上（8core">
+<meta property="og:description" content="spark集群优化 数据本地性如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality.wait.rack等；123spark.locality.wait.process	进程内等待时间">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-184.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-188.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-185.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-187.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-191.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-192.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-62.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-63.png">
-<meta property="og:updated_time" content="2019-02-14T15:01:10.744Z">
+<meta property="og:image" content="http://yoursite.com/images/pasted-193.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-194.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-195.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-196.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-197.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-198.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-186.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-189.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-190.png">
+<meta property="og:updated_time" content="2019-02-19T07:43:39.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark参数优化">
-<meta name="twitter:description" content="spark.default.parallelism默认的并发数spark中有partition的概念（和slice是同一个概念，在spark1.2中官网已经做出了说明），一般每个partition对应一个task。在我的测试过程中，如果没有设置spark.default.parallelism参数，spark计算出来的partition非常巨大，与我的cores非常不搭。我在两台机器上（8core">
-<meta name="twitter:image" content="http://yoursite.com/images/pasted-62.png">
+<meta name="twitter:description" content="spark集群优化 数据本地性如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality.wait.rack等；123spark.locality.wait.process	进程内等待时间">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-184.png">
 
 
 
@@ -164,7 +179,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">Quick notes</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -194,22 +209,22 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
           </a>
         </li>
       
@@ -281,9 +296,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/14/spark常规优化点/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lifei">
+      <meta itemprop="name" content="">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -367,51 +382,95 @@
       
 
       
-        <h1 id="spark-default-parallelism"><a href="#spark-default-parallelism" class="headerlink" title="spark.default.parallelism"></a>spark.default.parallelism</h1><p>默认的并发数<br>spark中有partition的概念（和slice是同一个概念，在spark1.2中官网已经做出了说明），一般每个partition对应一个task。在我的测试过程中，如果没有设置spark.default.parallelism参数，spark计算出来的partition非常巨大，与我的cores非常不搭。我在两台机器上（8cores <em>2 +6g </em> 2）上，spark计算出来的partition达到2.8万个，也就是2.9万个tasks，每个task完成时间都是几毫秒或者零点几毫秒，执行起来非常缓慢。在我尝试设置了 spark.default.parallelism 后，任务数减少到10，执行一次计算过程从minute降到20second。    </p>
-<p>问题: reduce task数目不合适</p>
-<p>解决方案：<br>需要根据实际情况调整默认配置，调整方式是修改参数spark.default.parallelism。通常的，reduce数目设置为core数目的2-3倍。数量太大，造成很多小任务，增加启动任务的开销；数目太小，任务运行缓慢。所以要合理修改reduce的task数目即spark.default.parallelism   </p>
-<p>参考：<br><a href="https://blog.csdn.net/bbaiggey/article/details/51984753">https://blog.csdn.net/bbaiggey/article/details/51984753</a> </p>
-<h1 id="spark-files-maxPartitionBytes-128-M（默认）"><a href="#spark-files-maxPartitionBytes-128-M（默认）" class="headerlink" title="spark.files.maxPartitionBytes = 128 M（默认）"></a>spark.files.maxPartitionBytes = 128 M（默认）</h1><p>代表着rdd的一个分区能存放数据的最大字节数，如果一个400m的文件，只分了两个区，则在action时会发生错误。当一个spark应用程序执行时，生成spark.context，同时会生成两个参数，由上面得到的spark.default.parallelism推导出这两个参数的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sc.defaultParallelism     = spark.default.parallelism</span><br><span class="line">sc.defaultMinPartitions = min(spark.default.parallelism,2)</span><br></pre></td></tr></table></figure></p>
-<p>当sc.defaultParallelism和sc.defaultMinPartitions最终确认后，就可以推算rdd的分区数了。</p>
-<h1 id="spark-local-dir"><a href="#spark-local-dir" class="headerlink" title="spark.local.dir"></a>spark.local.dir</h1><p>这个看起来很简单，就是Spark用于写中间数据，如RDD Cache，Shuffle，Spill等数据的位置，那么有什么可以注意的呢。</p>
+        <h1 id="spark集群优化"><a href="#spark集群优化" class="headerlink" title="spark集群优化"></a>spark集群优化</h1><p><img src="/images/pasted-184.png" alt="upload successful"></p>
+<h2 id="数据本地性"><a href="#数据本地性" class="headerlink" title="数据本地性"></a>数据本地性</h2><p>如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality.wait.rack等；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spark.locality.wait.process	进程内等待时间	3	3</span><br><span class="line">spark.locality.wait.node	节点内等待时间	3	8</span><br><span class="line">spark.locality.wait.rack	机架内等待时间	3	5</span><br></pre></td></tr></table></figure></p>
+<h1 id="Spark参数优化"><a href="#Spark参数优化" class="headerlink" title="Spark参数优化"></a>Spark参数优化</h1><p><img src="/images/pasted-188.png" alt="upload successful"></p>
+<h2 id="计算资源"><a href="#计算资源" class="headerlink" title="计算资源"></a>计算资源</h2><p><img src="/images/pasted-185.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.overhead.memory	executor堆外内存	512m	1.5g</span><br><span class="line">spark.executor.memory	executor堆内存	1g	9g</span><br><span class="line">spark.executor.cores	executor拥有的core数	1	3</span><br></pre></td></tr></table></figure></p>
+<h3 id="num-executors"><a href="#num-executors" class="headerlink" title="num-executors"></a>num-executors</h3><p>参数说明：该参数用于设置Spark作业总共要用多少个Executor进程来执行。Driver在向YARN集群管理器申请资源时，YARN集群管理器会尽可能按照你的设置来在集群的各个工作节点上，启动相应数量的Executor进程。这个参数非常之重要，如果不设置的话，默认只会给你启动少量的Executor进程，此时你的Spark作业的运行速度是非常慢的。<br>参数调优建议：每个Spark作业的运行一般设置50~100个左右的Executor进程比较合适，设置太少或太多的Executor进程都不好。设置的太少，无法充分利用集群资源；设置的太多的话，大部分队列可能无法给予充分的资源。</p>
+<h3 id="executor-memory"><a href="#executor-memory" class="headerlink" title="executor-memory"></a>executor-memory</h3><p>参数说明：该参数用于设置每个Executor进程的内存。Executor内存的大小，很多时候直接决定了Spark作业的性能，而且跟常见的JVM OOM异常，也有直接的关联。<br>参数调优建议：每个Executor进程的内存设置4G~8G较为合适。但是这只是一个参考值，具体的设置还是得根据不同部门的资源队列来定。可以看看自己团队的资源队列的最大内存限制是多少，num-executors乘以executor-memory，是不能超过队列的最大内存量的。此外，如果你是跟团队里其他人共享这个资源队列，那么申请的内存量最好不要超过资源队列最大总内存的1/3~1/2，避免你自己的Spark作业占用了队列所有的资源，导致别的同学的作业无法运行。<br>每个executor进程所使用的内存数。默认值为“1g”。根据集群的硬件情况，应该把这个值设置为“4g”、“8g”、“16g”或者更高。   </p>
+<h3 id="executor-cores"><a href="#executor-cores" class="headerlink" title="executor-cores"></a>executor-cores</h3><p>参数说明：该参数用于设置每个Executor进程的CPU core数量。这个参数决定了每个Executor进程并行执行task线程的能力。因为每个CPU core同一时间只能执行一个task线程，因此每个Executor进程的CPU core数量越多，越能够快速地执行完分配给自己的所有task线程。<br>参数调优建议：Executor的CPU core数量设置为2~4个较为合适。同样得根据不同部门的资源队列来定，可以看看自己的资源队列的最大CPU core限制是多少，再依据设置的Executor数量，来决定每个Executor进程可以分配到几个CPU core。同样建议，如果是跟他人共享这个队列，那么num-executors * executor-cores不要超过队列总CPU core的1/3~1/2左右比较合适，也是避免影响其他同学的作业运行。</p>
+<h3 id="driver-memory"><a href="#driver-memory" class="headerlink" title="driver-memory"></a>driver-memory</h3><p>参数说明：该参数用于设置Driver进程的内存。<br>参数调优建议：Driver的内存通常来说不设置，或者设置1G左右应该就够了。唯一需要注意的一点是，如果需要使用collect算子将RDD的数据全部拉取到Driver上进行处理，那么必须确保Driver的内存足够大，否则会出现OOM内存溢出的问题。<br>driver进程使用的总内存数。和内核数一样，建议根据你的应用及硬件情况，把这个值设置为“16g”或“32g”。默认”1g”。    </p>
+<h3 id="spark-driver-cores"><a href="#spark-driver-cores" class="headerlink" title="spark.driver.cores"></a>spark.driver.cores</h3><p>在集群模式下管理资源时，用于driver程序的CPU内核数量。默认为1。在生产环境的硬件上，这个值可能最少要上调到8或16。   </p>
+<h3 id="spark-driver-maxResultSize"><a href="#spark-driver-maxResultSize" class="headerlink" title="spark.driver.maxResultSize"></a>spark.driver.maxResultSize</h3><p>如果应用频繁用此driver程序，建议对这个值的设置高于其默认值“1g”。0表示没有限制。这个值反映了Spark action的全部分区中最大的结果集的大小。   </p>
+<h3 id="spark-local-dir"><a href="#spark-local-dir" class="headerlink" title="spark.local.dir"></a>spark.local.dir</h3><p>这个看起来很简单，就是Spark用于写中间数据，如RDD Cache，Shuffle，Spill等数据的位置，那么有什么可以注意的呢。</p>
 <p>首先，最基本的当然是我们可以配置多个路径（用逗号分隔）到多个磁盘上增加整体IO带宽，这个大家都知道。</p>
 <p>其次，目前的实现中，Spark是通过对文件名采用hash算法分布到多个路径下的目录中去，如果你的存储设备有快有慢，比如SSD+HDD混合使用，那么你可以通过在SSD上配置更多的目录路径来增大它被Spark使用的比例，从而更好地利用SSD的IO带宽能力。当然这只是一种变通的方法，终极解决方案还是应该像目前HDFS的实现方向一样，让Spark能够感知具体的存储设备类型，针对性的使用。</p>
 <p>需要注意的是，在Spark 1.0 以后，SPARK_LOCAL_DIRS(Standalone, Mesos) or LOCAL_DIRS (YARN)参数会覆盖这个配置。比如Spark On YARN的时候，Spark Executor的本地路径依赖于Yarn的配置，而不取决于这个参数。</p>
-<h1 id="spark-shuffle-consolidateFiles为true"><a href="#spark-shuffle-consolidateFiles为true" class="headerlink" title="spark.shuffle.consolidateFiles为true"></a>spark.shuffle.consolidateFiles为true</h1><p>问题：map|reduce数量大，造成shuffle小文件数目多<br>解决方案：</p>
-<p>通过设置spark.shuffle.consolidateFiles为true，来合并shuffle中间文件，此时文件数为reduce tasks数目；</p>
-<h1 id="spark-serializer"><a href="#spark-serializer" class="headerlink" title="spark.serializer"></a>spark.serializer</h1><p>问题：序列化时间长、结果大</p>
+<h3 id="spark-default-parallelism"><a href="#spark-default-parallelism" class="headerlink" title="spark.default.parallelism"></a>spark.default.parallelism</h3><p>一般为 executor_cores*num_executors 的 1~4 倍，系统默认值 64，不设置的话会导致 task 很多的时候被分批串行执行，或大量 cores 空闲，资源浪费严重。 </p>
+<h3 id="spark-files-maxPartitionBytes-128-M（默认）"><a href="#spark-files-maxPartitionBytes-128-M（默认）" class="headerlink" title="spark.files.maxPartitionBytes = 128 M（默认）"></a>spark.files.maxPartitionBytes = 128 M（默认）</h3><p>代表着rdd的一个分区能存放数据的最大字节数，如果一个400m的文件，只分了两个区，则在action时会发生错误。当一个spark应用程序执行时，生成spark.context，同时会生成两个参数，由上面得到的spark.default.parallelism推导出这两个参数的值  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sc.defaultParallelism     = spark.default.parallelism</span><br><span class="line">sc.defaultMinPartitions = min(spark.default.parallelism,2)</span><br></pre></td></tr></table></figure>
+<p>当sc.defaultParallelism和sc.defaultMinPartitions最终确认后，就可以推算rdd的分区数了。  </p>
+<h3 id="spark-serializer"><a href="#spark-serializer" class="headerlink" title="spark.serializer"></a>spark.serializer</h3><p>问题：序列化时间长、结果大</p>
 <p>解决方案：</p>
 <p>spark默认使用JDK 自带的ObjectOutputStream，这种方式产生的结果大、CPU处理时间长，可以通过设置spark.serializer为org.apache.spark.serializer.KeyoSerializer。</p>
 <p>另外如果结果已经很大，那就最好使用广播变量方式了，结果你懂得。</p>
-<h1 id="mapPartition"><a href="#mapPartition" class="headerlink" title="mapPartition"></a>mapPartition</h1><p>问题：单条记录消耗大</p>
+<h3 id="spark-speculation"><a href="#spark-speculation" class="headerlink" title="spark.speculation"></a>spark.speculation</h3><p>问题: 任务执行速度倾斜</p>
 <p>解决方案：</p>
-<p>使用mapPartition替换map，mapPartition是对每个Partition进行计算，而map是对partition中的每条记录进行计算；</p>
-<h1 id="collect输出大量结果时速度慢"><a href="#collect输出大量结果时速度慢" class="headerlink" title="collect输出大量结果时速度慢"></a>collect输出大量结果时速度慢</h1><p>解决方案：</p>
-<p>collect源码中是把所有的结果以一个Array的方式放在内存中，可以直接输出到分布式的文件系统，然后查看文件系统中的内容；</p>
-<h1 id="spark-speculation"><a href="#spark-speculation" class="headerlink" title="spark.speculation"></a>spark.speculation</h1><p>问题: 任务执行速度倾斜</p>
-<p>解决方案：</p>
-<p>如果数据倾斜，一般是partition key取得不好，可以考虑其他的并行处理方式，并在中间加上aggregation操作；如果是Worker倾斜，例如在某些Worker上的executor执行缓慢，可以通过设置spark.speculation=true 把那些持续慢的节点去掉；</p>
-<h1 id="repartition"><a href="#repartition" class="headerlink" title="repartition"></a>repartition</h1><p>问题: 通过多步骤的RDD操作后有很多空任务或者小任务产生</p>
-<p>解决方案：</p>
-<p>使用coalesce或者repartition去减少RDD中partition数量；</p>
-<h1 id="spark-streaming-concurrentJobs"><a href="#spark-streaming-concurrentJobs" class="headerlink" title="spark.streaming.concurrentJobs"></a>spark.streaming.concurrentJobs</h1><p>问题:Spark Streaming吞吐量不高</p>
-<p>可以设置spark.streaming.concurrentJobs</p>
-<h1 id="Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞"><a href="#Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞" class="headerlink" title="Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞"></a>Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞</h1><p>解决方案：</p>
-<p>这是因为我们设置job启动interval时间间隔太短了，导致每次job在指定时间无法正常执行完成，换句话说就是创建的windows窗口时间间隔太密集了；</p>
-<h1 id="使用KryoSerializer进行序列化"><a href="#使用KryoSerializer进行序列化" class="headerlink" title="使用KryoSerializer进行序列化"></a>使用KryoSerializer进行序列化</h1><p>使用KryoSerializer序列化的好处<br>默认情况，spark使用的是java的序列化机制，ObjectOutputStream / ObjectInputStream，对象输入输出流机制，来进行序列化。</p>
+<p>如果数据倾斜，一般是partition key取得不好，可以考虑其他的并行处理方式，并在中间加上aggregation操作；如果是Worker倾斜，例如在某些Worker上的executor执行缓慢，可以通过设置spark.speculation=true 把那些持续慢的节点去掉；   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">使用场景:</span><br><span class="line">一个stage有10个task：task0~task9，分别分配到了worker0~worker9上去执行计算，其中task0~task8都只用了5s就运行成功返回了，而由于worker9本身可能由于CPU资源长期被别的线程占用、磁盘IO缓慢等缘故，造成了task9执行缓慢，迟迟不返回，于是这个stage只能慢慢等待task9的返回。也就是整个stage的运行时间被这个task9给拖后腿了。   </span><br><span class="line"></span><br><span class="line">而如果调度端如果引入了speculatable策略，那么上述事件的实际情况被改善为：    </span><br><span class="line">step1：TaskSetManager在task0~task8成功返回后，过了一段时间检测到task9迟迟没有返回，于是认定task9：你他妈的是个speculatableTask；   </span><br><span class="line">step2：TaskSetManager此时没有task需要调度，而且此时有speculatableTask，所以调度器决定再次调度一下task9，利用和普通task一样的调度策略将task9分发到某台机器上，不过这次不会让task9在worker9上调度了。假设新的task9调度到了worker0。   </span><br><span class="line">step3：这时，计算集群上就有了两个同时运行的task9。在worker0上的task9运行了5s成功返回了，这时候TaskSetManager接收到task9的成功状态，由于10个task都运行完了taskSetManager自己标识为运行完成。    </span><br><span class="line">PS：而那个在worker9上依然慢慢运行的task9就没什么用了，worker上的Executor会用Failed的形式。</span><br></pre></td></tr></table></figure>
+<h3 id="spark-cleaner-ttl"><a href="#spark-cleaner-ttl" class="headerlink" title="spark.cleaner.ttl"></a>spark.cleaner.ttl</h3><p>Spark记录任何对象的元数据的持续时间（按照秒来计算）。默认值设为“infinite”（无限），对长时间运行的job来说，可能会造成内存泄漏。适当地进行调整，最好先设置为3600，然后监控性能。</p>
+<h3 id="spark-executor-cores"><a href="#spark-executor-cores" class="headerlink" title="spark.executor.cores"></a>spark.executor.cores</h3><p>每个executor的CPU核数。这个默认值基于选择的资源调度器。如果使用YARN或者Standalone集群模式，应该调整这个值</p>
+<h3 id="spark-akka-frameSize"><a href="#spark-akka-frameSize" class="headerlink" title="spark.akka.frameSize"></a>spark.akka.frameSize</h3><p>Spark集群通信中最大消息的大小。当程序在带有上千个map及reduce任务的大数据集上运行时，应该把这个值从128调为512，或者更高。</p>
+<h3 id="spark-akka-threads"><a href="#spark-akka-threads" class="headerlink" title="spark.akka.threads"></a>spark.akka.threads</h3><p>用于通信的Akka的线程数。对于运行多核的driver应用，推荐将这个属性值从4提高为16、32或更高</p>
+<h3 id="spark-cores-max"><a href="#spark-cores-max" class="headerlink" title="spark.cores.max"></a>spark.cores.max</h3><p>设置应用程序从集群所有节点请求的最大CPU内核数。如果程序在资源有限的环境下运行，应该把这个属性设置最大为集群中spark可用的CPU核数</p>
+<h3 id="offheap-executor"><a href="#offheap-executor" class="headerlink" title="offheap(executor)"></a>offheap(executor)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.executor.overhead.memory	executor堆外内存	512	1.5g</span><br></pre></td></tr></table></figure>
+<p>默认executor的0.1<br><img src="/images/pasted-187.png" alt="upload successful"></p>
+<h3 id="spark-executor-logs-rolling"><a href="#spark-executor-logs-rolling" class="headerlink" title="spark.executor.logs.rolling.*"></a>spark.executor.logs.rolling.*</h3><p>有四个属性用于设定及维护spark日志的滚动。当spark应用长周期运行时（超过24小时），应该设置这个属性  </p>
+<h3 id="spark-python-worker-memory"><a href="#spark-python-worker-memory" class="headerlink" title="spark.python.worker.memory"></a>spark.python.worker.memory</h3><p>如果使用python开发spark应用，这个属性将为每个python worker进程分配总内存数。默认值512m   </p>
+<h2 id="优化shuffle过程参数"><a href="#优化shuffle过程参数" class="headerlink" title="优化shuffle过程参数"></a>优化shuffle过程参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.rpc.askTimeout	rpc超时时间	10	1000   </span><br><span class="line">spark.shuffle.sort.bypassMergeThreshold	shuffle read task阈值，小于该值则shuffle write过程不进行排序	200	600</span><br><span class="line">spark.shuffle.io.retryWait	每次重试拉取数据的等待间隔	5	30</span><br><span class="line">spark.shuffle.io.maxRetries	拉取数据重试次数	3	10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.shuffle.manager 默认sort</span><br><span class="line">spark.shuffle.file.buffer 默认32k</span><br><span class="line">spark.reducer.maxSizeInFlight 默认48m</span><br><span class="line">spark.shuffle.memoryFraction 默认0.2</span><br></pre></td></tr></table></figure>
+<p>其中spark.shuffle.file.buffer主要负责shuffle write过程写数据到磁盘过程的buffer，如果内存大的话建议提高该参数；spark.reducer.maxSizeInFlight负责shuffle read过程中reduce端机器从map端机器同时读取数据的大小。<br><img src="/images/pasted-191.png" alt="upload successful"></p>
+<p><img src="/images/pasted-192.png" alt="upload successful">  </p>
+<h3 id="spark-shuffle-manager"><a href="#spark-shuffle-manager" class="headerlink" title="spark.shuffle.manager"></a>spark.shuffle.manager</h3><p>这是Spark里shuffle数据的实现方法，默认为“sort”。这里提到它是因为，如果应用使用Tungsten，应该把这个属性值设置为“Tungsten-sort”。   </p>
+<h3 id="调节map端内存缓冲区"><a href="#调节map端内存缓冲区" class="headerlink" title="调节map端内存缓冲区"></a>调节map端内存缓冲区</h3><p>为什么要调节map端内存缓冲区<br>默认情况下，shuffle的map task,输出的文件到内存缓冲区，当内存缓冲区满了，才会溢写spill操作到磁盘，如果该缓冲区比较小，而map端输出文件又比较大，会频繁的出现溢写到磁盘，影响性能。<br>如何调整<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置map 端内存缓冲区大小（默认32k）</span><br><span class="line">conf.set(&quot;spark.shuffle.file.buffer&quot;, &quot;64k&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="调节reduce端内存占比"><a href="#调节reduce端内存占比" class="headerlink" title="调节reduce端内存占比"></a>调节reduce端内存占比</h3><p>为什么要调节reduce端内存占比,reduce task 在进行汇聚，聚合等操作时，实际上使用的是自己对应的executor内存，默认情况下executor分配给reduce进行聚合的内存比例是0.2，如果拉取的文件比较大，会频繁溢写到本地磁盘，影响性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置reduce端内存占比</span><br><span class="line">conf.set(&quot;spark.shuffle.memoryFraction&quot;, &quot;0.4&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="spark-shuffle-service-enabled"><a href="#spark-shuffle-service-enabled" class="headerlink" title="spark.shuffle.service.enabled"></a>spark.shuffle.service.enabled</h3><p>在Spark内开启外部的shuffle服务。如果需要调度动态分配，就必须设置这个属性。默认为false   </p>
+<h3 id="spark-reducer-maxSizeInFlight"><a href="#spark-reducer-maxSizeInFlight" class="headerlink" title="spark.reducer.maxSizeInFlight"></a>spark.reducer.maxSizeInFlight</h3><p>调节reduce端缓冲区大小避免OOM异常</p>
+<p>　　 为什么要调节reduce端缓冲区大小</p>
+<p>　　　　对于map端不断产生的数据，reduce端会不断拉取一部分数据放入到缓冲区，进行聚合处理；</p>
+<p>　　　　当map端数据特别大时，reduce端的task拉取数据是可能全部的缓冲区都满了，此时进行reduce聚合处理时创建大量的对象，导致OOM异常；</p>
+<p>　　 如何调节reduce端缓冲区大小</p>
+<p>　　　　当由于以上的原型导致OOM异常出现是，可以通过减小reduce端缓冲区大小来避免OOM异常的出现</p>
+<p>　　　　但是如果在内存充足的情况下，可以适当增大reduce端缓冲区大小，从而减少reduce端拉取数据的次数，提供性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//调节reduce端缓存的大小(默认48M)</span><br><span class="line">conf.set(&quot;spark.reducer.maxSizeInFlight&quot;, &quot;24&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="解决JVM-GC导致的shuffle文件拉取失败"><a href="#解决JVM-GC导致的shuffle文件拉取失败" class="headerlink" title="解决JVM GC导致的shuffle文件拉取失败"></a>解决JVM GC导致的shuffle文件拉取失败</h3><p>问题描述</p>
+<p>　　　　下一个stage的task去拉取上一个stage的task的输出文件时，如果正好上一个stage正处在full gc的情况下（所有线程后停止运行），它们之间是通过netty进行通信的，就会出现很长时间拉取不到数据，此时就会报shuffle file not found的错误；但是下一个stage又重新提交task就不会出现问题了。</p>
+<p>　　如何解决</p>
+<p>　　　　调节最大尝试拉取次数：spark.shuffle.io.maxRetries 默认为3次</p>
+<p>　　　　调节每次拉取最大的等待时长：spark.shuffle.io.retryWait 默认为5秒<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//调节拉取文件的最大尝试次数(默认3次)</span><br><span class="line">conf.set(&quot;spark.shuffle.io.maxRetries&quot;, &quot;60&quot;);</span><br><span class="line">        </span><br><span class="line">//调节每次拉取数据时最大等待时长(默认为5s)</span><br><span class="line">conf.set(&quot;spark.shuffle.io.retryWait&quot;, &quot;5s&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="spark-shuffle-consolidateFiles为true"><a href="#spark-shuffle-consolidateFiles为true" class="headerlink" title="spark.shuffle.consolidateFiles为true"></a>spark.shuffle.consolidateFiles为true</h3><p>问题：map|reduce数量大，造成shuffle小文件数目多<br>解决方案：</p>
+<p>通过设置spark.shuffle.consolidateFiles为true，来合并shuffle中间文件，此时文件数为reduce tasks数目；<br><strong>开启map端输出文件的合并机制</strong><br>为什么要开启map端输出文件的合并机制<br>　默认情况下，map端的每个task会为reduce端的每个task生成一个输出文件，reduce段的每个task拉取map端每个task生成的相应文件  </p>
+<p><img src="/images/pasted-62.png" alt="upload successful"><br>开启后，map端只会在并行执行的task生成reduce端task数目的文件，下一批map端的task执行时，会复用首次生成的文件</p>
+<p><img src="/images/pasted-63.png" alt="upload successful"><br>如何开启<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//开启map端输出文件的合并机制</span><br><span class="line">conf.set(&quot;spark.shuffle.consolidateFiles&quot;, &quot;true&quot;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="修改shuffle管理器"><a href="#修改shuffle管理器" class="headerlink" title="修改shuffle管理器"></a>修改shuffle管理器</h2><p>有哪些shuffle管理器<br>HashShuffleManager：1.2.x版本前的默认选择<br>SortShuffleManager：1.2.x版本之后的默认选择，会对每个task要处理的数据进行排序；同时，可以避免像  HashShuffleManager那么默认去创建多份磁盘文件，而是一个task只会写入一个磁盘文件，不同reduce task需要的的数据使用offset来进行划分。<br>tungsten-sort（钨丝）：1.5.x之后的出现，和SortShuffleManager相似，但是它本事实现了一套内存管理机制，性能有了很大的提高，而且避免了shuffle过程中产生大量的OOM、GC等相关问题。   </p>
+<p>如何选择<br>如果不需要排序，建议使用HashShuffleManager以提高性能<br>如果需要排序，建议使用SortShuffleManager<br>如果不需要排序，但是希望每个task输出的文件都合并到一个文件中，可以去调节bypassMergeThreshold这个阀值（默认为200），因为在合并文件的时候会进行排序，所以应该让该阀值大于reduce task数量。<br>如果需要排序，而且版本在1.5.x或者更高，可以尝试使用   tungsten-sort   </p>
+<p>在项目中如何使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//设置spark shuffle manager (hash,sort,tungsten-sort)</span><br><span class="line">conf.set(&quot;spark.shuffle.manager&quot;, &quot;tungsten-sort&quot;);</span><br><span class="line">        </span><br><span class="line">//设置文件合并的阀值</span><br><span class="line">conf.set(&quot;spark.shuffle.sort.bypassMergeThreshold&quot;, &quot;550&quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="yarn-cluster模式的JVM内存溢出无法执行的问题"><a href="#yarn-cluster模式的JVM内存溢出无法执行的问题" class="headerlink" title="yarn-cluster模式的JVM内存溢出无法执行的问题"></a>yarn-cluster模式的JVM内存溢出无法执行的问题</h2><p> 问题描述</p>
+<p>有些spark作业，在yarn-client模式下是可以运行的，但在yarn-cluster模式下，会报出JVM的PermGen(永久代)的内存溢出，OOM.</p>
+<p>出现以上原因是：yarn-client模式下，driver运行在本地机器上，spark使用的JVM的PermGen的配置，是本地的默认配置128M；</p>
+<p>但在yarn-cluster模式下，driver运行在集群的某个节点上，spark使用的JVM的PermGen是没有经过默认配置的，默认是82M，故有时会出现PermGen Out of Memory error log.</p>
+<p>如何处理<br>在spark-submit脚本中设置PermGen<br><code>--conf spark.driver.extraJavaOptions=&quot;-XX:PermSize=128M -XX:MaxPermSize=256M&quot;(最小128M，最大256M)</code></p>
+<p>如果使用spark sql，sql中使用大量的or语句，可能会报出jvm stack overflow,jvm栈内存溢出，此时可以把复杂的sql简化为多个简单的sql进行处理即可。</p>
+<h2 id="checkpoint的使用"><a href="#checkpoint的使用" class="headerlink" title="checkpoint的使用"></a>checkpoint的使用</h2><p>checkpoint的作用</p>
+<p>　　　　默认持久化的Rdd会保存到内存或磁盘中，下次使用该Rdd时直接冲缓存中获取，不需要重新计算；如果内存或者磁盘中文件丢失，再次使用该Rdd时需要重新进行。</p>
+<p>　　　　如果将持久化的Rdd进行checkpoint处理，会把内存写入到hdfs文件系统中，此时如果再次使用持久化的Rdd，但文件丢失后，会从hdfs中获取Rdd并重新进行缓存。</p>
+<p>　　如何使用</p>
+<p>　　　　首先设置checkpoint目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置checkpoint目录</span><br><span class="line">javaSparkContext.checkpointFile(&quot;hdfs://hadoop-senior.ibeifeng.com:8020/user/yanglin/spark/checkpoint/UserVisitSessionAnalyzeSpark&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>将缓存后的Rdd进行checkpoint处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//将缓存后的Rdd进行checkpoint</span><br><span class="line">sessionRowPairRdd.checkpoint();</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用KryoSerializer进行序列化"><a href="#使用KryoSerializer进行序列化" class="headerlink" title="使用KryoSerializer进行序列化"></a>使用KryoSerializer进行序列化</h2><p>使用KryoSerializer序列化的好处<br>默认情况，spark使用的是java的序列化机制，ObjectOutputStream / ObjectInputStream，对象输入输出流机制，来进行序列化。</p>
 <p>该序列化的好处是方便使用，但必须实现Serializable接口，缺点是效率低，速度慢，序列化后的占用空间大</p>
 <p>KryoSerializer序列化机制，效率高，速度快，占用空间小（只有java序列化的1/10），可以减少网络传输</p>
 <p>使用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//配置使用KryoSerializer进行序列化</span><br><span class="line">conf.set(&quot;spark.serializer&quot;,&quot;org.apache.spark.serializer.KryoSerializer&quot;)</span><br><span class="line">//（为了使序列化效果达到最优）注册自定义的类型使KryoSerializer序列化</span><br><span class="line">    .registerKryoClasses(new Class[]&#123;ExtractSession.class,FilterCount.class,SessionDetail.class,Task.class,Top10Session.class,Top10.class,VisitAggr.class&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>使用KryoSerializer序列化的场景</p>
-<p> 算子函数中使用到的外部变量，使用KryoSerializer后，可以优化网络传输效率，优化集群中内存的占用和消耗<br>持久化Rdd,优化内存占用，task过程中创建对象，减少GC次数<br>shuffle过程，优化网络的传输性能</p>
-<h1 id="将每个task中都使用的大的外部变量作为广播变量"><a href="#将每个task中都使用的大的外部变量作为广播变量" class="headerlink" title="将每个task中都使用的大的外部变量作为广播变量"></a>将每个task中都使用的大的外部变量作为广播变量</h1><p>没有使用广播变量的缺点   </p>
+<p> 算子函数中使用到的外部变量，使用KryoSerializer后，可以优化网络传输效率，优化集群中内存的占用和消耗<br>持久化Rdd,优化内存占用，task过程中创建对象，减少GC次数<br>shuffle过程，优化网络的传输性能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.kryo.classToRegister	当使用Kryo做对象序列化时，需要注册这些类。对于Kryo将序列化的应用所用的所有自定义对象，必须设置这些属性</span><br><span class="line">spark.kryo.register	当自定义类需要扩展“KryoRegister”类接口时，用它代替上面的属性。</span><br><span class="line">spark.rdd.compress	设置是否应当压缩序列化的RDD，默认false。但是和前面说过的一样，如果硬件充足，应该启用这个功能，因为这时的CPU性能损失可以忽略不计</span><br><span class="line">spark.serializer	如果设置这个值，将使用Kryo序列化，而不是使用java的默认序列化方法。强烈推荐配置成Kryo序列化，因为这样可以获得最佳的性能，并改善程序的稳定性</span><br></pre></td></tr></table></figure></p>
+<h2 id="将每个task中都使用的大的外部变量作为广播变量"><a href="#将每个task中都使用的大的外部变量作为广播变量" class="headerlink" title="将每个task中都使用的大的外部变量作为广播变量"></a>将每个task中都使用的大的外部变量作为广播变量</h2><p>没有使用广播变量的缺点   </p>
 <p>默认情况，task使用到了外部变量，每个task都会获取一份外部变量的副本，会占用不必要的内存消耗，导致在Rdd持久化时不能写入到内存，只能持久化到磁盘中，增加了IO读写操作。</p>
 <p>同时，在task创建对象时，内存不足，进行频繁的GC操作，降低效率</p>
 <p>使用广播变量的好处</p>
 <p>广播变量不是每个task保存一份，而是每个executor保存一份。</p>
 <p><strong>广播变量初始化时，在Driver上生成一份副本，task运行时需要用到广播变量中的数据，首次使用会在本地的Executor对应的BlockManager中尝试获取变量副本；如果本地没有，那么就会从Driver远程拉取变量副本，并保存到本地的BlockManager中；此后这个Executor中的task使用到的数据都从本地的BlockManager中直接获取。</strong></p>
 <p>Executor中的BlockManager除了从远程的Driver中拉取变量副本，也可能从其他节点的BlockManager中拉取数据，距离越近越好。</p>
-<h1 id="将rdd进行持久化"><a href="#将rdd进行持久化" class="headerlink" title="将rdd进行持久化"></a>将rdd进行持久化</h1><p>持久化的原则</p>
+<h2 id="将rdd进行持久化"><a href="#将rdd进行持久化" class="headerlink" title="将rdd进行持久化"></a>将rdd进行持久化</h2><p>持久化的原则</p>
 <p>Rdd的架构重构和优化</p>
 <p>尽量复用Rdd，差不多的Rdd进行抽象为一个公共的Rdd，供后面使用</p>
 <p>公共Rdd一定要进行持久化</p>
@@ -420,45 +479,43 @@
 <p>首先采用纯内存的持久化方式，如果出现OOM异常，则采用纯内存+序列化的方法，如果依然存在OOM异常，使用内存+磁盘，以及内存+磁盘+序列化的方法</p>
 <p>为了数据的高可靠性，而且内存充足时，可以使用双副本机制进行持久化</p>
 <p>　　持久化的代码实现</p>
-<p>　　　　.persist(StorageLevel.MEMORY_ONLY())</p>
+<p>　　.persist(StorageLevel.MEMORY_ONLY())</p>
 <p>　　持久化等级</p>
-<p>　　　　StorageLevel.MEMORY_ONLY()    纯内存    等效于   .cache()</p>
-<p>　　　　序列化的：后缀带有_SER 如：StorageLevel.MEMORY_ONLY_SER()   内存+序列化</p>
-<p>　　　　　　　　后缀带有_DISK 表示磁盘，如：MEMORY_AND_DISK() 内存+磁盘</p>
-<p>　　　　　　　　后缀带有_2表示副本数，如：MEMORY_AND_DISK_2() 内存+磁盘且副本数为2</p>
-<h1 id="开启map端输出文件的合并机制"><a href="#开启map端输出文件的合并机制" class="headerlink" title="开启map端输出文件的合并机制"></a>开启map端输出文件的合并机制</h1><p>为什么要开启map端输出文件的合并机制<br>　默认情况下，map端的每个task会为reduce端的每个task生成一个输出文件，reduce段的每个task拉取map端每个task生成的相应文件  </p>
-<p><img src="/images/pasted-62.png" alt="upload successful"><br>开启后，map端只会在并行执行的task生成reduce端task数目的文件，下一批map端的task执行时，会复用首次生成的文件</p>
-<p><img src="/images/pasted-63.png" alt="upload successful"><br>如何开启<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//开启map端输出文件的合并机制</span><br><span class="line">conf.set(&quot;spark.shuffle.consolidateFiles&quot;, &quot;true&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="调节map端内存缓冲区"><a href="#调节map端内存缓冲区" class="headerlink" title="调节map端内存缓冲区"></a>调节map端内存缓冲区</h1><p>为什么要调节map端内存缓冲区<br>默认情况下，shuffle的map task,输出的文件到内存缓冲区，当内存缓冲区满了，才会溢写spill操作到磁盘，如果该缓冲区比较小，而map端输出文件又比较大，会频繁的出现溢写到磁盘，影响性能。<br>如何调整<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置map 端内存缓冲区大小（默认32k）</span><br><span class="line">conf.set(&quot;spark.shuffle.file.buffer&quot;, &quot;64k&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="调节reduce端内存占比"><a href="#调节reduce端内存占比" class="headerlink" title="调节reduce端内存占比"></a>调节reduce端内存占比</h1><p>为什么要调节reduce端内存占比<br>reduce task 在进行汇聚，聚合等操作时，实际上使用的是自己对应的executor内存，默认情况下executor分配给reduce进行聚合的内存比例是0.2，如果拉取的文件比较大，会频繁溢写到本地磁盘，影响性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置reduce端内存占比</span><br><span class="line">conf.set(&quot;spark.shuffle.memoryFraction&quot;, &quot;0.4&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="修改shuffle管理器"><a href="#修改shuffle管理器" class="headerlink" title="修改shuffle管理器"></a>修改shuffle管理器</h1><p>有哪些shuffle管理器<br>HashShuffleManager：1.2.x版本前的默认选择<br>SortShuffleManager：1.2.x版本之后的默认选择，会对每个task要处理的数据进行排序；同时，可以避免像  HashShuffleManager那么默认去创建多份磁盘文件，而是一个task只会写入一个磁盘文件，不同reduce task需要的的数据使用offset来进行划分。<br>tungsten-sort（钨丝）：1.5.x之后的出现，和SortShuffleManager相似，但是它本事实现了一套内存管理机制，性能有了很大的提高，而且避免了shuffle过程中产生大量的OOM、GC等相关问题。   </p>
-<p>如何选择<br>如果不需要排序，建议使用HashShuffleManager以提高性能<br>如果需要排序，建议使用SortShuffleManager<br>如果不需要排序，但是希望每个task输出的文件都合并到一个文件中，可以去调节bypassMergeThreshold这个阀值（默认为200），因为在合并文件的时候会进行排序，所以应该让该阀值大于reduce task数量。<br>如果需要排序，而且版本在1.5.x或者更高，可以尝试使用   tungsten-sort   </p>
-<p>　　在项目中如何使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//设置spark shuffle manager (hash,sort,tungsten-sort)</span><br><span class="line">conf.set(&quot;spark.shuffle.manager&quot;, &quot;tungsten-sort&quot;);</span><br><span class="line">        </span><br><span class="line">//设置文件合并的阀值</span><br><span class="line">conf.set(&quot;spark.shuffle.sort.bypassMergeThreshold&quot;, &quot;550&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="spark-reducer-maxSizeInFlight"><a href="#spark-reducer-maxSizeInFlight" class="headerlink" title="spark.reducer.maxSizeInFlight"></a>spark.reducer.maxSizeInFlight</h1><p>调节reduce端缓冲区大小避免OOM异常</p>
-<p>　　 为什么要调节reduce端缓冲区大小</p>
-<p>　　　　对于map端不断产生的数据，reduce端会不断拉取一部分数据放入到缓冲区，进行聚合处理；</p>
-<p>　　　　当map端数据特别大时，reduce端的task拉取数据是可能全部的缓冲区都满了，此时进行reduce聚合处理时创建大量的对象，导致OOM异常；</p>
-<p>　　 如何调节reduce端缓冲区大小</p>
-<p>　　　　当由于以上的原型导致OOM异常出现是，可以通过减小reduce端缓冲区大小来避免OOM异常的出现</p>
-<p>　　　　但是如果在内存充足的情况下，可以适当增大reduce端缓冲区大小，从而减少reduce端拉取数据的次数，提供性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//调节reduce端缓存的大小(默认48M)</span><br><span class="line">conf.set(&quot;spark.reducer.maxSizeInFlight&quot;, &quot;24&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="解决JVM-GC导致的shuffle文件拉取失败"><a href="#解决JVM-GC导致的shuffle文件拉取失败" class="headerlink" title="解决JVM GC导致的shuffle文件拉取失败"></a>解决JVM GC导致的shuffle文件拉取失败</h1><p>问题描述</p>
-<p>　　　　下一个stage的task去拉取上一个stage的task的输出文件时，如果正好上一个stage正处在full gc的情况下（所有线程后停止运行），它们之间是通过netty进行通信的，就会出现很长时间拉取不到数据，此时就会报shuffle file not found的错误；但是下一个stage又重新提交task就不会出现问题了。</p>
-<p>　　如何解决</p>
-<p>　　　　调节最大尝试拉取次数：spark.shuffle.io.maxRetries 默认为3次</p>
-<p>　　　　调节每次拉取最大的等待时长：spark.shuffle.io.retryWait 默认为5秒<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//调节拉取文件的最大尝试次数(默认3次)</span><br><span class="line">conf.set(&quot;spark.shuffle.io.maxRetries&quot;, &quot;60&quot;);</span><br><span class="line">        </span><br><span class="line">//调节每次拉取数据时最大等待时长(默认为5s)</span><br><span class="line">conf.set(&quot;spark.shuffle.io.retryWait&quot;, &quot;5s&quot;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="yarn-cluster模式的JVM内存溢出无法执行的问题"><a href="#yarn-cluster模式的JVM内存溢出无法执行的问题" class="headerlink" title="yarn-cluster模式的JVM内存溢出无法执行的问题"></a>yarn-cluster模式的JVM内存溢出无法执行的问题</h1><p> 问题描述</p>
-<p>有些spark作业，在yarn-client模式下是可以运行的，但在yarn-cluster模式下，会报出JVM的PermGen(永久代)的内存溢出，OOM.</p>
-<p>出现以上原因是：yarn-client模式下，driver运行在本地机器上，spark使用的JVM的PermGen的配置，是本地的默认配置128M；</p>
-<p>但在yarn-cluster模式下，driver运行在集群的某个节点上，spark使用的JVM的PermGen是没有经过默认配置的，默认是82M，故有时会出现PermGen Out of Memory error log.</p>
-<p>如何处理<br>在spark-submit脚本中设置PermGen<br><code>--conf spark.driver.extraJavaOptions=&quot;-XX:PermSize=128M -XX:MaxPermSize=256M&quot;(最小128M，最大256M)</code></p>
-<p>如果使用spark sql，sql中使用大量的or语句，可能会报出jvm stack overflow,jvm栈内存溢出，此时可以把复杂的sql简化为多个简单的sql进行处理即可。</p>
-<h1 id="checkpoint的使用"><a href="#checkpoint的使用" class="headerlink" title="checkpoint的使用"></a>checkpoint的使用</h1><p>checkpoint的作用</p>
-<p>　　　　默认持久化的Rdd会保存到内存或磁盘中，下次使用该Rdd时直接冲缓存中获取，不需要重新计算；如果内存或者磁盘中文件丢失，再次使用该Rdd时需要重新进行。</p>
-<p>　　　　如果将持久化的Rdd进行checkpoint处理，会把内存写入到hdfs文件系统中，此时如果再次使用持久化的Rdd，但文件丢失后，会从hdfs中获取Rdd并重新进行缓存。</p>
-<p>　　如何使用</p>
-<p>　　　　首先设置checkpoint目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置checkpoint目录</span><br><span class="line">javaSparkContext.checkpointFile(&quot;hdfs://hadoop-senior.ibeifeng.com:8020/user/yanglin/spark/checkpoint/UserVisitSessionAnalyzeSpark&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>将缓存后的Rdd进行checkpoint处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//将缓存后的Rdd进行checkpoint</span><br><span class="line">sessionRowPairRdd.checkpoint();</span><br></pre></td></tr></table></figure></p>
+<p>　　　StorageLevel.MEMORY_ONLY()    纯内存    等效于   .cache()</p>
+<p>　　　序列化的：后缀带有_SER 如：StorageLevel.MEMORY_ONLY_SER()   内存+序列化</p>
+<p>　　　后缀带有_DISK 表示磁盘，如：MEMORY_AND_DISK() 内存+磁盘</p>
+<p>　　　后缀带有_2表示副本数，如：MEMORY_AND_DISK_2() 内存+磁盘且副本数为2</p>
+<h2 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h2><p><img src="/images/pasted-193.png" alt="upload successful"></p>
+<h3 id="collect输出大量结果时速度慢"><a href="#collect输出大量结果时速度慢" class="headerlink" title="collect输出大量结果时速度慢"></a>collect输出大量结果时速度慢</h3><p>解决方案：</p>
+<p>collect源码中是把所有的结果以一个Array的方式放在内存中，可以直接输出到分布式的文件系统，然后查看文件系统中的内容；</p>
+<h3 id="repartition"><a href="#repartition" class="headerlink" title="repartition"></a>repartition</h3><p>问题: 通过多步骤的RDD操作后有很多空任务或者小任务产生</p>
+<p>解决方案：</p>
+<p>使用coalesce或者repartition去减少RDD中partition数量；</p>
+<h3 id="shuffle算子并行度调优"><a href="#shuffle算子并行度调优" class="headerlink" title="shuffle算子并行度调优"></a>shuffle算子并行度调优</h3><p><img src="/images/pasted-194.png" alt="upload successful"></p>
+<h3 id="数据倾斜"><a href="#数据倾斜" class="headerlink" title="数据倾斜"></a>数据倾斜</h3><p><img src="/images/pasted-195.png" alt="upload successful"></p>
+<h3 id="优化数据结构"><a href="#优化数据结构" class="headerlink" title="优化数据结构"></a>优化数据结构</h3><p><img src="/images/pasted-196.png" alt="upload successful"></p>
+<h3 id="推荐使用dataset"><a href="#推荐使用dataset" class="headerlink" title="推荐使用dataset"></a>推荐使用dataset</h3><p><img src="/images/pasted-197.png" alt="upload successful"></p>
+<p><img src="/images/pasted-198.png" alt="upload successful"></p>
+<h1 id="spark-sql"><a href="#spark-sql" class="headerlink" title="spark sql"></a>spark sql</h1><h2 id="spark-sql-shuffle-partitions"><a href="#spark-sql-shuffle-partitions" class="headerlink" title="spark.sql.shuffle.partitions"></a>spark.sql.shuffle.partitions</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.sql.shuffle.partitions	并发度	200	800</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-186.png" alt="upload successful"><br>对于大SQL，提高该值显著提升执行效率和稳定性  </p>
+<h2 id="大小表join"><a href="#大小表join" class="headerlink" title="大小表join"></a>大小表join</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.sql.autoBroadcastJoinThreshold	小表需要broadcast的大小阈值	10485760	33554432</span><br></pre></td></tr></table></figure>
+<p>默认10M</p>
+<h2 id="谓词下推"><a href="#谓词下推" class="headerlink" title="谓词下推"></a>谓词下推</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.sql.orc.filterPushdown	orc格式表是否谓词下推	false	true</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-189.png" alt="upload successful"></p>
+<p><img src="/images/pasted-190.png" alt="upload successful"></p>
+<h2 id="spark-sql-files-openCostInBytes"><a href="#spark-sql-files-openCostInBytes" class="headerlink" title="spark.sql.files.openCostInBytes"></a>spark.sql.files.openCostInBytes</h2><p>该参数默认4M，表示小于4M的小文件会合并到一个分区中，用于减小小文件，防止太多单个小文件占一个分区情况。   </p>
+<h2 id="存储格式选择"><a href="#存储格式选择" class="headerlink" title="存储格式选择"></a>存储格式选择</h2><p>spark.sql.hive.convertCTAS默认为false，如果为true则表示用户创建的表使用parquet格式，下面测试不同数据格式建表的存储大小和查询时间记录<br>orc格式的存储效率最佳，查询时间性能也比较好。考虑开启参数，建表默认使用orc格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark.sql.hive.convertCTAS	创建表是否使用默认格式	false	true</span><br><span class="line">spark.sql.sources.default	默认数据源格式	parquet	orc</span><br></pre></td></tr></table></figure></p>
+<h2 id="spark-dynamicAllocation-enabled"><a href="#spark-dynamicAllocation-enabled" class="headerlink" title="spark.dynamicAllocation.enabled"></a>spark.dynamicAllocation.enabled</h2><p>该特性用于join操作，目的是实现无shuffle的join，不是对所有SQL有效，调整为true可开启该特性   </p>
+<h1 id="spark-streaming"><a href="#spark-streaming" class="headerlink" title="spark.streaming"></a>spark.streaming</h1><h2 id="spark-streaming-concurrentJobs"><a href="#spark-streaming-concurrentJobs" class="headerlink" title="spark.streaming.concurrentJobs"></a>spark.streaming.concurrentJobs</h2><p>问题:Spark Streaming吞吐量不高</p>
+<p>可以设置spark.streaming.concurrentJobs</p>
+<h2 id="Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞"><a href="#Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞" class="headerlink" title="Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞"></a>Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞</h2><p>解决方案：</p>
+<p>这是因为我们设置job启动interval时间间隔太短了，导致每次job在指定时间无法正常执行完成，换句话说就是创建的windows窗口时间间隔太密集了；</p>
+<h1 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h1><p>  这里根据调研，有效的参数主要是InitiatingHeapOccupancyPercent，表示ConcGCThreads和G1HeapRegionSize。<br>  推荐35，15，4<br>  executor的stdout、stderr日志在集群本地，当出问题时，可以到相应的节点查询，当然从web ui上也可以直接看到。</p>
+<p>executor除了stdout、stderr日志，我们可以把gc日志打印出来，便于我们对jvm的内存和gc进行调试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--conf spark.executor.extraJavaOptions=&quot;-XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc.log&quot;</span><br></pre></td></tr></table></figure></p>
+<p>除了executor的日志，nodemanager的日志也会给我们一些帮助，比如因为超出内存上限被kill、资源抢占被kill等原因都能看到。</p>
+<p>除此之外，spark am的日志也会给我们一些帮助，从yarn的application页面可以直接看到am所在节点和log链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit \</span><br><span class="line">  --master yarn-cluster \</span><br><span class="line">  --num-executors 100 \</span><br><span class="line">  --executor-memory 6G \</span><br><span class="line">  --executor-cores 4 \</span><br><span class="line">  --driver-memory 1G \</span><br><span class="line">  --conf spark.default.parallelism=1000 \</span><br><span class="line">  --conf spark.storage.memoryFraction=0.5 \</span><br><span class="line">  --conf spark.shuffle.memoryFraction=0.3 \</span><br></pre></td></tr></table></figure></p>
 <p>参考：<br><a href="https://blog.csdn.net/stark_summer/article/details/42981201">https://blog.csdn.net/stark_summer/article/details/42981201</a><br><a href="https://www.cnblogs.com/lifeone/p/6428885.html">https://www.cnblogs.com/lifeone/p/6428885.html</a><br><a href="https://www.cnblogs.com/lifeone/p/6434840.html">https://www.cnblogs.com/lifeone/p/6434840.html</a><br><a href="https://www.jianshu.com/p/da7d5edfb61f">https://www.jianshu.com/p/da7d5edfb61f</a></p>
+<p><a href="https://blog.csdn.net/xwc35047/article/details/71039830">https://blog.csdn.net/xwc35047/article/details/71039830</a><br><a href="https://www.cnblogs.com/dreamfly2016/p/5720526.html">https://www.cnblogs.com/dreamfly2016/p/5720526.html</a></p>
 
       
     </div>
@@ -498,6 +555,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/18/hbase读代码分析/" rel="prev" title="hbase读流程代码分析">
+                hbase读流程代码分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -568,9 +629,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549903360145&di=a96c167c0fa5951423c8ebce83724c32&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F14%2F20151014121614_BPKi4.jpeg" alt="lifei">
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
             
-              <p class="site-author-name" itemprop="name">lifei</p>
+              <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -579,9 +640,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">248</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -592,7 +653,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -603,7 +664,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -636,7 +697,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-default-parallelism"><span class="nav-number">1.</span> <span class="nav-text">spark.default.parallelism</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-files-maxPartitionBytes-128-M（默认）"><span class="nav-number">2.</span> <span class="nav-text">spark.files.maxPartitionBytes = 128 M（默认）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-local-dir"><span class="nav-number">3.</span> <span class="nav-text">spark.local.dir</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-shuffle-consolidateFiles为true"><span class="nav-number">4.</span> <span class="nav-text">spark.shuffle.consolidateFiles为true</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-serializer"><span class="nav-number">5.</span> <span class="nav-text">spark.serializer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mapPartition"><span class="nav-number">6.</span> <span class="nav-text">mapPartition</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#collect输出大量结果时速度慢"><span class="nav-number">7.</span> <span class="nav-text">collect输出大量结果时速度慢</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-speculation"><span class="nav-number">8.</span> <span class="nav-text">spark.speculation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#repartition"><span class="nav-number">9.</span> <span class="nav-text">repartition</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-streaming-concurrentJobs"><span class="nav-number">10.</span> <span class="nav-text">spark.streaming.concurrentJobs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞"><span class="nav-number">11.</span> <span class="nav-text">Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用KryoSerializer进行序列化"><span class="nav-number">12.</span> <span class="nav-text">使用KryoSerializer进行序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将每个task中都使用的大的外部变量作为广播变量"><span class="nav-number">13.</span> <span class="nav-text">将每个task中都使用的大的外部变量作为广播变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将rdd进行持久化"><span class="nav-number">14.</span> <span class="nav-text">将rdd进行持久化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开启map端输出文件的合并机制"><span class="nav-number">15.</span> <span class="nav-text">开启map端输出文件的合并机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调节map端内存缓冲区"><span class="nav-number">16.</span> <span class="nav-text">调节map端内存缓冲区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调节reduce端内存占比"><span class="nav-number">17.</span> <span class="nav-text">调节reduce端内存占比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改shuffle管理器"><span class="nav-number">18.</span> <span class="nav-text">修改shuffle管理器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-reducer-maxSizeInFlight"><span class="nav-number">19.</span> <span class="nav-text">spark.reducer.maxSizeInFlight</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决JVM-GC导致的shuffle文件拉取失败"><span class="nav-number">20.</span> <span class="nav-text">解决JVM GC导致的shuffle文件拉取失败</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yarn-cluster模式的JVM内存溢出无法执行的问题"><span class="nav-number">21.</span> <span class="nav-text">yarn-cluster模式的JVM内存溢出无法执行的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#checkpoint的使用"><span class="nav-number">22.</span> <span class="nav-text">checkpoint的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spark集群优化"><span class="nav-number">1.</span> <span class="nav-text">spark集群优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据本地性"><span class="nav-number">1.1.</span> <span class="nav-text">数据本地性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark参数优化"><span class="nav-number">2.</span> <span class="nav-text">Spark参数优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算资源"><span class="nav-number">2.1.</span> <span class="nav-text">计算资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#num-executors"><span class="nav-number">2.1.1.</span> <span class="nav-text">num-executors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executor-memory"><span class="nav-number">2.1.2.</span> <span class="nav-text">executor-memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executor-cores"><span class="nav-number">2.1.3.</span> <span class="nav-text">executor-cores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#driver-memory"><span class="nav-number">2.1.4.</span> <span class="nav-text">driver-memory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-driver-cores"><span class="nav-number">2.1.5.</span> <span class="nav-text">spark.driver.cores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-driver-maxResultSize"><span class="nav-number">2.1.6.</span> <span class="nav-text">spark.driver.maxResultSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-local-dir"><span class="nav-number">2.1.7.</span> <span class="nav-text">spark.local.dir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-default-parallelism"><span class="nav-number">2.1.8.</span> <span class="nav-text">spark.default.parallelism</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-files-maxPartitionBytes-128-M（默认）"><span class="nav-number">2.1.9.</span> <span class="nav-text">spark.files.maxPartitionBytes = 128 M（默认）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-serializer"><span class="nav-number">2.1.10.</span> <span class="nav-text">spark.serializer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-speculation"><span class="nav-number">2.1.11.</span> <span class="nav-text">spark.speculation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-cleaner-ttl"><span class="nav-number">2.1.12.</span> <span class="nav-text">spark.cleaner.ttl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-executor-cores"><span class="nav-number">2.1.13.</span> <span class="nav-text">spark.executor.cores</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-akka-frameSize"><span class="nav-number">2.1.14.</span> <span class="nav-text">spark.akka.frameSize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-akka-threads"><span class="nav-number">2.1.15.</span> <span class="nav-text">spark.akka.threads</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-cores-max"><span class="nav-number">2.1.16.</span> <span class="nav-text">spark.cores.max</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#offheap-executor"><span class="nav-number">2.1.17.</span> <span class="nav-text">offheap(executor)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-executor-logs-rolling"><span class="nav-number">2.1.18.</span> <span class="nav-text">spark.executor.logs.rolling.*</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-python-worker-memory"><span class="nav-number">2.1.19.</span> <span class="nav-text">spark.python.worker.memory</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化shuffle过程参数"><span class="nav-number">2.2.</span> <span class="nav-text">优化shuffle过程参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-shuffle-manager"><span class="nav-number">2.2.1.</span> <span class="nav-text">spark.shuffle.manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调节map端内存缓冲区"><span class="nav-number">2.2.2.</span> <span class="nav-text">调节map端内存缓冲区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调节reduce端内存占比"><span class="nav-number">2.2.3.</span> <span class="nav-text">调节reduce端内存占比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-shuffle-service-enabled"><span class="nav-number">2.2.4.</span> <span class="nav-text">spark.shuffle.service.enabled</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-reducer-maxSizeInFlight"><span class="nav-number">2.2.5.</span> <span class="nav-text">spark.reducer.maxSizeInFlight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决JVM-GC导致的shuffle文件拉取失败"><span class="nav-number">2.2.6.</span> <span class="nav-text">解决JVM GC导致的shuffle文件拉取失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-shuffle-consolidateFiles为true"><span class="nav-number">2.2.7.</span> <span class="nav-text">spark.shuffle.consolidateFiles为true</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改shuffle管理器"><span class="nav-number">2.3.</span> <span class="nav-text">修改shuffle管理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yarn-cluster模式的JVM内存溢出无法执行的问题"><span class="nav-number">2.4.</span> <span class="nav-text">yarn-cluster模式的JVM内存溢出无法执行的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#checkpoint的使用"><span class="nav-number">2.5.</span> <span class="nav-text">checkpoint的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用KryoSerializer进行序列化"><span class="nav-number">2.6.</span> <span class="nav-text">使用KryoSerializer进行序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将每个task中都使用的大的外部变量作为广播变量"><span class="nav-number">2.7.</span> <span class="nav-text">将每个task中都使用的大的外部变量作为广播变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将rdd进行持久化"><span class="nav-number">2.8.</span> <span class="nav-text">将rdd进行持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码优化"><span class="nav-number">2.9.</span> <span class="nav-text">代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#collect输出大量结果时速度慢"><span class="nav-number">2.9.1.</span> <span class="nav-text">collect输出大量结果时速度慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repartition"><span class="nav-number">2.9.2.</span> <span class="nav-text">repartition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shuffle算子并行度调优"><span class="nav-number">2.9.3.</span> <span class="nav-text">shuffle算子并行度调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据倾斜"><span class="nav-number">2.9.4.</span> <span class="nav-text">数据倾斜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化数据结构"><span class="nav-number">2.9.5.</span> <span class="nav-text">优化数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐使用dataset"><span class="nav-number">2.9.6.</span> <span class="nav-text">推荐使用dataset</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-sql"><span class="nav-number">3.</span> <span class="nav-text">spark sql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-sql-shuffle-partitions"><span class="nav-number">3.1.</span> <span class="nav-text">spark.sql.shuffle.partitions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大小表join"><span class="nav-number">3.2.</span> <span class="nav-text">大小表join</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谓词下推"><span class="nav-number">3.3.</span> <span class="nav-text">谓词下推</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-sql-files-openCostInBytes"><span class="nav-number">3.4.</span> <span class="nav-text">spark.sql.files.openCostInBytes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储格式选择"><span class="nav-number">3.5.</span> <span class="nav-text">存储格式选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-dynamicAllocation-enabled"><span class="nav-number">3.6.</span> <span class="nav-text">spark.dynamicAllocation.enabled</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spark-streaming"><span class="nav-number">4.</span> <span class="nav-text">spark.streaming</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-streaming-concurrentJobs"><span class="nav-number">4.1.</span> <span class="nav-text">spark.streaming.concurrentJobs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming-运行速度突然下降了，经常会有任务延迟和阻塞"><span class="nav-number">4.2.</span> <span class="nav-text">Spark Streaming 运行速度突然下降了，经常会有任务延迟和阻塞</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GC调优"><span class="nav-number">5.</span> <span class="nav-text">GC调优</span></a></li></ol></div>
             
 
           </div>
@@ -660,7 +721,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">lifei</span>
+  <span class="author" itemprop="copyrightHolder"></span>
 
   
 </div>
@@ -730,6 +791,8 @@
   
 
 
+  
+
 
 
 
@@ -768,6 +831,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
