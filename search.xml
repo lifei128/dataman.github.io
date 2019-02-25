@@ -1321,7 +1321,7 @@
   <entry>
     <title><![CDATA[of4 把空格替换成“%20”]]></title>
     <url>%2F2017%2F02%2F24%2Fof4%2F</url>
-    <content type="text"><![CDATA[package offer; /** Created by lifei on 2017/3/26. 题目：请实现一个函数，把字符串中的每个空格替换成“%20”。例如输入“We are happy”，则输出”We%20are%20happy”.* java replace,StringBuilder* 本题目考察更多的是数组替换,而非字符串替换* 思路: 1.先统计中空格的个数,计算替换之后的长度 2.分配两个指针*/public class Of4 {public static void main(String[] args){ String str = “we are happy.”; char[] chars = str.toCharArray(); int blankNum = 0; for (char c:chars) {if (c == &apos; &apos;)blankNum++; } if (blankNum == 0){System.out.println(str); return; } int oldlength = str.length(); int newlength = oldlength + 2*blankNum;//获取新数组长度 char[] newChars = new char[newlength]; System.arraycopy(chars,0,newChars,0,oldlength); int p = oldlength - 1;//todo 从后向前遍历 int q = newlength - 1; while (p &gt;= 0){if (chars[p] != &apos; &apos;){ newChars[q--] = chars[p--]; } else { newChars[q--] = &apos;0&apos;; newChars[q--] = &apos;2&apos;; newChars[q--] = &apos;%&apos;; p--; } } System.out.println(new String(newChars));} }]]></content>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546package offer;/** * Created by lifei on 2017/3/26. * 题目：请实现一个函数，把字符串中的每个空格替换成“%20”。例如输入“We are happy&quot;，则输出”We%20are%20happy&quot;. * * java replace,StringBuilder * * 本题目考察更多的是数组替换,而非字符串替换 * * 思路: * 1.先统计中空格的个数,计算替换之后的长度 * 2.分配两个指针 */public class Of4 &#123; public static void main(String[] args)&#123; String str = &quot;we are happy.&quot;; char[] chars = str.toCharArray(); int blankNum = 0; for (char c:chars) &#123; if (c == &apos; &apos;)blankNum++; &#125; if (blankNum == 0)&#123; System.out.println(str); return; &#125; int oldlength = str.length(); int newlength = oldlength + 2*blankNum;//获取新数组长度 char[] newChars = new char[newlength]; System.arraycopy(chars,0,newChars,0,oldlength); int p = oldlength - 1;//todo 从后向前遍历 int q = newlength - 1; while (p &gt;= 0)&#123; if (chars[p] != &apos; &apos;)&#123; newChars[q--] = chars[p--]; &#125; else &#123; newChars[q--] = &apos;0&apos;; newChars[q--] = &apos;2&apos;; newChars[q--] = &apos;%&apos;; p--; &#125; &#125; System.out.println(new String(newChars)); &#125;&#125;]]></content>
       <categories>
         <category>sword</category>
       </categories>
@@ -1885,12 +1885,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[L572_IsSubtree]]></title>
-    <url>%2F2016%2F01%2F26%2FL572-IsSubtree%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960package LeetCode.topic.tree;/** * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。 * * 示例 1: * 给定的树 s: * * 3 * / \ * 4 5 * / \ * 1 2 * 给定的树 t： * * 4 * / \ * 1 2 * 返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。 * * 示例 2: * 给定的树 s： * * 3 * / \ * 4 5 * / \ * 1 2 * / * 0 * 给定的树 t： * * 4 * / \ * 1 2 * 返回 false。 */public class L572_IsSubtree &#123; public boolean isSubtree(TreeNode s, TreeNode t) &#123; if (s == null &amp;&amp; t != null)return false; return isSame(s,t) || isSubtree(s.left,t) || isSubtree(s.right,t); &#125; private boolean isSame(TreeNode s, TreeNode t) &#123; if (s!= null &amp;&amp; t != null)&#123; return s.val == t.val &amp;&amp; isSame(s.left,t.left) &amp;&amp; isSame(s.right,t.right); &#125; else if (s == null &amp;&amp; t == null)&#123; return true; &#125; else &#123; return false; &#125; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
-      <categories>
-        <category>lcd</category>
-      </categories>
+    <title><![CDATA[L617_MergeTrees]]></title>
+    <url>%2F2016%2F01%2F26%2FL617-MergeTrees%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243package LeetCode.topic.tree;/** * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。 * * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。 * * 示例 1: * * 输入: * Tree 1 Tree 2 * 1 2 * / \ / \ * 3 2 1 3 * / \ \ * 5 4 7 * 输出: * 合并后的树: * 3 * / \ * 4 5 * / \ \ * 5 4 7 * 注意: 合并必须从两个树的根节点开始。 */public class L617_MergeTrees &#123; public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123; if (t1 == null) return t2; if (t2 == null) return t1; TreeNode cur = new TreeNode(t1.val + t2.val); cur.left = mergeTrees(t1.left,t2.left); cur.right = mergeTrees(t1.right,t2.right); return cur; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
       <tags>
         <tag>lcd</tag>
         <tag>tree</tag>
@@ -1898,9 +1895,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[L617_MergeTrees]]></title>
-    <url>%2F2016%2F01%2F26%2FL617-MergeTrees%2F</url>
-    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243package LeetCode.topic.tree;/** * 给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。 * * 你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。 * * 示例 1: * * 输入: * Tree 1 Tree 2 * 1 2 * / \ / \ * 3 2 1 3 * / \ \ * 5 4 7 * 输出: * 合并后的树: * 3 * / \ * 4 5 * / \ \ * 5 4 7 * 注意: 合并必须从两个树的根节点开始。 */public class L617_MergeTrees &#123; public TreeNode mergeTrees(TreeNode t1, TreeNode t2) &#123; if (t1 == null) return t2; if (t2 == null) return t1; TreeNode cur = new TreeNode(t1.val + t2.val); cur.left = mergeTrees(t1.left,t2.left); cur.right = mergeTrees(t1.right,t2.right); return cur; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+    <title><![CDATA[L572_IsSubtree]]></title>
+    <url>%2F2016%2F01%2F26%2FL572-IsSubtree%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960package LeetCode.topic.tree;/** * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。 * * 示例 1: * 给定的树 s: * * 3 * / \ * 4 5 * / \ * 1 2 * 给定的树 t： * * 4 * / \ * 1 2 * 返回 true，因为 t 与 s 的一个子树拥有相同的结构和节点值。 * * 示例 2: * 给定的树 s： * * 3 * / \ * 4 5 * / \ * 1 2 * / * 0 * 给定的树 t： * * 4 * / \ * 1 2 * 返回 false。 */public class L572_IsSubtree &#123; public boolean isSubtree(TreeNode s, TreeNode t) &#123; if (s == null &amp;&amp; t != null)return false; return isSame(s,t) || isSubtree(s.left,t) || isSubtree(s.right,t); &#125; private boolean isSame(TreeNode s, TreeNode t) &#123; if (s!= null &amp;&amp; t != null)&#123; return s.val == t.val &amp;&amp; isSame(s.left,t.left) &amp;&amp; isSame(s.right,t.right); &#125; else if (s == null &amp;&amp; t == null)&#123; return true; &#125; else &#123; return false; &#125; &#125; public class TreeNode &#123; int val; TreeNode left; TreeNode right; TreeNode(int x) &#123; val = x; &#125; &#125;&#125;]]></content>
+      <categories>
+        <category>lcd</category>
+      </categories>
       <tags>
         <tag>lcd</tag>
         <tag>tree</tag>
