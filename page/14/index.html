@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/YARN-作业执行流程/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/单例模式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/19/YARN-作业执行流程/" itemprop="url">YARN 作业执行流程</a></h1>
+                <a class="post-title-link" href="/2017/02/21/单例模式/" itemprop="url">单例模式</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-19T23:00:00+08:00">
-                2017-02-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T16:57:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -364,14 +364,16 @@
       
         
           
-          YARN 作业执行流程：
+          单例应用
 
-用户向 YARN 中提交应用程序，其中包括 MRAppMaster 程序，启动 MRAppMaster 的命令， 用户程序等。
-ResourceManager 为该程序分配第一个 Container，并与对应的 NodeManager 通讯，要求 它在这个 Contain
+单例模式的定义单例模式确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例。  
+单例模式的特点单例类只能有一个实例。单例类必须自己创建自己的唯一实例。单例类必须给所有其他对象提供这一实例。   
+单例模式的应用   
+在计算机系统中，线程池、缓存、日志对象、对话框、打印机、显
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/19/YARN-作业执行流程/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/单例模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -422,7 +424,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/yarn资源优化/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/I-O/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -441,7 +443,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/19/yarn资源优化/" itemprop="url">yarn资源优化</a></h1>
+                <a class="post-title-link" href="/2017/02/21/I-O/" itemprop="url">I/O</a></h1>
         
 
         <div class="post-meta">
@@ -453,8 +455,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-19T18:33:00+08:00">
-                2017-02-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T16:35:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -476,8 +478,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
+                  <a href="/categories/netty/" itemprop="url" rel="index">
+                    <span itemprop="name">netty</span>
                   </a>
                 </span>
 
@@ -515,12 +517,11 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
       
         
           
-          在hadoop 2.x中，引入了Yarn架构做资源管理，在每个节点上面运行NodeManager负责节点资源的分配，而slot也不再像1.x那样区分Map slot和Reduce slot。在Yarn上面Container是资源的分配的最小单元。yarn参数配置文件为yarn-site.xml
-内存
+          BIO:JDK1.4以前我们使用都是BIO 阻塞IO阻塞到我们的读写方法,阻塞到线程来提供性能.对于线程的开销本来就是性能的浪费.NIO:jdk1.4  linux 多路复用技术(select模式)  实现IO事件的轮询方式:同步非阻塞的模式.这个种方式目前是主流的网络通信模式.Mina，netty
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/19/yarn资源优化/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/I-O/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -571,7 +572,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/19/hive的桶/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/docker部署mesos/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -590,7 +591,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/19/hive的桶/" itemprop="url">hive的桶</a></h1>
+                <a class="post-title-link" href="/2017/02/21/docker部署mesos/" itemprop="url">docker部署mesos</a></h1>
         
 
         <div class="post-meta">
@@ -602,8 +603,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-19T17:37:00+08:00">
-                2017-02-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T16:01:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -625,8 +626,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hive/" itemprop="url" rel="index">
-                    <span itemprop="name">hive</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -664,13 +665,12 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
       
         
           
-          对于每一个表（table）或者分区， Hive可以进一步组织成桶，也就是说桶是更为细粒度的数据范围划分。Hive也是 针对某一列进行桶的组织。Hive采用对列值哈希，然后除以桶的个数求余的方式决定该条记录存放在哪个桶当中。
-把表（或者分区）组织成桶（Bucket）有两个理由：
-（1）获得更高的查询处
-          ...
+          http://dockone.io/article/136
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/19/hive的桶/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/docker部署mesos/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -721,7 +721,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Hfile/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/flume接收kafka-source落地本地/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -740,7 +740,7 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Hfile/" itemprop="url">Hfile格式</a></h1>
+                <a class="post-title-link" href="/2017/02/21/flume接收kafka-source落地本地/" itemprop="url">flume接收kafka source落地本地</a></h1>
         
 
         <div class="post-meta">
@@ -752,8 +752,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T17:52:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:54:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -775,8 +775,8 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/flume/" itemprop="url" rel="index">
+                    <span itemprop="name">flume</span>
                   </a>
                 </span>
 
@@ -814,12 +814,11 @@ ResourceManager 为该程序分配第一个 Container，并与对应的 NodeMana
       
         
           
-          HBase的数据以KeyValue(Cell)的形式顺序的存储在HFile中，在MemStore的Flush过程中生成HFile，由于MemStore中存储的Cell遵循相同的排列顺序，因而Flush过程是顺序写，我们直到磁盘的顺序写性能很高，因为不需要不停的移动磁盘指针。   
-HFile参考Bi
+          flume接收kafka source落地本地，然后上传hdfs，避免flume直接上传hdfsmaven工程pom.xml1234567891011&lt;version.flume&gt;1.7.0&lt;/version.flume&gt;&lt;dependency&gt;	&lt;grou
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Hfile/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/flume接收kafka-source落地本地/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -870,7 +869,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/RegionServer的故障恢复/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/flink-slot/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -889,7 +888,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/RegionServer的故障恢复/" itemprop="url">RegionServer的故障恢复</a></h1>
+                <a class="post-title-link" href="/2017/02/21/flink-slot/" itemprop="url">flink slot</a></h1>
         
 
         <div class="post-meta">
@@ -901,8 +900,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T17:49:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:52:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -924,8 +923,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -963,11 +962,11 @@ HFile参考Bi
       
         
           
-          我们知道，RegionServer的相关信息保存在ZK中，在RegionServer启动的时候，会在Zookeeper中创建对应的临时节点。RegionServer通过Socket和Zookeeper建立session会话，RegionServer会周期性地向Zookeeper发送ping消息包，以
+          slot在flink里面可以认为是资源组，Flink是通过将任务分成子任务并且将这些子任务分配到slot来并行执行程序。每个Flink TaskManager在集群中提供处理槽。 插槽的数量通常与每个TaskManager的可用CPU内核数成比例。一般情况下你的slot数是你每个TM的cpu的核数。
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/RegionServer的故障恢复/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/flink-slot/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1018,7 +1017,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Region的拆分/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/richfunction-广播变量/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1037,7 +1036,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Region的拆分/" itemprop="url">Region的拆分</a></h1>
+                <a class="post-title-link" href="/2017/02/21/richfunction-广播变量/" itemprop="url">richfunction 广播变量</a></h1>
         
 
         <div class="post-meta">
@@ -1049,8 +1048,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T17:38:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:49:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -1072,8 +1071,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -1111,11 +1110,11 @@ HFile参考Bi
       
         
           
-          Hbase Region的三种拆分策略Hbase Region的拆分策略有比较多，比如除了3种默认过的策略，还有DelimitedKeyPrefixRegionSplitPolicy、KeyPrefixRegionSplitPolicy、DisableSplitPolicy等策略，这里只介绍3种默认
+          1234567891011121314151617181920212223242526272829303132333435package com.examples.infoworld.helloword;import org.apache.flink.api.common.functions.Ric
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Region的拆分/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/richfunction-广播变量/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1166,7 +1165,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/HBase读请求分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/richfunction-传递参数/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1185,7 +1184,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/HBase读请求分析/" itemprop="url">HBase读请求分析</a></h1>
+                <a class="post-title-link" href="/2017/02/21/richfunction-传递参数/" itemprop="url">richfunction 传递参数</a></h1>
         
 
         <div class="post-meta">
@@ -1197,8 +1196,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T16:36:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:48:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -1220,8 +1219,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -1259,11 +1258,11 @@ HFile参考Bi
       
         
           
-          本文主要是基于HBase的0.98.8版本的实现。HBase能提供实时计算服务主要原因是由其架构和底层的数据结构决定的，即由LSM-Tree(Log-Structured Merge-Tree) + HTable(region分区) + Cache决定——客户端可以直接定位到要查数据所在的HRegi
+          1234567891011121314151617181920212223242526272829303132333435363738394041424344package com.examples.infoworld.helloword;/** *RichFuction除了提供原来MapFucti
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/HBase读请求分析/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/richfunction-传递参数/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1314,7 +1313,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Hbase写入逻辑/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/java-scala混排/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1333,7 +1332,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Hbase写入逻辑/" itemprop="url">Hbase写入逻辑</a></h1>
+                <a class="post-title-link" href="/2017/02/21/java-scala混排/" itemprop="url">java scala混排</a></h1>
         
 
         <div class="post-meta">
@@ -1345,8 +1344,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T10:42:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:47:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -1368,8 +1367,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/scala/" itemprop="url" rel="index">
+                    <span itemprop="name">scala</span>
                   </a>
                 </span>
 
@@ -1407,11 +1406,11 @@ HFile参考Bi
       
         
           
-          写入逻辑HBase仅仅支持行级别的事务一致性。本文主要探讨一下HBase的写请求流程。主要基于0.98.8版本号的实现Hbase的写逻辑涉及到写内存、写log、刷盘等操作从上图可以看出氛围3步骤：第1步：Client获取数据写入的Region所在的RegionServer第2步：请求写Hlog第3步
+          12345678910111213141516package com.examples.infoworld.helloword;public class Cal &#123;    public int add(int a,int b)&#123;        return a+b;    &#1
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Hbase写入逻辑/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/java-scala混排/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1462,7 +1461,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/hbase中的zookeeper/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/wc/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1481,7 +1480,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/hbase中的zookeeper/" itemprop="url">hbase中的zookeeper</a></h1>
+                <a class="post-title-link" href="/2017/02/21/wc/" itemprop="url">wc</a></h1>
         
 
         <div class="post-meta">
@@ -1493,8 +1492,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T10:11:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T15:42:00+08:00">
+                2017-02-21
               </time>
             
 
@@ -1516,8 +1515,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -1555,14 +1554,11 @@ HFile参考Bi
       
         
           
-          ZooKeeper：协调者ZooKeeper为HBase集群提供协调服务
-
-它管理着HMaster和HRegionServer的状态(available/alive等)，并且会在它们宕机时通知给HMaster，从而HMaster可以实现HMaster之间的failover
-对宕机的HRegionSe
+          java v112345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/hbase中的zookeeper/#more" rel="contents">
+            <a class="btn" href="/2017/02/21/wc/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1613,7 +1609,7 @@ HFile参考Bi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/18/Region寻址/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/传数据/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1632,7 +1628,7 @@ HFile参考Bi
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/18/Region寻址/" itemprop="url">Region寻址</a></h1>
+                <a class="post-title-link" href="/2017/02/20/传数据/" itemprop="url">传数据</a></h1>
         
 
         <div class="post-meta">
@@ -1644,8 +1640,8 @@ HFile参考Bi
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T09:34:00+08:00">
-                2017-02-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T20:03:00+08:00">
+                2017-02-20
               </time>
             
 
@@ -1667,8 +1663,8 @@ HFile参考Bi
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -1706,11 +1702,12 @@ HFile参考Bi
       
         
           
-          老的Region寻址方式在Hbase 0.96版本以前，Hbase有两个特殊的表，分别是-ROOT-表和.META.表，其中-ROOT-的位置存储在ZooKeeper中，-ROOT-本身存储了 .META. Table的RegionInfo信息，并且-ROOT-不会分裂，只有一个region。而.M
+          1）进入待分享的目录2）执行命令python -m SimpleHTTPServer 端口号　　　　注意：不填端口号则默认使用8000端口。3）浏览器访问该主机的地址：http://IP:端口号/python -m SimpleHTTPServer 8000
+wget –limit-rate=30m
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/18/Region寻址/#more" rel="contents">
+            <a class="btn" href="/2017/02/20/传数据/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1752,7 +1749,7 @@ HFile参考Bi
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1800,7 +1797,7 @@ HFile参考Bi
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">248</span>
+                  <span class="site-state-item-count">268</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
