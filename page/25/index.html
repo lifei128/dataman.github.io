@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/查看hfile的内容/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/JVM-GC介绍/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/查看hfile的内容/" itemprop="url">查看hfile的内容</a></h1>
+                <a class="post-title-link" href="/2015/02/20/JVM-GC介绍/" itemprop="url">JVM GC介绍</a></h1>
         
 
         <div class="post-meta">
@@ -302,7 +302,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T17:31:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:24:00+08:00">
                 2015-02-20
               </time>
             
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -364,11 +364,12 @@
       
         
           
-          12345678910111213关键字： HFile Tool  采用org.apache.hadoop.hbase.io.hfile.HFile工具 命令：$&#123;HBASE_HOME&#125;/bin/hbase org.apache.hadoop.hbase.io.hfile.HFi
+          JVM Heap在实现中被切分成了不同的generation，比如生命周期短的对象会放在young generation，而生命周期长的对象放在tenured generation中，如下图
+当GC只发生在young generation中，回收young generation中的对象，称为Mino
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/查看hfile的内容/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/JVM-GC介绍/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,7 +420,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/zookeeper服务对hbase的影响/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/jmap、jstat命令说明/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -438,7 +439,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/zookeeper服务对hbase的影响/" itemprop="url">zookeeper服务对hbase的影响</a></h1>
+                <a class="post-title-link" href="/2015/02/20/jmap、jstat命令说明/" itemprop="url">jmap、jstat命令说明</a></h1>
         
 
         <div class="post-meta">
@@ -450,7 +451,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T17:30:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:11:00+08:00">
                 2015-02-20
               </time>
             
@@ -473,8 +474,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -512,14 +513,11 @@
       
         
           
-          在hbase运行期间，删除所有的znode，hbase会自动停掉所有进程，服务停止。
-但是这些znode信息可以通过重启hbase来恢复。
-所以假如误删了znode，hbase无法提供服务的时候，立马重启hbase即可解决问题。
-
-          
+          jmap使用G1收集器1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253 /home/q/java/default/bin/jmap -heap 29591
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/zookeeper服务对hbase的影响/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/jmap、jstat命令说明/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -570,7 +568,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HDFS权限配置/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HDFS-HA与QJM-官网整理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -589,7 +587,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HDFS权限配置/" itemprop="url">HDFS权限配置</a></h1>
+                <a class="post-title-link" href="/2015/02/20/HDFS-HA与QJM-官网整理/" itemprop="url">HDFS HA与QJM-官网整理</a></h1>
         
 
         <div class="post-meta">
@@ -601,7 +599,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T15:46:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:08:00+08:00">
                 2015-02-20
               </time>
             
@@ -663,12 +661,12 @@
       
         
           
-          1.开启权限配置修改hdfs-site.xml配置文件，添加：1234&lt;property&gt;&lt;name&gt;dfs.namenode.acls.enabled&lt;/name&gt;&lt;value&gt;true&lt;/value&gt;&lt;/property&gt;
-
+          默认的”sbin/start-dfs.sh”脚本会根据”dfs.namenode.shared.edits.dir”配置，在相应的Datanode上启动journalNodes。当然我们可以使用:：”bin/hdfs start journalnode”分别在相应的机器上启动。
+一旦JournalN
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HDFS权限配置/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/HDFS-HA与QJM-官网整理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -719,7 +717,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase权限控制/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase配置参考/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -738,7 +736,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase权限控制/" itemprop="url">HBase权限控制</a></h1>
+                <a class="post-title-link" href="/2015/02/20/hbase配置参考/" itemprop="url">hbase配置参考</a></h1>
         
 
         <div class="post-meta">
@@ -750,7 +748,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T15:44:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:06:00+08:00">
                 2015-02-20
               </time>
             
@@ -812,12 +810,13 @@
       
         
           
-          周末线上HBase集群全部机器报警，紧急上线重启，然后查找原因，通过log看到是人为shutdown， 这是因为线上HBase应用服务器都配置了hbase-site.xml，直接就能连到线上进行操作。这对我们 运维人员来说是个漏洞，需要立刻补上这个漏洞。
-相比较MySQL等关系型数据库，HBase的
+          hbase内存配置修改/home/q/hbase/hbase-0.98.1-cdh5.1.0/conf/hbase-env.sh
+守护进程8G1export HBASE_HEAPSIZE=8192
+Hmaster 8G12345export HBASE_OPTS=&quot;Xms8g -Xmx8g
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase权限控制/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/hbase配置参考/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -868,7 +867,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/BlockCache/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase的timestamp相关操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -887,7 +886,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/BlockCache/" itemprop="url">BlockCache</a></h1>
+                <a class="post-title-link" href="/2015/02/20/hbase的timestamp相关操作/" itemprop="url">hbase的timestamp相关操作</a></h1>
         
 
         <div class="post-meta">
@@ -899,7 +898,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T14:57:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:03:00+08:00">
                 2015-02-20
               </time>
             
@@ -961,11 +960,11 @@
       
         
           
-          默认配置HBase使用single on-heap cache(堆内)。 如果配置了off-heap BucketCache，则on-heap缓存将用于布隆过滤器和索引，而off-heap BucketCache则用于缓存数据块,称为Combined Blockcache。 Combined Blo
+          timestamp转换为可读的方式1234hbase(main):010:0&gt;import java.util.Date=&gt; Java::JavaUtil::Datehbase(main):011:0&gt; Date.new(1446520588410).toString()=&gt;
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/BlockCache/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/hbase的timestamp相关操作/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1016,7 +1015,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-GC原理和优化/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase存储架构深入/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1035,7 +1034,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase-GC原理和优化/" itemprop="url">HBase GC原理和优化</a></h1>
+                <a class="post-title-link" href="/2015/02/20/hbase存储架构深入/" itemprop="url">hbase存储架构深入</a></h1>
         
 
         <div class="post-meta">
@@ -1047,7 +1046,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T14:20:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:00:00+08:00">
                 2015-02-20
               </time>
             
@@ -1109,12 +1108,13 @@
       
         
           
-          学习来源：HBase官网和http://hbasefly.com/
-Java GC                  GC的出现是来源于在内存管理时大多数内存对象要么生存周期特别短，可以快速进行内存回收。要么生存周期比较长。 JVM将整个堆内存分为两部分：新生代(young generation)和
+          HBase的存储架构图
+HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种用于存储具体的数据。
+这两种文件主要由HRegionServer来管理，但是在有的情况下HMaster会跳过HRegionServer，直接操作这两种文件。这些文件都被存储在HDFS上面，并且每个文件包含了多
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase-GC原理和优化/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/hbase存储架构深入/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1165,7 +1165,7 @@ Java GC                  GC的出现是来源于在内存管理时大多数内�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-HBCK/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase协处理器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1184,7 +1184,7 @@ Java GC                  GC的出现是来源于在内存管理时大多数内�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase-HBCK/" itemprop="url">HBase HBCK</a></h1>
+                <a class="post-title-link" href="/2015/02/20/hbase协处理器/" itemprop="url">hbase协处理器</a></h1>
         
 
         <div class="post-meta">
@@ -1196,7 +1196,7 @@ Java GC                  GC的出现是来源于在内存管理时大多数内�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T14:01:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:51:00+08:00">
                 2015-02-20
               </time>
             
@@ -1258,13 +1258,11 @@ Java GC                  GC的出现是来源于在内存管理时大多数内�
       
         
           
-          hbase hbck检查和修复数据一致性。
-HBase提供了hbck命令来检查各种不一致问题。检查hbase集群数据一致性1[hadoop@hostname /home/q/hbase/hbase-0.98.1-cdh5.1.0]$ ./bin/hbase hbck
-Status: OK表示集群是一
+          Hbase自0.92之后开始支持Coprocessor（协处理器），旨在使用户可以将自己的代码放在regionserver上来运行，即将计算程序移动到数据所在的位置进行运算。这一点与MapReduce的思想一致。协处理器框架已经提供了一些类，用户可以通过继承这些类来扩展自己的功能，Hbase的Cop
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase-HBCK/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/hbase协处理器/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1315,7 +1313,7 @@ Status: OK表示集群是一
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-Non-DFS-Used计算/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-zabbix监控项/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1334,7 +1332,7 @@ Status: OK表示集群是一
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase-Non-DFS-Used计算/" itemprop="url">Non DFS Used计算</a></h1>
+                <a class="post-title-link" href="/2015/02/20/HBase-zabbix监控项/" itemprop="url">HBase zabbix监控项</a></h1>
         
 
         <div class="post-meta">
@@ -1346,7 +1344,155 @@ Status: OK表示集群是一
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T13:59:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:46:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          jvm监控“name” : “Hadoop:service=HBase,name=JvmMetrics”12345678910111213141516171819202122232425262728293031323334GcCount JVM进行GC的次数  GcTimeMillis  GC花费的
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/20/HBase-zabbix监控项/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hadoop配置参考/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/20/hadoop配置参考/" itemprop="url">hadoop配置参考</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:43:00+08:00">
                 2015-02-20
               </time>
             
@@ -1408,12 +1554,12 @@ Status: OK表示集群是一
       
         
           
-          100G的磁盘，dfs.datanode.du.reserved配置是30G，系统文件和其它一些文件一共40G，dfs使用了10个G，那么NonDFSUsed使用了多少？
-Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
+          hadoop内存配置修改/home/q/hadoop/hadoop-2.3.0-cdh5.1.0/etc/hadoop/hadoop-env.sh
+hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP_NAMENODE_IN
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase-Non-DFS-Used计算/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/hadoop配置参考/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1464,7 +1610,7 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase备份恢复实战篇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/Garbage-First-G1-收集器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1483,7 +1629,7 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase备份恢复实战篇/" itemprop="url">HBase备份恢复实战篇</a></h1>
+                <a class="post-title-link" href="/2015/02/20/Garbage-First-G1-收集器/" itemprop="url">Garbage-First(G1)收集器</a></h1>
         
 
         <div class="post-meta">
@@ -1495,7 +1641,7 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T13:52:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:04:00+08:00">
                 2015-02-20
               </time>
             
@@ -1518,8 +1664,8 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1557,160 +1703,11 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
       
         
           
-          模拟线上需求：数据不断有写入，需要搭建一个该表的slave供离线分析。12create &apos;testtable&apos;, &#123;NAME =&gt; &apos;c1&apos;&#125;for i in &apos;1&apos;..&apos;10000&apos; do f
+          垃圾回收的瓶颈传统分代垃圾回收方式，已经在一定程度上把垃圾回收给应用带来的负担降到了最小，把应用的吞吐量推到了一个极限。但是他无法解决的一个问题，就是Full GC所带来的应用暂停。在一些对实时性要求很高的应用场景下，GC暂停所带来的请求堆积和请求失败是无法接受的。这类应用可能要求请求的返回时间在几
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase备份恢复实战篇/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/TCP网卡绑定的问题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/02/20/TCP网卡绑定的问题/" itemprop="url">TCP网卡绑定的问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T11:31:00+08:00">
-                2015-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          现象haas中regionserver频繁报警killed、running。分析hbase regionserver日志发现异常：
-12345678910111213141516171819202122232425262728293031322017-08-29 11:14:33,703 WARN 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/TCP网卡绑定的问题/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/Garbage-First-G1-收集器/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1752,7 +1749,7 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/24/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/26/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/24/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/26/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1800,7 +1797,7 @@ Non DFS used = 100GB(Total) - 30 GB( Reserved) - 10 GB (DFS used
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">268</span>
+                  <span class="site-state-item-count">282</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

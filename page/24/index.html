@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase的timestamp相关操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/23/探索-ConcurrentHashMap-高并发性的实现机制/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/hbase的timestamp相关操作/" itemprop="url">hbase的timestamp相关操作</a></h1>
+                <a class="post-title-link" href="/2015/02/23/探索-ConcurrentHashMap-高并发性的实现机制/" itemprop="url">探索 ConcurrentHashMap 高并发性的实现机制</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:03:00+08:00">
-                2015-02-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-23T10:35:00+08:00">
+                2015-02-23
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -364,11 +364,12 @@
       
         
           
-          timestamp转换为可读的方式1234hbase(main):010:0&gt;import java.util.Date=&gt; Java::JavaUtil::Datehbase(main):011:0&gt; Date.new(1446520588410).toString()=&gt;
+          简介ConcurrentHashMap 是 util.concurrent 包的重要成员。本文将结合 Java 内存模型，分析 JDK 源代码，探索 ConcurrentHashMap 高并发的具体实现机制。
+由于 ConcurrentHashMap 的源代码实现依赖于 Java 内存模型，所以阅读
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/hbase的timestamp相关操作/#more" rel="contents">
+            <a class="btn" href="/2015/02/23/探索-ConcurrentHashMap-高并发性的实现机制/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,7 +420,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase存储架构深入/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/21/HBase集群间主机批量建立互信/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -438,7 +439,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/hbase存储架构深入/" itemprop="url">hbase存储架构深入</a></h1>
+                <a class="post-title-link" href="/2015/02/21/HBase集群间主机批量建立互信/" itemprop="url">集群间主机批量建立互信</a></h1>
         
 
         <div class="post-meta">
@@ -450,8 +451,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:00:00+08:00">
-                2015-02-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-21T09:30:00+08:00">
+                2015-02-21
               </time>
             
 
@@ -473,8 +474,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -512,13 +513,13 @@
       
         
           
-          HBase的存储架构图
-HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种用于存储具体的数据。
-这两种文件主要由HRegionServer来管理，但是在有的情况下HMaster会跳过HRegionServer，直接操作这两种文件。这些文件都被存储在HDFS上面，并且每个文件包含了多
+          步骤登录服务器hostname进入目录，将集群全部机器列表写入文件，每行一个机器名12cd /home/q/fabric/hbase/vim fab_hbase_hostfile.txt
+fab_hbase_hostfile.txt是hostname列表
+删除上次执行脚本遗留的文件1rm /home
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/hbase存储架构深入/#more" rel="contents">
+            <a class="btn" href="/2015/02/21/HBase集群间主机批量建立互信/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -569,7 +570,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase协处理器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/iptables的使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -588,7 +589,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/hbase协处理器/" itemprop="url">hbase协处理器</a></h1>
+                <a class="post-title-link" href="/2015/02/20/iptables的使用/" itemprop="url">iptables的使用</a></h1>
         
 
         <div class="post-meta">
@@ -600,7 +601,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:51:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:58:00+08:00">
                 2015-02-20
               </time>
             
@@ -623,8 +624,8 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -662,11 +663,14 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
       
         
           
-          Hbase自0.92之后开始支持Coprocessor（协处理器），旨在使用户可以将自己的代码放在regionserver上来运行，即将计算程序移动到数据所在的位置进行运算。这一点与MapReduce的思想一致。协处理器框架已经提供了一些类，用户可以通过继承这些类来扩展自己的功能，Hbase的Cop
+          1、iptables的启停1service iptables stop|start
+2、查看iptables的状态1service iptables status
+3、查看当前服务器上的iptables配置规则1iptables --list
+4、设置默认策略12345678iptables -P 
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/hbase协处理器/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/iptables的使用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -717,7 +721,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/HBase-zabbix监控项/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/利用备份恢复namenode数据/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -736,7 +740,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/HBase-zabbix监控项/" itemprop="url">HBase zabbix监控项</a></h1>
+                <a class="post-title-link" href="/2015/02/20/利用备份恢复namenode数据/" itemprop="url">利用备份恢复namenode数据</a></h1>
         
 
         <div class="post-meta">
@@ -748,155 +752,7 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:46:00+08:00">
-                2015-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          jvm监控“name” : “Hadoop:service=HBase,name=JvmMetrics”12345678910111213141516171819202122232425262728293031323334GcCount JVM进行GC的次数  GcTimeMillis  GC花费的
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/HBase-zabbix监控项/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hadoop配置参考/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/02/20/hadoop配置参考/" itemprop="url">hadoop配置参考</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:43:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:48:00+08:00">
                 2015-02-20
               </time>
             
@@ -958,12 +814,13 @@ HBase操控两种基本类型的文件，一种用于存储WAL的log，另一种
       
         
           
-          hadoop内存配置修改/home/q/hadoop/hadoop-2.3.0-cdh5.1.0/etc/hadoop/hadoop-env.sh
-hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP_NAMENODE_IN
+          1、将备份的namenode数据拷贝到NN1启动配置的目录下（只是拷贝fsimage文件）
+2、启动各个journalnode1./sbin/hadoop-daemon.sh start journalnode
+3、将本地Namenode中的edits初始化Journalnodes1./bin/hd
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/hadoop配置参考/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/利用备份恢复namenode数据/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1014,7 +871,7 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/Garbage-First-G1-收集器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/减少regionserver节点/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1033,7 +890,7 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/Garbage-First-G1-收集器/" itemprop="url">Garbage-First(G1)收集器</a></h1>
+                <a class="post-title-link" href="/2015/02/20/减少regionserver节点/" itemprop="url">减少/增加regionserver节点</a></h1>
         
 
         <div class="post-meta">
@@ -1045,7 +902,603 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:04:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:47:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          hbase减少regionserver节点可以在指定节点的hbase目录下执行以下命令来停止集群中一个regionserver1./bin/hbase-daemon.sh stop regionserver
+regionserver会将它上面所有的region关闭，然后再把自己的进程停止。regio
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/20/减少regionserver节点/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/namenode的HA由手动改成自动切换/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/20/namenode的HA由手动改成自动切换/" itemprop="url">namenode的HA由手动改成自动切换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:43:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1、修改配置文件
+在core-site.xml配置文件中加入12345678&lt;property&gt;    &lt;name&gt;ha.zookeeper.quorum&lt;/name&gt;    &lt;value&gt;hostname:2181,hostname:2181,hos
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/20/namenode的HA由手动改成自动切换/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase-move-region/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/20/hbase-move-region/" itemprop="url">hbase move region</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:40:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          语法：move ‘encodeRegionName’, ‘ServerName’encodeRegionName指的regioName后面的编码ServerName指的是master-status的Region Servers列表例如要移动tablename,602CFEBBEA72-5D39-42
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/20/hbase-move-region/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/phoenix映射HBase数据表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/20/phoenix映射HBase数据表/" itemprop="url">phoenix映射HBase数据表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:32:00+08:00">
+                2015-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          近期开发有一需求，主要是想使用phoenix映射Hbase的数据表
+1、创建HBase表1create &apos;cong&apos;,&apos;cf&apos;
+2、插入数据12345hbase(main):003:0&gt; scan &apos;cong&apos;ROW COLUMN+C
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/20/phoenix映射HBase数据表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/JVM内存组成和分配/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/20/JVM内存组成和分配/" itemprop="url">JVM内存组成和分配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:29:00+08:00">
                 2015-02-20
               </time>
             
@@ -1107,11 +1560,11 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
       
         
           
-          垃圾回收的瓶颈传统分代垃圾回收方式，已经在一定程度上把垃圾回收给应用带来的负担降到了最小，把应用的吞吐量推到了一个极限。但是他无法解决的一个问题，就是Full GC所带来的应用暂停。在一些对实时性要求很高的应用场景下，GC暂停所带来的请求堆积和请求失败是无法接受的。这类应用可能要求请求的返回时间在几
+          java内存组成介绍：堆(Heap)和非堆(Non-heap)内存按照官方的说法：“Java 虚拟机具有一个堆，堆是运行时数据区域，所有类实例和数组的内存均从此处分配。堆是在 Java 虚拟机启动时创建的。”“在JVM中堆之外的内存称为非堆内存(Non-heap memory)”。可以看出JVM主要
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/Garbage-First-G1-收集器/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/JVM内存组成和分配/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1162,7 +1615,7 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/fsck检查hadoop文件系统的一致性/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/JVM介绍/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1181,7 +1634,7 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/02/20/fsck检查hadoop文件系统的一致性/" itemprop="url">fsck检查hadoop文件系统的一致性</a></h1>
+                <a class="post-title-link" href="/2015/02/20/JVM介绍/" itemprop="url">JVM介绍</a></h1>
         
 
         <div class="post-meta">
@@ -1193,7 +1646,7 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:03:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T19:27:00+08:00">
                 2015-02-20
               </time>
             
@@ -1216,8 +1669,8 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1255,461 +1708,12 @@ hadoop守护进程和namenode堆进程12export HADOOP_HEAPSIZE=8192export HADOOP
       
         
           
-          12345678910111213141516171819202122[hadoop@hostname /home/q/hadoop/hadoop-2.3.0-cdh5.1.0]$ ./bin/hdfs fsck / 14/10/23 11:17:31 WARN ssl.FileBasedKeySt
+          堆内存：JVM运行时数据区域，它为类实例和数组分配的内存。堆可以是固定大小的也可以是可变大小的。其中  Heap = (Old + NEW =(Eden , from, to)) 
+程序中运行的各种类实例称之为对象，每个对象都有不同的生命周期，有的存活时间长点，有的存活时间短点。JVM内存机制的设置
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/fsck检查hadoop文件系统的一致性/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/zookeeper常用管理命令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/02/20/zookeeper常用管理命令/" itemprop="url">zookeeper常用管理命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:01:00+08:00">
-                2015-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          zookeeper服务命令
-命令为./bin/zkServer.sh [start|start-foreground|stop|restart|status|upgrade|print-cmd]以下命令可以知道节点的角色1234[hadoop@hostname /home/q/hbase_zooke
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/zookeeper常用管理命令/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/zookeeper原理/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/02/20/zookeeper原理/" itemprop="url">zookeeper原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T18:00:00+08:00">
-                2015-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          zookeeper数据模型zookeeper拥有一个层次的命名空间，命名空间中的每个节点可以和它自身或它的子节点相关联的数据，这就好像一个文件系统，只不过文件系统中的文件还可以具有目录功能。
-Znodezookeeper目录树中每一个节点对应着一个Znode。每个Znode维护着一个属性结构，包含数
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/zookeeper原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/20/hbase过滤器/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/02/20/hbase过滤器/" itemprop="url">hbase过滤器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-20T17:59:00+08:00">
-                2015-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hbase/" itemprop="url" rel="index">
-                    <span itemprop="name">hbase</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1、值过滤器(ValueFilter)
-谁的值=bbbb
-hbase(main):008:0&gt; scan ‘t2’,FILTER=&gt;”ValueFilter(=,’binary:bbbb’)”
-谁的值包含bbb
-hbase(main):010:0&gt; scan ‘t2’,FILTER
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/02/20/hbase过滤器/#more" rel="contents">
+            <a class="btn" href="/2015/02/20/JVM介绍/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1751,7 +1755,7 @@ hbase(main):010:0&gt; scan ‘t2’,FILTER
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1799,7 +1803,7 @@ hbase(main):010:0&gt; scan ‘t2’,FILTER
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">268</span>
+                  <span class="site-state-item-count">282</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

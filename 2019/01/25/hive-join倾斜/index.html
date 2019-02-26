@@ -79,22 +79,24 @@
 
 
 
-<meta name="description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
+<meta name="description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
 <meta name="keywords" content="hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="join倾斜">
+<meta property="og:title" content="hive join倾斜">
 <meta property="og:url" content="http://yoursite.com/2019/01/25/hive-join倾斜/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
+<meta property="og:description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/pasted-36.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-272.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-273.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-274.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-37.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
-<meta property="og:updated_time" content="2019-02-23T14:45:50.372Z">
+<meta property="og:updated_time" content="2019-02-26T15:17:28.869Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="join倾斜">
-<meta name="twitter:description" content="map join使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住  Auto Map Join还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join    图上左边是优化前的，右边是优化后的   优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。">
-<meta name="twitter:image" content="http://yoursite.com/images/pasted-36.png">
+<meta name="twitter:title" content="hive join倾斜">
+<meta name="twitter:description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-272.png">
 
 
 
@@ -130,7 +132,7 @@
 
 
 
-  <title>join倾斜 | LiFei's Notes</title>
+  <title>hive join倾斜 | LiFei's Notes</title>
   
 
 
@@ -296,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">join倾斜</h1>
+          <h1 class="post-title" itemprop="name headline">hive join倾斜</h1>
         
 
         <div class="post-meta">
@@ -368,8 +370,21 @@
       
 
       
-        <h1 id="map-join"><a href="#map-join" class="headerlink" title="map join"></a>map join</h1><p>使用 map join 在 map 端就先进行 join ，免得到reduce 时卡住</p>
-<p><img src="/images/pasted-36.png" alt="upload successful"></p>
+        <p>hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。<br>一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer<br><strong>对于多表join，hive会将前面的表缓存在reducer的内存中，然后后面的表会流式的进入reducer和reducer内存中其它的表做join.<br>为了防止数据量过大导致oom，将数据量最大的表放到最后，或者通过“STREAMTABLE”显示指定reducer流式读入的表</strong></p>
+<h1 id="common-join"><a href="#common-join" class="headerlink" title="common join"></a>common join</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select u.name, o.orderid from order o join user u on o.uid = u.uid;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Map阶段<br>读取源表的数据，<strong>Map输出时候以Join on条件中的列为key，如果Join有多个关联键，则以这些关联键的组合作为key</strong>;<br>Map输出的<strong>value为join之后所关心的(select或者where中需要用到的)列</strong>；同时在value中还会包含表的<strong>Tag信息，用于标明此value对应哪个表</strong>；<br>按照key进行排序</p>
+</li>
+<li><p>Shuffle阶段<br>根据key的值进行hash,并将key/value按照hash值推送至不同的reduce中，这样确保两个表中相同的key位于同一个reduce中</p>
+</li>
+<li><p>Reduce阶段<br>  根据key的值完成join操作，期间通过Tag来识别不同表中的数据。</p>
+</li>
+</ul>
+<p><img src="/images/pasted-272.png" alt="upload successful"></p>
+<h1 id="map-join"><a href="#map-join" class="headerlink" title="map join"></a>map join</h1><p>MapJoin通常用于一个很小的表和一个大表进行join的场景，具体小表有多小，由参数hive.mapjoin.smalltable.filesize来决定，该参数表示小表的总大小，默认值为25000000字节，即25M。<br><strong>Hive0.7之前</strong>，需要使用hint提示 /+ mapjoin(table) /才会执行MapJoin,否则执行Common Join，但在0.7版本之后，默认自动会转换Map Join，由参数hive.auto.convert.join来控制，默认为true.<br>假设<strong>a表为一张大表，b为小表</strong>，并且hive.auto.convert.join=true,那么Hive在执行时候会自动转化为MapJoin。   </p>
+<p><img src="/images/pasted-273.png" alt="upload successful"><br>如图中的流程，首先是Task A，它是一个Local Task（在客户端本地执行的Task），负责扫描小表b的数据，将其转换成一个HashTable的数据结构，并写入本地的文件中，之后将该文件加载到DistributeCache中，该HashTable的数据结构可以抽象为：   </p>
+<p><img src="/images/pasted-274.png" alt="upload successful"><br>图中红框圈出了执行Local Task的信息。</p>
+<p>接下来是Task B，该任务是一个没有Reduce的MR，启动MapTasks扫描大表a,在Map阶段，根据a的每一条记录去和DistributeCache中b表对应的HashTable关联，并直接输出结果。<br>由于MapJoin没有Reduce，所以由Map直接输出结果文件，有多少个Map Task，就有多少个结果文件。<br>总的来说，因为小表的存在，可以在Map阶段直接完成Join的操作，为了优化小表的查找速度，将其转化为HashTable的结构，并加载进分布式缓存中。</p>
 <h1 id="Auto-Map-Join"><a href="#Auto-Map-Join" class="headerlink" title="Auto Map Join"></a>Auto Map Join</h1><p><img src="/images/pasted-37.png" alt="upload successful"><br>还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join   </p>
 <p>图上左边是优化前的，右边是优化后的  </p>
 <p>优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。左边的分支是MapJoin，右边的分支是Common Join(Reduce Join)  </p>
@@ -407,7 +422,7 @@
 <ol start="4">
 <li>如果A表关联B表在某个key上倾斜，B是码表，那么可以将B表放大1000倍，然后对A表的key字段加上一个1000以内hash后缀，然后和放大后的b表关联，可以解决问题。</li>
 </ol>
-<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a><br><a href="https://www.cnblogs.com/skyl/p/4855099.html">https://www.cnblogs.com/skyl/p/4855099.html</a><br><a href="https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization">https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization</a> </p>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a><br><a href="https://www.cnblogs.com/skyl/p/4855099.html">https://www.cnblogs.com/skyl/p/4855099.html</a><br><a href="https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization">https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization</a><br><a href="https://blog.csdn.net/u013668852/article/details/79768266">https://blog.csdn.net/u013668852/article/details/79768266</a>  </p>
 
       
     </div>
@@ -534,7 +549,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">268</span>
+                  <span class="site-state-item-count">282</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -589,7 +604,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">1.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">2.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">3.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他方法"><span class="nav-number">4.</span> <span class="nav-text">其他方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#common-join"><span class="nav-number">1.</span> <span class="nav-text">common join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">2.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">3.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">4.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他方法"><span class="nav-number">5.</span> <span class="nav-text">其他方法</span></a></li></ol></div>
             
 
           </div>
