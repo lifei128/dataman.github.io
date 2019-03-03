@@ -91,6 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-188.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-185.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-187.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-288.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-191.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-192.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-62.png">
@@ -104,7 +105,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-186.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-189.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-190.png">
-<meta property="og:updated_time" content="2019-02-19T07:43:39.346Z">
+<meta property="og:updated_time" content="2019-03-01T04:02:39.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark参数优化">
 <meta name="twitter:description" content="spark集群优化 数据本地性如何配置Locality呢？可以统一采用spark.locality.wait来设置，默认3s（例如设置5000ms）。当然可以分别设置spark.locality.wait.process、spark.locality.wait.node、spark.locality.wait.rack等；123spark.locality.wait.process	进程内等待时间">
@@ -396,7 +397,7 @@
 <p>首先，最基本的当然是我们可以配置多个路径（用逗号分隔）到多个磁盘上增加整体IO带宽，这个大家都知道。</p>
 <p>其次，目前的实现中，Spark是通过对文件名采用hash算法分布到多个路径下的目录中去，如果你的存储设备有快有慢，比如SSD+HDD混合使用，那么你可以通过在SSD上配置更多的目录路径来增大它被Spark使用的比例，从而更好地利用SSD的IO带宽能力。当然这只是一种变通的方法，终极解决方案还是应该像目前HDFS的实现方向一样，让Spark能够感知具体的存储设备类型，针对性的使用。</p>
 <p>需要注意的是，在Spark 1.0 以后，SPARK_LOCAL_DIRS(Standalone, Mesos) or LOCAL_DIRS (YARN)参数会覆盖这个配置。比如Spark On YARN的时候，Spark Executor的本地路径依赖于Yarn的配置，而不取决于这个参数。</p>
-<h3 id="spark-default-parallelism"><a href="#spark-default-parallelism" class="headerlink" title="spark.default.parallelism"></a>spark.default.parallelism</h3><p>一般为 executor_cores*num_executors 的 1~4 倍，系统默认值 64，不设置的话会导致 task 很多的时候被分批串行执行，或大量 cores 空闲，资源浪费严重。 </p>
+<h3 id="spark-default-parallelism"><a href="#spark-default-parallelism" class="headerlink" title="spark.default.parallelism"></a>spark.default.parallelism</h3><p>一般为 executor_cores*num_executors 的 1~4 倍，系统默认值 64，不设置的话会导致 task 很多的时候被分批串行执行，或大量 cores 空闲，资源浪费严重。<br>该参数用于设置每个stage的默认task数量。这个参数极为重要，如果不设置可能会直接影响你的Spark作业性能。      </p>
 <h3 id="spark-files-maxPartitionBytes-128-M（默认）"><a href="#spark-files-maxPartitionBytes-128-M（默认）" class="headerlink" title="spark.files.maxPartitionBytes = 128 M（默认）"></a>spark.files.maxPartitionBytes = 128 M（默认）</h3><p>代表着rdd的一个分区能存放数据的最大字节数，如果一个400m的文件，只分了两个区，则在action时会发生错误。当一个spark应用程序执行时，生成spark.context，同时会生成两个参数，由上面得到的spark.default.parallelism推导出这两个参数的值  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sc.defaultParallelism     = spark.default.parallelism</span><br><span class="line">sc.defaultMinPartitions = min(spark.default.parallelism,2)</span><br></pre></td></tr></table></figure>
 <p>当sc.defaultParallelism和sc.defaultMinPartitions最终确认后，就可以推算rdd的分区数了。  </p>
@@ -417,13 +418,14 @@
 <p>默认executor的0.1<br><img src="/images/pasted-187.png" alt="upload successful"></p>
 <h3 id="spark-executor-logs-rolling"><a href="#spark-executor-logs-rolling" class="headerlink" title="spark.executor.logs.rolling.*"></a>spark.executor.logs.rolling.*</h3><p>有四个属性用于设定及维护spark日志的滚动。当spark应用长周期运行时（超过24小时），应该设置这个属性  </p>
 <h3 id="spark-python-worker-memory"><a href="#spark-python-worker-memory" class="headerlink" title="spark.python.worker.memory"></a>spark.python.worker.memory</h3><p>如果使用python开发spark应用，这个属性将为每个python worker进程分配总内存数。默认值512m   </p>
-<h2 id="优化shuffle过程参数"><a href="#优化shuffle过程参数" class="headerlink" title="优化shuffle过程参数"></a>优化shuffle过程参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.rpc.askTimeout	rpc超时时间	10	1000   </span><br><span class="line">spark.shuffle.sort.bypassMergeThreshold	shuffle read task阈值，小于该值则shuffle write过程不进行排序	200	600</span><br><span class="line">spark.shuffle.io.retryWait	每次重试拉取数据的等待间隔	5	30</span><br><span class="line">spark.shuffle.io.maxRetries	拉取数据重试次数	3	10</span><br></pre></td></tr></table></figure>
+<h2 id="优化shuffle过程参数"><a href="#优化shuffle过程参数" class="headerlink" title="优化shuffle过程参数"></a>优化shuffle过程参数</h2><p><img src="/images/pasted-288.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.rpc.askTimeout	rpc超时时间	10	1000   </span><br><span class="line">spark.shuffle.sort.bypassMergeThreshold	shuffle read task阈值，小于该值则shuffle write过程不进行排序	200	600</span><br><span class="line">spark.shuffle.io.retryWait	每次重试拉取数据的等待间隔	5	30</span><br><span class="line">spark.shuffle.io.maxRetries	拉取数据重试次数	3	10</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spark.shuffle.manager 默认sort</span><br><span class="line">spark.shuffle.file.buffer 默认32k</span><br><span class="line">spark.reducer.maxSizeInFlight 默认48m</span><br><span class="line">spark.shuffle.memoryFraction 默认0.2</span><br></pre></td></tr></table></figure>
 <p>其中spark.shuffle.file.buffer主要负责shuffle write过程写数据到磁盘过程的buffer，如果内存大的话建议提高该参数；spark.reducer.maxSizeInFlight负责shuffle read过程中reduce端机器从map端机器同时读取数据的大小。<br><img src="/images/pasted-191.png" alt="upload successful"></p>
 <p><img src="/images/pasted-192.png" alt="upload successful">  </p>
 <h3 id="spark-shuffle-manager"><a href="#spark-shuffle-manager" class="headerlink" title="spark.shuffle.manager"></a>spark.shuffle.manager</h3><p>这是Spark里shuffle数据的实现方法，默认为“sort”。这里提到它是因为，如果应用使用Tungsten，应该把这个属性值设置为“Tungsten-sort”。   </p>
 <h3 id="调节map端内存缓冲区"><a href="#调节map端内存缓冲区" class="headerlink" title="调节map端内存缓冲区"></a>调节map端内存缓冲区</h3><p>为什么要调节map端内存缓冲区<br>默认情况下，shuffle的map task,输出的文件到内存缓冲区，当内存缓冲区满了，才会溢写spill操作到磁盘，如果该缓冲区比较小，而map端输出文件又比较大，会频繁的出现溢写到磁盘，影响性能。<br>如何调整<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置map 端内存缓冲区大小（默认32k）</span><br><span class="line">conf.set(&quot;spark.shuffle.file.buffer&quot;, &quot;64k&quot;);</span><br></pre></td></tr></table></figure></p>
 <h3 id="调节reduce端内存占比"><a href="#调节reduce端内存占比" class="headerlink" title="调节reduce端内存占比"></a>调节reduce端内存占比</h3><p>为什么要调节reduce端内存占比,reduce task 在进行汇聚，聚合等操作时，实际上使用的是自己对应的executor内存，默认情况下executor分配给reduce进行聚合的内存比例是0.2，如果拉取的文件比较大，会频繁溢写到本地磁盘，影响性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//设置reduce端内存占比</span><br><span class="line">conf.set(&quot;spark.shuffle.memoryFraction&quot;, &quot;0.4&quot;);</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://www.jianshu.com/p/069c37aad295">https://www.jianshu.com/p/069c37aad295</a>   </p>
 <h3 id="spark-shuffle-service-enabled"><a href="#spark-shuffle-service-enabled" class="headerlink" title="spark.shuffle.service.enabled"></a>spark.shuffle.service.enabled</h3><p>在Spark内开启外部的shuffle服务。如果需要调度动态分配，就必须设置这个属性。默认为false   </p>
 <h3 id="spark-reducer-maxSizeInFlight"><a href="#spark-reducer-maxSizeInFlight" class="headerlink" title="spark.reducer.maxSizeInFlight"></a>spark.reducer.maxSizeInFlight</h3><p>调节reduce端缓冲区大小避免OOM异常</p>
 <p>　　 为什么要调节reduce端缓冲区大小</p>
@@ -642,7 +644,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">282</span>
+                  <span class="site-state-item-count">314</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -653,7 +655,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -664,7 +666,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

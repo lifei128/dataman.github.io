@@ -82,16 +82,16 @@
 <meta name="description" content="背景hive中经常会有求连续数字或者连续的时间这种问题，其实处理的方法一致   解法一12345678910111213141516171819202122232425262728293031323334SELECT a.name      ,b.starttime      ,b.endtime      ,sum(case when a.date&amp;gt;=b.starttime and a.d">
 <meta name="keywords" content="dw">
 <meta property="og:type" content="article">
-<meta property="og:title" content="求相邻时间问题的两种解决方法">
+<meta property="og:title" content="合并时间段问题2">
 <meta property="og:url" content="http://yoursite.com/2015/02/26/求相邻时间问题的两种解决方法/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="背景hive中经常会有求连续数字或者连续的时间这种问题，其实处理的方法一致   解法一12345678910111213141516171819202122232425262728293031323334SELECT a.name      ,b.starttime      ,b.endtime      ,sum(case when a.date&amp;gt;=b.starttime and a.d">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/pasted-270.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-271.png">
-<meta property="og:updated_time" content="2019-02-26T14:49:43.364Z">
+<meta property="og:updated_time" content="2019-02-27T03:52:07.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="求相邻时间问题的两种解决方法">
+<meta name="twitter:title" content="合并时间段问题2">
 <meta name="twitter:description" content="背景hive中经常会有求连续数字或者连续的时间这种问题，其实处理的方法一致   解法一12345678910111213141516171819202122232425262728293031323334SELECT a.name      ,b.starttime      ,b.endtime      ,sum(case when a.date&amp;gt;=b.starttime and a.d">
 <meta name="twitter:image" content="http://yoursite.com/images/pasted-270.png">
 
@@ -129,7 +129,7 @@
 
 
 
-  <title>求相邻时间问题的两种解决方法 | LiFei's Notes</title>
+  <title>合并时间段问题2 | LiFei's Notes</title>
   
 
 
@@ -295,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">求相邻时间问题的两种解决方法</h1>
+          <h1 class="post-title" itemprop="name headline">合并时间段问题2</h1>
         
 
         <div class="post-meta">
@@ -372,8 +372,7 @@
 <p><img src="/images/pasted-271.png" alt="upload successful"></p>
 <h1 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.name</span><br><span class="line">      ,b.starttime</span><br><span class="line">      ,b.endtime</span><br><span class="line">      ,sum(case when a.date&gt;=b.starttime and a.date&lt;=b.endtime then a.salary else 0 end) as total_salary</span><br><span class="line">FROM dw.tmp_interview_data a</span><br><span class="line">LEFT JOIN</span><br><span class="line"> (  SELECT name</span><br><span class="line">          ,diff</span><br><span class="line">          ,qujian[0]  endtime</span><br><span class="line">          ,case when diff=0 then qujian[0] </span><br><span class="line">                when diff=1 then qujian[1] </span><br><span class="line">                when diff=2 then qujian[2] </span><br><span class="line">                when diff=3 then qujian[3] end as starttime     --此处如有其它时间差，需要进行枚举</span><br><span class="line">    FROM                                                        --取出连续时间范围</span><br><span class="line">      (  SELECT name</span><br><span class="line">               ,datediff(max(date),min(date)) diff</span><br><span class="line">               ,COLLECT_set(date) qujian</span><br><span class="line">          FROM                                                  --求出连续时间之差</span><br><span class="line">           ( SELECT name</span><br><span class="line">                   ,date</span><br><span class="line">                   ,salary</span><br><span class="line">                  ,date_sub(date,rank) as date2 </span><br><span class="line">              FROM                                              --日期与排名之间的差值</span><br><span class="line">               ( SELECT name</span><br><span class="line">                       ,date</span><br><span class="line">                       ,salary</span><br><span class="line">                       ,row_number () over (partition by name order by date) rank</span><br><span class="line">                   FROM dw.tmp_interview_data                   --按name分组后对date进行排序</span><br><span class="line">                ) a  </span><br><span class="line">            ) a </span><br><span class="line">        GROUP BY name,date2 </span><br><span class="line">       ) a</span><br><span class="line">  ) b on a.name=b.name</span><br><span class="line">GROUP BY a.name,b.starttime,b.endtime</span><br></pre></td></tr></table></figure>
 <h1 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SELECT name</span><br><span class="line">      ,first1</span><br><span class="line">      ,last1</span><br><span class="line">      ,salary * (datediff(last1, first1)+1)  as salary</span><br><span class="line"> FROM </span><br><span class="line">   ( SELECT name</span><br><span class="line">           ,num</span><br><span class="line">           ,salary</span><br><span class="line">           ,min(date) as first1</span><br><span class="line">           ,max(date) as last1</span><br><span class="line">       FROM </span><br><span class="line">        ( SELECT a.name</span><br><span class="line">                ,a.date</span><br><span class="line">                ,date_sub(date, rn - 1) num</span><br><span class="line">                ,salary</span><br><span class="line">           FROM </span><br><span class="line">            ( SELECT name</span><br><span class="line">                    ,date</span><br><span class="line">                    ,salary</span><br><span class="line">                    ,row_number() over(PARTITION BY name ORDER BY date) rn</span><br><span class="line">                FROM dw_htlbizdb.tmp_qh_liu_interview_data</span><br><span class="line">               GROUP BY name,date,salary</span><br><span class="line">             ) a</span><br><span class="line">         ) b   group by name,num,salary</span><br><span class="line">    ) a</span><br></pre></td></tr></table></figure>
-<p>其实两种方法比较下来，都先先用row_number()函数通过name分组，并对日期进行排序，然后利用日期与所得排名之间的差值来做进一步的处理。连续数字问题思路同上~</p>
-<p>参考：<br><a href="https://blog.csdn.net/weixin_37536446/article/details/82143417">https://blog.csdn.net/weixin_37536446/article/details/82143417</a>  </p>
+<p>其实两种方法比较下来，都先先用row_number()函数通过name分组，并对日期进行排序，然后利用日期与所得排名之间的差值来做进一步的处理。连续数字问题思路同上~,<strong>该方法是有问题的，计算薪水是按照连续工资的第一天乘以天数的，如果每天工资不一样呢</strong>，但是该题目的主要参看价值是合并时间段。<br>参考：<br><a href="https://blog.csdn.net/weixin_37536446/article/details/82143417">https://blog.csdn.net/weixin_37536446/article/details/82143417</a></p>
 
       
     </div>
@@ -404,8 +403,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/26/将相同的或连续的时间段合并/" rel="next" title="将相同的或连续的时间段合并">
-                <i class="fa fa-chevron-left"></i> 将相同的或连续的时间段合并
+              <a href="/2015/02/26/将相同的或连续的时间段合并/" rel="next" title="合并时间段问题1">
+                <i class="fa fa-chevron-left"></i> 合并时间段问题1
               </a>
             
           </div>
@@ -414,8 +413,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/23/twosum/" rel="prev" title="L1_twosum">
-                L1_twosum <i class="fa fa-chevron-right"></i>
+              <a href="/2015/02/27/策略模式和工厂模式的区别/" rel="prev" title="策略模式和简单工厂模式的区别">
+                策略模式和简单工厂模式的区别 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -500,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">282</span>
+                  <span class="site-state-item-count">314</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -511,7 +510,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -522,7 +521,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="概念在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于 1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java">
+<meta name="description" content="Spark 微批处理 vs Flink  流计算Apache Flink是一个统一流处理与批处理的框架。由于流水线数据在并行任务之间进行传输（包括数据的洗牌shuffles），flink在运行时支持流处理与批处理。数据被立刻的传输从生产数据的任务到接受数据的任务（在网络传输中被收集在一个缓存中，然后发送）之后，批处理的任务可以被选择来处理这些阻塞的数据。 Apache Spark 也是一个处理流和">
 <meta name="keywords" content="flink">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flink vs spark">
 <meta property="og:url" content="http://yoursite.com/2019/01/28/flink-vs-spark/index.html">
 <meta property="og:site_name" content="LiFei&#39;s Notes">
-<meta property="og:description" content="概念在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于 1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java">
+<meta property="og:description" content="Spark 微批处理 vs Flink  流计算Apache Flink是一个统一流处理与批处理的框架。由于流水线数据在并行任务之间进行传输（包括数据的洗牌shuffles），flink在运行时支持流处理与批处理。数据被立刻的传输从生产数据的任务到接受数据的任务（在网络传输中被收集在一个缓存中，然后发送）之后，批处理的任务可以被选择来处理这些阻塞的数据。 Apache Spark 也是一个处理流和">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-12T10:47:22.625Z">
+<meta property="og:updated_time" content="2019-02-28T02:09:18.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="flink vs spark">
-<meta name="twitter:description" content="概念在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于 1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java">
+<meta name="twitter:description" content="Spark 微批处理 vs Flink  流计算Apache Flink是一个统一流处理与批处理的框架。由于流水线数据在并行任务之间进行传输（包括数据的洗牌shuffles），flink在运行时支持流处理与批处理。数据被立刻的传输从生产数据的任务到接受数据的任务（在网络传输中被收集在一个缓存中，然后发送）之后，批处理的任务可以被选择来处理这些阻塞的数据。 Apache Spark 也是一个处理流和">
 
 
 
@@ -364,12 +364,14 @@
       
 
       
-        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现<br>在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于</p>
+        <p>Spark 微批处理 vs Flink  流计算<br>Apache Flink是一个统一流处理与批处理的框架。由于流水线数据在并行任务之间进行传输（包括数据的洗牌shuffles），flink在运行时支持流处理与批处理。数据被立刻的传输从生产数据的任务到接受数据的任务（在网络传输中被收集在一个缓存中，然后发送）之后，批处理的任务可以被选择来处理这些阻塞的数据。</p>
+<p>Apache Spark 也是一个处理流和批处理的框架，Flink 的批处理api用法案列和Spark 非常相似，但是内部实现不一样。对于处理流来说，两种框架采用了不同的实现使得他们适合于不同场景的应用（Spark 微批处理 vs Flink  流计算），我可以说Spark与Flink的比较是有用有效的。然而Spark却和Flink 不是最相似的流处理引擎。</p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>在 spark 中， 批处理使用 RDD， 流处理使用 DStream（内部使用RDD实现）， 所有底层统一都使用 RDD的抽象实现<br>在 flink 中， 批处理使用 Dataset， 流处理使用 DataStreams， 听起来类似 RDD 和 DStreams， 但其实不是， 不同点在于</p>
 <p>1、flink 中的 Dataset 代表着执行计划，  而spark 的 RDD 仅仅是一个 java 对象，spark中的dataframes 才有执行计划，  flink 和 spark 两者最基础的东西， Dataset 和 RDD， 是不同的。 一个是经过优化器优化的， 一个没有。 flink 中的 Dataset 类似 spark 中经过优化的 Dataframe 概念，  spark 1.6 中引入的dataset（跟 flink 中的 Dataset 重名了，两者类似） 最终应该会代替RDD的抽象吧。</p>
 <p>2、在 spark 中， DStream 和 Dataframe 等都是基于 RDD 的封装， 然而 flink 中的 Dataset  和 DataStream 则是独立实现的， 尽管两者间尽量保持相同的 API， 但是你很难统一起来， 至少没有 spark 中那样优雅， 这个大方向， flink 能不能做到就难说了。我们不能统一 DataSet 和 DataStreams， 尽管 flink 有和 spark 相同的抽象，但是内部实现是不同的。</p>
 <h1 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h1><p>spark 1.5 之前， spark 一直都是使用 java jvm 堆来保存对象， 虽然有利于启动项目， 但是经常会产生 OOM 和 gc 问题， 所以 1.5 开始， spark 开始引入 自己管理内存的 tungsten 项目。</p>
 <p>Flink 从第一天起就自己管理内存，  spark 就是从这学的吧， 不仅保存数据使用 binary data， 而且可以直接在binary data 上进行操作。 spark 1.5 开始也可以直接在binary data 进行 dataframe API 提供的操作了。 自己管理内存， 直接使用分配的binary data而不是JVM objects 可以得到更高的性能 和 更好的资源利用。</p>
-<h1 id="流式处理"><a href="#流式处理" class="headerlink" title="流式处理"></a>流式处理</h1><p>在 spark 的眼里， streaming 是特殊的 batch， 在 flink 眼里， batch 是特殊的 streaming， 主要的区别在于<br>1、实时  vs 准实时  ，flink 提供 event 事件级别的延迟， 可以认为是实时的， 类似于 storm 的模型， 而 spark 中， 是微批处理， 不能提供事件级别的延迟， 我们可以称之为准实时。<br>2、flink 则可以灵活的支持窗口， 支持带有事件时间的窗口（Window）操作是flink 的亮点，  你可以选择使用处理时间还是事件时间进行窗口操作， 这种灵活性是 spark 所不如的。<br>3、spark 来自于 Map/Reduce 时代， 崇尚 运算追着数据走， 数据可以是内存中的数组， 也可以是磁盘中的文件，  可以进行很好的容错。Flink 的模型中， 数据是追着运算走的， 算子位于节点上， 数据从中流过， 类似于 akka-streams 中的概念。</p>
+<h1 id="流式处理"><a href="#流式处理" class="headerlink" title="流式处理"></a>流式处理</h1><p>在 spark 的眼里， streaming 是特殊的 batch， 在 flink 眼里， batch 是特殊的 streaming， 主要的区别在于<br>1、实时  vs 准实时  ，flink 提供 event 事件级别的延迟， 可以认为是实时的， 类似于 storm 的模型， 而 spark 中， 是微批处理， 不能提供事件级别的延迟， 我们可以称之为准实时。<br>2、flink 则可以灵活的支持窗口， 支持带有事件时间的窗口（Window）操作是flink 的亮点，  你可以选择使用处理时间还是事件时间进行窗口操作， 这种灵活性是 spark 所不如的。<br>3、spark 来自于 Map/Reduce 时代， 崇尚 运算追着数据走， 数据可以是内存中的数组， 也可以是磁盘中的文件，  可以进行很好的容错。Flink 的模型中， 数据是追着运算走的， 算子位于节点上， 数据从中流过， 类似于 akka-streams 中的概念。<br>参考：<br><a href="http://www.imooc.com/article/261349">http://www.imooc.com/article/261349</a>  </p>
 
       
     </div>
@@ -496,7 +498,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">282</span>
+                  <span class="site-state-item-count">314</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -507,7 +509,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -518,7 +520,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
