@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=575116a2ab644141b1026c29">
 <meta property="og:image" content="https://leanote.com/api/file/getImage?fileId=575116a2ab644141b1026c28">
-<meta property="og:updated_time" content="2019-02-26T15:23:13.237Z">
+<meta property="og:updated_time" content="2019-03-04T00:03:46.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图遍历">
 <meta name="twitter:description" content="图的遍历，所谓遍历，即是对结点的访问。一个图有那么多个结点，如何遍历这些结点，需要特定策略，一般有两种访问策略：  深度优先遍历 广度优先遍历    深度优先深度优先遍历，从初始访问结点出发，我们知道初始访问结点可能有多个邻接结点，深度优先遍历的策略就是首先访问第一个邻接结点，然后再以这个被访问的邻接结点作为初始结点，访问它的第一个邻接结点。总结起来可以这样说：每次都在访问完当前结点后首先访问当前">
@@ -377,11 +377,11 @@
 <li>访问初始结点v，并标记结点v为<strong>已访问</strong>。   </li>
 <li>查找结点v的第一个邻接结点w。   </li>
 <li>若w存在，则继续执行4，否则算法结束。   </li>
-<li><p>若w未被访问，对w进行深度优先遍历递归（即把w当做另一个v，然后进行步骤123）。<br>查找结点v的w邻接结点的下一个邻接结点，转到步骤3。<br>例如下图，其深度优先遍历顺序为 1-&gt;2-&gt;4-&gt;8-&gt;5-&gt;3-&gt;6-&gt;7<br><img src="https://leanote.com/api/file/getImage?fileId=575116a2ab644141b1026c29" alt=""></p>
+<li>若w未被访问，对w进行深度优先遍历递归（即把w当做另一个v，然后进行步骤123）。<br>查找结点v的w邻接结点的下一个邻接结点，转到步骤3。<br>例如下图，其深度优先遍历顺序为 1-&gt;2-&gt;4-&gt;8-&gt;5-&gt;3-&gt;6-&gt;7<br><img src="https://leanote.com/api/file/getImage?fileId=575116a2ab644141b1026c29" alt="">  </li>
+</ol>
 <h1 id="广度优先"><a href="#广度优先" class="headerlink" title="广度优先"></a>广度优先</h1><p>类似于一个分层搜索的过程，广度优先遍历需要使用一个队列以保持访问过的结点的顺序，以便按这个顺序来访问这些结点的邻接结点。<br>具体算法表述如下：</p>
-</li>
-<li><p>访问初始结点v并标记结点v为已访问。</p>
-</li>
+<ol>
+<li>访问初始结点v并标记结点v为已访问。</li>
 <li>结点v入队列</li>
 <li>当队列非空时，继续执行，否则算法结束。</li>
 <li>出队列，取得队头结点u。</li>
