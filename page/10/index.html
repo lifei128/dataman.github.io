@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/21/部署redis集群/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/支架表/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/21/部署redis集群/" itemprop="url">部署redis集群</a></h1>
+                <a class="post-title-link" href="/2018/01/28/支架表/" itemprop="url">支架表</a></h1>
         
 
         <div class="post-meta">
@@ -302,159 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-21T15:58:00+08:00">
-                2018-02-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-Dockerfile
-
-123456789101112131415161718192021222324252627282930FROM alpine:latestMAINTAINER lifei#换源RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/21/部署redis集群/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/14/维度建模/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/14/维度建模/" itemprop="url">维度建模</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-14T10:23:00+08:00">
-                2018-02-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T19:33:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -515,13 +364,11 @@ Dockerfile
       
         
           
-          概念维度表：说明数据，维度是指可指定不同值的对象的描述性属性或特征。例如，地理位置的维度可以包括“纬度”、“经度”或“城市名称”。“城市名称”维度的值可以为“旧金山”、“柏林”或“新加坡”。维度是现实世界中的对象或者概念。
-
-事实表：其实质就是通过一些指标值和各种维度外键来确定一个事实的。发生在现实
+          支架表看起来和雪花模式有些类似。采用支架表的原因是：1、支架表中的维度没有基本维度表中的分析价值大，使用也不是很频繁。2、其次如果有维度在基本维度中有很大的冗余(基本维度记录中都含有重复字段)，那么将不常用的放到支架表中可以节省空间。备注：可以使用支架表，但是只可偶尔为之，不要常用。如果您的设计包含
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/14/维度建模/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/支架表/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -572,7 +419,7 @@ Dockerfile
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/13/spark-二次查询/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/阿里onedata/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -591,7 +438,7 @@ Dockerfile
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/13/spark-二次查询/" itemprop="url">spark 二次排序</a></h1>
+                <a class="post-title-link" href="/2018/01/28/阿里onedata/" itemprop="url">阿里onedata</a></h1>
         
 
         <div class="post-meta">
@@ -603,304 +450,8 @@ Dockerfile
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-13T17:54:00+08:00">
-                2018-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          数据：40 2040 1040 3040 530 3030 2030 1030 4050 2050 5050 1050 601234567891011121314151617181920212223242526272829303132333435363738394041package com.sca
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/13/spark-二次查询/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/12/spark-wordcount/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/12/spark-wordcount/" itemprop="url">spark wordcount</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-12T18:44:00+08:00">
-                2018-02-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          123456789101112131415161718package com.scala.test.coreimport org.apache.spark.&#123;SparkConf, SparkContext&#125;object WordCount &#123;  def main(arg
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/12/spark-wordcount/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/12/hive级联报表查询/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiFei's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/12/hive级联报表查询/" itemprop="url">报表查询</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-12T17:30:00+08:00">
-                2018-02-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T16:22:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -961,11 +512,12 @@ Dockerfile
       
         
           
-          级联报表查询1234567891011121314151617181920212223A,2015-01,5A,2015-01,15B,2015-01,5A,2015-01,8B,2015-01,25A,2015-01,5C,2015-01,10C,2015-01,20A,2015-02,4A,20
+          OneData体系分为：1、数据规范定义体系2、数据模型规范设计3、ETL规范研发以及支撑整个体系从方法到实施的工具体系。  
+落地实现数据规范定义将此前个性化的数据指标进行规范定义，抽象成：原子指标、时间周期、其他修饰词等三个要素。例如，以往业务方提出的需求是：最近7天的成交。而实际上，这个指标在
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/12/hive级联报表查询/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/阿里onedata/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1016,7 +568,7 @@ Dockerfile
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/12/hive模型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/hiveserver2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1035,7 +587,7 @@ Dockerfile
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/12/hive模型/" itemprop="url">hive模型</a></h1>
+                <a class="post-title-link" href="/2018/01/28/hiveserver2/" itemprop="url">hiveserver2 jdbc</a></h1>
         
 
         <div class="post-meta">
@@ -1047,8 +599,8 @@ Dockerfile
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-12T16:53:00+08:00">
-                2018-02-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T16:08:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -1109,13 +661,11 @@ Dockerfile
       
         
           
-          Jobtracker是hadoop1.x中的组件，它的功能相当于：　　Resourcemanager+MRAppMaster   
-TaskTracker 相当于：　　Nodemanager  +  yarnchild   
-hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
+          123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/12/hive模型/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/hiveserver2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1166,7 +716,7 @@ hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/join/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/hive使用和优化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1185,7 +735,7 @@ hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/11/join/" itemprop="url">join</a></h1>
+                <a class="post-title-link" href="/2018/01/28/hive使用和优化/" itemprop="url">hive使用和优化</a></h1>
         
 
         <div class="post-meta">
@@ -1197,8 +747,8 @@ hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:39:00+08:00">
-                2018-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T15:56:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -1220,8 +770,8 @@ hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
                   </a>
                 </span>
 
@@ -1259,12 +809,11 @@ hive里面有两种服务模式一种是cli模式，一种是hiveserver2，
       
         
           
-          测试数据user.txt (用户id,用户名)1   用户12   用户23   用户3  
-more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   帖子34   4   贴子45   5   贴子55   6   贴子65   7   贴
+          Map数12345678910111213141516171819mapred.map.taskes=10;(1)默认map个数default_num = total_size / block_size;(2)期望大小goal_num = mapred.map.casks;(3)设置处理的文件大小s
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/join/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/hive使用和优化/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1315,7 +864,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/倒排/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/flink-vs-spark/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1334,7 +883,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/11/倒排/" itemprop="url">倒排</a></h1>
+                <a class="post-title-link" href="/2018/01/28/flink-vs-spark/" itemprop="url">flink vs spark</a></h1>
         
 
         <div class="post-meta">
@@ -1346,8 +895,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:39:00+08:00">
-                2018-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T15:45:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -1369,8 +918,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -1408,11 +957,11 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
       
         
           
-          题意hdfs 上有三个文件，内容下上面左面框中所示。右框中为处理完成后的结果文件。倒排索引（Inverted index），也常被称为反向索引、置入档案或反向档案，是一种索引方法，被用来存储在全文搜索下某个单词在一个文档或者一组文档中的存储位置的映射。它是文档检索系统中最常用的数据结构。通过倒排索引
+          Spark 微批处理 vs Flink  流计算Apache Flink是一个统一流处理与批处理的框架。由于流水线数据在并行任务之间进行传输（包括数据的洗牌shuffles），flink在运行时支持流处理与批处理。数据被立刻的传输从生产数据的任务到接受数据的任务（在网络传输中被收集在一个缓存中，然后
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/倒排/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/flink-vs-spark/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1463,7 +1012,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/二次排序/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/状态计算/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1482,7 +1031,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/11/二次排序/" itemprop="url">二次排序</a></h1>
+                <a class="post-title-link" href="/2018/01/28/状态计算/" itemprop="url">状态计算</a></h1>
         
 
         <div class="post-meta">
@@ -1494,8 +1043,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:38:00+08:00">
-                2018-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T14:37:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -1517,8 +1066,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1556,26 +1105,11 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
       
         
           
-          输入文件 sort.txt 内容为   
-40 20  
-40 10  
-40 30  
-40 5  
-30 30  
-30 20  
-30 10  
-30 40  
-50 20  
-50 50  
-50 10  
-50 60  
-  输出文件的内容（从小到大排序）如下  
-30 10  
-30 2
+          spark流计算的数据是以窗口的形式，源源不断的流过来的。如果每个窗口之间的数据都有联系的话，那么就需要对前一个窗口的数据做状态管理。spark有提供了两种模型来达到这样的功能，一个是updateStateByKey，另一个是mapWithState ，后者属于Spark1.6之后的版本特性，性能是
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/二次排序/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/状态计算/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1626,7 +1160,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/全排序/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/幂等操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1645,7 +1179,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/11/全排序/" itemprop="url">全排序</a></h1>
+                <a class="post-title-link" href="/2018/01/28/幂等操作/" itemprop="url">幂等操作</a></h1>
         
 
         <div class="post-meta">
@@ -1657,8 +1191,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:31:00+08:00">
-                2018-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T14:02:00+08:00">
+                2018-01-28
               </time>
             
 
@@ -1680,8 +1214,8 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/mapreduce/" itemprop="url" rel="index">
-                    <span itemprop="name">mapreduce</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1719,11 +1253,459 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
       
         
           
-          错误写法123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475packa
+          最近很多人都在谈论幂等性，好吧，这回我也来聊聊这个话题，光看着俩字，一开始的确有点一头雾水，语文不好嘛，词太专业嘛，对吧   
+现如今我们的系统大多拆分为分布式SOA，或者微服务，一套系统中包含了多个子系统服务，而一个子系统服务往往会去调用另一个服务，而服务调用服务无非就是使用RPC通信或者rest
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/11/全排序/#more" rel="contents">
+            <a class="btn" href="/2018/01/28/幂等操作/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/28/Spark-Streaming如何应对-Exactly-once-语义/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/28/Spark-Streaming如何应对-Exactly-once-语义/" itemprop="url">Spark Streaming如何应对 Exactly once 语义（kafka）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T12:53:00+08:00">
+                2018-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Spark Streaming（以下简写SS）Exactly once语义（以下简写EO）  
+首先EO表示可以精准控制到某一条记录，但由于SS是基于rdd和batch的，所以SS的EO可以认为是针对一个批次的的精准控制(控制各个批次间是否重复和漏读)。涉及到三部分都保证 exactly once 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/28/Spark-Streaming如何应对-Exactly-once-语义/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/Hive小文件合并/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/26/Hive小文件合并/" itemprop="url">Hive小文件合并</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:19:00+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          HDFS中的文件、目录和块都映射为一个对象，存储在NameNode服务器内存中，通常占用150个字节。 如果有1千万个文件，就需要消耗大约3G的内存空间。如果是10亿个文件呢，简直不可想象。所以我们要了解一下,hadoop 处理小文件的各种方案，然后选择一种适合的方案来解决本的小文件问题。   
+此
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/26/Hive小文件合并/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/awk/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/26/awk/" itemprop="url">awk</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T02:54:00+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          awk是行处理器: 相比较屏幕处理的优点，在处理庞大文件时不会出现内存溢出或是处理缓慢的问题，通常用来格式化文本信息awk处理过程: 依次对每一行进行处理，然后输出  
+awk命令形式:awk [-F|-f|-v] ‘BEGIN{}    //     {command1; command2}   
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/26/awk/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1765,7 +1747,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1813,7 +1795,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1824,7 +1806,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1835,7 +1817,7 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1851,6 +1833,20 @@ more post.txt (用户id,帖子id,标题)1   1   贴子11   2   贴子22   3   �
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           

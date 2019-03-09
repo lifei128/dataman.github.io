@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/线程通信机制：共享内存-VS-消息传递/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/watermark/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/线程通信机制：共享内存-VS-消息传递/" itemprop="url">线程通信机制：共享内存 VS 消息传递</a></h1>
+                <a class="post-title-link" href="/2018/02/27/watermark/" itemprop="url">窗口函数</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:55:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T23:17:00+08:00">
+                2018-02-27
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/flink/" itemprop="url" rel="index">
+                    <span itemprop="name">flink</span>
                   </a>
                 </span>
 
@@ -364,16 +364,11 @@
       
         
           
-          在并发编程中，我们必须考虑的问题时如何在两个线程间进行通讯。这里的通讯指的是不同的线程之间如何交换信息。目前有两种方式：   
-
-共享内存   
-消息传递（actor 模型）   
-
-#共享内存  共享内存这种方式比较常见，我们经常会设置一个共享变量。然后多个线程去操作同一个共享变量。从而达到线程通
+          Window聚合事件(如：sum，count，etc)在流上的工作方式与批处理中的不同。例如，我们不能够去统计流中的所有元素，因为流一般是无限的（无界的）。相反，流中的一些aggregate操作,是由Windows控制的，例如：计算过去五分钟或者最后100个元素的总和。Windows可以是由事件驱动
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/线程通信机制：共享内存-VS-消息传递/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/watermark/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -424,7 +419,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/JVM内存/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/笛卡尔积/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -443,7 +438,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/JVM内存/" itemprop="url">JVM内存</a></h1>
+                <a class="post-title-link" href="/2018/02/27/笛卡尔积/" itemprop="url">笛卡尔积</a></h1>
         
 
         <div class="post-meta">
@@ -455,8 +450,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:53:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T11:04:00+08:00">
+                2018-02-27
               </time>
             
 
@@ -478,8 +473,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/dw/" itemprop="url" rel="index">
+                    <span itemprop="name">dw</span>
                   </a>
                 </span>
 
@@ -517,11 +512,14 @@
       
         
           
-          JVM运行时数据区由程序计数器、堆、虚拟机栈(栈)、本地方法栈、方法区部分组成，结构图如下所示。1）程序计数器   几乎不占有内存。用于取下一条执行的指令。2）堆   所有通过new创建的对象的内存都在堆中分配，其大小可以通过-Xmx和-Xms来控制。堆被划分为新生代和老年代，新生代又被进一步划分为
+          
+笛卡尔集基本原理两个表如果笛卡尔集运算(1)行数是两个表行数相乘的结果(2)列是两个表合集
+
+当Hive设定为严格模式（hive.mapred.mode=strict）时，不允许在HQL语句中出现笛卡尔积，这实际说明了Hive对笛卡尔积支持较弱。因为找不到Join key，Hive只能使用1个re
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/JVM内存/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/笛卡尔积/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -572,7 +570,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/Callable、Future和FutureTask/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/shell运维/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -591,7 +589,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/Callable、Future和FutureTask/" itemprop="url">Callable、Future和FutureTask</a></h1>
+                <a class="post-title-link" href="/2018/02/26/shell运维/" itemprop="url">shell运维</a></h1>
         
 
         <div class="post-meta">
@@ -603,8 +601,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:51:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T22:59:00+08:00">
+                2018-02-26
               </time>
             
 
@@ -613,28 +611,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -665,12 +641,12 @@
       
         
           
-          创建线程的2种方式，一种是直接继承Thread，另外一种就是实现Runnable接口。这2种方式都有一个缺陷就是：在执行完任务之后无法获取执行结果。    自从Java 1.5开始，就提供了Callable和Future，通过它们可以在任务执行完毕之后得到任务执行结果。  
-Callable先说一下
+          找到一个路径下大于10M的文件1find .xx -size +10M
+查找7天前的文件说明：+n 大于 n, -n 小于 n, n 相等于 n.1234567891011121314151617181920212223242526272829303132find / -amin -30 -ls #
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/Callable、Future和FutureTask/#more" rel="contents">
+            <a class="btn" href="/2018/02/26/shell运维/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -721,7 +697,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/一个servlet引发的血案/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/取具体某一天为周几的方法及其应用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -740,7 +716,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/一个servlet引发的血案/" itemprop="url">一个servlet引发的血案</a></h1>
+                <a class="post-title-link" href="/2018/02/26/取具体某一天为周几的方法及其应用/" itemprop="url">hive取具体某一天为周几的方法及其应用</a></h1>
         
 
         <div class="post-meta">
@@ -752,8 +728,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:46:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T22:49:00+08:00">
+                2018-02-26
               </time>
             
 
@@ -775,8 +751,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/dw/" itemprop="url" rel="index">
+                    <span itemprop="name">dw</span>
                   </a>
                 </span>
 
@@ -814,11 +790,12 @@ Callable先说一下
       
         
           
-          无状态servlet:1234567891011121314151617181920212223242526272829303132333435package net.jcip.examples;import java.math.BigInteger;import javax.servlet.*;i
+          pmod(datediff(etd,&#39;1920-01-01&#39;)-3,7)=&#39;0&#39;表示某天对应的周几，数值为0~6
+IF(pmod(datediff(etd,&#39;1920-01-01&#39;)-3,7)=&#39;0&#39;,7,pmod(datediff(e
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/一个servlet引发的血案/#more" rel="contents">
+            <a class="btn" href="/2018/02/26/取具体某一天为周几的方法及其应用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -869,7 +846,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/共享对象/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/hive-set设置总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -888,7 +865,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/共享对象/" itemprop="url">共享对象</a></h1>
+                <a class="post-title-link" href="/2018/02/23/hive-set设置总结/" itemprop="url">hive-set设置总结</a></h1>
         
 
         <div class="post-meta">
@@ -900,8 +877,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:44:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T22:55:00+08:00">
+                2018-02-23
               </time>
             
 
@@ -923,8 +900,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
                   </a>
                 </span>
 
@@ -962,14 +939,17 @@ Callable先说一下
       
         
           
-          
-可见性在没有同步的情况下，共享变量(错误的做法)：      
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626
+          直接set命令可以看到所有变量值。set单个参数，可以看见这个参数的值。
+问题
+hive输出格式的配置项是哪个？
+hive被各种语言调用如何配置？
+hive提交作业是在hive中还是hadoop中？
+一个查询的最后一个map/reduce任务输出是否被压缩的标志，通过哪个配置项？
+当用户自定义了UD
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/共享对象/#more" rel="contents">
+            <a class="btn" href="/2018/02/23/hive-set设置总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1020,7 +1000,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/同步集合类的应用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/22/HBASE中，region-server挂了之后，如何把这台server上的region转移到另外的region-server上呢/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1039,7 +1019,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/同步集合类的应用/" itemprop="url">同步集合类的应用</a></h1>
+                <a class="post-title-link" href="/2018/02/22/HBASE中，region-server挂了之后，如何把这台server上的region转移到另外的region-server上呢/" itemprop="url">HBASE中，region server挂了之后，如何把这台server上的region转移到另外的region server上呢</a></h1>
         
 
         <div class="post-meta">
@@ -1051,8 +1031,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:42:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T18:18:00+08:00">
+                2018-02-22
               </time>
             
 
@@ -1074,8 +1054,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/hbase/" itemprop="url" rel="index">
+                    <span itemprop="name">hbase</span>
                   </a>
                 </span>
 
@@ -1113,11 +1093,11 @@ Callable先说一下
       
         
           
-          使用Concurrentmap代替HashmapCollections.synchronizedMap(null);1234567891011121314151617181920212223242526package cn.itcast.heima2;import java.util.ArrayLi
+          无论哪种情况，region server（实指RegionServer进程挂掉，下文同）都无法继续为它的region提供服务了，此时master会删除server目录下代表这台region server的文件，并将这台region server的region分配给其它还活着的同志。我想问，regio
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/同步集合类的应用/#more" rel="contents">
+            <a class="btn" href="/2018/02/22/HBASE中，region-server挂了之后，如何把这台server上的region转移到另外的region-server上呢/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1168,7 +1148,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/阻塞队列/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/22/Spark中的checkpoint作用与用法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1187,7 +1167,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/阻塞队列/" itemprop="url">阻塞队列</a></h1>
+                <a class="post-title-link" href="/2018/02/22/Spark中的checkpoint作用与用法/" itemprop="url">Spark中的checkpoint作用与用法</a></h1>
         
 
         <div class="post-meta">
@@ -1199,8 +1179,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:40:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T18:12:00+08:00">
+                2018-02-22
               </time>
             
 
@@ -1222,8 +1202,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1261,11 +1241,11 @@ Callable先说一下
       
         
           
-          阻塞队列的应用12345678910111213141516171819202122232425262728293031323334353637383940414243444546package cn.itcast.heima2;import java.util.concurrent.ArrayBl
+          checkpoint的意思就是建立检查点,类似于快照,例如在spark计算里面 计算流程DAG特别长,服务器需要将整个DAG计算完成得出结果,但是如果在这很长的计算流程中突然中间算出的数据丢失了,spark又会根据RDD的依赖关系从头到尾计算一遍,这样子就很费性能,当然我们可以将中间的计算结果通过c
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/阻塞队列/#more" rel="contents">
+            <a class="btn" href="/2018/02/22/Spark中的checkpoint作用与用法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1316,7 +1296,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/线程同步工具/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/22/Spark性能优化指南-基础篇/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1335,7 +1315,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/线程同步工具/" itemprop="url">线程同步工具</a></h1>
+                <a class="post-title-link" href="/2018/02/22/Spark性能优化指南-基础篇/" itemprop="url">Spark性能优化指南-基础篇</a></h1>
         
 
         <div class="post-meta">
@@ -1347,8 +1327,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:37:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T17:52:00+08:00">
+                2018-02-22
               </time>
             
 
@@ -1370,8 +1350,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1409,11 +1389,11 @@ Callable先说一下
       
         
           
-          Semaphere同步工具1234567891011121314151617181920212223242526272829303132333435363738package cn.itcast.heima2;import java.util.concurrent.ExecutorService;i
+          整套方案主要分为开发调优、资源调优、数据倾斜调优、shuffle调优几个部分。开发调优和资源调优是所有Spark作业都需要注意和遵循的一些基本原则，是高性能Spark作业的基础；数据倾斜调优，主要讲解了一套完整的用来解决Spark作业数据倾斜的解决方案；shuffle调优，面向的是对Spark的原理
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/线程同步工具/#more" rel="contents">
+            <a class="btn" href="/2018/02/22/Spark性能优化指南-基础篇/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1464,7 +1444,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/condition/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/22/Spark性能优化指南——-数据倾斜调优/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1483,7 +1463,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/condition/" itemprop="url">condition</a></h1>
+                <a class="post-title-link" href="/2018/02/22/Spark性能优化指南——-数据倾斜调优/" itemprop="url">Spark性能优化指南—— 数据倾斜调优</a></h1>
         
 
         <div class="post-meta">
@@ -1495,8 +1475,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:33:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T17:50:00+08:00">
+                2018-02-22
               </time>
             
 
@@ -1518,8 +1498,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1557,12 +1537,13 @@ Callable先说一下
       
         
           
-          锁只能互斥，但是不能通信。condition就是解决该问题的，类似于wait()和notify()。  
-一个condition12345678910111213141516171819202122232425262728293031323334353637383940414243444546474
+          数据倾斜调优
+绝大多数task执行得都非常快，但个别task执行极慢。比如，总共有1000个task，997个task都在1分钟之内执行完了，但是剩余两三个task却要一两个小时。这种情况很常见。   
+原本能够正常执行的Spark作业，某天突然报出OOM（内存溢出）异常，观察异常栈，是我们写的业务
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/condition/#more" rel="contents">
+            <a class="btn" href="/2018/02/22/Spark性能优化指南——-数据倾斜调优/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1613,7 +1594,7 @@ Callable先说一下
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/Lock/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/22/Spark性能优化指南——-shuffle调优/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1632,7 +1613,7 @@ Callable先说一下
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/22/Lock/" itemprop="url">Lock</a></h1>
+                <a class="post-title-link" href="/2018/02/22/Spark性能优化指南——-shuffle调优/" itemprop="url">Spark性能优化指南—— shuffle调优</a></h1>
         
 
         <div class="post-meta">
@@ -1644,8 +1625,8 @@ Callable先说一下
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T16:30:00+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T17:44:00+08:00">
+                2018-02-22
               </time>
             
 
@@ -1667,8 +1648,8 @@ Callable先说一下
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/juc/" itemprop="url" rel="index">
-                    <span itemprop="name">juc</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1706,11 +1687,11 @@ Callable先说一下
       
         
           
-          Lock1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768package cn.itcast.h
+          大多数Spark作业的性能主要就是消耗在了shuffle环节，因为该环节包含了大量的磁盘IO、序列化、网络数据传输等操作。因此，如果要让作业的性能更上一层楼，就有必要对shuffle过程进行调优。但是也必须提醒大家的是，影响一个Spark作业性能的因素，主要还是代码开发、资源参数以及数据倾斜，shu
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/22/Lock/#more" rel="contents">
+            <a class="btn" href="/2018/02/22/Spark性能优化指南——-shuffle调优/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1752,7 +1733,7 @@ Callable先说一下
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1800,7 +1781,7 @@ Callable先说一下
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1811,7 +1792,7 @@ Callable先说一下
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1822,7 +1803,7 @@ Callable先说一下
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1838,6 +1819,20 @@ Callable先说一下
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           

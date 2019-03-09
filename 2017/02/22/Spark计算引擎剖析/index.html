@@ -87,18 +87,18 @@
 <meta property="og:site_name" content="LiFei&#39;s Notes">
 <meta property="og:description" content="生成逻辑查询计划，再转化为物理查询计划(stage+task)每个action就是一个jobdriver的三个阶段是单机的，只有第四个阶段是分布式的shuffleDependency会产生m*n个连接数shuffle:">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20190553_rbSP.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20190606_gzuJ.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20190617_e2wO.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20190642_lIXu.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20190803_GSHC.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20191612_sjT6.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20191623_fM1U.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20192408_FhNJ.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20192536_lkDV.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20192815_u02X.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20192856_G4FN.png">
-<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20193134_razc.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20180553_rbSP.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20180606_gzuJ.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20180617_e2wO.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20180642_lIXu.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20180803_GSHC.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20181612_sjT6.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20181623_fM1U.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20182408_FhNJ.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20182536_lkDV.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20182815_u02X.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20182856_G4FN.png">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20183134_razc.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20203320_xR5K.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20203335_Rr8j.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20203350_StTx.png">
@@ -128,11 +128,11 @@
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20212606_UZJM.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20212618_Fjje.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201611/20212630_Gqs6.png">
-<meta property="og:updated_time" content="2019-02-24T10:11:57.876Z">
+<meta property="og:updated_time" content="2019-03-09T11:47:35.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark计算引擎剖析-董">
 <meta name="twitter:description" content="生成逻辑查询计划，再转化为物理查询计划(stage+task)每个action就是一个jobdriver的三个阶段是单机的，只有第四个阶段是分布式的shuffleDependency会产生m*n个连接数shuffle:">
-<meta name="twitter:image" content="https://static.oschina.net/uploads/img/201611/20190553_rbSP.png">
+<meta name="twitter:image" content="https://static.oschina.net/uploads/img/201611/20180553_rbSP.png">
 
 
 
@@ -406,7 +406,7 @@
       
 
       
-        <p>生成逻辑查询计划，再转化为物理查询计划(stage+task)<br><img src="https://static.oschina.net/uploads/img/201611/20190553_rbSP.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20190606_gzuJ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20190617_e2wO.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20190642_lIXu.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20190803_GSHC.png" alt="输入图片说明" title="在这里输入图片标题"><br>每个action就是一个job<br><img src="https://static.oschina.net/uploads/img/201611/20191612_sjT6.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20191623_fM1U.png" alt="输入图片说明" title="在这里输入图片标题"><br>driver的三个阶段是单机的，只有第四个阶段是分布式的<br><img src="https://static.oschina.net/uploads/img/201611/20192408_FhNJ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20192536_lkDV.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20192815_u02X.png" alt="输入图片说明" title="在这里输入图片标题"><br>shuffleDependency会产生m*n个连接数<br><img src="https://static.oschina.net/uploads/img/201611/20192856_G4FN.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20193134_razc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203320_xR5K.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203335_Rr8j.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203350_StTx.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203406_OLbs.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203421_tOqC.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204520_pTSH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204534_mIqe.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204546_zVnc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204609_YI4R.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204624_XfBZ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204639_ZGag.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204655_gYMU.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204706_7kjU.png" alt="输入图片说明" title="在这里输入图片标题"><br>shuffle:<br><img src="https://static.oschina.net/uploads/img/201611/20212251_r8GH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212307_ULFH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212328_KF2X.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212344_VFtj.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212359_u7U7.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212414_kodd.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212429_mzvw.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212443_qbTc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212456_Zgti.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212510_U5bu.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212528_TKea.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212541_EnaX.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212554_McFZ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212606_UZJM.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212618_Fjje.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212630_Gqs6.png" alt="输入图片说明" title="在这里输入图片标题"></p>
+        <p>生成逻辑查询计划，再转化为物理查询计划(stage+task)<br><img src="https://static.oschina.net/uploads/img/201611/20180553_rbSP.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20180606_gzuJ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20180617_e2wO.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20180642_lIXu.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20180803_GSHC.png" alt="输入图片说明" title="在这里输入图片标题"><br>每个action就是一个job<br><img src="https://static.oschina.net/uploads/img/201611/20181612_sjT6.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20181623_fM1U.png" alt="输入图片说明" title="在这里输入图片标题"><br>driver的三个阶段是单机的，只有第四个阶段是分布式的<br><img src="https://static.oschina.net/uploads/img/201611/20182408_FhNJ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20182536_lkDV.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20182815_u02X.png" alt="输入图片说明" title="在这里输入图片标题"><br>shuffleDependency会产生m*n个连接数<br><img src="https://static.oschina.net/uploads/img/201611/20182856_G4FN.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20183134_razc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203320_xR5K.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203335_Rr8j.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203350_StTx.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203406_OLbs.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20203421_tOqC.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204520_pTSH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204534_mIqe.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204546_zVnc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204609_YI4R.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204624_XfBZ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204639_ZGag.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204655_gYMU.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20204706_7kjU.png" alt="输入图片说明" title="在这里输入图片标题"><br>shuffle:<br><img src="https://static.oschina.net/uploads/img/201611/20212251_r8GH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212307_ULFH.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212328_KF2X.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212344_VFtj.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212359_u7U7.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212414_kodd.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212429_mzvw.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212443_qbTc.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212456_Zgti.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212510_U5bu.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212528_TKea.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212541_EnaX.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212554_McFZ.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212606_UZJM.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212618_Fjje.png" alt="输入图片说明" title="在这里输入图片标题"><br><img src="https://static.oschina.net/uploads/img/201611/20212630_Gqs6.png" alt="输入图片说明" title="在这里输入图片标题"></p>
 
       
     </div>
@@ -524,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -535,7 +535,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -546,7 +546,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -562,6 +562,20 @@
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           

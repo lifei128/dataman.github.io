@@ -90,7 +90,8 @@
 <meta property="og:image" content="http://yoursite.com/images/pasted-269.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-278.png">
 <meta property="og:image" content="http://yoursite.com/images/pasted-279.png">
-<meta property="og:updated_time" content="2019-02-27T02:50:48.550Z">
+<meta property="og:image" content="http://yoursite.com/images/pasted-341.png">
+<meta property="og:updated_time" content="2019-03-04T07:22:54.622Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="合并时间段问题1">
 <meta name="twitter:description" content="案例一背景12345678910111213141516CREATE TABLE `timesheets` (  `task_id` String,  `start_date` String,  `end_date` String);INSERT INTO `timesheets` VALUES (&amp;apos;1&amp;apos;, &amp;apos;2014-03-01&amp;apos;, &amp;apos;2014-">
@@ -379,7 +380,8 @@
 <p><img src="/images/pasted-278.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">SELECT d.card_id,</span><br><span class="line">       d.starttime,</span><br><span class="line">       MIN(d.endtime)</span><br><span class="line">FROM</span><br><span class="line">  (SELECT a.card_id,</span><br><span class="line">          a.starttime,</span><br><span class="line">          b.endtime</span><br><span class="line">   FROM t a,</span><br><span class="line">        t b ,</span><br><span class="line">        t c</span><br><span class="line">   WHERE a.endtime&lt;=b.endtime</span><br><span class="line">     AND a.card_id = b.card_id</span><br><span class="line">     AND a.card_id = c.card_id</span><br><span class="line">   GROUP BY </span><br><span class="line">   a.card_id,</span><br><span class="line">   a.starttime,</span><br><span class="line">            b.endtime </span><br><span class="line"></span><br><span class="line">    HAVING MAX(CASE WHEN (a.starttime&gt;c.starttime AND a.starttime&lt;=c.endtime)</span><br><span class="line">                         OR (b.endtime&gt;=c.starttime AND b.endtime&lt;c.endtime) </span><br><span class="line">                    THEN 1 ELSE 0 END</span><br><span class="line">                ) =0 </span><br><span class="line"></span><br><span class="line">    ) d</span><br><span class="line">GROUP BY d.card_id,</span><br><span class="line">         d.starttime;</span><br></pre></td></tr></table></figure></p>
 <p><img src="/images/pasted-279.png" alt="upload successful"></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>笛卡尔积的使用<br>having分组筛选<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MAX(CASE WHEN (a.starttime&gt;c.starttime AND a.starttime&lt;=c.endtime)</span><br><span class="line">                         OR (b.endtime&gt;=c.starttime AND b.endtime&lt;c.endtime) </span><br><span class="line">                    THEN 1 ELSE 0 END</span><br><span class="line">                )</span><br></pre></td></tr></table></figure></p>
-<p>参考：<br><a href="https://blog.csdn.net/liyong199012/article/details/20628627">https://blog.csdn.net/liyong199012/article/details/20628627</a><br><a href="https://zhidao.baidu.com/question/749982848966951572.html">https://zhidao.baidu.com/question/749982848966951572.html</a><br><a href="http://www.cnblogs.com/geekpaul/p/4125322.html">http://www.cnblogs.com/geekpaul/p/4125322.html</a></p>
+<h1 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT b.card_id,</span><br><span class="line">       MIN (b.starttime) Start_HM,</span><br><span class="line">       MAX (b.starttime) End_HM</span><br><span class="line">FROM</span><br><span class="line">  (SELECT a.*,</span><br><span class="line">          a.starttime - ROWNUM AS cc</span><br><span class="line">   FROM</span><br><span class="line">     (SELECT card_id,</span><br><span class="line">             starttime,</span><br><span class="line">             row_number() over(partition BY card_id</span><br><span class="line">                               ORDER BY starttime) rownum</span><br><span class="line">      FROM t </span><br><span class="line">     ) a</span><br><span class="line">  ) b</span><br><span class="line">GROUP BY b.card_id,</span><br><span class="line">         b.cc</span><br></pre></td></tr></table></figure>
+<p><img src="/images/pasted-341.png" alt="upload successful"><br>参考：<br><a href="https://blog.csdn.net/liyong199012/article/details/20628627">https://blog.csdn.net/liyong199012/article/details/20628627</a><br><a href="https://zhidao.baidu.com/question/749982848966951572.html">https://zhidao.baidu.com/question/749982848966951572.html</a><br><a href="http://www.cnblogs.com/geekpaul/p/4125322.html">http://www.cnblogs.com/geekpaul/p/4125322.html</a><br><a href="http://www.poluoluo.com/jzxy/200801/9937.html">http://www.poluoluo.com/jzxy/200801/9937.html</a>  </p>
 
       
     </div>
@@ -506,7 +508,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -517,7 +519,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -528,7 +530,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -544,6 +546,20 @@
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -561,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#案例一"><span class="nav-number">1.</span> <span class="nav-text">案例一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解答一"><span class="nav-number">1.2.</span> <span class="nav-text">解答一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法二"><span class="nav-number">1.3.</span> <span class="nav-text">解法二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例二"><span class="nav-number">2.</span> <span class="nav-text">案例二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#案例一"><span class="nav-number">1.</span> <span class="nav-text">案例一</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解答一"><span class="nav-number">1.2.</span> <span class="nav-text">解答一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法二"><span class="nav-number">1.3.</span> <span class="nav-text">解法二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例二"><span class="nav-number">2.</span> <span class="nav-text">案例二</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例三"><span class="nav-number">4.</span> <span class="nav-text">案例三</span></a></li></ol></div>
             
 
           </div>

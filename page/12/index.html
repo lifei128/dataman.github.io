@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of43-从1到n整数中1出现的次数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/spark-job-stage-task划分/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of43-从1到n整数中1出现的次数/" itemprop="url">Of43 从1到n整数中1出现的次数</a></h1>
+                <a class="post-title-link" href="/2017/03/01/spark-job-stage-task划分/" itemprop="url">spark job,stage,task划分</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T17:43:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T11:08:00+08:00">
+                2017-03-01
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -364,11 +364,16 @@
       
         
           
-          123456789101112131415161718192021222324252627282930313233343536373839404142434445package offer;/** * 从1到n整数中1出现的次数 * * 输入一个整数n，求从1到n这n个整数的十进制表示中1出现的次数
-          ...
+          
+action 的触发会生成一个job   
+Job会提交给DAGScheduler,分解成Stage，DAGScheduler 根据shuffle将job划分为不同的stage    
+同一个stage中包含多个task，这些tasks有相同的 shuffle dependencies
+
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of43-从1到n整数中1出现的次数/#more" rel="contents">
+            <a class="btn" href="/2017/03/01/spark-job-stage-task划分/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,7 +424,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of42/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/二进制位运算/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -438,7 +443,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of42/" itemprop="url">Of42 连续子数组的最大和</a></h1>
+                <a class="post-title-link" href="/2017/02/26/二进制位运算/" itemprop="url">二进制位运算</a></h1>
         
 
         <div class="post-meta">
@@ -450,8 +455,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T17:34:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-26T15:26:00+08:00">
+                2017-02-26
               </time>
             
 
@@ -473,8 +478,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -512,11 +517,15 @@
       
         
           
-          12345678910111213141516171819202122232425262728293031323334package offer;/** * 连续子数组的最大和 * * 输入一个整型数组，数组里有正数也有负数。数组中一个或连续的多个整/数组成一个子数组。求所有子数组的和的最大值。要求
+          总结几个位运算的用法
+下面举的例子中，a=1010 1010
+按位与&amp;（1）清零：a&amp;0=0
+（2）取指定位上的数字，如取得数字a的最后四位：a&amp;0000 1111 = 0000 1010
+按位或|（1）对某些位置置为1，如将a的后四位置为1：a|0000 1111 = 10
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of42/#more" rel="contents">
+            <a class="btn" href="/2017/02/26/二进制位运算/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -567,7 +576,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of41/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/ConcurrentLinkedQueue/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -586,7 +595,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of41/" itemprop="url">Of41 如何得到一个数据流中的中位数</a></h1>
+                <a class="post-title-link" href="/2017/02/26/ConcurrentLinkedQueue/" itemprop="url">ConcurrentLinkedQueue</a></h1>
         
 
         <div class="post-meta">
@@ -598,8 +607,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T17:28:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-26T10:53:00+08:00">
+                2017-02-26
               </time>
             
 
@@ -621,8 +630,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -660,11 +669,11 @@
       
         
           
-          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465package offer;import java.uti
+          在JAVA多线程应用中，队列的使用率很高，多数生产者和消费者的首选数据结构就是队列（先进先出）。JAVA提供的线程安全队列分为阻塞队列和非阻塞队列，其中阻塞队列的典型例子就是BlockingQueue，而非阻塞队列的典型例子就是ConcurrentLinkedQueue，在实际应用中要根据实际需要来
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of41/#more" rel="contents">
+            <a class="btn" href="/2017/02/26/ConcurrentLinkedQueue/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -715,7 +724,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of48/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/AS无锁算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -734,7 +743,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of48/" itemprop="url">Of48 最长不含重复字符的子字符串</a></h1>
+                <a class="post-title-link" href="/2017/02/26/AS无锁算法/" itemprop="url">CAS无锁算法</a></h1>
         
 
         <div class="post-meta">
@@ -746,8 +755,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T17:14:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-26T10:48:00+08:00">
+                2017-02-26
               </time>
             
 
@@ -769,8 +778,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -808,11 +817,12 @@
       
         
           
-          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950package offer;/** * 最长不含重复字符的子字符串 * * * 动态规划法：定义函数f(i)为：以第i
+          CAS：Compare and Swap 比较并交换
+java.util.concurrent包完全建立在CAS之上的，没有CAS就没有并发包。并发包借助了CAS无锁算法实现了区别于synchronized同步锁的乐观锁。因为对于CAS算法来说，就是在不加锁的前提下而假设没有冲突去完成某个操作，如果
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of48/#more" rel="contents">
+            <a class="btn" href="/2017/02/26/AS无锁算法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -863,7 +873,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of49/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/JAVA并行框架：Fork-Join/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -882,7 +892,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of49/" itemprop="url">Of49 丑数</a></h1>
+                <a class="post-title-link" href="/2017/02/26/JAVA并行框架：Fork-Join/" itemprop="url">JAVA并行框架：Fork/Join</a></h1>
         
 
         <div class="post-meta">
@@ -894,8 +904,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T17:06:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-26T10:38:00+08:00">
+                2017-02-26
               </time>
             
 
@@ -917,8 +927,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -956,11 +966,12 @@
       
         
           
-          12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970package offer;/** *
+          背景虽然目前处理器核心数已经发展到很大数目，但是按任务并发处理并不能完全充分的利用处理器资源，因为一般的应用程序没有那么多的并发处理任务。基于这种现状，考虑把一个任务拆分成多个单元，每个单元分别得到执行，最后合并每个单元的结果。
+Fork/Join框架是JAVA7提供的一个用于并行执行任务的框架，是
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of49/#more" rel="contents">
+            <a class="btn" href="/2017/02/26/JAVA并行框架：Fork-Join/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1011,7 +1022,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of50-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/杀死指定线程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1030,7 +1041,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of50-2/" itemprop="url">Of50_2 请实现一个函数用来找出字符流中第一个只出现一次的字符</a></h1>
+                <a class="post-title-link" href="/2017/02/26/杀死指定线程/" itemprop="url">杀死指定线程</a></h1>
         
 
         <div class="post-meta">
@@ -1042,8 +1053,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T16:53:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-26T09:55:00+08:00">
+                2017-02-26
               </time>
             
 
@@ -1065,8 +1076,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/juc/" itemprop="url" rel="index">
+                    <span itemprop="name">juc</span>
                   </a>
                 </span>
 
@@ -1104,11 +1115,15 @@
       
         
           
-          123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475package o
+          使用布尔值运行控制使用循环让线程不停运行，通过布尔值：isRun 控制是否继续运行，从而控制线程在适当的时候停止运行。如图所示，这种方法比较常用。
+isRun可以是一个布尔表达式，或者是一个变量。
+
+
+interrupt()自己结束自己如果一个线程由于等待某些事件的发生而被阻塞，又该怎样停止该线程呢
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of50-2/#more" rel="contents">
+            <a class="btn" href="/2017/02/26/杀死指定线程/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1159,7 +1174,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of50-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/25/PriorityQueue/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1178,7 +1193,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of50-1/" itemprop="url">Of50_1 在字符串中找出第一个只出现一次的字符。如输入"abaccdeff"，则输出'b'。</a></h1>
+                <a class="post-title-link" href="/2017/02/25/PriorityQueue/" itemprop="url">PriorityQueue</a></h1>
         
 
         <div class="post-meta">
@@ -1190,8 +1205,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T16:40:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-25T15:12:00+08:00">
+                2017-02-25
               </time>
             
 
@@ -1213,8 +1228,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1252,11 +1267,12 @@
       
         
           
-          12345678910111213141516171819202122232425262728293031package offer;/** * 在字符串中找出第一个只出现一次的字符。如输入&quot;abaccdeff&quot;，则输出&apos;b&apos;。 * * 创建哈希表，键值key
+          优先队列，Priority是优先的意思，实际上这个队列就是具有“优先级”。既然具有优先级的特性，那么就得有个前后排序的“规则”。所以其接受的类需要实现Comparable 接口。  
+构造函数123456PriorityQueue()PriorityQueue(Collection&lt;? ext
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of50-1/#more" rel="contents">
+            <a class="btn" href="/2017/02/25/PriorityQueue/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1307,7 +1323,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of38-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/25/while-read/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1326,7 +1342,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of38-3/" itemprop="url">Of38_3 数组中数值和下标相等的元素</a></h1>
+                <a class="post-title-link" href="/2017/02/25/while-read/" itemprop="url">while read读取文件内容</a></h1>
         
 
         <div class="post-meta">
@@ -1338,8 +1354,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T16:35:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-25T14:08:00+08:00">
+                2017-02-25
               </time>
             
 
@@ -1361,8 +1377,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
                   </a>
                 </span>
 
@@ -1400,11 +1416,12 @@
       
         
           
-          1234567891011121314151617181920212223242526272829303132333435package offer;/** * 假设一个单调递增的数组里的每个元素都是整数并且是唯一的。 * 请编程实现一个函数找出数组中任意一个数值等于其下标的元素。 * 例如，在数组
+          默认文件中每列按照tab分割1234while read ip user passdo    echo &quot;$ip--$user--$pass&quot;done &lt; ip.txt
+1234cat ip.txt | while read ip user passdo    echo &
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of38-3/#more" rel="contents">
+            <a class="btn" href="/2017/02/25/while-read/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1455,7 +1472,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of38-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/Spark-SQL与DataFrame/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1474,7 +1491,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of38-2/" itemprop="url">Of38_2 0到n-1中缺失的数字</a></h1>
+                <a class="post-title-link" href="/2017/02/22/Spark-SQL与DataFrame/" itemprop="url">Spark SQL与DataFrame-董</a></h1>
         
 
         <div class="post-meta">
@@ -1486,8 +1503,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T16:32:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-22T18:03:00+08:00">
+                2017-02-22
               </time>
             
 
@@ -1509,8 +1526,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1548,11 +1565,12 @@
       
         
           
-          123456789101112131415161718192021222324252627282930313233343536package offer;/** * 　一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0到n-1之内。 * 在范围0到n-1的n个数字中有且只有
-          ...
+          
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of38-2/#more" rel="contents">
+            <a class="btn" href="/2017/02/22/Spark-SQL与DataFrame/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1603,7 +1621,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/28/Of54/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/Spark应用经验与程序调优/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1622,7 +1640,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/28/Of54/" itemprop="url">Of54 给定一棵二叉搜索树，请找出其中的第k小的结点</a></h1>
+                <a class="post-title-link" href="/2017/02/22/Spark应用经验与程序调优/" itemprop="url">Spark应用经验与程序调优-董</a></h1>
         
 
         <div class="post-meta">
@@ -1634,8 +1652,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-28T16:19:00+08:00">
-                2017-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-22T18:00:00+08:00">
+                2017-02-22
               </time>
             
 
@@ -1657,8 +1675,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/sword/" itemprop="url" rel="index">
-                    <span itemprop="name">sword</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -1696,11 +1714,12 @@
       
         
           
-          12345678910111213141516171819202122232425262728293031323334353637383940414243444546package offer;/** * 给定一棵二叉搜索树，请找出其中的第k小的结点。 * * 设置全局变量index=0，对BST进
-          ...
+          
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/Of54/#more" rel="contents">
+            <a class="btn" href="/2017/02/22/Spark应用经验与程序调优/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1742,7 +1761,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1790,7 +1809,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1801,7 +1820,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1812,7 +1831,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1828,6 +1847,20 @@
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           

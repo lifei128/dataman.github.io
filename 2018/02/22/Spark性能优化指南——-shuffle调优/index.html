@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201607/12192812_qMcu.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201607/12193153_kwvz.png">
 <meta property="og:image" content="https://static.oschina.net/uploads/img/201607/12193501_tNIz.png">
-<meta property="og:updated_time" content="2019-02-24T10:11:22.994Z">
+<meta property="og:updated_time" content="2019-03-06T01:43:59.155Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark性能优化指南—— shuffle调优">
 <meta name="twitter:description" content="大多数Spark作业的性能主要就是消耗在了shuffle环节，因为该环节包含了大量的磁盘IO、序列化、网络数据传输等操作。因此，如果要让作业的性能更上一层楼，就有必要对shuffle过程进行调优。但是也必须提醒大家的是，影响一个Spark作业性能的因素，主要还是代码开发、资源参数以及数据倾斜，shuffle调优只能在整个Spark的性能调优中占到一小部分而已。因此大家务必把握住调优的基本原则，千万">
@@ -436,7 +436,7 @@
 <ul>
 <li>默认值：200</li>
 <li>参数说明：当ShuffleManager为SortShuffleManager时，如果shuffle read task的数量小于这个阈值（默认是200），则shuffle write过程中不会进行排序操作，而是直接按照未经优化的HashShuffleManager的方式去写数据，但是最后会将每个task产生的所有临时磁盘文件都合并成一个文件，并会创建单独的索引文件。</li>
-<li>调优建议：当你使用SortShuffleManager时，如果的确不需要排序操作，那么建议将这个参数调大一些，大于shuffle read task的数量。那么此时就会自动启用bypass机制，map-side就不会进行排序了，减少了排序的性能开销。但是这种方式下，依然会产生大量的磁盘文件，因此shuffle write性能有待提高。</li>
+<li>调优建议：当你使用SortShuffleManager时，<strong>如果的确不需要排序操作，那么建议将这个参数调大一些，大于shuffle read task的数量</strong>。那么此时就会自动启用bypass机制，map-side就不会进行排序了，减少了排序的性能开销。但是这种方式下，依然会产生大量的磁盘文件，因此shuffle write性能有待提高。</li>
 </ul>
 <p><strong>spark.shuffle.consolidateFiles</strong>  </p>
 <ul>
@@ -444,7 +444,7 @@
 <li>参数说明：如果使用HashShuffleManager，该参数有效。如果设置为true，那么就会开启consolidate机制，会大幅度合并shuffle write的输出文件，对于shuffle read task数量特别多的情况下，这种方法可以极大地减少磁盘IO开销，提升性能。</li>
 <li>调优建议：如果的确不需要SortShuffleManager的排序机制，那么除了使用bypass机制，还可以尝试将spark.shffle.manager参数手动指定为hash，使用HashShuffleManager，同时开启consolidate机制。在实践中尝试过，发现其性能比开启了bypass机制的SortShuffleManager要高出10%~30%。</li>
 </ul>
-<p>参考：<br><a href="https://tech.meituan.com/404.html">https://tech.meituan.com/404.html</a>  </p>
+<p>参考：<br><a href="https://tech.meituan.com/404.html">https://tech.meituan.com/404.html</a></p>
 
       
     </div>
@@ -475,8 +475,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/21/部署redis集群/" rel="next" title="部署redis集群">
-                <i class="fa fa-chevron-left"></i> 部署redis集群
+              <a href="/2018/02/22/大数据环境下的平台架构乱弹/" rel="next" title="大数据环境下的平台架构乱弹">
+                <i class="fa fa-chevron-left"></i> 大数据环境下的平台架构乱弹
               </a>
             
           </div>
@@ -571,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -582,7 +582,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -593,7 +593,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -609,6 +609,20 @@
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           

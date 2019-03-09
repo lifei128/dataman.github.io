@@ -88,7 +88,8 @@
 <meta property="og:description" content="级联报表查询1234567891011121314151617181920212223A,2015-01,5A,2015-01,15B,2015-01,5A,2015-01,8B,2015-01,25A,2015-01,5C,2015-01,10C,2015-01,20A,2015-02,4A,2015-02,6C,2015-02,30C,2015-02,10B,2015-02,10B,2015-">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/pasted-52.png">
-<meta property="og:updated_time" content="2019-03-01T02:49:46.061Z">
+<meta property="og:image" content="http://yoursite.com/images/pasted-340.png">
+<meta property="og:updated_time" content="2019-03-04T06:51:21.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="报表查询">
 <meta name="twitter:description" content="级联报表查询1234567891011121314151617181920212223A,2015-01,5A,2015-01,15B,2015-01,5A,2015-01,8B,2015-01,25A,2015-01,5C,2015-01,10C,2015-01,20A,2015-02,4A,2015-02,6C,2015-02,30C,2015-02,10B,2015-02,10B,2015-">
@@ -371,6 +372,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select uid, month, amount, </span><br><span class="line">sum (amount) over(partition by uid order by month rows between unbounded preceding and current row) as accumulate</span><br><span class="line">from t_access_amount;</span><br></pre></td></tr></table></figure>
 <p>参考：<br><a href="https://www.cnblogs.com/arjenlee/p/9692312.html#auto_id_81">https://www.cnblogs.com/arjenlee/p/9692312.html#auto_id_81</a> </p>
 <h1 id="留存"><a href="#留存" class="headerlink" title="留存"></a>留存</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">---dif = 0表示当日活跃</span><br><span class="line">---dif = 1 表示次日留存</span><br><span class="line">---dif = 7表示7日内留存</span><br><span class="line">---dif = 30表示30日内留存留存：</span><br><span class="line">SELECT * dif,</span><br><span class="line">         count(DISTINCT uid)</span><br><span class="line">FROM</span><br><span class="line">  (SELECT uid,</span><br><span class="line">          dif</span><br><span class="line">   FROM</span><br><span class="line">     (SELECT a.uid,</span><br><span class="line">             CASE </span><br><span class="line">             WHEN diff(b.dt,a.dt) = 0 THEN &apos;0&apos; </span><br><span class="line">             WHEN diff(b.dt,a.dt) = 1 THEN &apos;1,7,30&apos; </span><br><span class="line">             WHEN diff(b.dt,a.dt) &lt;= 7 THEN &apos;7,30&apos; </span><br><span class="line">             WHEN diff(b.dt,a.dt) &lt;= 30 THEN &apos;30&apos; </span><br><span class="line">             END AS diffs</span><br><span class="line">      FROM</span><br><span class="line">        (SELECT uid,</span><br><span class="line">                dt</span><br><span class="line">         FROM current_table</span><br><span class="line">         WHERE dt&gt;=’2018-06-02’</span><br><span class="line">           AND dt&lt;=’2018-07-02’) a</span><br><span class="line">      LEFT JOIN</span><br><span class="line">        (SELECT uid,</span><br><span class="line">                dt</span><br><span class="line">         FROM current_table</span><br><span class="line">         WHERE dt&gt;=’2018-06-02’</span><br><span class="line">           AND dt&lt;=’2018-07-02’) b ON a.uid = b.uid</span><br><span class="line">         ) </span><br><span class="line">           c </span><br><span class="line">           LATERAL VIEW explode(split(diffs,&apos;,&apos;)) diftable </span><br><span class="line">           AS dif</span><br><span class="line">  ) d</span><br><span class="line">GROUP BY dif</span><br></pre></td></tr></table></figure>
+<h1 id="SQL-统计日环比、周同比"><a href="#SQL-统计日环比、周同比" class="headerlink" title="SQL 统计日环比、周同比"></a>SQL 统计日环比、周同比</h1><p><img src="/images/pasted-340.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select date,gmv,</span><br><span class="line">lag(gmv,1) over(partition by type order by dt) as gmv1,</span><br><span class="line">lag(gmv,7) over(partition by date order by dt) as gmv7 from tablue</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -496,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">314</span>
+                  <span class="site-state-item-count">208</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -507,7 +510,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -518,7 +521,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -534,6 +537,20 @@
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -551,7 +568,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#级联报表查询"><span class="nav-number">1.</span> <span class="nav-text">级联报表查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#留存"><span class="nav-number">2.</span> <span class="nav-text">留存</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#级联报表查询"><span class="nav-number">1.</span> <span class="nav-text">级联报表查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#留存"><span class="nav-number">2.</span> <span class="nav-text">留存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL-统计日环比、周同比"><span class="nav-number">3.</span> <span class="nav-text">SQL 统计日环比、周同比</span></a></li></ol></div>
             
 
           </div>

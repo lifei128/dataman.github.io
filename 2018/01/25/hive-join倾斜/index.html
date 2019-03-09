@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hive,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
+<meta name="keywords" content="hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hive join倾斜">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/hive-join倾斜/index.html">
+<meta property="og:site_name" content="LiFei&#39;s Notes">
+<meta property="og:description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/pasted-277.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-275.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-276.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-273.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-274.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-37.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-2.png">
+<meta property="og:updated_time" content="2019-03-09T11:47:35.730Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hive join倾斜">
+<meta name="twitter:description" content="hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-277.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/hive-join倾斜/">
+
+
+
+
+
+  <title>hive join倾斜 | LiFei's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LiFei's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/hive-join倾斜/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiFei's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hive join倾斜</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T19:51:00+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hive/" itemprop="url" rel="index">
+                    <span itemprop="name">hive</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>hive执行引擎会将HQL“翻译”成为map-reduce任务，如果多张表使用同一列做join则将被翻译成一个reduce，否则将被翻译成多个map-reduce任务。<br>一般来说（map side join除外），map过程负责分发数据，具体的join操作在reduce完成，因此，如果多表基于不同的列做join，则无法在一轮map-reduce任务中将所有相关数据shuffle到统一个reducer<br><strong>对于多表join，hive会将前面的表缓存在reducer的内存中，然后后面的表会流式的进入reducer和reducer内存中其它的表做join.<br>为了防止数据量过大导致oom，将数据量最大的表放到最后，或者通过“STREAMTABLE”显示指定reducer流式读入的表</strong></p>
+<h1 id="common-join"><a href="#common-join" class="headerlink" title="common join"></a>common join</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.uid,a.name,b.age FROM logs a JOIN users b ON (a.uid=b.uid);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Map阶段<br>读取源表的数据，<strong>Map输出时候以Join on条件中的列为key，如果Join有多个关联键，则以这些关联键的组合作为key</strong>;<br>Map输出的<strong>value为join之后所关心的(select或者where中需要用到的)列</strong>；同时在value中还会包含表的<strong>Tag信息，用于标明此value对应哪个表</strong>；   <img src="/images/pasted-277.png" alt="upload successful"><br><strong>该图中tag在value中</strong><br>按照key进行排序</p>
+</li>
+<li><p>Shuffle阶段<br>根据key的值进行hash,并将key/value按照hash值推送至不同的reduce中，这样确保两个表中相同的key位于同一个reduce中</p>
+</li>
+<li><p>Reduce阶段<br>  reduce阶段主要看它是如何把它合并起来了，从图上可以直观的看到，其实就是把tag=1的内容，都加到tag=0的后面，就是这么简单。  </p>
+</li>
+</ul>
+<p><img src="/images/pasted-275.png" alt="upload successful"><br><strong>该图中tag在key</strong>.key这里后面的数字是tag，后面在reduce阶段用来区分来自于那个表的数据。tag是附属在key后面的。那为什么会把a(0)和a(1)汇集在一起了呢，是因为对先对a求了hashcode，设在了HiveKey上，所以同一个key还是在一起的。该方式虽然可以解释通过，但不是真的具体实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">在reduce阶段join。 </span><br><span class="line">map阶段标记数据来自哪个文件，比如来自file1标记tag=1，来自file2标记tag=2。</span><br><span class="line"></span><br><span class="line">reduce阶段把key相同的file1的数据和file2的数据通过笛卡尔乘积join在一起。</span><br><span class="line"></span><br><span class="line">个人理解：举个例子 </span><br><span class="line">file1 有&#123;1:&apos;a&apos;, 2:&apos;b&apos;, 3:&apos;c&apos;&#125; </span><br><span class="line">file2 有&#123;1:&apos;A&apos;, 2:&apos;B&apos;&#125;</span><br><span class="line"></span><br><span class="line">可以join成&#123;1:[&apos;a&apos;,&apos;A&apos;], 2:[&apos;b&apos;, &apos;B&apos;]&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="operator"><a href="#operator" class="headerlink" title="operator"></a>operator</h2><p><img src="/images/pasted-276.png" alt="upload successful"></p>
+<h2 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; explain SELECT a.uid,a.name,b.age FROM logs a JOIN users b ON (a.uid=b.uid);</span><br><span class="line">OK</span><br><span class="line"> </span><br><span class="line">//语法树</span><br><span class="line">ABSTRACT SYNTAX TREE:</span><br><span class="line">  (TOK_QUERY (TOK_FROM (TOK_JOIN (TOK_TABREF (TOK_TABNAME logs) a) (TOK_TABREF (TOK_TABNAME users) b) (= (. (TOK_TABLE_OR_COL a) uid) (. (TOK_TABLE_OR_COL b) uid)))) (TOK_INSERT (TOK_DESTINATION (TOK_DIR TOK_TMP_FILE)) (TOK_SELECT (TOK_SELEXPR (. (TOK_TABLE_OR_COL a) uid)) (TOK_SELEXPR (. (TOK_TABLE_OR_COL a) name)) (TOK_SELEXPR (. (TOK_TABLE_OR_COL b) age)))))</span><br><span class="line"> </span><br><span class="line">//阶段</span><br><span class="line">STAGE DEPENDENCIES:</span><br><span class="line">  Stage-1 is a root stage</span><br><span class="line">  Stage-0 is a root stage</span><br><span class="line"> </span><br><span class="line">STAGE PLANS:</span><br><span class="line">  Stage: Stage-1</span><br><span class="line">    Map Reduce</span><br><span class="line">      Alias -&gt; Map Operator Tree: //mapper阶段</span><br><span class="line">        a </span><br><span class="line">          TableScan //扫描表, 就只是一行一行的传递下去而已</span><br><span class="line">            alias: a</span><br><span class="line">            Reduce Output Operator //输出给reduce的内容</span><br><span class="line">              key expressions: // key啦，这里的key是uid，就是我们写在ON子句那个，你可以试试加多几个条件</span><br><span class="line">                    expr: uid</span><br><span class="line">                    type: string</span><br><span class="line">              sort order: + //排序</span><br><span class="line">              Map-reduce partition columns://分区字段，貌似是和key一样的</span><br><span class="line">                    expr: uid</span><br><span class="line">                    type: string</span><br><span class="line">              tag: 0 //用来区分这个key是来自哪个表的</span><br><span class="line">              value expressions: //reduce用到的value字段</span><br><span class="line">                    expr: uid</span><br><span class="line">                    type: string</span><br><span class="line">                    expr: name</span><br><span class="line">                    type: string</span><br><span class="line">        b </span><br><span class="line">          TableScan //扫描表, 就只是一行一行的传递下去而已</span><br><span class="line">            alias: b</span><br><span class="line">            Reduce Output Operator //输出给reduce的内容</span><br><span class="line">              key expressions: //key</span><br><span class="line">                    expr: uid</span><br><span class="line">                    type: string</span><br><span class="line">              sort order: +</span><br><span class="line">              Map-reduce partition columns: //分区字段</span><br><span class="line">                    expr: uid</span><br><span class="line">                    type: string</span><br><span class="line">              tag: 1 //用来区分这个key是来自哪个表的</span><br><span class="line">              value expressions: //值</span><br><span class="line">                    expr: age</span><br><span class="line">                    type: int</span><br><span class="line">      Reduce Operator Tree: // reduce阶段</span><br><span class="line">        Join Operator // JOIN的Operator</span><br><span class="line">          condition map:</span><br><span class="line">               Inner Join 0 to 1 // 内连接0和1表</span><br><span class="line">          condition expressions: // 第0个表有两个字段，分别是uid和name, 第1个表有一个字段age</span><br><span class="line">            0 &#123;VALUE._col0&#125; &#123;VALUE._col1&#125;</span><br><span class="line">            1 &#123;VALUE._col1&#125;</span><br><span class="line">          handleSkewJoin: false //是否处理倾斜join，如果是，会分为两个MR任务</span><br><span class="line">          outputColumnNames: _col0, _col1, _col6 //输出字段</span><br><span class="line">          Select Operator //列裁剪（我们sql写的select字段）</span><br><span class="line">            expressions:</span><br><span class="line">                  expr: _col0</span><br><span class="line">                  type: string</span><br><span class="line">                  expr: _col1</span><br><span class="line">                  type: string</span><br><span class="line">                  expr: _col6</span><br><span class="line">                  type: int</span><br><span class="line">            outputColumnNames: _col0, _col1, _col2</span><br><span class="line">            File Output Operator //把结果输出到文件</span><br><span class="line">              compressed: false</span><br><span class="line">              GlobalTableId: 0</span><br><span class="line">              table:</span><br><span class="line">                  input format: org.apache.hadoop.mapred.TextInputFormat</span><br><span class="line">                  output format: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat</span><br><span class="line"> </span><br><span class="line">  Stage: Stage-0</span><br><span class="line">    Fetch Operator</span><br><span class="line">      limit: -1</span><br></pre></td></tr></table></figure>
+<p>可以看到里面都是一个个Operator顺序的执行下来  </p>
+<h1 id="map-join"><a href="#map-join" class="headerlink" title="map join"></a>map join</h1><p>MapJoin通常用于一个很小的表和一个大表进行join的场景，具体小表有多小，由参数hive.mapjoin.smalltable.filesize来决定，该参数表示小表的总大小，默认值为25000000字节，即25M。<br><strong>Hive0.7之前</strong>，需要使用hint提示 /+ mapjoin(table) /才会执行MapJoin,否则执行Common Join，但在0.7版本之后，默认自动会转换Map Join，由参数hive.auto.convert.join来控制，默认为true.<br>假设<strong>a表为一张大表，b为小表</strong>，并且hive.auto.convert.join=true,那么Hive在执行时候会自动转化为MapJoin。   </p>
+<p><img src="/images/pasted-273.png" alt="upload successful"><br>如图中的流程，首先是Task A，它是一个Local Task（在客户端本地执行的Task），负责扫描小表b的数据，将其转换成一个HashTable的数据结构，并写入本地的文件中，之后将该文件加载到DistributeCache中，该HashTable的数据结构可以抽象为：   </p>
+<p><img src="/images/pasted-274.png" alt="upload successful"><br>图中红框圈出了执行Local Task的信息。</p>
+<p>接下来是Task B，该任务是一个没有Reduce的MR，启动MapTasks扫描大表a,在Map阶段，根据a的每一条记录去和DistributeCache中b表对应的HashTable关联，并直接输出结果。<br>由于MapJoin没有Reduce，所以由Map直接输出结果文件，有多少个Map Task，就有多少个结果文件。<br>总的来说，因为小表的存在，可以在Map阶段直接完成Join的操作，为了优化小表的查找速度，将其转化为HashTable的结构，并加载进分布式缓存中。</p>
+<h1 id="Auto-Map-Join"><a href="#Auto-Map-Join" class="headerlink" title="Auto Map Join"></a>Auto Map Join</h1><p><img src="/images/pasted-37.png" alt="upload successful"><br>还记得原理中提到的物理优化器？Physical Optimizer么？它的其中一个功能就是把Join优化成Auto Map Join   </p>
+<p>图上左边是优化前的，右边是优化后的  </p>
+<p>优化过程是把Join作业前面加上一个条件选择器ConditionalTask和一个分支。左边的分支是MapJoin，右边的分支是Common Join(Reduce Join)  </p>
+<p>看看左边的分支是不是和我们上上一张图很像？      </p>
+<p>这个时候，我们在执行的时候，就由这个Conditional Task 进行实时路径选择，遇到小于25兆走左边，大于25兆走右边。所谓，男的走左边，女的走右边，人妖走中间。   </p>
+<p>在比较新版的Hive中，Auto Mapjoin是默认开启的。如果没有开启，可以使用一个开关， set hive.auto.convert.join=true 开启。<br>当然，Join也会遇到和上面的Group By一样的倾斜问题。   </p>
+<p>Ｈive 也可以通过像Group By一样两道作业的模式单独处理一行或者多行倾斜的数据。即采用下面的方式。</p>
+<h1 id="semi-join半连接"><a href="#semi-join半连接" class="headerlink" title="semi join半连接"></a>semi join半连接</h1><p>这个是要改进reduce side join。建立一个小表file3，把file1的所有要参加join的数据的key复制进去，然后把file3复制到每一个map task中去，然后找出不在file2中的key，过滤掉这些数据后再进行reduce side join，减少跨机器数据传输。</p>
+<p>个人理解：举个例子<br>file1 有{1:’a’, 2:’b’, 3:’c’}<br>file2 有{1:’A’, 2:’B’} </p>
+<p>建立一个小表file3，所有要参加join的数据的key复制进去也就是<br>[1, 2, 3]，然后发现file2中没有key=3的，所以可以过滤掉key=3的数据后再进行reduce join，来减少跨机器数据传输。<br>加入bloom filter<br>继续改进3。引入bloom filter。这种数据结构的特点是，存在false positive。如果使用它判断一个元素在集合中(positive)，那其实有可能不在（false）。<strong>但是如果使用它判断一个元素不在集合中，那这个元素就真的不在这个集合中了。</strong>（没有false negative）</p>
+<p>利用这个特点可以怎么改进3呢？在3中的file3我们可以用bloom filter来实现，要判断file2的key是否存在于file3中的时候直接使用bloom filter来判断。这样，如果判断说file2的某个key存在于file3中(positive)，但是实际不在(false)，那也无所谓，只是少过滤了一些key而已，还是可以正确地join。但是bloom filter可以保证没有false negative，如果判断file2的某个key不在file3中，那就真的不在file3中，这样可以保证join的正确性（不会少join了一些数据）。</p>
+<h1 id="hive-optimize-skewjoin"><a href="#hive-optimize-skewjoin" class="headerlink" title="hive.optimize.skewjoin"></a>hive.optimize.skewjoin</h1><p>hive 中设定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set hive.optimize.skewjoin = true; </span><br><span class="line">set hive.skewjoin.key = skew_key_threshold （default = 100000）</span><br></pre></td></tr></table></figure></p>
+<p>可以就按官方默认的1个reduce 只处理1G 的算法，那么skew_key_threshold= 1G/平均行长.或者默认直接设成250000000 (差不多算平均行长4个字节)</p>
+<p>其原理是就在Reduce Join过程，把<strong>超过十万条的倾斜键的行写到文件里</strong>，回头再起一道Join单行的Map Join作业来单独收拾它们。最后把结果取并集就是了</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"><br>对full outer join无效。</p>
+<h1 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h1><ol>
+<li>null或者某个无效字符太多导致数据倾斜。<br>null=null结果是null，即false，在join时关联不上，join之前去掉不影响结果；<br>‘’关联得上，但是不需要时产生不必要的脏数据，可以在join之前把key为null/‘’的值去掉。<br>因为null关联不上如果null有用不能去掉，可以用下面两种方法。<br>办法（1）用union all   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Select * From log a </span><br><span class="line">　　　Join users b </span><br><span class="line">  On a.user_id is not null And a.user_id = b.user_id</span><br><span class="line">　 Union all </span><br><span class="line">Select * from log a　where a.user_id is null;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>办法（2）赋予null值新的随机值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Select * </span><br><span class="line">  from log a </span><br><span class="line">　　 left Join </span><br><span class="line">   bmw_users b </span><br><span class="line"> on case when a.user_id is null then concat(&apos;dp_hive&apos;,rand()) </span><br><span class="line">　　   else a.user_id end = b.user_id;</span><br></pre></td></tr></table></figure></p>
+<p>方法1的log读取两次，jobs是2。方法2的job数是1。这个优化适合无效id(比如-99,’’,null等)产生的倾斜问题。<br>把空值的key变成一个字符串加上随机数，就能把倾斜的数据分到不同的reduce上 ,解决数据倾斜问题。    </p>
+<ol start="2">
+<li><p>不同数据类型关联也会产生数据倾斜。<br>场景：一张表s8的日志，每个商品一条记录，要和商品表关联。但关联却碰到倾斜的问题，s8的日志中有字符串商品id,也有数字的商品id,类型是string的，但商品中的数字id是bigint的。<br>问题原因：把s8的商品id转成数字id做hash来分配reduce，所以字符串id的s8日志，都到一个reduce上了，解决的方法验证了这个猜测。<br>解决方法：把数字类型转换成字符串类型    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Select * from s8_log a</span><br><span class="line">　Left outer join r_auction_auctions b</span><br><span class="line">　　On a.auction_id = cast(b.auction_id as string);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大表Join的数据偏斜<br>MapReduce编程模型下开发代码需要考虑数据偏斜的问题，Hive代码也是一样。数据偏斜的原因包括以下两点：<br>　　1. Map输出key数量极少，导致reduce端退化为单机作业。<br>　　2. Map输出key分布不均，少量key对应大量value，导致reduce端单机瓶颈。<br>Hive中我们使用MapJoin解决数据偏斜的问题，即将其中的某个小表（全量）分发到所有Map端的内存进行Join，从而避免了reduce。这要求分发的表可以被全量载入内存。<br>极限情况下，Join两边的表都是大表，就无法使用MapJoin。这种问题最为棘手，目前已知的解决思路有两种：</p>
+<ol>
+<li><p>如果是上述情况1，考虑先对Join中的一个表去重，以此结果过滤无用信息。<br>这样一般会将其中一个大表转化为小表，再使用MapJoin 。一个实例是广告投放效果分析，<br>　　  例如将广告投放者信息表i中的信息填充到广告曝光日志表w中，使用投放者id关联。因为实际广告投放者数量很少（但是投放者信息表i很大），因此可以考虑先在w表中去重查询所有实际广告投放者id列表，以此Join过滤表i，<strong>这一结果必然是一个小表，就可以使用MapJoin</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  select /*+mapjoin(x)*/* from log a left outer join (</span><br><span class="line">　　select /*+mapjoin(c)*/d.*</span><br><span class="line">　　from ( select distinct user_id from log ) c</span><br><span class="line">　　join users d on c.user_id = d.user_id</span><br><span class="line">) x on a.user_id = b.user_id;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是上述情况2，考虑切分Join中的一个表为多片，以便将切片全部载入内存，然后采用多次MapJoin得到结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select * from  </span><br><span class="line">(  </span><br><span class="line">select w.id, w.time, w.amount, i1.name, i1.loc, i1.cat  </span><br><span class="line">from w left outer join i sampletable(1 out of 2 on id) i1  </span><br><span class="line">)  </span><br><span class="line">union all  </span><br><span class="line">(  </span><br><span class="line">select w.id, w.time, w.amount, i2.name, i2.loc, i2.cat  </span><br><span class="line">from w left outer join i sampletable(1 out of 2 on id) i2  </span><br><span class="line">)  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<p>以下语句实现了left outer join逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select t1.id, t1.time, t1.amount,  </span><br><span class="line">    coalease(t1.name, t2.name),   </span><br><span class="line">    coalease(t1.loc, t2.loc),   </span><br><span class="line">    coalease(t1.cat, t2.cat)   </span><br><span class="line">from (    </span><br><span class="line">    select w.id, w.time, w.amount, i1.name, i1.loc, i1.cat   </span><br><span class="line">    from w left outer join i sampletable(1 out of 2 on id) i1   </span><br><span class="line">) t1 left outer join i sampletable(2 out of 2 on id) t2;</span><br></pre></td></tr></table></figure></p>
+<p>上述语句使用Hive的sample table特性对表做切分。   </p>
+<ol start="4">
+<li>如果A表关联B表在某个key上倾斜，B是码表，那么可以将B表放大1000倍，然后对A表的key字段加上一个1000以内hash后缀，然后和放大后的b表关联，可以解决问题。</li>
+</ol>
+<p>参考:<br><a href="https://blog.csdn.net/lw_ghy/article/details/51469753">https://blog.csdn.net/lw_ghy/article/details/51469753</a><br><a href="https://www.cnblogs.com/skyl/p/4855099.html">https://www.cnblogs.com/skyl/p/4855099.html</a><br><a href="https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization">https://cwiki.apache.org/confluence/display/Hive/Skewed+Join+Optimization</a><br><a href="https://blog.csdn.net/u013668852/article/details/79768266">https://blog.csdn.net/u013668852/article/details/79768266</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag"># hive</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/25/hive_groupby倾斜/" rel="next" title="group by数据倾斜">
+                <i class="fa fa-chevron-left"></i> group by数据倾斜
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/25/hive-LeftSemiJoin/" rel="prev" title="left semi join">
+                left semi join <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjU5MC8xOTEzNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=9cb369390746f21fdd395601974d0005/cb8065380cd79123dca4b3b6a0345982b3b780af.jpg" alt="">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">208</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://meihuakaile.github.io/" title="meihuakaile" target="_blank">meihuakaile</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#common-join"><span class="nav-number">1.</span> <span class="nav-text">common join</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#operator"><span class="nav-number">1.1.</span> <span class="nav-text">operator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explain"><span class="nav-number">1.2.</span> <span class="nav-text">explain</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map-join"><span class="nav-number">2.</span> <span class="nav-text">map join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auto-Map-Join"><span class="nav-number">3.</span> <span class="nav-text">Auto Map Join</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#semi-join半连接"><span class="nav-number">4.</span> <span class="nav-text">semi join半连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hive-optimize-skewjoin"><span class="nav-number">5.</span> <span class="nav-text">hive.optimize.skewjoin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他方法"><span class="nav-number">6.</span> <span class="nav-text">其他方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
